@@ -9,7 +9,6 @@
 ## libraries
 require(utils)
 require(shapes)
-require(geomorph)
 
 ## functions
 

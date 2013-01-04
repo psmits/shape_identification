@@ -10,7 +10,6 @@
 ## libraries
 require(shapes)
 require(geomorph)
-require(reshape2)
 
 ## source files
 source('support_functions.r')
