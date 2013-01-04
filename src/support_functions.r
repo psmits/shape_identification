@@ -9,6 +9,7 @@
 ## libraries
 require(utils)
 require(shapes)
+require(nnet)
 
 ## functions
 
@@ -73,4 +74,35 @@ land.frame <- function(x) {
   names(dat) <- nam
 
   dat
+}
+
+predictMNL <- function(model, newdata) {
+  ## function to predict multinomial logit choice model outcomes
+  ## this is from http://www.jameskeirstead.ca/r/how-to-multinomial-regression-models-in-r/
+  ##
+  ##  Args:
+  ##    model: nnet class multinomial model
+  ##    newdata: data frame containing new values to predict
+  ##
+  ##  Returns:
+  ##    vector of ids
+
+  if (is.element('nnet', class(model))) {
+    # calculate the individual and cumulative probabilities
+    probs <- predict(model, newdata, 'probs')
+    cum.probs <- t(apply(probs, 1, cumsum))
+
+    # draw random values
+    vals <- runif(nrow(newdata))
+
+    # join cumulative probabilities and random draws
+    tmp <- cbind(cum.probs, vals)
+
+    # for each row, get choice index
+    k <- ncol(probs)
+    ids <- 1 + apply(tmp, 1, function(x) length(which(x[1:k] < x[k + 1])))
+
+    # return vector of ids
+    ids
+  }
 }
