@@ -1,0 +1,16 @@
+abind
+parallel
+igraph
+shapes
+MASS
+rgl
+scatterplot3d
+formatR
+knitr
+stats
+graphics
+grDevices
+utils
+datasets
+methods
+base

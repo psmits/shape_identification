@@ -1,0 +1,258 @@
+\documentclass{article}
+\frenchspacing
+
+<<set-options, echo=FALSE, cache=FALSE, message=FALSE>>=
+require(knitr)
+require(formatR)
+options(keep.comment = FALSE)
+read_chunk('initial_outline.R')
+read_chunk('landmark_montecarlo.R')
+@
+
+\SweaveOpts{external = TRUE, size='scriptsize'}
+
+\title{Biological shape as a weighted network}
+\author{Peter D Smits \and Ben Frable}
+
+\begin{document}
+\maketitle
+
+
+\section{Brief Introduction}
+Here we envision biological shape, and the differences between shapes, as a network or graph model.
+A network model is the depiction of the relationships between many nodes.
+Each of these nodes may represent many different items or subjects of the same class.
+In, for example, a social network is where each node represents a single person.
+In this case, nodes represent a unique biological shape.
+
+Between these nodes are links or edges.
+In the social network example, an edge would represent a ``friendship'' or some other social connection between two individuals.
+It is possible for edges to have weights, representing the degree of connectedness between two nodes.
+Unlike in a distance matrix, a higher value represents a stronger connectedness.
+Here, our edges represent the similarity of two shape configurations.
+How these edges are assigned and weighted, however, is a via an extended procedure.
+
+In network theory, a community is a densly connected set of nodes that are more connected to each other than to other groups.
+In a given network, the number o groups may range between one large group and as many groups as there are nodes.
+The shape network made from the matrix of \(\rho\) can then be analyzed using the various community detection algorithms in order to find if there are any subgroups of morphologies that are more densly connected.
+These subgroups represent highly similar morphologies, and different communities/groups represent large scale differences in morphology.
+Effectively, these community detection algorithms are defining different morphological categories directly from the morphological similarities as opposed to using prior knowledge or observation.
+
+
+\section{Methodology}
+The core of this entire process lies with the Riemannian shape distance, \(\rho\), between two configurations. 
+A shape configuration is the set of landmarks that represent a unique shape. 
+There are a technically infinite number of unique shapes, and our sample in geometric morphometric studies only represents a subset of the biologically known or possible shapes.
+
+Shapes, when properly scaled and fit via some form of Procrustes analysis, exist not in a Euclidean plane, but on a Riemannian manifold.
+Convenitnetly, a Riemannian manifold is metrizable and we can define some kind of metric to represent the ``distance'' between two shape configurations.
+This Riemannian shape distance, \(\rho\) was defined by Kendall CITATION and varies between 0 and \(\pi /2\).
+A value closer to 0 means that two shapes are closer in shape space, while a higher value indicates that two shapes are farther away in shape space.
+Conveniently here is a function for calculating \(\rho\) in the {\tt{shapes}} package CITATION called {\tt{riemdist()}}.
+
+The first step is the using generalized Procrustes analysis (GPA) to align all of our shapes and remove all non-shape elements.
+After this a pairwise distance matrix is calculated for all shape combinations using {\tt{riemdist()}}. This produces a square \(n \cdot n\) matrix, where \(n\) is the number of unique shapes.
+This pairwise \(\rho\) matrix represents how close every shape is to all other shapes.
+From here, we want to determine which shapes are closer to each other than we would expect by random.
+We require a Monte Carlo process to determine what ``random'' is.
+
+How we define ``by random'' is very important here. Here, we are interested in a value of \(\rho\) smaller than than we would expect half of the time by random. This means, that we want to find which values of \(\rho\) are smaller than the median of a null distribution.
+
+
+\subsection{Monte Carlo process}
+The null distribution here is created from using two randomly selected shape configurations, moving the landmarks slightly to create two new, most likely valid, shape configuration.
+\(\rho\) is then calculated for these two new shapes and stored.
+This process is repeated many times in order to approximate a distribution of possible values of \(\rho\).
+After determining this null distribution, all values greater than the median of this null distribution are removed.
+The inverse of all remaining pairwise comparisons are then calculated, giving the future edge weights.
+The resulting matrix is an undirected, weighted adjacency matrix which can easily be converted into a network for use in the {\tt{igraph}} package CITATION.
+
+I've implemented this Monte Carlo process as a few functions in R.
+The core function is {\tt{jitter.landmark()}}.
+<<jitter>>=
+@
+
+This functions are called {\tt{nsim}} times (deafult 1000) by the {\tt{riem.distribution()}} function.
+Using the original data set, {\tt{jitter.landmark()}} is called on {\tt{nsim}} two shape combinations.
+A lambda function is used to calculate the reimanian distance for all of the {\tt{nsim}} combinations.
+Currently, the lambda function executed as part of a call to {\tt{mclapply()}} which is a parallel function from the {\tt{parallel}} core package.
+Currently, it will use the maximum number of cores avaliable and the seed is optimzed for reproducibility.
+Without this feature, the process will run much slower.
+This function will not work on non-POSIX systems (i.e. Windows).
+<<riem-dist>>=
+@
+
+% All of the above functions can probably made much simpler.
+% {\tt{jitter.landmark()}} can remain seperate while the entierty of {\tt{fit.riem()}} can be made a lambda function in the {\tt{mclapply()}} call in {\tt{riem.distribution()}}
+
+
+The interface function {\tt{shape.simulation()}} outputs a quantile value necessary for determining our ``at random.'' The deafult quantile of 0.50 is the same as the median of a sample.
+<<shape-sim>>=
+@
+
+\subsection{Community detection}
+
+There are currently eight different community detection algorithms implemented as part of the {\tt{igraph}} package.
+Each of these algorithms try to optimze different communities based on various criteria.
+For example, the ``walktrap'' algorithm determines communties by which sections of a graph a random walk is most frequently.
+This algorithm, however, requires that there are no unconnected nodes, or nodes that have no edges.
+Currently, I have tested the ``edge betweenness,'' ``fast-greedy,'' and ``leading eigenvector'' algorithms.
+Each gives slightly different results, reflecting the method by which they determine couuminity presence and structure.
+
+Implementation of these algorithms is illustrated below with gorilla and fish examples.
+Additionally, I've included heirarchical clustering results from the pariwise \(\rho\) matrix for both of these examples.
+
+\section{Examples}
+\subsection{Gorilla vertebrae}
+TODO
+
+\subsection{Fish example}
+The first step is to import the correct libraries and data files.
+The functions described above are part of my script file, while the {\tt{readtps.R}} file is my fork of Ananda Mahto's original script GIST LINK.
+This fork improves integration of .tps files and the {\tt{shapes}} package.
+Additionally, becreporause this is a randomization process, for reproducibiliity it is necessary to manually set the seed value. Additionally, the RNG kind is changed to the L'Ecuyer algorithm CITATION which is the best for random number generationalgorithm implemented in R for parallel processes.
+<<fish-set-up, message=FALSE>>=
+@
+
+Next, we use GPA to fit our entire sample of \Sexpr{dim(fish)[3]} fish. We also calculate the pairwise \(\rho\) matrix. This is actually really dirty code that can probably be implemented as a single {\tt{outer}} call, but I've yet to figure it out.
+
+<<fish-fit, eval=TRUE, cache=TRUE>>=
+@
+
+From this fit, we should examine our data to better understand what is going on initially. The basic ways are looking at the fitted landmarks (Figure \ref{fish-plotshapes}), the eigenscores from pricipal components analysis (Figure \ref{fish-pca}), and the thin-plate spine plot of an example fish to the mean shape (Figure \ref{fish-tps}.
+
+<<fish-ex1, echo=FALSE, eval=FALSE, message=FALSE, fig.height= 4, results='hide'>>=
+require(ggplot2)
+# turn fish.fit$rotated into a two column matrix
+fish.mean <- as.data.frame(fish.fit$mshape)
+fish.fix <- fish.fit$rotated[, , -42]
+fish.gg <- fish.fit$rotated[, , 1]
+for(ii in 2:(dim(fish.fix)[3])) {
+  fish.gg <- rbind(fish.gg, fish.fix[, , ii])
+}
+
+fish.gg <- as.data.frame(fish.gg)
+fs <- ggplot(fish.gg, aes(x= V1, y= V2)) + geom_point(size = 1)
+fs <- fs + scale_x_continuous(name = "X")
+fs <- fs + scale_y_continuous(name = "Y")
+fs <- fs + opts(panel.background = theme_rect(fill = "transparent",colour = NA), 
+                panel.grid.minor = theme_blank(), 
+                panel.grid.major = theme_blank(),
+                axis.line = theme_segment(),
+                axis.text.x = theme_text(colour = "black", size = 15),
+                axis.text.y = theme_text(colour = "black", size = 15)) 
+fs
+@
+
+<<fish-ex2, echo=FALSE, eval=FALSE, message=FALSE, fig.height= 4, results='hide'>>=
+fish.eigsc <- as.data.frame(fish.fit$stdscores)
+fam <- c(rep("Ano", times= length(ano$ID)), rep("Cur", times= length(cur$ID)))
+fish.eigsc$fam <- fam
+fish.eigsc <- fish.eigsc[-42, ]
+fe <- ggplot(fish.eigsc, aes(x= PC1, y= PC2, colour= fam))
+fe <- fe + geom_point(size = 3)
+fe <- fe + scale_x_continuous(name = paste("PC1; ", 
+                                           format(fish.fit$percent[1], digits= 3),
+                                           sep= ''))
+fe <- fe + scale_y_continuous(name = paste("PC2; ", 
+                                           format(fish.fit$percent[2], digits= 3),
+                                           sep= ''))
+fe <- fe + opts(panel.background = theme_rect(fill = "transparent",colour = NA), 
+                panel.grid.minor = theme_blank(), 
+                panel.grid.major = theme_blank(),
+                  axis.line = theme_segment(),
+                axis.text.x = theme_text(colour = "black", size = 15),
+                axis.text.y = theme_text(colour = "black", size = 15))
+fe
+@
+
+<<fish-ex3, echo=FALSE, eval=FALSE, message=FALSE, fig.height= 4, results='hide'>>=
+shapepca(fish.fit, joinline=c(1:35, 1))
+@
+
+<<fish-ex4, echo=FALSE, eval=FALSE, message=FALSE, fig.height= 4, results='hide'>>=
+par(mfrow = c(1, 2))
+tpsgrid(fish.fit$rotated[, , 1], fish.fit$mshape)
+tpsgrid(fish.fit$rotated[, , 19], fish.fit$mshape)
+@
+
+\begin{figure}
+\includegraphics[height=0.3\textheight]{figure/fish-ex1}
+\caption{Landmark positions of \Sexpr{dim(fish.fit$rotated)[3] - 1} of the fish taxa. One specimen is excluded.\label{fish-plotshapes}}
+\end{figure}
+
+\begin{figure}
+\includegraphics[height=0.3\textheight]{figure/fish-ex2}
+\caption{PC1 versus PC2 for fish. Families are labeled. Percent of variation explained is included in axes labels. One specimen (42) is excluded.\label{fish-pca}}
+\end{figure}
+
+% \begin{figure}
+% \includegraphics[width=\textwidth]{figure/fish-ex3}
+% \caption{Alternative method for interpreting the principal components analysis.}
+% \end{figure}
+
+\begin{figure}
+\includegraphics[height=0.35\textheight]{figure/fish-ex4}
+\caption{TPS grids for Ano (right) and Cur (left).\label{fish-tps}}
+\end{figure}
+
+Following this, the Monte Carlo process is run so that we can begin to analyze the structure of our shape relationships.
+This process is very long and takes many hours.
+Those values which are greater than the median of the Monte Carlo distribution are discarted and the inverse of the remaining ones is calculated, producing a weighted adacency matrix.
+
+<<fish-MC, eval=FALSE>>=
+@
+
+The weighted adacency matrix is then transformed into a network and the three community detection algorithms are then used to analyze the resulting graph.
+
+<<fish-network, eval=FALSE>>=
+@
+
+We can then examine the results of these community detection algorithms. 
+The simplest manner is the just view the graphic output.
+
+<<fish-plots, eval=FALSE, echo=FALSE>>=
+@
+
+In general, there are two identified communities.
+These communities are not, however, identical to the two known families.
+There is a group of ``Cur'' fish that are most morphologically similar to ``Ano'' fish.
+
+The next step after this is determining if this graph is actually interesting.
+This requires more reading.
+
+\section{Concerns and Future Development}
+\begin{enumerate}
+\item I'm unsure how valid it is to define ``by random'' in the way that we did. 
+I would need to actually talk to someone or read a lot to answer this one.
+
+\item Need to make sure I'm not making invalid shape configurations
+
+\item Unsure if I need to do {\tt{procGPA()}} every time in the MC process.
+
+\item Choice of community detection algorithm.
+This one just requires a lot of reading I think to figure out how exactly they differ. 
+
+\item Are the edge weights to high?
+Should they be rescaled
+
+\item MC approach to understanding network.
+{\tt{statnet}} packages.
+Is the network different from random?
+
+\item Model based clustering possibilities.
+Can we classify without a network?
+Would use the {\tt{mclust}} package CITATION, but there are awkward philosophical questions that come up with using that methodology.
+
+\item Need to do some machine learning reading.
+This project is essentially unsupervised clustering, but doing it in a weird way.
+
+\end{enumerate}
+
+\newpage
+For reproducibility information.
+<<reproducibility>>=
+sessionInfo()
+@
+
+\end{document}

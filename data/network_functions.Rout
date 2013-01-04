@@ -1,0 +1,43 @@
+
+R version 2.15.1 (2012-06-22) -- "Roasted Marshmallows"
+Copyright (C) 2012 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # clique percolation
+> clique.community <- function(graph, k) {
++   clq <- cliques(graph, min=k, max=k)
++   edges <- c()
++   for (i in seq_along(clq)) {
++     for (j in seq_along(clq)) {
++       if ( length(unique(c(clq[[i]], clq[[j]]))) == k+1 ) {
++         edges <- c(edges, c(i,j)-1)
++       }
++     }
++   }
++   clq.graph <- simplify(graph(edges))
++   V(clq.graph)$name <- seq_len(vcount(clq.graph))
++   comps <- decompose.graph(clq.graph)
++   
++   lapply(comps, function(x) {
++     unique(unlist(clq[ V(x)$name ]))
++   })
++ }
+> 
+> proc.time()
+   user  system elapsed 
+  0.192   0.048   1.227 
