@@ -33,6 +33,7 @@ names(frames$fish)[3] <- 'group'
 ## tables
 
 
+
 ## mean shapes
 means <- lapply(fits, function(x) as.data.frame(x$mshape))
 means <- lapply(means, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
@@ -74,10 +75,10 @@ gg.pca <- lapply(scores, function(x) ggpairs(x,
                                              colour = 'group'))
 
 
-## discriminate analysis
-## this may not be necessary because of the quality of my PCA plots...
+## machine learning results
+
 
 ## cluster plots
 ## do these in ggplot because it is a much nicer framework for this kind of analysis
-ggclust <- lapply(clust, function(x) lapply(x, as.hclust))
+#ggclust <- lapply(clust, function(x) lapply(x, as.hclust))
 

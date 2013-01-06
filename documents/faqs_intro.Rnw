@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm, parskip, graphicx}
+
+\frenchspacing
+
+<<opts-set, message = FALSE, echo = FALSE>>=
+require(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE,
+               highlight = TRUE, background = 'white',
+               fig.height = 3, fig.width = 4)
+@
+
+<<source-scripts>>=
+source('../src/fish_plotting.r')
+@
+
+\title{Informal explination of study ``Ecotype detection in (geometric) morphometric data''}
+\author{Peter D Smits \\
+\and
+Benjamin Frable}
+\institute{Committee on Evolutionary Biology, University of Chicago \\
+Department of Fisheries and Wildlife, Oregon State University}
+
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+\section{Materials and Methods}
+
+\section{Results}
+
+\section{Discussion}
+
+
+\end{document}
