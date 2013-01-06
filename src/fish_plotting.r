@@ -18,8 +18,8 @@ require(ggdendro)
 require(xtable)
 
 ## source files
-source('support_functions.r')
-source('fish_analysis.r')
+source('../src/support_functions.r')
+source('../src/fish_analysis.r')
 
 
 ## tiny bit of munging

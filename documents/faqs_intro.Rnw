@@ -6,30 +6,60 @@
 <<opts-set, message = FALSE, echo = FALSE>>=
 require(knitr)
 opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE,
-               highlight = TRUE, background = 'white',
-               fig.height = 3, fig.width = 4)
+               highlight = TRUE, background = 'white')
 @
 
-<<source-scripts>>=
+<<source-scripts, results = 'hide'>>=
 source('../src/fish_plotting.r')
 @
 
 \title{Informal explination of study ``Ecotype detection in (geometric) morphometric data''}
-\author{Peter D Smits \\
-\and
-Benjamin Frable}
-\institute{Committee on Evolutionary Biology, University of Chicago \\
-Department of Fisheries and Wildlife, Oregon State University}
-
+\author{Peter D Smits \and Benjamin Frable}
 
 \begin{document}
 \maketitle
 
 \section{Introduction}
 
+
 \section{Materials and Methods}
 
+\subsection{Fish}
+
+\subsection{Morphometric analysis}
+
+\subsection{Machine learning}
+
+\subsubsection{Linear discriminate analysis}
+
+\subsubsection{Multinomial logistic regression}
+
+
 \section{Results}
+
+\subsection{Morphometric analysis}
+
+<<pls-fits, eval = FALSE>>=
+gg.means
+@
+\begin{figure}[p]
+  \centering
+  \includegraphics{figure/pls-fits3}
+  \caption{<+caption text+>}
+  \label{fig:fish-fit}
+\end{figure}
+
+<<pca-plots, eval = FALSE>>=
+gg.pca
+@
+\begin{figure}[p]
+  \centering
+  \includegraphics{figure/pca-plots3}
+  \caption{<+caption text+>}
+  \label{fig:fish-pca}
+\end{figure}
+
+\subsection{Machine learning}
 
 \section{Discussion}
 

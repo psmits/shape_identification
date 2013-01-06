@@ -17,8 +17,8 @@ require(caret)
 require(e1071)
 
 ## source files
-source('support_functions.r')
-source('fish_mung.r')
+source('../src/support_functions.r')
+source('../src/fish_mung.r')
 ## important objects
 ##    fits: list of ano, cur, and all fish procGPA results
 ##    dists: list of ano, cur, and all fish riemmanian distance matrices

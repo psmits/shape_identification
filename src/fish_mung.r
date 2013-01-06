@@ -12,7 +12,7 @@ require(shapes)
 require(geomorph)
 
 ## source files
-source('support_functions.r')
+source('../src/support_functions.r')
 
 ## data
 ano.land <- readland.tps(file = '../data/AnostomidaeFinal.TPS')
