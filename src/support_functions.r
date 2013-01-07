@@ -106,3 +106,23 @@ predictMNL <- function(model, newdata) {
     ids
   }
 }
+
+multi.mod <- function(data, formula, preProc) {
+  ## fit multinomial logistic regression to data
+  ## this is so i can map over a list
+  ##
+  ##  Args:
+  ##    data: object of class data.frame, probably the training set
+  ##    formula: the formula for the multinomial logistic regression
+  ##    trControl: input for trControl in train
+  ##    preProc: input for preProc in train
+  ##
+  ##  Returns:
+  ##    object of class train with all the correct attributes
+
+  mod <- train(formula, data = data, 
+               method = 'multinom', 
+               preProc = preProc)
+
+  mod
+}

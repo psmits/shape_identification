@@ -15,6 +15,7 @@ require(cluster)
 require(nnet)
 require(caret)
 require(e1071)
+require(AICc)
 
 ## source files
 source('../src/support_functions.r')
@@ -57,14 +58,18 @@ quad.tot.accur <- sum(diag(prop.table(quad.tab)))
 
 ## (multinomial) logistic/probit regression
 ## use 10-fold cross-validation
-ctrl <- trainControl(method = 'repeatedcv',
-                     repeats = 3)
+ctrl <- trainControl(method = 'LOOCV',
+                     classProbs = TRUE,
+                     number = 10)
 mod <- train(group ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6,
              data = fish.train,
              method = 'multinom',
              trControl = ctrl,
              preProc = c('center', 'scale'))
-pred <- predict(mod, fish.test[, -(ncol(fish.test))], type = 'prob')
+pred.class <- predict(mod, fish.test, type = 'raw')
+pred.accur <- postResample(pred.class, fish.test$group)
+pred.confusion <- confusionMatrix(pred.class, fish.test$group)
+pred.prob <- predict(mod, fish.test, type = 'prob')
 
 ## clustering
 clust <- lapply(dists, clu)

@@ -8,13 +8,10 @@
 ###############################################################################
 
 ## libraries
-require(shapes)
-require(geomorph)
 require(reshape2)
 require(grid)
 require(ggplot2)
 require(GGally)
-require(ggdendro)
 require(xtable)
 
 ## source files
@@ -70,7 +67,7 @@ fish.names <- list(rep('ano', dim(ano.land)[3]),
 scores <- Map(cbind, scores, fish.names)
 scores <- lapply(scores, function(x) {names(x)[ncol(x)] <- 'group'; return(x)})
 gg.pca <- lapply(scores, function(x) ggpairs(x,
-                                             columns = 1:4,
+                                             columns = c(1:4, ncol(x)),
                                              upper = 'blank',
                                              colour = 'group'))
 

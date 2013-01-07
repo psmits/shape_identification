@@ -11,6 +11,7 @@ opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE,
 
 <<source-scripts, results = 'hide'>>=
 source('../src/fish_plotting.r')
+source('../src/misc_data_plotting.r')
 @
 
 \title{Informal explination of study ``Ecotype detection in (geometric) morphometric data''}
