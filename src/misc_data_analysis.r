@@ -7,7 +7,7 @@
 ##
 ###############################################################################
 
-##  libraries
+## libraries
 require(MASS)
 require(shapes)
 require(geomorph)
@@ -16,20 +16,20 @@ require(caret)
 require(e1071)
 require(MuMIn)
 
-##  source files
+## source files
 source('../src/support_functions.r')
 
-##  seed
+## seed
 set.seed(1)
 
 
-##  ctrl set(s)
+## ctrl set(s)
 ctrl <- trainControl(method = 'LOOCV',
                      classProbs = TRUE,
                      number = 10)
 
 
-##  primate vertebrae
+## primate vertebrae
 monkey <- abind::abind(gorf.dat, gorm.dat, 
                        pongof.dat, pongom.dat, 
                        panf.dat, panm.dat)
@@ -49,7 +49,7 @@ mon.species <- c(rep('gor', (dim(gorf.dat)[3] + dim(gorm.dat)[3])),
 mon.data <- cbind(as.data.frame(mon$stdscores),
                   group = mon.group, species = mon.species)
 
-##  mouse verteabrae data
+## mouse verteabrae data
 mouse <- abind::abind(qcet2.dat, qlet2.dat, qset2.dat)
 mouse <- procGPA(mouse)
 mouse.group <- c(rep('control', dim(qcet2.dat)[3]),
@@ -58,8 +58,7 @@ mouse.group <- c(rep('control', dim(qcet2.dat)[3]),
 mouse.data <- cbind(as.data.frame(mouse$stdscores),
                     group = mouse.group)
 
-
-##  combine and make pretty
+## combine and make pretty
 land.proc <- list(monkey = mon,
                   mouse = mouse)
 land.data <- list(monkey = mon.data,
@@ -78,14 +77,14 @@ land.test <- Map(function(x, y) {x[-y, ]},
                  land.in)
 
 
-##  multinomial
+## multinomial
 land.mod <- lapply(land.train, multi.mod, 
                    formula = group ~ PC1 + PC2 + PC3,
                    preProc = c('center', 'scale'))
-pred.class <- Map(predict, land.mod, land.test)
-pred.accur <- Map(function(x, y) {postResample(x, y$group)},
-                  pred.class, land.test)
-pred.confusion <- Map(function(x, y) {confusionMatrix(x, y$group)},
-                      pred.class, land.test)
-pred.prob <- Map(function(x, y) {predict(x, y, type = 'prob')},
-                 land.mod, land.test)
+land.pred.class <- Map(predict, land.mod, land.test)
+land.pred.accur <- Map(function(x, y) {postResample(x, y$group)},
+                       land.pred.class, land.test)
+land.pred.confusion <- Map(function(x, y) {confusionMatrix(x, y$group)},
+                           land.pred.class, land.test)
+land.pred.prob <- Map(function(x, y) {predict(x, y, type = 'prob')},
+                      land.mod, land.test)

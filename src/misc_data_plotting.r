@@ -7,21 +7,21 @@
 ##
 ###############################################################################
 
-##  libraries
+## libraries
 require(reshape2)
 require(grid)
 require(ggplot2)
 require(GGally)
 require(xtable)
 
-##  source files
+## source files
 source('../src/misc_data_analysis.r')
 
 
-##  tables
+## tables
 
 
-##  procrustes fit results
+## procrustes fit results
 land.scores <- lapply(land.proc, function(x) as.data.frame(x$stdscore))
 land.scores <- Map(cbind, land.scores,
                    list(mon.species,
@@ -35,4 +35,4 @@ land.pca <- lapply(land.scores,
                                        colour = 'group'))
 
 
-##  machine learning results
+## machine learning results

@@ -63,6 +63,8 @@ gg.means <- Map(gmean, frames, means)
 scores <- lapply(fits, function(x) as.data.frame(x$stdscores))
 fish.names <- list(rep('ano', dim(ano.land)[3]),
                    rep('cur', dim(cur.land)[3]),
+                   rep('pro', dim(pro.land)[3]),
+                   rep('chi', dim(chi.land)[3]),
                    fish.group)
 scores <- Map(cbind, scores, fish.names)
 scores <- lapply(scores, function(x) {names(x)[ncol(x)] <- 'group'; return(x)})
