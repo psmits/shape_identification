@@ -7,9 +7,12 @@
 ###############################################################################
 
 ## libraries
+require(MASS)
 require(utils)
 require(shapes)
 require(nnet)
+require(caret)
+require(e1071)
 
 ## functions
 

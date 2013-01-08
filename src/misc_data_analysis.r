@@ -78,13 +78,36 @@ land.test <- Map(function(x, y) {x[-y, ]},
 
 
 ## multinomial
-land.mod <- lapply(land.train, multi.mod, 
-                   formula = group ~ PC1 + PC2 + PC3,
-                   preProc = c('center', 'scale'))
-land.pred.class <- Map(predict, land.mod, land.test)
+land.formula <- vector(mode = 'list', length = 4)
+land.vars <- paste('PC', 1:4, sep = '')
+for (ii in seq(4)) {
+  land.formula[[ii]] <- as.formula(paste('group ~ ', 
+                                         paste(land.vars[seq(ii)],
+                                               collapse = '+')))
+}
+land.mod <- lapply(land.formula, function(x, y) {
+                   lapply(y, multi.mod,
+                          formula = x,
+                          preProc = c('center', 'scale'))},
+                   y = land.train)
+#land.mod <- lapply(land.train, multi.mod, 
+#                   formula = group ~ PC1 + PC2 + PC3,
+#                   preProc = c('center', 'scale'))
+land.mods <- list()
+for (jj in seq(length(land.mod))) {
+  land.mods$monkey[[jj]] <- land.mod[[jj]]$monkey
+  land.mods$mouse[[jj]] <- land.mod[[jj]]$mouse
+}
+land.model.table <- lapply(land.mods, 
+                           function(x) 
+                             model.sel(lapply(x, function(y) y$finalModel)))
+best.mods <- lapply(land.model.table, 
+                    function(x) as.numeric(rownames(x)[1]))
+best.land.mod <- Map(function(x, y) x[[y]], land.mods, best.mods)
+land.pred.class <- Map(predict, best.land.mod, land.test)
 land.pred.accur <- Map(function(x, y) {postResample(x, y$group)},
                        land.pred.class, land.test)
 land.pred.confusion <- Map(function(x, y) {confusionMatrix(x, y$group)},
                            land.pred.class, land.test)
 land.pred.prob <- Map(function(x, y) {predict(x, y, type = 'prob')},
-                      land.mod, land.test)
+                      best.land.mod, land.test)
