@@ -40,24 +40,6 @@ fish.train <- fish.data[in.train, ]
 fish.test <- fish.data[-in.train, ]
 
 
-## linear discriminate analysis of eigenscores
-## change this to just work with train....?
-lin.dis <- lda(as.factor(fish.group) ~ fits$fish$stdscores[, seq(max.var)], 
-               CV = TRUE, 
-               method = 'mle')
-lin.tab <- table(fish.group, lin.dis$class)
-lin.group.accur <- diag(prop.table(lin.tab, 1))
-lin.tot.accur <- sum(diag(prop.table(lin.tab)))
-
-## quadratic discriminate analysis
-quad.dis <- qda(as.factor(fish.group) ~ fits$fish$stdscores[, seq(max.var)], 
-                CV = TRUE, 
-                method = 'mle')
-quad.tab <- table(fish.group, lin.dis$class)
-quad.group.accur <- diag(prop.table(quad.tab, 1))
-quad.tot.accur <- sum(diag(prop.table(quad.tab)))
-
-
 ## (multinomial) logistic/probit regression
 ## use 10-fold cross-validation
 ctrl <- trainControl(method = 'LOOCV',

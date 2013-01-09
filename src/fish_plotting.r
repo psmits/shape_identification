@@ -75,7 +75,37 @@ gg.pca <- lapply(scores, function(x) ggpairs(x,
 
 
 ## machine learning results
+## best.fish.mod
+## x is eigenscore
+## y is probability
+## facet plot where facets are PCs
+## line of probability for each category
+fish.melt <- reshape2::melt(cbind(rownames(fish.test), fish.test))
+fish.probs.melt <- reshape2::melt(cbind(rownames(fish.pred.prob), fish.pred.prob))
+fish.melts <- fish.probs.melts <- data.frame()
+for (ii in seq(length(unique(fish.probs.melt$variable)))) {
+  fish.melts <- rbind(fish.melts, fish.melt)
+}
+colnames(fish.melts) <- c('id', 'real', 'PC', 'eigenscore')
 
+fish.probs.melt <- split(fish.probs.melt, f = fish.probs.melt$variable)
+fish.probs.melts <- fish.probs.melt
+for (jj in seq(length(unique(fish.melt$variable)) - 1)) {
+  ## this isn't working correctly
+  ## need to split and then combine with likes
+  ## currently fucks up the plot
+  fish.probs.melts <- Map(rbind, fish.probs.melts, fish.probs.melt)
+}
+colnames(fish.probs.melts) <- c('id', 'estimate', 'probability')
+fish.super.melt <- cbind(fish.melts, fish.probs.melts)
+fish.super.melt <- fish.super.melt[, -5]
+fish.super.melt <- fish.super.melt[(fish.super.melt$PC == 'PC1' |
+                                   fish.super.melt$PC == 'PC2'), ]
+
+gf <- ggplot(fish.super.melt, aes(x = eigenscore, y = probability, colour = estimate))
+gf <- gf + geom_line()
+gf <- gf + facet_wrap(~ PC, scales = 'free')
+## we have problems....not getting probabilities for all the variables at the same time
 
 ## cluster plots
 ## do these in ggplot because it is a much nicer framework for this kind of analysis
