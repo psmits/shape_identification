@@ -28,7 +28,14 @@ names(frames$fish)[3] <- 'group'
 
 
 ## tables
+ftab <- xtable(fish.model.table)
+caption(ftab) <- c('')
+label(ftab) <- c('tab:fish-tab')
+#digits(ftab)
 
+fconf <- xtable(as.table(fish.pred.confusion))
+caption(fconf) <- c('')
+label(fconf) <- c('tab:fish-mod')
 
 
 ## mean shapes

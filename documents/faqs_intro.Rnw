@@ -46,7 +46,7 @@ gg.means
 \begin{figure}[p]
   \centering
   \includegraphics{figure/pls-fits3}
-  \caption{<+caption text+>}
+  \caption{Procrustes fit landmark dispersion for all taxa in comparison to mean landmark position in red.}
   \label{fig:fish-fit}
 \end{figure}
 
@@ -56,11 +56,37 @@ gg.pca
 \begin{figure}[p]
   \centering
   \includegraphics{figure/pca-plots3}
-  \caption{<+caption text+>}
+  \caption{Comparison of first four pricipal components of Procrustes fit landmarks. Familes are highlighted.}
   \label{fig:fish-pca}
 \end{figure}
 
 \subsection{Machine learning}
+
+% model selection table
+<<fish-model-table>>=
+print(ftab, 
+      table.placement = 'p',
+      caption.placement = 'bottom',
+      sanitize.text.function = function(x) x,
+      sanitize.colnames.function = function(x) x)
+@
+
+<<fish-confusion>>=
+print(fconf,
+      table.placement = 'p',
+      caption.placement = 'bottom')
+@
+
+<<logistic-plots, eval = FALSE>>=
+gf
+@
+\begin{figure}[p]
+  \centering
+  \includegraphics{figure/logistic-plots}
+  \caption{Relative probabilities of Characiform family identification from the first two principal components of shape. The first two pricipal components are plotted here because they are the predictors of family from the AICc-best model.}
+  \label{fig:fish-logistic}
+\end{figure}
+
 
 \section{Discussion}
 
