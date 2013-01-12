@@ -1,4 +1,4 @@
-###############################################################################
+##############################################################################
 ##
 ##  plotting and tables
 ##
@@ -23,18 +23,20 @@ source('../src/fish_analysis.r')
 frames <- lapply(fits, function(x) land.frame(x$rotated))
 frames$fish <- cbind(frames$fish,
                      c(rep('ano', dim(frames$ano)[1]), 
-                       rep('cur', dim(frames$cur)[1])))
+                       rep('cur', dim(frames$cur)[1]),
+                       rep('pro', dim(frames$pro)[1]),
+                       rep('chi', dim(frames$chi)[1])))
 names(frames$fish)[3] <- 'group'
 
 
 ## tables
 ftab <- xtable(fish.model.table)
-caption(ftab) <- c('')
+caption(ftab) <- c('Model selection table.')
 label(ftab) <- c('tab:fish-tab')
 #digits(ftab)
 
 fconf <- xtable(as.table(fish.pred.confusion))
-caption(fconf) <- c('')
+caption(fconf) <- c('Confusion matrix.')
 label(fconf) <- c('tab:fish-mod')
 
 
@@ -113,8 +115,6 @@ fish.super.melt <- fish.super.melt[(fish.super.melt$PC == 'PC1' |
 gf <- ggplot(fish.super.melt, aes(x = eigenscore, y = probability, colour = estimate))
 gf <- gf + geom_line()
 gf <- gf + facet_wrap(~ PC, scales = 'free')
-gf
-## we have problems....not getting probabilities for all the variables at the same time
 
 ## cluster plots
 ## do these in ggplot because it is a much nicer framework for this kind of analysis

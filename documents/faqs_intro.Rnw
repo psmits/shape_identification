@@ -21,20 +21,32 @@ source('../src/misc_data_plotting.r')
 \maketitle
 
 \section{Introduction}
-
+Stuff
 
 \section{Materials and Methods}
 
 \subsection{Fish}
+Four families of Characiformes: Anostomidae, Chilodontidae, Curimatidae, and Prochilodontidae.
+
+Total \Sexpr{dim(fish.land)[3]} specimens for four families of Characiformes: \Sexpr{dim(ano.land)[3]} Anostomidae, \Sexpr{dim(chi.land)[3]} Chilodontidae, \Sexpr{dim(cur.land)[3]} Curimatidae, and \Sexpr{dim(pro.land)[3]} Prochilodontidae.
 
 \subsection{Morphometric analysis}
+\Sexpr{dim(fish.land)[1]} two-dimensional landmarks and the head and neck. Landmarks were selected for some reason and were collected using TPSDig2. Generalized Procrustes analysis was used to remove the effects of orientation, rotation, and scaling CITATION. Following this, points were projected onto tangent space using principal components analysis CITATION. This was done in the R statistical programming language CITATION using the ``shapes'' CITATION and ``geomorph'' packages.
 
 \subsection{Machine learning}
+The predictive accuracy of shape for family as assessed using multinomial logistic regression and a training set of 75\% of all samples and a test set of 25\% of all samples. Multinomial logist regression is a generalization of the standard logistic regression where instead of a binary response variable, there are multiple categorical responses. In this case, the multinomial response variable was family while predictors were the pricipal components of shape.
 
-\subsubsection{Linear discriminate analysis}
+Pricipal components analysis produced \Sexpr{length(fits$fish$percent)} eigenscores for every taxa and there are only \Sexpr{fits$fish$n} taxa sampled, it is necessary to select only from a subset of the possible predictors. Models were compared using the second-order Akaike's information criterion (AICc) where lower values indicate a better bias-variance trade off between the number of predictors and the likelihood of the model CITATIONS while taking into account sample size. 
 
-\subsubsection{Multinomial logistic regression}
+Model selection is not without uncertainty, as some models may have very close AICc values. Model selection was done using \(\delta\)AICc and Akaike weight values CITATION. \(\delta\)AICc values are calculated as the difference between the AICc of a model and the AICc of the AICc-best model, or the model with the lowest AICc. Akaike weights sum to 1 and represent the propotional amount of information explained by a particular model and are approximately the model selection probability. Models with a \(\delta\)AICc of less than 2 were considered approximately identical in information to the AICc best model, while models with a \(\delta\)AICc of less than 6 were considered as plausible but suboptimal. Models with a \(\delta\)AICc of greater than 10 were considered extremely poor.
 
+I will eventually be making predictions from a model using averaged parameters of the first 95\% confidence set of models, as measured by Akaike weights CITATION.
+
+The models compared varied between 1 and \Sexpr{length(fish.vars)} pricipal component predictors, producing models with \Sexpr{paste(sort(fish.model.table$df), collapse = ', ')} parameters respectively. 
+
+I did some model training using ``caret'' and ``e1071'' packages. Need to explain.
+
+Following model training and model comparison, the AICc-best model was used to predict the family of the testing data set described above.
 
 \section{Results}
 
@@ -45,7 +57,7 @@ gg.means
 @
 \begin{figure}[p]
   \centering
-  \includegraphics{figure/pls-fits3}
+  \includegraphics[height = 0.4\textheight, keepaspectratio = true]{figure/pls-fits3}
   \caption{Procrustes fit landmark dispersion for all taxa in comparison to mean landmark position in red.}
   \label{fig:fish-fit}
 \end{figure}
@@ -55,7 +67,7 @@ gg.pca
 @
 \begin{figure}[p]
   \centering
-  \includegraphics{figure/pca-plots3}
+  \includegraphics[height = 0.4\textheight, keepaspectratio = true]{figure/pca-plots5}
   \caption{Comparison of first four pricipal components of Procrustes fit landmarks. Familes are highlighted.}
   \label{fig:fish-pca}
 \end{figure}
@@ -63,7 +75,7 @@ gg.pca
 \subsection{Machine learning}
 
 % model selection table
-<<fish-model-table>>=
+<<fish-model-table, results = 'asis'>>=
 print(ftab, 
       table.placement = 'p',
       caption.placement = 'bottom',
@@ -71,7 +83,7 @@ print(ftab,
       sanitize.colnames.function = function(x) x)
 @
 
-<<fish-confusion>>=
+<<fish-confusion, results = 'asis'>>=
 print(fconf,
       table.placement = 'p',
       caption.placement = 'bottom')
@@ -82,7 +94,7 @@ gf
 @
 \begin{figure}[p]
   \centering
-  \includegraphics{figure/logistic-plots}
+  \includegraphics[width = 0.4\textwidth, keepaspectratio = true]{figure/logistic-plots}
   \caption{Relative probabilities of Characiform family identification from the first two principal components of shape. The first two pricipal components are plotted here because they are the predictors of family from the AICc-best model.}
   \label{fig:fish-logistic}
 \end{figure}
