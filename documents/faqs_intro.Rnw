@@ -67,7 +67,7 @@ gg.pca
 @
 \begin{figure}[p]
   \centering
-  \includegraphics[height = 0.4\textheight, keepaspectratio = true]{figure/pca-plots5}
+  \includegraphics[width= \textwidth, keepaspectratio = true]{figure/pca-plots5}
   \caption{Comparison of first four pricipal components of Procrustes fit landmarks. Familes are highlighted.}
   \label{fig:fish-pca}
 \end{figure}
@@ -80,7 +80,8 @@ print(ftab,
       table.placement = 'p',
       caption.placement = 'bottom',
       sanitize.text.function = function(x) x,
-      sanitize.colnames.function = function(x) x)
+      sanitize.colnames.function = function(x) x,
+      scalebox = 0.7)
 @
 
 <<fish-confusion, results = 'asis'>>=
@@ -94,7 +95,7 @@ gf
 @
 \begin{figure}[p]
   \centering
-  \includegraphics[width = 0.4\textwidth, keepaspectratio = true]{figure/logistic-plots}
+  \includegraphics[height = 0.5\textheight, keepaspectratio = true]{figure/logistic-plots}
   \caption{Relative probabilities of Characiform family identification from the first two principal components of shape. The first two pricipal components are plotted here because they are the predictors of family from the AICc-best model.}
   \label{fig:fish-logistic}
 \end{figure}

@@ -111,15 +111,11 @@ Following model training and model comparison, the AICc-best model was used to p
   \label{fig:fish-fit}
 \end{figure}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/pca-plots} 
 
-\end{knitrout}
 
 \begin{figure}[p]
   \centering
-  \includegraphics[height = 0.4\textheight, keepaspectratio = true]{figure/pca-plots3}
+  \includegraphics[width= \textwidth, keepaspectratio = true]{figure/pca-plots5}
   \caption{Comparison of first four pricipal components of Procrustes fit landmarks. Familes are highlighted.}
   \label{fig:fish-pca}
 \end{figure}
@@ -128,9 +124,10 @@ Following model training and model comparison, the AICc-best model was used to p
 
 % model selection table
 % latex table generated in R 2.15.2 by xtable 1.7-0 package
-% Fri Jan 11 16:26:20 2013
+% Sat Jan 12 13:35:24 2013
 \begin{table}[p]
 \begin{center}
+\scalebox{0.7}{
 \begin{tabular}{rlllllllllrrrrr}
   \hline
  & (Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & family & df & logLik & AICc & delta & weight \\ 
@@ -144,6 +141,7 @@ Following model training and model comparison, the AICc-best model was used to p
   7 & + & + & + & + & + & + & + & + &  & 24.00 & -0.04 & 83.38 & 33.04 & 0.00 \\ 
    \hline
 \end{tabular}
+}
 \caption{Model selection table.}
 \label{tab:fish-tab}
 \end{center}
@@ -152,7 +150,7 @@ Following model training and model comparison, the AICc-best model was used to p
 
 
 % latex table generated in R 2.15.2 by xtable 1.7-0 package
-% Fri Jan 11 16:26:20 2013
+% Sat Jan 12 13:35:24 2013
 \begin{table}[p]
 \begin{center}
 \begin{tabular}{rrrrr}
@@ -176,7 +174,7 @@ ano &   4 &   0 &   0 &   0 \\
 
 \begin{figure}[p]
   \centering
-  \includegraphics[width = 0.4\textwidth, keepaspectratio = true]{figure/logistic-plots}
+  \includegraphics[height = 0.5\textheight, keepaspectratio = true]{figure/logistic-plots}
   \caption{Relative probabilities of Characiform family identification from the first two principal components of shape. The first two pricipal components are plotted here because they are the predictors of family from the AICc-best model.}
   \label{fig:fish-logistic}
 \end{figure}
