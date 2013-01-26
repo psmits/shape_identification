@@ -20,7 +20,7 @@ source('../src/fish_analysis.r')
 
 
 ## tiny bit of munging
-frames <- lapply(fits, function(x) land.frame(x$rotated))
+frames <- lapply(fish.fits, function(x) land.frame(x$rotated))
 frames$fish <- cbind(frames$fish,
                      c(rep('ano', dim(frames$ano)[1]), 
                        rep('cur', dim(frames$cur)[1]),
@@ -41,7 +41,7 @@ label(fconf) <- c('tab:fish-mod')
 
 
 ## mean shapes
-means <- lapply(fits, function(x) as.data.frame(x$mshape))
+means <- lapply(fish.fits, function(x) as.data.frame(x$mshape))
 means <- lapply(means, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
 means <- lapply(means, function(x) {
                 names(x) <- c('V1', 'V2', 'V3', 'V4'); return(x)
@@ -69,7 +69,7 @@ gg.means <- Map(gmean, frames, means)
 
 
 ## PCA plots
-scores <- lapply(fits, function(x) as.data.frame(x$stdscores))
+scores <- lapply(fish.fits, function(x) as.data.frame(x$stdscores))
 fish.names <- list(rep('ano', dim(ano.land)[3]),
                    rep('cur', dim(cur.land)[3]),
                    rep('pro', dim(pro.land)[3]),
@@ -89,6 +89,8 @@ gg.pca <- lapply(scores, function(x) ggpairs(x,
 ## y is probability
 ## facet plot where facets are PCs
 ## line of probability for each category
+## probably better off trying to plot the odds ratios...
+## only getting three things out....
 fish.melt <- reshape2::melt(cbind(rownames(fish.test), fish.test))
 fish.probs.melt <- reshape2::melt(cbind(rownames(fish.pred.prob), fish.pred.prob))
 fish.melts <- fish.probs.melts <- data.frame()

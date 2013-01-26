@@ -1,6 +1,6 @@
 ###############################################################################
 ##
-##  data munging
+##  fish data munging
 ##
 ##  ben frable
 ##  peter d smits
@@ -32,10 +32,10 @@ name <- c('ano', 'cur', 'pro', 'chi', 'fish')
 
 ## generalized procrustes fit
 ## PCA of the GPA fit landmarks
-fits <- lapply(list(ano.land, cur.land,
-                    pro.land, chi.land,
-                    fish.land), procGPA)
-names(fits) <- name
+fish.fits <- lapply(list(ano.land, cur.land,
+                         pro.land, chi.land,
+                         fish.land), procGPA)
+names(fish.fits) <- name
 
 ## family means
 ## need to automate this better
@@ -45,5 +45,5 @@ pro.mean <- mshape(fits$fish$rotated[, , dim(pro.land)[3]])
 chi.mean <- mshape(fits$fish$rotated[, , dim(chi.land)[3]])
 
 ## distance matrices
-dists <- lapply(fits, function(x) riem.matrix(x$rotated))
-names(dists) <- name
+fish.dists <- lapply(fits, function(x) riem.matrix(x$rotated))
+names(fish.dists) <- name
