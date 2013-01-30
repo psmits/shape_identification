@@ -46,11 +46,13 @@ turtle.meta[turtle.meta == "<NA>"] <- NA
 names(turtle.meta) <- c('ind', 'spec', 'lat', 'long', 'year',
                         'sh1', 'sh2', 'sh3', 'spinks.pre', 'spinks',
                         'p.sex', 'b.sex', 'sex.pre')
+turtle.meta$spinks <- as.factor(turtle.meta$spinks)
 
 
 # seperate turtles that have no geographic and/or spinks values
 turtle.which.noinfo <- is.na(turtle.meta$lat) | is.na(turtle.meta$long) |
-                 is.na(turtle.meta$spinks)
+                 is.na(turtle.meta$spinks) | is.na(turtle.meta$sh1) |
+                 is.na(turtle.meta$sh2) | is.na(turtle.meta$sh3)
 turtle.land.noinfo <- turtle.fit$rotated[, , turtle.which.noinfo]
 turtle.land.info <- turtle.fit$rotated[, , !turtle.which.noinfo]
 turtle.scores.noinfo <- turtle.fit$stdscores[turtle.which.noinfo, ]
@@ -59,4 +61,8 @@ turtle.scores.info <- turtle.fit$stdscores[!turtle.which.noinfo, ]
 turtle.meta.info <- turtle.meta[!turtle.which.noinfo, ]
 turtle.geo <- cbind(as.numeric(as.character(turtle.meta.info$lat)),
                     as.numeric(as.character(turtle.meta.info$long)))
+# there are two geographic outliers....
+turtle.geo.meta <- turtle.meta.info[(turtle.geo[, 2]) > 100, ]
+turtle.geo <- turtle.geo[(turtle.geo[, 2]) > 100, ]
 
+turtle.info <- cbind(turtle.scores.info, turtle.meta.info)
