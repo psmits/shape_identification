@@ -22,16 +22,15 @@ source('../src/turtle_mung.r')
 
 set.seed(1)
 
+## unsupervised learning ##
+
 # how many groups are there just from the geo reference info 
 n.groups <- length(levels(turtle.meta$spinks))
 tgeo.km <- pam(turtle.geo, k = n.groups)
-tgeo.fuzzy <- fanny(turtle.geo, k = n.groups)
-# quick visual
-#clusplot(turtle.km, color = TRUE, shade = TRUE, lines = FALSE)
 
 # explore the range of clusterings
 tgeo.gap <- clusGap(turtle.geo, FUNcluster = fanny, K.max = n.groups)
-
+tgeo.fuzzy <- fanny(turtle.geo, k = which.max(tgeo.gap$Tab[, 3]))
 
 # cluster of the riemannian shape distances
 # these methods are causing me to have...concerns
@@ -42,41 +41,38 @@ tmorph.coph <- lapply(tmorph.hclust, cophenetic)
 tmorph.clcor <- lapply(tmorph.coph, function(x) cor(as.dist(turtle.dist), x,
                                                     method = 'spearman'))
 
-tmorph.km <- pam(as.dist(turtle.dist), k = n.groups)
-
 # explore the range of clusterings
 tpam <- function(x, k) pam(as.dist(x), k)
 tmorph.gap <- clusGap(turtle.dist, FUNcluster = tpam, K.max = n.groups)
+tmorph.km <- pam(as.dist(turtle.dist), k = which.max(tmorph.gap$Tab[, 3]))
 
 
+
+## supervised learning ##
 
 # classification methods
 # multinomial logistic regression
-# neural nets
-# random forests
 
 max.var <- nrow(turtle.info) / 50
-tform <- vector(mode = 'list', length = max.var)
 tvar <- paste('PC', 1:max.var, sep = '')
-for (ii in seq(max.var)) {
-  tform[[ii]] <- as.formula(paste('spinks ~ ', 
-                                  paste(tvar[seq(ii)],
-                                        collapse = '+')))
-}
+groups <- list('spinks', 'sh1', 'sh2', 'sh3')
+tform <- lapply(groups, function(x, y) make.form(y, x), y = tvar)
 
-method <- list('multinom')
-               #'nnet', 
-               #'randomForest'
-groups <- c('spinks', 'sh1', 'sh2', 'sh3')
-
-in.train <- data.maker(groups, turtle.info)
+in.train <- data.maker(unlist(groups), turtle.info)
 turtle.train <- lapply(in.train, function(x) turtle.info[x, ])
 turtle.test <- lapply(in.train, function(x) turtle.info[-x, ])
 
+turtle.multi <- mapply(across.part.train, tform, turtle.train, 
+                       MoreArgs = list(method = 'multinom'), 
+                       SIMPLIFY = FALSE)
 
-# list of methods
-# list of data sets
-# list of formulas
+turtle.sel <- lapply(turtle.multi, function(mods) {
+                     model.sel(lapply(mods, function(x) x$finalModel))})
+names(turtle.sel) <- unlist(groups)
 
-# for each data set, try all formulas, and for each method
+# neural nets
+#turtle.nnet <- mapply(across.part.train, tform, turtle.train,
+#                      MoreArgs = list(method = 'nnet', size = 2),
+#                      SIMPLIFY = FALSE)
 
+# random forest

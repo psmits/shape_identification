@@ -110,3 +110,35 @@ ctrl <- trainControl(method = 'LOOCV',
                      number = 10,
                      repeats = 10)
 
+make.form <- function(vari, resp) {
+  form <- vector(mode = 'list', length = length(vari))
+  for (ii in seq(length(vari))) {
+    form[[ii]] <- as.formula(paste(paste(resp, ' ~ ', collapse = ''),
+                                   paste(vari[seq(ii)],
+                                         collapse = '+')))
+  }
+  form
+}
+
+mod.across <- function(list.form, data, method, ...) {
+  mod <- lapply(list.form,
+                train.formula,
+                data = data,
+                method = method,
+                ...)
+  mod
+}
+
+part.train <- function(form, data, method, ...) {
+  tt <- train.formula(form = form, data = data, method = method, ...)
+  tt
+} 
+
+across.part.train <- function(form, data, method, ...) {
+  aa <- lapply(form,
+               part.train,
+               data = data,
+               method = method,
+               ...)
+  aa
+}

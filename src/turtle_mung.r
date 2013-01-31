@@ -61,8 +61,9 @@ turtle.scores.info <- turtle.fit$stdscores[!turtle.which.noinfo, ]
 turtle.meta.info <- turtle.meta[!turtle.which.noinfo, ]
 turtle.geo <- cbind(as.numeric(as.character(turtle.meta.info$lat)),
                     as.numeric(as.character(turtle.meta.info$long)))
-# there are two geographic outliers....
+# there are two geographic outliers....need to check with other guys
 turtle.geo.meta <- turtle.meta.info[(turtle.geo[, 2]) > 100, ]
+turtle.info <- cbind(turtle.scores.info[(turtle.geo[, 2]) > 100, ],
+                                         turtle.geo.meta)
 turtle.geo <- turtle.geo[(turtle.geo[, 2]) > 100, ]
 
-turtle.info <- cbind(turtle.scores.info, turtle.meta.info)
