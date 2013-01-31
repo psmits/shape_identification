@@ -62,13 +62,18 @@ in.train <- data.maker(unlist(groups), turtle.info)
 turtle.train <- lapply(in.train, function(x) turtle.info[x, ])
 turtle.test <- lapply(in.train, function(x) turtle.info[-x, ])
 
-turtle.multi <- mapply(across.part.train, tform, turtle.train, 
+tmulti <- mapply(across.part.train, tform, turtle.train, 
                        MoreArgs = list(method = 'multinom'), 
                        SIMPLIFY = FALSE)
 
-turtle.sel <- lapply(turtle.multi, function(mods) {
+tmulti.sel <- lapply(tmulti, function(mods) {
                      model.sel(lapply(mods, function(x) x$finalModel))})
-names(turtle.sel) <- unlist(groups)
+names(tmulti.sel) <- unlist(groups)
+
+# support vector machines
+tsvm <- Map(function(x, y) lapply(x, svm, y), tform, turtle.train)
+tsvm.pred <- lapply(turtle.svm, function(x) lapply(x, predict))
+
 
 # neural nets
 #turtle.nnet <- mapply(across.part.train, tform, turtle.train,
