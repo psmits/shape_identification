@@ -65,5 +65,11 @@ turtle.geo <- cbind(as.numeric(as.character(turtle.meta.info$lat)),
 turtle.geo.meta <- turtle.meta.info[(turtle.geo[, 2]) > 100, ]
 turtle.info <- cbind(turtle.scores.info[(turtle.geo[, 2]) > 100, ],
                                          turtle.geo.meta)
+turtle.info <- turtle.info[turtle.info$sh3 != '', ]
+turtle.info$spinks <- as.factor(as.character(turtle.info$spinks))
+turtle.info$sh1 <- as.factor(as.character(turtle.info$sh1))
+turtle.info$sh2 <- as.factor(as.character(turtle.info$sh2))
+turtle.info$sh3 <- as.factor(as.character(turtle.info$sh3))
+
 turtle.geo <- turtle.geo[(turtle.geo[, 2]) > 100, ]
 

@@ -18,9 +18,18 @@ require(mapproj)
 source('../src/turtle_analysis.r')
 
 # shape PCA
-gtmorph <- ggpairs(turtle.info, columns = c(1:5, 36), 
-                   upper = 'blank', 
-                   colour = 'spinks')
+gtmorph.spinks <- ggpairs(turtle.info, columns = c(1:5, 36), 
+                          upper = 'blank', 
+                          colour = 'spinks')
+gtmorph.sh1 <- ggpairs(turtle.info, columns = c(1:5, 32),
+                       upper = 'blank',
+                       colour = 'sh1')
+gtmorph.sh2 <- ggpairs(turtle.info, columns = c(1:5, 33),
+                       upper = 'blank',
+                       colour = 'sh2')
+gtmorph.sh3 <- ggpairs(turtle.info, columns = c(1:5, 34),
+                       upper = 'blank',
+                       colour = 'sh3')
 
 # clustering results
 # gap
@@ -74,3 +83,12 @@ gtgeo.fuzzy <- gtgeo + geom_point(data = tgeo,
                                                 group = NULL,
                                                 colour = factor(fuzzy)))
 #gtgeo <- gtgeo + theme(legend.position = 'none')
+
+
+# supervised learning results
+#
+# multnomial logistic regression model selection tables
+tmulti.tabs <- lapply(xtable, tmulti.sel)
+# relative risk
+
+

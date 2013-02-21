@@ -14,13 +14,21 @@ require(cluster)
 require(e1071)
 require(caret)
 require(randomForest)
+require(pROC)
 require(MuMIn)
+
+require(parallel)
+require(doParallel)
+
+RNGkind(kind = "L'Ecuyer-CMRG")
+set.seed(1)
+
+registerDoParallel(cores = detectCores())
 
 # source files
 source('../src/support_functions.r')
 source('../src/turtle_mung.r')
 
-set.seed(1)
 
 ## unsupervised learning ##
 
@@ -29,8 +37,8 @@ n.groups <- length(levels(turtle.meta$spinks))
 tgeo.km <- pam(turtle.geo, k = n.groups)
 
 # explore the range of clusterings
-tgeo.gap <- clusGap(turtle.geo, FUNcluster = fanny, K.max = n.groups)
-tgeo.fuzzy <- fanny(turtle.geo, k = which.max(tgeo.gap$Tab[, 3]))
+tgeo.gap <- clusGap(turtle.geo, FUNcluster = pam, K.max = 2 * n.groups)
+tgeo.pam <- pam(turtle.geo, k = which.max(tgeo.gap$Tab[, 3]))
 
 # cluster of the riemannian shape distances
 # these methods are causing me to have...concerns
@@ -43,7 +51,7 @@ tmorph.clcor <- lapply(tmorph.coph, function(x) cor(as.dist(turtle.dist), x,
 
 # explore the range of clusterings
 tpam <- function(x, k) pam(as.dist(x), k)
-tmorph.gap <- clusGap(turtle.dist, FUNcluster = tpam, K.max = n.groups)
+tmorph.gap <- clusGap(turtle.dist, FUNcluster = tpam, K.max = 2 * n.groups)
 tmorph.km <- pam(as.dist(turtle.dist), k = which.max(tmorph.gap$Tab[, 3]))
 
 
@@ -62,22 +70,28 @@ in.train <- data.maker(unlist(groups), turtle.info)
 turtle.train <- lapply(in.train, function(x) turtle.info[x, ])
 turtle.test <- lapply(in.train, function(x) turtle.info[-x, ])
 
+classes <- Map(function(x, y) colnames(x) %in% y, turtle.test, groups)
+classes <- Map(function(x, y) x[, y], turtle.test, classes)
+
 tmulti <- mapply(across.part.train, tform, turtle.train, 
-                       MoreArgs = list(method = 'multinom'), 
-                       SIMPLIFY = FALSE)
+                 MoreArgs = list(method = 'multinom', 
+                                 trControl = ctrl,
+                                 maxit = 1000), 
+                 SIMPLIFY = FALSE)
 
 tmulti.sel <- lapply(tmulti, function(mods) {
                      model.sel(lapply(mods, function(x) x$finalModel))})
 names(tmulti.sel) <- unlist(groups)
 
-# support vector machines
-tsvm <- Map(function(x, y) lapply(x, svm, y), tform, turtle.train)
-tsvm.pred <- lapply(turtle.svm, function(x) lapply(x, predict))
-
-
-# neural nets
-#turtle.nnet <- mapply(across.part.train, tform, turtle.train,
-#                      MoreArgs = list(method = 'nnet', size = 2),
-#                      SIMPLIFY = FALSE)
+# neural networks
+tnnet <- mapply(across.part.train, tform, turtle.train,
+                MoreArgs = list(method = 'nnet',
+                                trControl = ctrl,
+                                maxit = 1000),
+                SIMPLFY = FALSE)
 
 # random forest
+trf <- mapply(across.part.train, tform, turtle.train,
+              MoreArgs = list(method = 'rf',
+                              trControl = ctrl),
+              SIMPLIFY = FALSE)
