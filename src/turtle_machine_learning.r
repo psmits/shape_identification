@@ -74,9 +74,11 @@ classes <- Map(function(x, y) colnames(x) %in% y, turtle.test, groups)
 classes <- Map(function(x, y) x[, y], turtle.test, classes)
 
 tmulti <- mapply(across.part.train, tform, turtle.train, 
-                 MoreArgs = list(method = 'multinom', 
-                                 trControl = ctrl,
-                                 maxit = 1000), 
+                 MoreArgs = list(method = 'multinom' 
+                                 , metric = 'Kappa'
+                                 , trControl = ctrl
+                                 , maxit = 1000
+                                 ), 
                  SIMPLIFY = FALSE)
 
 tmulti.sel <- lapply(tmulti, function(mods) {
@@ -85,13 +87,33 @@ names(tmulti.sel) <- unlist(groups)
 
 # neural networks
 tnnet <- mapply(across.part.train, tform, turtle.train,
-                MoreArgs = list(method = 'nnet',
-                                trControl = ctrl,
-                                maxit = 1000),
+                MoreArgs = list(method = 'nnet'
+                                , metric = 'Kappa'
+                                , trControl = ctrl
+                                , maxit = 1000
+                                ),
                 SIMPLFY = FALSE)
+names(tnnet) <- groups
+
+# averaged neural networks
+tanet <- mapply(across.part.train, tform, turtle.train,
+                MoreArgs = list(method = 'avNNet'
+                                , metric = 'Kappa'
+                                , trControl = ctrl
+                                , maxit = 1000
+                                ),
+                SIMPLIFY = FALSE)
+names(tanet) <- groups
 
 # random forest
 trf <- mapply(across.part.train, tform, turtle.train,
-              MoreArgs = list(method = 'rf',
-                              trControl = ctrl),
+              MoreArgs = list(method = 'rf'
+                              , metric = 'Kappa'
+                              , trControl = ctrl
+                              , ntree = 1000
+                              , importance = TRUE
+                              ),
               SIMPLIFY = FALSE)
+names(trf) <- groups
+
+save.image(file = 'turtle_model_fits.RData')
