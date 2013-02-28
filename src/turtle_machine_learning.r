@@ -20,10 +20,10 @@ require(MuMIn)
 require(parallel)
 require(doParallel)
 
-RNGkind(kind = "L'Ecuyer-CMRG")
+#RNGkind(kind = "L'Ecuyer-CMRG")
 set.seed(1)
 
-registerDoParallel(cores = detectCores())
+#registerDoParallel(cores = detectCores())
 
 # source files
 source('../src/support_functions.r')
