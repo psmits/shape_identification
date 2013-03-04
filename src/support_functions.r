@@ -129,16 +129,18 @@ mod.across <- function(list.form, data, method, ...) {
   mod
 }
 
-part.train <- function(form, data, method, ...) {
-  tt <- train.formula(form = form, data = data, method = method, ...)
-  tt
-} 
-
-across.part.train <- function(form, data, method, ...) {
-  aa <- lapply(form,
-               part.train,
-               data = data,
-               method = method,
-               ...)
-  aa
+multi.train <- function(form, data, seed = 1, ...) {
+  # train across multiple formulas with the same data set
+  #
+  # Args
+  #   form: list of formula objects
+  #   data: data frame
+  #   seed: random seed
+  #   ...: arguments (matched exactly) for train.formula from caret
+  #
+  # Returns:
+  #   list of model training results
+  set.seed(seed)
+  rr <- lapply(form, train.formula, data = data, ...)
+  rr
 }

@@ -73,47 +73,42 @@ turtle.test <- lapply(in.train, function(x) turtle.info[-x, ])
 classes <- Map(function(x, y) colnames(x) %in% y, turtle.test, groups)
 classes <- Map(function(x, y) x[, y], turtle.test, classes)
 
-tmulti <- mapply(across.part.train, tform, turtle.train, 
-                 MoreArgs = list(method = 'multinom' 
-                                 , metric = 'Kappa'
+tmulti <- mapply(multi.train,
+                 form = tform, data = turtle.train,
+                 MoreArgs = list(method = 'multinom'
                                  , trControl = ctrl
-                                 , maxit = 1000
-                                 ), 
-                 SIMPLIFY = FALSE)
+                                 , maxit = 1000),
+                 SIMPLFY = FALSE)
 
-tmulti.sel <- lapply(tmulti, function(mods) {
-                     model.sel(lapply(mods, function(x) x$finalModel))})
-names(tmulti.sel) <- unlist(groups)
+#tmulti.sel <- lapply(tmulti, function(mods) {
+#                     model.sel(lapply(mods, function(x) x$finalModel))})
+#names(tmulti.sel) <- unlist(groups)
 
 # neural networks
-tnnet <- mapply(across.part.train, tform, turtle.train,
+tnnet <- mapply(multi.train,
+                form = tform, data = turtle.train,
                 MoreArgs = list(method = 'nnet'
-                                , metric = 'Kappa'
                                 , trControl = ctrl
-                                , maxit = 1000
-                                ),
+                                , maxit = 1000),
                 SIMPLFY = FALSE)
-names(tnnet) <- groups
 
 # averaged neural networks
-tanet <- mapply(across.part.train, tform, turtle.train,
+tanet <- mapply(multi.train,
+                form = tform, data = turtle.train,
                 MoreArgs = list(method = 'avNNet'
-                                , metric = 'Kappa'
                                 , trControl = ctrl
-                                , maxit = 1000
-                                ),
-                SIMPLIFY = FALSE)
-names(tanet) <- groups
+                                , maxit = 1000),
+                SIMPLFY = FALSE)
 
 # random forest
-trf <- mapply(across.part.train, tform, turtle.train,
-              MoreArgs = list(method = 'rf'
-                              , metric = 'Kappa'
-                              , trControl = ctrl
-                              , ntree = 1000
-                              , importance = TRUE
-                              ),
-              SIMPLIFY = FALSE)
-names(trf) <- groups
+tanet <- mapply(multi.train,
+                form = tform, data = turtle.train,
+                MoreArgs = list(method = 'rf'
+                                , trControl = ctrl
+                                , ntree = 1000
+                                , importance = TRUE
+                                ), 
+                SIMPLFY = FALSE)
+
 
 save.image(file = 'turtle_model_fits.RData')
