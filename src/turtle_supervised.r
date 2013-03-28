@@ -38,6 +38,7 @@ tvar <- paste('PC', 1:max.var, sep = '')
 groups <- list('spinks', 'sh1', 'sh2', 'sh3')
 tform <- lapply(groups, function(x, y) make.form(y, x), y = tvar)
 
+set.seed(1)
 in.train <- data.maker(unlist(groups), turtle.info)
 turtle.train <- lapply(in.train, function(x) turtle.info[x, ])
 turtle.test <- lapply(in.train, function(x) turtle.info[-x, ])

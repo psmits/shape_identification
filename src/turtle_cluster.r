@@ -24,6 +24,8 @@ source('../src/dac.r')
 # explore the range of clusterings for the morphology
 #
 # gap clustering
+n.groups = 4
+
 set.seed(1)
 tpam <- function(x, k) pam(as.dist(x), k)
 tmorph.gap <- clusGap(turtle.dist, FUNcluster = tpam, K.max = 2 * n.groups)
