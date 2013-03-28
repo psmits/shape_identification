@@ -17,7 +17,7 @@ require(pROC)
 require(MuMIn)
 
 source('../src/support_functions.r')
-source('../src/turtlee_mung.r')
+source('../src/turtle_mung.r')
 
 load('../src/cluster_res.RData')
 load('../src/supervised_misc.RData')
@@ -77,3 +77,4 @@ trf.class <- mapply(predict, trf.best, turtle.test,
 trf.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
                 trf.class, classes)
 
+save.image(file = 'ml_analysis.RData')
