@@ -1,6 +1,6 @@
 ###############################################################################
 ##
-##  support functions
+##  support functions for turtles
 ##
 ##  peter d smits
 ##
@@ -106,7 +106,10 @@ data.maker <- function(gr, data, p = 0.75) {
   out
 } 
 
-ctrl <- trainControl(method = 'LOOCV',
+require(caret)
+ctrl <- trainControl(#method = 'LOOCV',
+                     method = 'repeatedCV',
+                     #classProbs = TRUE,
                      number = 10,
                      repeats = 10)
 
@@ -120,13 +123,11 @@ make.form <- function(vari, resp) {
   form
 }
 
-mod.across <- function(list.form, data, method, ...) {
-  mod <- lapply(list.form,
-                train.formula,
-                data = data,
-                method = method,
-                ...)
-  mod
+data.maker <- function(gr, data, p = 0.75) {
+  nd <- data[, colnames(data) %in% gr]
+  out <- apply(nd, 2, createDataPartition,
+               p = p, list = FALSE)
+  out
 }
 
 multi.train <- function(form, data, seed = 1, ...) {
