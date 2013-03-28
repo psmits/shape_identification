@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx, microtype, parskip}
+\usepackage{rotating, longtable}
+\usepackage[sort&compress]{natbib}
+
+\frenchspacing
+
+<<message = FALSE, echo = FALSE, warning = FALSE>>=
+require(knitr)
+require(xtable)
+require(reshape2)
+require(ggplot2)
+require(GGally)
+
+opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
+               highlight = TRUE, background = 'white')
+@
+
+<<results = 'hide'>>=
+source('../src/support_functions.r')
+load('../src/ml_analysis.r')
+@
+
+\title{Progress report: \textit{Emys marmorata} sub-species identification and classification}
+
+\begin{document}
+\maketitle
+
+\section{Methods}
+\subsection{Unsupervised}
+\subsubsection{Gap-clustering}
+
+\subsubsection{Evidence Accumulation Clustering}
+
+
+\subsection{Supervised}
+\begin{itemize}
+  \item multinomial logistic regression
+  \item feed-forward neural networks
+  \item random forests
+\end{itemize}
+
+
+\section{Results}
+
+
+
+\end{document}
