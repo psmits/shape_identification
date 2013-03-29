@@ -36,19 +36,21 @@ gap.plot <- function(gap) {
   gg
 }
 
-map.plot <- function(data, map, coord = 'gilbert') {
+
+map.plot <- function(data, label, map, coord = 'gilbert') {
   # wrapper to make a map with labeled points on it
   #
   # Args:
   #   data: points to be plotted
   #         x, y coordinates
-  #         label
+  #   label: vector of factors (or coercible to factors) to color points by
   #   map: map information (see ggplot::map_data)
   #   coord: projection type
   #
   # Returns:
   #   object of class ggplot
 
+  data <- cbind(as.data.frame(data), label = label)
   gg <- ggplot(map, aes(x = long, y = lat, group = group))
   gg <- gg + geom_polygon(fill = 'white',
                           colour = 'black')
@@ -93,6 +95,7 @@ clean.resamp <- function(values) {
   s.dat
 }
 
+
 resamp.plot <- function(dat) {
   # make plot of clean.resamp results
   # 
@@ -109,6 +112,7 @@ resamp.plot <- function(dat) {
   g.nre.s <- g.nre.s + facet_wrap(~ variable)
   g.nre.s
 }
+
 
 clean.diff <- function(diffs) {
   # clean up the results of caret so that i can use ggplot to plot them :P
@@ -131,6 +135,7 @@ clean.diff <- function(diffs) {
                )
   out
 }
+
 
 diffs.plot <- function(dat) {
   # make plot of clean.diff results

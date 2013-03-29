@@ -19,6 +19,7 @@ opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
 
 <<results = 'hide'>>=
 source('../src/support_functions.r')
+source('../src/plotting_functions.r')
 load('../src/ml_analysis.r')
 @
 
@@ -32,6 +33,8 @@ load('../src/ml_analysis.r')
 No-free lunch theorem. Try lots of things because we don't understand everything.
 
 \subsection{Unsupervised}
+Underlying structure in data?
+
 \subsubsection{Gap-based clustering}
 Comparison of gap statistic results for partitioning around medoids (PAM) divisive clustering. Confidence intervals are determined via bootstrap. The higher the gap statistic, the better the clustering result.
 
@@ -42,6 +45,8 @@ EAC was originally devised using \textit{k}-means clustering, but I've extended 
 
 
 \subsection{Supervised}
+How well does data conform to predetermined structure?
+
 \begin{itemize}
   \item multinomial logistic regression
   \item feed-forward neural networks
@@ -50,6 +55,7 @@ EAC was originally devised using \textit{k}-means clustering, but I've extended 
 
 
 \section{Preliminary results}
+
 
 
 \section{Miscellaneous affairs}
