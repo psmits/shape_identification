@@ -27,11 +27,18 @@ load('../src/ml_analysis.r')
 \begin{document}
 \maketitle
 
+
 \section{Methods}
+No-free lunch theorem. Try lots of things because we don't understand everything.
+
 \subsection{Unsupervised}
-\subsubsection{Gap-clustering}
+\subsubsection{Gap-based clustering}
+Comparison of gap statistic results for partitioning around medoids (PAM) divisive clustering. Confidence intervals are determined via bootstrap. The higher the gap statistic, the better the clustering result.
 
 \subsubsection{Evidence Accumulation Clustering}
+Choosing an optimal number of partitions is hard, which is why gap-based cluster selection was used above. An alternative method is to look at the co-occurence frequency, that is how frequently any two samples occur in the same partition. Repeating this process over and over again creates the frequency, or ``vote'' for how the data set should be partitioned and  which specimens should be in the same cluster.
+
+EAC was originally devised using \textit{k}-means clustering, but I've extended it to use PAM clustering instead. The hope is to determine underlying structure in the data given a wide enough partition range and a high enough number of iterations.
 
 
 \subsection{Supervised}
@@ -42,8 +49,16 @@ load('../src/ml_analysis.r')
 \end{itemize}
 
 
-\section{Results}
+\section{Preliminary results}
 
 
+\section{Miscellaneous affairs}
+\subsection{Evolution 2013}
+Machine learning approaches for recognizing cyptic diversity: a case study using \texit{Emys marmorata}.
+
+\subsection{Hinds grant}
+Resubmit previous application with the results from this study in the prelim-results section?
+
+Get network for one turtle? This should take long, just requires time.
 
 \end{document}
