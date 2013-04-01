@@ -36,8 +36,6 @@ turtle.land <- Reduce(shapes::abind, turtle.land)
 
 turtle.fit <- procGPA(turtle.land)
 
-turtle.dist <- riem.matrix(turtle.fit$rotated)  # riemmanian shape-distance
-
 
 # meta data
 turtle.meta <- read.csv('../data/marmorata_meta2.csv')
@@ -58,18 +56,27 @@ turtle.land.info <- turtle.fit$rotated[, , !turtle.which.noinfo]
 turtle.scores.noinfo <- turtle.fit$stdscores[turtle.which.noinfo, ]
 turtle.scores.info <- turtle.fit$stdscores[!turtle.which.noinfo, ]
 
+
 turtle.meta.info <- turtle.meta[!turtle.which.noinfo, ]
 turtle.geo <- cbind(as.numeric(as.character(turtle.meta.info$lat)),
                     as.numeric(as.character(turtle.meta.info$long)))
 # there are two geographic outliers....need to check with other guys
 turtle.geo.meta <- turtle.meta.info[(turtle.geo[, 2]) > 100, ]
+
+turtle.land.info <- turtle.land.info[, , (turtle.geo[, 2]) > 100]
+
 turtle.info <- cbind(turtle.scores.info[(turtle.geo[, 2]) > 100, ],
                                          turtle.geo.meta)
+
+turtle.land.info <- turtle.land.info[, , turtle.info$sh3 != '']
+
 turtle.info <- turtle.info[turtle.info$sh3 != '', ]
 turtle.info$spinks <- as.factor(as.character(turtle.info$spinks))
 turtle.info$sh1 <- as.factor(as.character(turtle.info$sh1))
 turtle.info$sh2 <- as.factor(as.character(turtle.info$sh2))
 turtle.info$sh3 <- as.factor(as.character(turtle.info$sh3))
+
+turtle.info.dist <- riem.matrix(turtle.land.info)  # riemmanian shape-distance
 
 turtle.geo <- turtle.geo[(turtle.geo[, 2]) > 100, ]
 

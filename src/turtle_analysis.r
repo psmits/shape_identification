@@ -21,20 +21,33 @@ source('../src/turtle_mung.r')
 
 load('../src/cluster_res.RData')
 load('../src/supervised_misc.RData')
-load('../src/supervised_misc.RData')
 load('../src/multi_boot_mod.RData')
 load('../src/nnet_boot_mod.RData')
 load('../src/rf_boot_mod.RData')
 
-clean.mods <- function(models) {
-  mm <- alply(models, 2)
-  names(mm) <- c('spinks', 'sh1', 'sh2', 'sh3')
+clean.mods <- function(models, lab = c('spinks', 'sh1', 'sh2', 'sh3')) {
+  if (!is.null(dim(models))) {
+    mm <- alply(models, 2)
+    names(mm) <- lab
+  } else {
+    breaks <- length(models)
+    mm <- list()
+    for (ii in seq(breaks)) {
+      mm[[ii]] <- models[[ii]]
+    }
+    names(mm) <- lab
+  }
   mm
 }
 
 tm <- clean.mods(tmulti)
 tnn <- clean.mods(tnnet)
 trf <- clean.mods(trf)
+
+classes <- list(spinks = classes$spinks,
+                sh1 = classes$sh1,
+                sh2 = classes$sh2,
+                sh3 = classes$sh3)
 
 # multinomial logistic regression
 tm.sel <- lapply(tm, function(x)

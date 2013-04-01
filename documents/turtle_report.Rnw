@@ -23,6 +23,12 @@ source('../src/plotting_functions.r')
 load('../src/turtle_analysis.r')
 @
 
+<<>>=
+map <- map_data('state')
+st <- c('california', 'oregon', 'washington')
+map <- map[map$region == st, ]
+@
+
 \title{Progress report: \textit{Emys marmorata} sub-species identification and classification}
 
 \begin{document}
@@ -55,6 +61,7 @@ How well does data conform to predetermined structure?
 
 
 \section{Preliminary results}
+\subsection{Unsupervised}
 Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately \Sexpr{max(tmorph.km$clustering)} after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statiic values are within \Sexpr{max(tmorph.gap$Tab[, 3]) - min(tmorph.gap$Tab[, 3])} of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
 
 <<gap, eval = TRUE>>=
@@ -78,6 +85,16 @@ print.xtable(dac.tab
              , table.placement = 'ht'
              )
 @
+
+<<dac-geo, eval = TRUE>>=
+ggdac <- map.plot(data = 
+                  , label = tmorph.dac
+                  , map = map
+                  )
+@
+
+
+\subsection{Supervised}
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}

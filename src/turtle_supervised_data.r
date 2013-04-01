@@ -35,7 +35,7 @@ source('../src/turtle_mung.r')
 
 max.var <- nrow(turtle.info) / 50
 tvar <- paste('PC', 1:max.var, sep = '')
-groups <- list('spinks', 'sh1', 'sh2', 'sh3')
+groups <- list('sh1', 'sh2', 'sh3', 'spinks')
 tform <- lapply(groups, function(x, y) make.form(y, x), y = tvar)
 
 set.seed(1)

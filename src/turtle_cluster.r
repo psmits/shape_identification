@@ -28,11 +28,11 @@ n.groups = 4
 
 set.seed(1)
 tpam <- function(x, k) pam(as.dist(x), k)
-tmorph.gap <- clusGap(turtle.dist, FUNcluster = tpam, K.max = 10 * n.groups)
+tmorph.gap <- clusGap(turtle.info.dist, FUNcluster = tpam, K.max = 10 * n.groups)
 tmorph.km <- pam(as.dist(turtle.dist), k = which.max(tmorph.gap$Tab[, 3]))
 
 # dissimilarity based evidence accumulation clustering
 set.seed(1)
-tmorph.dac <- dac(turtle.dist, krange = c(1, 50 * n.groups), iter = 10000)
+tmorph.dac <- dac(turtle.info.dist, krange = c(1, 50 * n.groups), iter = 10000)
 
 save(tmorph.gap, tmorph.km, tmorph.dac, file = 'cluster_res.RData')
