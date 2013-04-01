@@ -27,10 +27,11 @@ gap.plot <- function(gap) {
   #   object of class ggplot
 
   tab <- as.data.frame(gap$Tab)
-  tab <- cbind(id = rownames(tab), tab)
+  tab <- cbind(id = as.numeric(rownames(tab)), tab)
   gg <- ggplot(tab, aes(x = id, y = gap))
   gg <- gg + geom_pointrange(mapping = aes(ymax = gap + SE.sim,
                                            ymin = gap - SE.sim))
+  gg <- gg + geom_line()
   gg <- gg + labs(x = 'Number of clusters',
                   y = 'Gap statistic')
   gg

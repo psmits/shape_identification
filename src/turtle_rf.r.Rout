@@ -1,0 +1,122 @@
+
+R version 2.15.3 (2013-03-01) -- "Security Blanket"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ###############################################################################
+> ##
+> ##  analysis of turtle plastron data
+> ##  supervised learning approaches
+> ##
+> ##  peter d smits
+> ##  psmits@uchicago.edu
+> ##
+> ###############################################################################
+> 
+> # libraries
+> require(MASS)
+Loading required package: MASS
+> require(nnet)
+Loading required package: nnet
+> require(cluster)
+Loading required package: cluster
+> require(e1071)
+Loading required package: e1071
+Loading required package: class
+> require(caret)
+Loading required package: caret
+Loading required package: lattice
+Loading required package: reshape2
+Loading required package: plyr
+Loading required package: foreach
+> require(randomForest)
+Loading required package: randomForest
+randomForest 4.6-7
+Type rfNews() to see new features/changes/bug fixes.
+> require(pROC)
+Loading required package: pROC
+Type 'citation("pROC")' for a citation.
+
+Attaching package: ‘pROC’
+
+The following object(s) are masked from ‘package:stats’:
+
+    cov, smooth, var
+
+> require(MuMIn)
+Loading required package: MuMIn
+
+Attaching package: ‘MuMIn’
+
+The following object(s) are masked from ‘package:randomForest’:
+
+    importance
+
+> 
+> require(parallel)
+Loading required package: parallel
+> require(doParallel)
+Loading required package: doParallel
+Loading required package: iterators
+> 
+> RNGkind(kind = "L'Ecuyer-CMRG")
+> set.seed(1)
+> 
+> registerDoParallel(cores = detectCores())
+> 
+> # source files
+> source('../src/support_functions.r')
+Loading required package: shapes
+Loading required package: scatterplot3d
+Loading required package: rgl
+> 
+> load('../src/supervised_misc.RData')
+> 
+> # random forest
+> set.seed(1)
+> trf <- mapply(multi.train,
++                 form = tform, data = turtle.train,
++                 MoreArgs = list(method = 'rf'
++                                 , trControl = ctrl
++                                 , ntree = 1000
++                                 , importance = TRUE
++                                 ), 
++               SIMPLIFY = FALSE)
+note: only 1 unique complexity parameters in default grid. Truncating the grid to 1 .
+
+note: only 2 unique complexity parameters in default grid. Truncating the grid to 2 .
+
+note: only 1 unique complexity parameters in default grid. Truncating the grid to 1 .
+
+note: only 2 unique complexity parameters in default grid. Truncating the grid to 2 .
+
+note: only 1 unique complexity parameters in default grid. Truncating the grid to 1 .
+
+note: only 2 unique complexity parameters in default grid. Truncating the grid to 2 .
+
+note: only 1 unique complexity parameters in default grid. Truncating the grid to 1 .
+
+note: only 2 unique complexity parameters in default grid. Truncating the grid to 2 .
+
+There were 18 warnings (use warnings() to see them)
+> save(trf, file = 'rf_boot_mod.RData')
+> 
+> 
+> proc.time()
+     user    system   elapsed 
+20411.903   115.050  5670.975 

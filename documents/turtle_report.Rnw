@@ -20,7 +20,7 @@ opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
 <<results = 'hide'>>=
 source('../src/support_functions.r')
 source('../src/plotting_functions.r')
-load('../src/ml_analysis.r')
+load('../src/turtle_analysis.r')
 @
 
 \title{Progress report: \textit{Emys marmorata} sub-species identification and classification}
@@ -36,13 +36,13 @@ No-free lunch theorem. Try lots of things because we don't understand everything
 Underlying structure in data?
 
 \subsubsection{Gap-based clustering}
-Comparison of gap statistic results for partitioning around medoids (PAM) divisive clustering. Confidence intervals are determined via bootstrap. The higher the gap statistic, the better the clustering result.
+Comparison of gap statistic results for partitioning around medoids (PAM) divisive clustering. Confidence intervals are determined via bootstrap. The higher the gap statistic, the better the clustering result. Standard errors of the gap statistic were estimated from 100 resamples.
+
 
 \subsubsection{Evidence Accumulation Clustering}
-Choosing an optimal number of partitions is hard, which is why gap-based cluster selection was used above. An alternative method is to look at the co-occurence frequency, that is how frequently any two samples occur in the same partition. Repeating this process over and over again creates the frequency, or ``vote'' for how the data set should be partitioned and  which specimens should be in the same cluster.
+Choosing an optimal number of partitions is hard, which is why gap-based cluster selection was used above. An alternative method is to look at the co-occurrence frequency, that is how frequently any two samples occur in the same partition. Repeating this process over and over again creates the frequency, or ``vote'' for how the data set should be partitioned and  which specimens should be in the same cluster.
 
-EAC was originally devised using \textit{k}-means clustering, but I've extended it to use PAM clustering instead. The hope is to determine underlying structure in the data given a wide enough partition range and a high enough number of iterations.
-
+EAC was originally devised using \textit{k}-means clustering, but I've extended it to use PAM clustering instead. The hope is to determine underlying structure in the data given a wide enough partition range and a high enough number of iterations. Dissimilarity based EAC was performed using a range of 1 though \Sexpr{50 * 4} possible partitions and based on 10,000 iterations.
 
 \subsection{Supervised}
 How well does data conform to predetermined structure?
@@ -55,16 +55,42 @@ How well does data conform to predetermined structure?
 
 
 \section{Preliminary results}
+Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately \Sexpr{max(tmorph.km$clustering)} after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statiic values are within \Sexpr{max(tmorph.gap$Tab[, 3]) - min(tmorph.gap$Tab[, 3])} of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
 
+<<gap, eval = TRUE>>=
+gg.gap <- gap.plot(tmorph.gap)
+gg.gap
+@
+\begin{figure}[ht]
+  \centering
+  \includegraphics{figure/gap}
+  \caption{Gap statistic values for multiple PAM-based clustering configurations of the Riemmanian shape distances of the \text{Emys marmorata} plastra. Higher values indicate greater clustering. Standard errors are estimated from 100 bootstrap resamples.}
+  \label{fig:gap}
+\end{figure}
 
+Dissimilarity based EAC estimated approximately \Sexpr{max(tmorph.dac)} optimal partitions. This corresponds to the number of partitions in both the Spinks et al. and shXXX classification schemes. However, the number of individuals assigned to each class is very different.
+
+<<dac-tab, results = 'asis'>>=
+dac.tab <- xtable(table(tmorph.dac))
+caption(dac.tab) <- 'Number of specimens assigned to optimal number of partitions as determined by dissimilarity based EAC. Each column corresponds to a different partition, with the number assigned directly below it.'
+label(dac.tab) <- 'tab:dac'
+print.xtable(dac.tab
+             , table.placement = 'ht'
+             )
+@
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}
 Machine learning approaches for recognizing cyptic diversity: a case study using \texit{Emys marmorata}.
 
-\subsection{Hinds grant}
+\subsection{Grants}
+\subsubsection{Hinds Fund}
 Resubmit previous application with the results from this study in the prelim-results section?
 
 Get network for one turtle? This should take long, just requires time.
+
+\subsubsection{Paleontological Society}
+Why not? Need to wait till next year. Should probably join PaleoSoc anyway.
+
 
 \end{document}
