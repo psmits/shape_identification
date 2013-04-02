@@ -57,7 +57,7 @@ map.plot <- function(data, label, map, coord = 'gilbert') {
                           colour = 'black')
   gg <- gg + coord_map(coord)
   gg <- gg + geom_point(data = data,
-                        mapping = aes(x = V2, y = V1,
+                        mapping = aes(x = long, y = lat,
                                       group = NULL,
                                       colour = factor(label)))
   gg

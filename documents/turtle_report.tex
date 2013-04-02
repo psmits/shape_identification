@@ -1,0 +1,166 @@
+\documentclass{article}\usepackage{graphicx, color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
+\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
+\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
+\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlargument}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.180392156862745,0.6,0.341176470588235}{#1}}%
+\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0.43921568627451,0.47843137254902,0.701960784313725}{#1}}%
+\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlassignement}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.709803921568627,0.145098039215686}{#1}}%
+\newcommand{\hlslot}[1]{\textit{#1}}%
+\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlprompt}[1]{\textcolor[rgb]{0.2,0.2,0.2}{#1}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx, microtype, parskip}
+\usepackage{rotating, longtable}
+\usepackage[sort&compress]{natbib}
+
+\frenchspacing
+
+
+
+
+
+
+
+
+
+
+\title{Progress report: \textit{Emys marmorata} sub-species identification and classification}
+
+\begin{document}
+\maketitle
+
+
+\section{Methods}
+No-free lunch theorem. Try lots of things because we don't understand everything.
+
+\subsection{Unsupervised}
+Underlying structure in data?
+
+\subsubsection{Gap-based clustering}
+Comparison of gap statistic results for partitioning around medoids (PAM) divisive clustering. Confidence intervals are determined via bootstrap. The higher the gap statistic, the better the clustering result. Standard errors of the gap statistic were estimated from 100 resamples.
+
+
+\subsubsection{Evidence Accumulation Clustering}
+Choosing an optimal number of partitions is hard, which is why gap-based cluster selection was used above. An alternative method is to look at the co-occurrence frequency, that is how frequently any two samples occur in the same partition. Repeating this process over and over again creates the frequency, or ``vote'' for how the data set should be partitioned and  which specimens should be in the same cluster.
+
+EAC was originally devised using \textit{k}-means clustering, but I've extended it to use PAM clustering instead. The hope is to determine underlying structure in the data given a wide enough partition range and a high enough number of iterations. Dissimilarity based EAC was performed using a range of 1 though 200 possible partitions and based on 10,000 iterations.
+
+\subsection{Supervised}
+How well does data conform to predetermined structure?
+
+\begin{itemize}
+  \item multinomial logistic regression
+  \item feed-forward neural networks
+  \item random forests
+\end{itemize}
+
+
+\section{Preliminary results}
+\subsection{Unsupervised}
+Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately 31 after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statiic values are within 0.0065 of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
+
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth, keepaspectratio = true]{figure/gap}
+  \caption{Gap statistic values for multiple PAM-based clustering configurations of the Riemmanian shape distances of the \textit{Emys marmorata} plastra. Higher values indicate greater clustering. Standard errors are estimated from 100 bootstrap resamples.}
+  \label{fig:gap}
+\end{figure}
+
+Dissimilarity based EAC estimated approximately 4 optimal partitions. This corresponds to the number of partitions in both the Spinks et al. and shXXX classification schemes. However, the number of individuals assigned to each class is very different.
+
+% latex table generated in R 2.15.3 by xtable 1.7-0 package
+% Tue Apr  2 17:04:07 2013
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & tmorph.dac \\ 
+  \hline
+1 &  33 \\ 
+  2 &   3 \\ 
+  3 & 730 \\ 
+  4 &  10 \\ 
+   \hline
+\end{tabular}
+\caption{Number of specimens assigned to optimal number of partitions as determined by dissimilarity based EAC. Each column corresponds to a different partition, with the number assigned directly below it.}
+\label{tab:dac}
+\end{center}
+\end{table}
+
+
+
+
+
+
+
+\subsection{Supervised}
+
+% classification results
+% not necessary to show tables
+% just use maps and mark which are misclassified
+%   make train tiny dots and test large dots
+%   misclassified are a different shape
+
+\section{Miscellaneous affairs}
+\subsection{Evolution 2013}
+Machine learning approaches for recognizing cyptic diversity: a case study using \textit{Emys marmorata}.
+
+\subsection{Grants}
+\subsubsection{Hinds Fund}
+Resubmit previous application with the results from this study in the prelim-results section?
+
+Get network for one turtle? This should take long, just requires time.
+
+\subsubsection{Paleontological Society}
+Why not? Need to wait till next year. Should probably join PaleoSoc anyway.
+
+
+\end{document}

@@ -20,7 +20,7 @@ opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
 <<results = 'hide'>>=
 source('../src/support_functions.r')
 source('../src/plotting_functions.r')
-load('../src/turtle_analysis.r')
+load('../src/turtle_analysis.RData')
 @
 
 <<>>=
@@ -64,14 +64,14 @@ How well does data conform to predetermined structure?
 \subsection{Unsupervised}
 Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately \Sexpr{max(tmorph.km$clustering)} after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statiic values are within \Sexpr{max(tmorph.gap$Tab[, 3]) - min(tmorph.gap$Tab[, 3])} of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
 
-<<gap, eval = TRUE>>=
+<<gap, eval = FALSE>>=
 gg.gap <- gap.plot(tmorph.gap)
 gg.gap
 @
 \begin{figure}[ht]
   \centering
-  \includegraphics{figure/gap}
-  \caption{Gap statistic values for multiple PAM-based clustering configurations of the Riemmanian shape distances of the \text{Emys marmorata} plastra. Higher values indicate greater clustering. Standard errors are estimated from 100 bootstrap resamples.}
+  \includegraphics[width = \textwidth, keepaspectratio = true]{figure/gap}
+  \caption{Gap statistic values for multiple PAM-based clustering configurations of the Riemmanian shape distances of the \textit{Emys marmorata} plastra. Higher values indicate greater clustering. Standard errors are estimated from 100 bootstrap resamples.}
   \label{fig:gap}
 \end{figure}
 
@@ -87,18 +87,24 @@ print.xtable(dac.tab
 @
 
 <<dac-geo, eval = TRUE>>=
-ggdac <- map.plot(data = 
-                  , label = tmorph.dac
-                  , map = map
-                  )
+#ggdac <- map.plot(data = turtle.info
+#                  , label = tmorph.dac
+#                  , map = map
+#                  )
 @
 
 
 \subsection{Supervised}
 
+% classification results
+% not necessary to show tables
+% just use maps and mark which are misclassified
+%   make train tiny dots and test large dots
+%   misclassified are a different shape
+
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}
-Machine learning approaches for recognizing cyptic diversity: a case study using \texit{Emys marmorata}.
+Machine learning approaches for recognizing cyptic diversity: a case study using \textit{Emys marmorata}.
 
 \subsection{Grants}
 \subsubsection{Hinds Fund}
