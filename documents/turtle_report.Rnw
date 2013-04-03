@@ -125,6 +125,37 @@ tm.map <- mapply(class.map
 tm.map
 @
 
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/multi-map1}
+    \label{fig:multi-map1}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/multi-map2}
+    \label{fig:multi-map2}
+  \end{subfigure}\\
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/multi-map3}
+    \label{fig:multi-map3}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/multi-map4}
+    \label{fig:multi-map4}
+  \end{subfigure}
+  \caption{<+caption text+>}
+  \label{fig:multi-map}
+\end{figure}
+
 <<nnet-map, eval = FALSE>>=
 tnn.class.tiny <- lapply(tnn.class, function(x) x[[1]])
 tnn.map <- mapply(class.map
@@ -136,6 +167,38 @@ tnn.map <- mapply(class.map
                  , SIMPLIFY = FALSE)
 tnn.map
 @
+
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/nnet-map1}
+    \label{fig:nnet-map1}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/nnet-map2}
+    \label{fig:nnet-map2}
+  \end{subfigure}\\
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/nnet-map3}
+    \label{fig:nnet-map3}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/nnet-map4}
+    \label{fig:nnet-map4}
+  \end{subfigure}
+  \caption{<+caption text+>}
+  \label{fig:nnet-map}
+\end{figure}
+
 
 <<rf-map, eval = FALSE>>=
 trf.class.tiny <- lapply(trf.class, function(x) x[[1]])
@@ -149,6 +212,37 @@ trf.map <- mapply(class.map
 trf.map
 @
 
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/rf-map1}
+    \label{fig:rf-map1}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/rf-map2}
+    \label{fig:rf-map2}
+  \end{subfigure}\\
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/rf-map3}
+    \label{fig:rf-map3}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/rf-map4}
+    \label{fig:rf-map4}
+  \end{subfigure}
+  \caption{<+caption text+>}
+  \label{fig:rf-map}
+\end{figure}
+
 I'm currently holding back on showing the tables because there are a lot of them.
 
 But I can show the comparison of the predictive accuracies.
@@ -159,6 +253,36 @@ tmod.re.gg <- lapply(tmod.re.clean, resamp.plot)
 tmod.re.gg
 @
 
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp1}
+    \label{fig:resamp1}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp2}
+    \label{fig:resamp2}
+  \end{subfigure}\\
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp3}
+    \label{fig:resamp3}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp4}
+    \label{fig:resamp4}
+  \end{subfigure}
+  \caption{<+caption text+>}
+  \label{fig:resamp}
+\end{figure}
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}
