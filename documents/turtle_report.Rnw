@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage{amsmath, amsthm}
 \usepackage{graphicx, microtype, parskip}
-\usepackage{rotating, longtable}
+\usepackage{rotating, longtable, caption, subcaption}
 \usepackage[sort&compress]{natbib}
 
 \frenchspacing
