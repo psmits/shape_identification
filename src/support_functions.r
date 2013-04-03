@@ -145,3 +145,28 @@ multi.train <- function(form, data, seed = 1, ...) {
   rr <- lapply(form, train.formula, data = data, ...)
   rr
 }
+
+flatten.next <- function(xx) {
+  ll <- Filter(function(x) 'list' %in% class(x), xx)
+  uu <- Filter(function(x) !('list' %in% class(x)), xx)
+
+  smod <- list()
+
+  for(kk in seq(length(uu))) {
+    smod[[length(smod) + 1]] <- uu[[kk]]
+  }
+  for(ii in seq(length(ll))) {
+    for(jj in seq(length(ll[[ii]]))) {
+      smod[[length(smod) + 1]] <- ll[[ii]][[jj]]
+    }
+  }
+
+  uu.nam <- names(uu)
+  ll.nam <- names(unlist(Map(function(x, n) rep(x, n),
+                             x = names(ll),
+                             n = lapply(ll, length))))
+  nam <- c(uu.nam, ll.nam)
+  names(smod) <- nam
+
+  smod
+}

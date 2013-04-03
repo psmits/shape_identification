@@ -95,4 +95,21 @@ trf.class <- mapply(predict, trf.best, turtle.test,
 trf.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
                 trf.class, classes)
 
+# best models compared
+tm.best
+tnn.best
+trf.best
+
+mods <- list()
+for(ii in seq(length(tm.best))) {
+  mods[[ii]] <- list(multi = tm.best[[ii]],
+                     nnet = tnn.best[[ii]],
+                     rf = trf.best[[ii]])
+}
+names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
+
+tmod <- lapply(mods, flatten.next)
+tmod.re <- lapply(tmod, resamples)
+tmod.redi <- lapply(tmod.re, diff)
+
 save.image(file = 'turtle_analysis.RData')

@@ -27,6 +27,20 @@ load('../src/turtle_analysis.RData')
 map <- map_data('state')
 st <- c('california', 'oregon', 'washington')
 map <- map[map$region == st, ]
+
+turtle.train <- lapply(turtle.train, 
+                       function(x) {
+                         x$long <- as.numeric(as.character(x$long)) * -1
+                         x$lat <- as.numeric(as.character(x$lat))
+                         x})
+turtle.test <- lapply(turtle.test,
+                      function(x) {
+                        x$long <- as.numeric(as.character(x$long)) * -1
+                        x$lat <- as.numeric(as.character(x$lat))
+                        x})
+
+labs <- Map(function(x, n) x[, n],
+            x = turtle.train, n = names(turtle.train))
 @
 
 \title{Progress report: \textit{Emys marmorata} sub-species identification and classification}
@@ -86,7 +100,9 @@ print.xtable(dac.tab
              )
 @
 
-<<dac-geo, eval = TRUE>>=
+<<dac-geo, eval = FALSE>>=
+# map is the map of cali, ore, wash
+
 #ggdac <- map.plot(data = turtle.info
 #                  , label = tmorph.dac
 #                  , map = map
@@ -96,11 +112,53 @@ print.xtable(dac.tab
 
 \subsection{Supervised}
 
-% classification results
-% not necessary to show tables
-% just use maps and mark which are misclassified
-%   make train tiny dots and test large dots
-%   misclassified are a different shape
+In the interest of space/time, I'm only going to display results from one of the selected models from each method for each classification scheme.
+
+<<multi-map, eval = FALSE>>=
+tm.map <- mapply(class.map
+                 , train = turtle.train
+                 , test = turtle.test
+                 , label = labs
+                 , pred = tm.class
+                 , MoreArgs = list(map = map)
+                 , SIMPLIFY = FALSE)
+tm.map
+@
+
+<<nnet-map, eval = FALSE>>=
+tnn.class.tiny <- lapply(tnn.class, function(x) x[[1]])
+tnn.map <- mapply(class.map
+                 , train = turtle.train
+                 , test = turtle.test
+                 , label = labs
+                 , pred = tnn.class.tiny
+                 , MoreArgs = list(map = map)
+                 , SIMPLIFY = FALSE)
+tnn.map
+@
+
+<<rf-map, eval = FALSE>>=
+trf.class.tiny <- lapply(trf.class, function(x) x[[1]])
+trf.map <- mapply(class.map
+                 , train = turtle.train
+                 , test = turtle.test
+                 , label = labs
+                 , pred = trf.class.tiny
+                 , MoreArgs = list(map = map)
+                 , SIMPLIFY = FALSE)
+trf.map
+@
+
+I'm currently holding back on showing the tables because there are a lot of them.
+
+But I can show the comparison of the predictive accuracies.
+
+<<resamp, eval = FALSE>>=
+tmod.re.clean <- lapply(tmod.re, function(x) clean.resamp(x$values))
+tmod.re.gg <- lapply(tmod.re.clean, resamp.plot)
+tmod.re.gg
+@
+
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}

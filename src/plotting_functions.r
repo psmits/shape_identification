@@ -63,6 +63,28 @@ map.plot <- function(data, label, map, coord = 'gilbert') {
   gg
 }
 
+class.map <- function(train, test, label, pred, map) {
+  gg <- ggplot(map, aes(x = long, y = lat, group = group))
+  gg <- gg + geom_polygon(fill = 'white', colour = 'black')
+  gg <- gg + coord_map('gilbert')
+  train <- cbind(train, label = label)
+  gg <- gg + geom_point(data = train,
+                        mapping = aes(x = long, y = lat,
+                                      group = NULL,
+                                      colour = factor(label)),
+                        alpha = 0.7)
+  test <- cbind(test, label = pred)
+  gg <- gg + geom_point(data = test,
+                        mapping = aes(x = long, y = lat,
+                                      group = NULL,
+                                      colour = factor(label),
+                                      size = 4
+                                      ), 
+                        shape = 15,
+                        alpha = 0.8)
+  gg
+}
+
 
 clean.resamp <- function(values) {
   # clean up the results of caret so that i can use ggplot to plot them :P
