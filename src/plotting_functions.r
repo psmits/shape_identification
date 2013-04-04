@@ -37,6 +37,23 @@ gap.plot <- function(gap) {
   gg
 }
 
+mshape.plot <- function(fits, all.points = TRUE) {
+  shape <- as.data.frame(fits$mshape)
+  land <- land.frame(fits$rotated)
+  gg <- ggplot(shape, aes(x = V2, y = V1))
+  if (all.points) {
+    gg <- gg + geom_point(data = land,
+                          mapping = aes(x = y,
+                                        y = x),
+                          alpha = 0.5)
+  }
+  gg <- gg + geom_point(data = shape,
+                        mapping = aes(x = V2,
+                                      y = V1,
+                                      colour = 'red',
+                                      size = 1.5))
+  gg
+}
 
 map.plot <- function(data, label, map, coord = 'gilbert') {
   # wrapper to make a map with labeled points on it

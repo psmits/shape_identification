@@ -100,17 +100,66 @@ print.xtable(dac.tab
              )
 @
 
-<<dac-geo, eval = FALSE>>=
-# map is the map of cali, ore, wash
-
-#ggdac <- map.plot(data = turtle.info
-#                  , label = tmorph.dac
-#                  , map = map
-#                  )
+<<gm, eval = FALSE>>=
+gg.morph <- ggpairs(turtle.info, columns = c(1:3),
+                    upper = 'blank')
+fits <- procGPA(turtle.land.info)
+ggland <- mshape.plot(fits, all.points = TRUE)
+gg.morph <- putPlot(gg.morph, ggland, 1, 3)
+gg.morph
 @
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/gm}
+  \caption{<+caption text+>}
+  \label{fig:gm}
+\end{figure}
 
 
 \subsection{Supervised}
+
+I'm currently holding back on showing the tables because there are a lot of them.
+
+But I can show the comparison of the predictive accuracies.
+
+<<resamp, eval = FALSE>>=
+tmod.re.clean <- lapply(tmod.re, function(x) clean.resamp(x$values))
+tmod.re.gg <- lapply(tmod.re.clean, resamp.plot)
+tmod.re.gg
+@
+
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp1}
+    \label{fig:resamp1}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp2}
+    \label{fig:resamp2}
+  \end{subfigure}\\
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp3}
+    \label{fig:resamp3}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp4}
+    \label{fig:resamp4}
+  \end{subfigure}
+  \caption{Comparison of resampling distributions of training set accuracy and kappa statistics for the selected models of each classification scheme. \ref{fig:resamp1}: sh1 classification scheme. \ref{fig:resamp2}: sh2 classification scheme. \ref{fig:resamp3}: sh3 classification scheme. \ref{fig:resamp4}: spinks classification scheme.}
+  \label{fig:resamp}
+\end{figure}
+
 
 In the interest of space/time, I'm only going to display results from one of the selected models from each method for each classification scheme.
 
@@ -243,46 +292,7 @@ trf.map
   \label{fig:rf-map}
 \end{figure}
 
-I'm currently holding back on showing the tables because there are a lot of them.
 
-But I can show the comparison of the predictive accuracies.
-
-<<resamp, eval = FALSE>>=
-tmod.re.clean <- lapply(tmod.re, function(x) clean.resamp(x$values))
-tmod.re.gg <- lapply(tmod.re.clean, resamp.plot)
-tmod.re.gg
-@
-
-\begin{figure}[t]
-  \centering
-  \begin{subfigure}[b]{0.5\textwidth}
-    \centering
-    \caption{}
-    \includegraphics[width = \textwidth]{figure/resamp1}
-    \label{fig:resamp1}
-  \end{subfigure}%
-  \begin{subfigure}[b]{0.5\textwidth}
-    \centering
-    \caption{}
-    \includegraphics[width = \textwidth]{figure/resamp2}
-    \label{fig:resamp2}
-  \end{subfigure}\\
-
-  \begin{subfigure}[b]{0.5\textwidth}
-    \centering
-    \caption{}
-    \includegraphics[width = \textwidth]{figure/resamp3}
-    \label{fig:resamp3}
-  \end{subfigure}%
-  \begin{subfigure}[b]{0.5\textwidth}
-    \centering
-    \caption{}
-    \includegraphics[width = \textwidth]{figure/resamp4}
-    \label{fig:resamp4}
-  \end{subfigure}
-  \caption{<+caption text+>}
-  \label{fig:resamp}
-\end{figure}
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}

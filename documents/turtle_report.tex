@@ -117,7 +117,7 @@ Comparison of gap statistic over a very wide range of plausible partitions indic
 Dissimilarity based EAC estimated approximately 4 optimal partitions. This corresponds to the number of partitions in both the Spinks et al. and shXXX classification schemes. However, the number of individuals assigned to each class is very different.
 
 % latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Wed Apr  3 17:10:24 2013
+% Wed Apr  3 19:43:09 2013
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rr}
@@ -140,8 +140,54 @@ Dissimilarity based EAC estimated approximately 4 optimal partitions. This corre
 
 
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/gm}
+  \caption{<+caption text+>}
+  \label{fig:gm}
+\end{figure}
+
 
 \subsection{Supervised}
+
+I'm currently holding back on showing the tables because there are a lot of them.
+
+But I can show the comparison of the predictive accuracies.
+
+
+
+
+\begin{figure}[t]
+  \centering
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp1}
+    \label{fig:resamp1}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp2}
+    \label{fig:resamp2}
+  \end{subfigure}\\
+
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp3}
+    \label{fig:resamp3}
+  \end{subfigure}%
+  \begin{subfigure}[b]{0.5\textwidth}
+    \centering
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/resamp4}
+    \label{fig:resamp4}
+  \end{subfigure}
+  \caption{Comparison of resampling distributions of training set accuracy and kappa statistics for the selected models of each classification scheme. \ref{fig:resamp1}: sh1 classification scheme. \ref{fig:resamp2}: sh2 classification scheme. \ref{fig:resamp3}: sh3 classification scheme. \ref{fig:resamp4}: spinks classification scheme.}
+  \label{fig:resamp}
+\end{figure}
+
 
 In the interest of space/time, I'm only going to display results from one of the selected models from each method for each classification scheme.
 
@@ -248,43 +294,7 @@ In the interest of space/time, I'm only going to display results from one of the
   \label{fig:rf-map}
 \end{figure}
 
-I'm currently holding back on showing the tables because there are a lot of them.
 
-But I can show the comparison of the predictive accuracies.
-
-
-
-
-\begin{figure}[t]
-  \centering
-  \begin{subfigure}[b]{0.5\textwidth}
-    \centering
-    \caption{}
-    \includegraphics[width = \textwidth]{figure/resamp1}
-    \label{fig:resamp1}
-  \end{subfigure}%
-  \begin{subfigure}[b]{0.5\textwidth}
-    \centering
-    \caption{}
-    \includegraphics[width = \textwidth]{figure/resamp2}
-    \label{fig:resamp2}
-  \end{subfigure}\\
-
-  \begin{subfigure}[b]{0.5\textwidth}
-    \centering
-    \caption{}
-    \includegraphics[width = \textwidth]{figure/resamp3}
-    \label{fig:resamp3}
-  \end{subfigure}%
-  \begin{subfigure}[b]{0.5\textwidth}
-    \centering
-    \caption{}
-    \includegraphics[width = \textwidth]{figure/resamp4}
-    \label{fig:resamp4}
-  \end{subfigure}
-  \caption{<+caption text+>}
-  \label{fig:resamp}
-\end{figure}
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}
