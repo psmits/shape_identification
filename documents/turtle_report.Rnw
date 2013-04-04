@@ -68,9 +68,9 @@ EAC was originally devised using \textit{k}-means clustering, but I've extended 
 How well does data conform to predetermined structure?
 
 \begin{itemize}
-  \item multinomial logistic regression
-  \item feed-forward neural networks
-  \item random forests
+  \item multinomial logistic regression (Fig. \ref{fig:multi-map})
+  \item feed-forward neural networks (Fig. \ref{fig:nnet-map})
+  \item random forests (Fig. \ref{fig:rf-map})
 \end{itemize}
 
 
@@ -89,7 +89,7 @@ gg.gap
   \label{fig:gap}
 \end{figure}
 
-Dissimilarity based EAC estimated approximately \Sexpr{max(tmorph.dac)} optimal partitions. This corresponds to the number of partitions in both the Spinks et al. and shXXX classification schemes. However, the number of individuals assigned to each class is very different.
+Dissimilarity based EAC estimated approximately \Sexpr{max(tmorph.dac)} optimal partitions (Table \ref{tab:dac}).
 
 <<dac-tab, results = 'asis'>>=
 dac.tab <- xtable(table(tmorph.dac))
@@ -112,16 +112,34 @@ gg.morph
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/gm}
-  \caption{<+caption text+>}
+  \caption{Visualization of PCA of \textit{E. marmorata}. The lower triangle is the pairwise comparison of the first three pricipal components. The upper left corner is the comparison of landmark dispersion for all specimens compared to the mean shape in red.}
   \label{fig:gm}
 \end{figure}
 
 
 \subsection{Supervised}
 
-I'm currently holding back on showing the tables because there are a lot of them.
+I'm currently holding back on showing the tables because there are a lot of them. I'll show the confusion matrix for the multinomial logicistic regressions because they are easy (Tables \ref{tab:multi-conf-sh1}, \ref{tab:multi-conf-sh2}, \ref{tab:multi-conf-sh3}, \ref{tab:multi-conf-spinks})
 
-But I can show the comparison of the predictive accuracies.
+<<multi-tab, results = 'asis'>>=
+mt <- lapply(tm.conf, function(x) xtable(as.table(x)))
+
+for(ii in seq(length(mt))) {
+  caption(mt[[ii]]) <- paste0('Confusion matrix for ',
+                              names(mt)[ii],
+                              ' classification scheme. Rows correspond to predicted class. Columns correspond to reference class.')
+  label(mt[[ii]]) <- paste0('tab:multi-conf-', names(mt)[ii])
+}
+
+for(jj in seq(length(mt))) {
+  print.xtable(mt[[jj]]
+               , table.placement = 'ht')
+}
+
+
+@
+
+But I can show the comparison of the predictive accuracies (Fig. \ref{fig:resamp}).
 
 <<resamp, eval = FALSE>>=
 tmod.re.clean <- lapply(tmod.re, function(x) clean.resamp(x$values))
@@ -201,7 +219,7 @@ tm.map
     \includegraphics[width = \textwidth]{figure/multi-map4}
     \label{fig:multi-map4}
   \end{subfigure}
-  \caption{<+caption text+>}
+  \caption{Geographic position of all turtles sampled. Both training and testing observations are plotted. Training set observations are circles while testing observations are larger squares. Testing set observations are classified based on a multinomial logistic regression model. \ref{fig:multi-map1}: sh1 classification scheme. \ref{fig:multi-map2}: sh2 classification scheme. \ref{fig:multi-map3}: sh3 classification scheme. \ref{fig:multi-map4}: spinks classification scheme.}
   \label{fig:multi-map}
 \end{figure}
 
@@ -244,7 +262,7 @@ tnn.map
     \includegraphics[width = \textwidth]{figure/nnet-map4}
     \label{fig:nnet-map4}
   \end{subfigure}
-  \caption{<+caption text+>}
+  \caption{Geographic position of all turtles sampled. Both training and testing observations are plotted. Training set observations are circles while testing observations are larger squares. Testing set observations are classified based on a feed-forward single layer neural network model. \ref{fig:nnet-map1}: sh1 classification scheme. \ref{fig:nnet-map2}: sh2 classification scheme. \ref{fig:nnet-map3}: sh3 classification scheme. \ref{fig:nnet-map4}: spinks classification scheme.}
   \label{fig:nnet-map}
 \end{figure}
 
@@ -288,15 +306,26 @@ trf.map
     \includegraphics[width = \textwidth]{figure/rf-map4}
     \label{fig:rf-map4}
   \end{subfigure}
-  \caption{<+caption text+>}
+  \caption{Geographic position of all turtles sampled. Both training and testing observations are plotted. Training set observations are circles while testing observations are larger squares. Testing set observations are classified based on a random forest model. \ref{fig:rf-map1}: sh1 classification scheme. \ref{fig:rf-map2}: sh2 classification scheme. \ref{fig:rf-map3}: sh3 classification scheme. \ref{fig:rf-map4}: spinks classification scheme.}
   \label{fig:rf-map}
 \end{figure}
 
 
+\section{Future}
+\begin{enumerate}
+  \item remove juvelines
+  \item look into multinomial logistic mixed-effects models
+  \item other unsupervised methods, though that might have to wait for a follow up paper
+    \begin{itemize}
+      \item bayesian nonparametrics for categorical data
+    \end{itemize}
+\end{enumerate}
+
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}
-Machine learning approaches for recognizing cyptic diversity: a case study using \textit{Emys marmorata}.
+How cryptic is cryptic diversity? Machine learning approaches to fine scale variation in morphology of \textit{Emys marmorata}.
+
 
 \subsection{Grants}
 \subsubsection{Hinds Fund}
