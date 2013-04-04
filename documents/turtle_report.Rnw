@@ -43,7 +43,7 @@ labs <- Map(function(x, n) x[, n],
             x = turtle.train, n = names(turtle.train))
 @
 
-\title{Progress report: \textit{Emys marmorata} sub-species identification and classification}
+\title{How cryptic is cryptic diversity? Machine learning approaches to fine scale variation in the morphology of \textit{Emys marmorata}.}
 
 \begin{document}
 \maketitle
@@ -321,10 +321,11 @@ trf.map
     \end{itemize}
 \end{enumerate}
 
+In general, misclassification seems to be at random. This is interesting for a few reasons. The assignments based on geography do not seem to bias results. All the taxa are extremely similar, though there are differences, hence the ~70\% accuracy. None of the classification schemes seems necessary better than any of the others, though sh3 is probably the best (4 classes) over all because it is the least ``random''. I think there is a summary class specific statistic that better explains this (sensitivity? specificity? detection rate?).
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}
-How cryptic is cryptic diversity? Machine learning approaches to fine scale variation in morphology of \textit{Emys marmorata}.
+How cryptic is cryptic diversity? Machine learning approaches to fine scale variation in the morphology of \textit{Emys marmorata}.
 
 
 \subsection{Grants}
