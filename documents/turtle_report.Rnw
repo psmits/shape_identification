@@ -321,7 +321,7 @@ trf.map
     \end{itemize}
 \end{enumerate}
 
-In general, misclassification seems to be at random. This is interesting for a few reasons. The assignments based on geography do not seem to bias results. All the taxa are extremely similar, though there are differences, hence the ~70\% accuracy. None of the classification schemes seems necessary better than any of the others, though sh3 is probably the best (4 classes) over all because it is the least ``random''. I think there is a summary class specific statistic that better explains this (sensitivity? specificity? detection rate?).
+In general, misclassification seems to be at random. This is interesting for a few reasons. The assignments based on geography do not seem to bias results. All the taxa are extremely similar, though there are differences, hence the ~70\% accuracy. None of the classification schemes seems necessary better than any of the others, though sh3 is probably the best (4 classes) over all because it is the least ``random''. I think there is a summary class specific statistic that better explains this (sensitivity? specificity? detection rate?). These will illuminate which classes are ``strongest''.
 
 \section{Miscellaneous affairs}
 \subsection{Evolution 2013}
@@ -334,14 +334,18 @@ Resubmit previous application with the results from this study in the prelim-res
 
 Get network for one turtle? This should take long, just requires time.
 
-Other project ideas I've come up with over the last few months.
+Other project ideas I've come up with over the last few months that might be alternatives to the turtle shell network project.
 
 \begin{itemize}
-  \item Revisit Wagner 2000 idea of character/state exhaustion. Expand into the realm of uncertainty using stochastic character mapping. Potential also with chinese restaurant/indian buffet processes as models of character addition though this is highly suspect.
-  \item Character correlation and nonindependence. I did half my masters on this stuff. Using frequent pattern mining algorithms and nonparametric Bayesian approaches it may be possible to revisit these ideas with actual results.
   \item NA terrestrial mammal community change in the Eocene. Using clustering/unsupervised methods, classify the sites in the Eocene. Spatio-temporal dynamics? Using co-occurrence networks and bipartite site-networks to understand spatio-temporal dynamics in paleo-community structure.
   \item South African P/T faunal zones. Do my methods to the faunal assemblages. Sidor in press makes conclusions about how hard it is to identify some zones as opposed to others because of mixing. Do predictive methods agree? This is another nice spatio-temporal dynamics project.
+  \item Character correlation and nonindependence. I did half my masters on this stuff. Using frequent pattern mining algorithms and nonparametric Bayesian approaches it may be possible to revisit these ideas with actual results.
+  \item Revisit Wagner 2000 idea of character and character state exhaustion. Expand into the realm of uncertainty using stochastic character mapping. Potential also with chinese restaurant/indian buffet processes as models of character addition though this is highly suspect.
 \end{itemize}
+
+The three of these have at least preliminary methods/results, so they might be more appealing for the Hinds Fund. The concern becomes what do I actually need money for? Currently, my ideas are monitor, keyboard, mouse, hard drive, wrist bands (I have wrist pain). Publication and conference costs aren't appropriate for the Hinds, which is very frustrating because that's where most of my money goes.
+
+I still can't believe I was rejected last round.
 
 \subsubsection{Paleontological Society}
 Why not? Need to wait till next year. Should probably join PaleoSoc anyway.
