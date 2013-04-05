@@ -334,6 +334,15 @@ Resubmit previous application with the results from this study in the prelim-res
 
 Get network for one turtle? This should take long, just requires time.
 
+Other project ideas I've come up with over the last few months.
+
+\begin{itemize}
+  \item Revisit Wagner 2000 idea of character/state exhaustion. Expand into the realm of uncertainty using stochastic character mapping. Potential also with chinese restaurant/indian buffet processes as models of character addition though this is highly suspect.
+  \item Character correlation and nonindependence. I did half my masters on this stuff. Using frequent pattern mining algorithms and nonparametric Bayesian approaches it may be possible to revisit these ideas with actual results.
+  \item NA terrestrial mammal community change in the Eocene. Using clustering/unsupervised methods, classify the sites in the Eocene. Spatio-temporal dynamics? Using co-occurrence networks and bipartite site-networks to understand spatio-temporal dynamics in paleo-community structure.
+  \item South African P/T faunal zones. Do my methods to the faunal assemblages. Sidor in press makes conclusions about how hard it is to identify some zones as opposed to others because of mixing. Do predictive methods agree? This is another nice spatio-temporal dynamics project.
+\end{itemize}
+
 \subsubsection{Paleontological Society}
 Why not? Need to wait till next year. Should probably join PaleoSoc anyway.
 
