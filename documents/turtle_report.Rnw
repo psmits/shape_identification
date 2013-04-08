@@ -76,7 +76,7 @@ How well does data conform to predetermined structure?
 
 \section{Preliminary results}
 \subsection{Unsupervised}
-Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately \Sexpr{max(tmorph.km$clustering)} after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statiic values are within \Sexpr{max(tmorph.gap$Tab[, 3]) - min(tmorph.gap$Tab[, 3])} of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
+Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately \Sexpr{max(tmorph.km$clustering)} after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statistic values are within \Sexpr{max(tmorph.gap$Tab[, 3]) - min(tmorph.gap$Tab[, 3])} of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
 
 <<gap, eval = FALSE>>=
 gg.gap <- gap.plot(tmorph.gap)
@@ -89,7 +89,7 @@ gg.gap
   \label{fig:gap}
 \end{figure}
 
-Dissimilarity based EAC estimated approximately \Sexpr{max(tmorph.dac)} optimal partitions (Table \ref{tab:dac}).
+Dissimilarity based EAC estimated approximately \Sexpr{max(tmorph.dac)} optimal partitions (Table \ref{tab:dac}) though this may be only a marginal difference. I need to increase the number of resamples from 100 to 500 because that is when approximate stability is estimated to occur. 
 
 <<dac-tab, results = 'asis'>>=
 dac.tab <- xtable(table(tmorph.dac))
@@ -99,6 +99,8 @@ print.xtable(dac.tab
              , table.placement = 'ht'
              )
 @
+
+Here is the PCA plot of the turtle pastra (Fig. \ref{fig:gm}). Also included is the mean shape and the dispersion around the landmarks. I haven't put nay classification labels on the points because an optimal partition scheme has not been selected.
 
 <<gm, eval = FALSE>>=
 gg.morph <- ggpairs(turtle.info, columns = c(1:3),
@@ -112,14 +114,14 @@ gg.morph
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/gm}
-  \caption{Visualization of PCA of \textit{E. marmorata}. The lower triangle is the pairwise comparison of the first three pricipal components. The upper left corner is the comparison of landmark dispersion for all specimens compared to the mean shape in red.}
+  \caption{Visualization of PCA of \textit{E. marmorata}. The lower triangle is the pairwise comparison of the first three principal components. The upper left corner is the comparison of landmark dispersion for all specimens compared to the mean shape in red.}
   \label{fig:gm}
 \end{figure}
 
 
 \subsection{Supervised}
 
-I'm currently holding back on showing the tables because there are a lot of them. I'll show the confusion matrix for the multinomial logicistic regressions because they are easy (Tables \ref{tab:multi-conf-sh1}, \ref{tab:multi-conf-sh2}, \ref{tab:multi-conf-sh3}, \ref{tab:multi-conf-spinks})
+I'm currently holding back on showing all the tables and model selection procedures because there are a lot of them. I'll show the confusion matrices from the multinomial logistic regressions because they are easy (Tables \ref{tab:multi-conf-sh1}, \ref{tab:multi-conf-sh2}, \ref{tab:multi-conf-sh3}, \ref{tab:multi-conf-spinks}). The confusion matrices from the neural network and random forest models are easy to make too, just would increase the overall length of this document by quite a bit.
 
 <<multi-tab, results = 'asis'>>=
 mt <- lapply(tm.conf, function(x) xtable(as.table(x)))
@@ -127,7 +129,7 @@ mt <- lapply(tm.conf, function(x) xtable(as.table(x)))
 for(ii in seq(length(mt))) {
   caption(mt[[ii]]) <- paste0('Confusion matrix for ',
                               names(mt)[ii],
-                              ' classification scheme. Rows correspond to predicted class. Columns correspond to reference class.')
+                              ' classification scheme. Rows correspond to predicted class. Columns correspond to reference class. From multinomial logistic regression models.')
   label(mt[[ii]]) <- paste0('tab:multi-conf-', names(mt)[ii])
 }
 
@@ -135,8 +137,6 @@ for(jj in seq(length(mt))) {
   print.xtable(mt[[jj]]
                , table.placement = 'ht')
 }
-
-
 @
 
 But I can show the comparison of the predictive accuracies (Fig. \ref{fig:resamp}).
@@ -313,11 +313,11 @@ trf.map
 
 \section{Future}
 \begin{enumerate}
-  \item remove juvelines
+  \item remove juveniles
   \item look into multinomial logistic mixed-effects models
   \item other unsupervised methods, though that might have to wait for a follow up paper
     \begin{itemize}
-      \item bayesian nonparametrics for categorical data
+      \item bayesian nonparametrics for categorical data. Probably the best option and most interesting technically. Additionally, relatively unknown in morphological contexts though beginning to be known in biological contexts as a whole.
     \end{itemize}
 \end{enumerate}
 
@@ -327,28 +327,14 @@ In general, misclassification seems to be at random. This is interesting for a f
 \subsection{Evolution 2013}
 How cryptic is cryptic diversity? Machine learning approaches to fine scale variation in the morphology of \textit{Emys marmorata}.
 
-
 \subsection{Grants}
 \subsubsection{Hinds Fund}
-Resubmit previous application with the results from this study in the prelim-results section?
+ NA terrestrial mammal community change in the Eocene. Using clustering/unsupervised methods, classify the sites in the Eocene. Spatio-temporal dynamics? Using co-occurrence networks and bipartite site-networks to understand spatio-temporal dynamics in paleo-community structure.
 
-Get network for one turtle? This should take long, just requires time.
-
-Other project ideas I've come up with over the last few months that might be alternatives to the turtle shell network project.
-
-\begin{itemize}
-  \item NA terrestrial mammal community change in the Eocene. Using clustering/unsupervised methods, classify the sites in the Eocene. Spatio-temporal dynamics? Using co-occurrence networks and bipartite site-networks to understand spatio-temporal dynamics in paleo-community structure.
-  \item South African P/T faunal zones. Do my methods to the faunal assemblages. Sidor in press makes conclusions about how hard it is to identify some zones as opposed to others because of mixing. Do predictive methods agree? This is another nice spatio-temporal dynamics project.
-  \item Character correlation and nonindependence. I did half my masters on this stuff. Using frequent pattern mining algorithms and nonparametric Bayesian approaches it may be possible to revisit these ideas with actual results.
-  \item Revisit Wagner 2000 idea of character and character state exhaustion. Expand into the realm of uncertainty using stochastic character mapping. Potential also with chinese restaurant/indian buffet processes as models of character addition though this is highly suspect.
-\end{itemize}
-
-The three of these have at least preliminary methods/results, so they might be more appealing for the Hinds Fund. The concern becomes what do I actually need money for? Currently, my ideas are monitor, keyboard, mouse, hard drive, wrist bands (I have wrist pain). Publication and conference costs aren't appropriate for the Hinds, which is very frustrating because that's where most of my money goes.
-
-I still can't believe I was rejected last round.
+I have similar/preliminary results from my project from Mike Foote's class.
 
 \subsubsection{Paleontological Society}
-Why not? Need to wait till next year. Should probably join PaleoSoc anyway.
+Why not? Need to wait till next year.
 
 
 \end{document}
