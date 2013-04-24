@@ -44,19 +44,36 @@ tm <- clean.mods(tmulti)
 tnn <- clean.mods(tnnet)
 trf <- clean.mods(trf)
 
+tm.a <- clean.mods(tmulti.a)
+tnn.a <- clean.mods(tnnet.a)
+trf.a <- clean.mods(trf.a)
+
 # multinomial logistic regression
-tm.sel <- lapply(tm, function(x)
-                 model.sel(lapply(x, function(y) y$finalModel)))
+tm.a.sel <- lapply(tm.a, function(x)
+                   model.sel(lapply(x, function(y) y$finalModel)))
 
-tm.best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
-                  sel = tm.sel, mod = tm,
-                  SIMPLIFY = FALSE)
+tm.a.best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
+                    sel = tm.a.sel, mod = tm.a,
+                    SIMPLIFY = FALSE)
 
-tm.class <- mapply(predict, tm.best, turtle.test,
-                   MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+tm.a.class <- mapply(predict, tm.a.best, adult.test,
+                     MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
 
-tm.conf <- Map(confusionMatrix,
-               tm.class, classes)
+tm.a.conf <- Map(confusionMatrix,
+                 tm.a.class, classes)
+
+tm.a.sel <- lapply(tm.a, function(x)
+                   model.sel(lapply(x, function(y) y$finalModel)))
+
+tm.a.best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
+                    sel = tm.a.sel, mod = tm.a,
+                    SIMPLIFY = FALSE)
+
+tm.a.class <- mapply(predict, tm.a.best, adult.test,
+                     MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+
+tm.a.conf <- Map(confusionMatrix,
+                 tm.a.class, ad.class)
 
 
 # neural nets
@@ -77,6 +94,24 @@ tnn.class <- mapply(predict, tnn.best, turtle.test,
 tnn.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
                 tnn.class, classes)
 
+tnn.a.varimp <- lapply(tnn.a, function(x) lapply(x[-1], varImp,
+                                                 scale = TRUE))
+
+tnn.a.re <- lapply(tnn.a, resamples)
+tnn.a.redi <- lapply(tnn.a.re, diff)
+
+tnn.a.best <- Map(function(x, y) x[y], x = tnn.a, y = list(8:9,
+                                                           7:8,
+                                                           9:10,
+                                                           8:9))
+
+tnn.a.class <- mapply(predict, tnn.a.best, adult.test,
+                      MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+
+tnn.a.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
+                  tnn.a.class, ad.class)
+
+
 # random forests
 trf.varimp <- lapply(trf, function(x) lapply(x[-1], varImp,
                                              scale = TRUE))
@@ -95,10 +130,30 @@ trf.class <- mapply(predict, trf.best, turtle.test,
 trf.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
                 trf.class, classes)
 
+trf.a.varimp <- lapply(trf.a, function(x) lapply(x[-1], varImp,
+                                             scale = TRUE))
+
+trf.a.re <- lapply(trf.a, resamples)
+trf.a.redi <- lapply(trf.a.re, diff)
+
+# need to confirm which the actual best are
+# also, this code will break because there are fewer overall models
+trf.a.best <- Map(function(x, y) x[y], x = trf.a, y = list(10,
+                                                           10,
+                                                           9:10,
+                                                           8:9))
+
+trf.a.class <- mapply(predict, trf.a.best, adult.test,
+                    MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+
+trf.a.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
+                trf.a.class, ad.class)
+
+
 # best models compared
-tm.best
-tnn.best
-trf.best
+#tm.best
+#tnn.best
+#trf.best
 
 mods <- list()
 for(ii in seq(length(tm.best))) {
@@ -111,5 +166,18 @@ names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
 tmod <- lapply(mods, flatten.next)
 tmod.re <- lapply(tmod, resamples)
 tmod.redi <- lapply(tmod.re, diff)
+
+a.mod <- list()
+for(jj in seq(length(tm.a.best))) {
+  a.mod[[jj]] <- list(multi = tm.a.best[[jj]],
+                      nnet = tnn.a.best[[jj]],
+                      rf = trf.a.best[[jj]])
+}
+names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
+
+tmod.a <- lapply(mods, flatten.next)
+tmod.a.re <- lapply(tmod.a, resamples)
+tmod.a.redi <- lapply(tmod.re, diff)
+
 
 save.image(file = 'turtle_analysis.RData')

@@ -77,6 +77,17 @@ turtle.info$sh2 <- as.factor(as.character(turtle.info$sh2))
 turtle.info$sh3 <- as.factor(as.character(turtle.info$sh3))
 
 turtle.info.dist <- riem.matrix(turtle.land.info)  # riemmanian shape-distance
-
 turtle.geo <- turtle.geo[(turtle.geo[, 2]) > 100, ]
 
+## remove juvies
+## there are two classification options. ASK KEN WHICH IS THE ONE TO FOLLOW
+p.juv <- grep(pattern = '[jhJ]', 
+              x = as.character(turtle.info$p.sex), 
+              perl = TRUE)
+b.juv <- grep(pattern = '[jhJ]', 
+              x = as.character(turtle.info$b.sex),
+              perl = TRUE)
+turtle.adult <- turtle.info[-p.juv, ]
+turtle.land.adult <- turtle.land.info[, , -p.juv]
+turtle.adult.dist <- riem.matrix(turtle.land.adult)
+turtle.geo.adult <- turtle.geo[-p.juv, ]

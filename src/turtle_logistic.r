@@ -38,4 +38,12 @@ tmulti <- mapply(multi.train,
                                  , trControl = ctrl
                                  , maxit = 1000),
                  SIMPLFY = FALSE)
+
+tmulti.a <- mapply(multi.train,
+                   form = tform.a, data = turtle.train,
+                   MoreArgs = list(method = 'multinom'
+                                   , trControl = ctrl
+                                   , maxit = 1000),
+                   SIMPLIFY = FALSE)
+
 save(tmulti, file = 'multi_boot_mod.RData')

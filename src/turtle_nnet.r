@@ -39,4 +39,11 @@ tnnet <- mapply(multi.train,
                                 , trControl = ctrl
                                 , maxit = 1000),
                 SIMPLFY = FALSE)
+tnnet.a <- mapply(multi.train,
+                 form = tform.a, data = adult.train,
+                 MoreArgs = list(method = 'nnet'
+                                 , trControl = ctrl
+                                 , maxit = 1000),
+                 SIMPLFY = FALSE)
+
 save(tnnet, file = 'nnet_boot_mod.RData')

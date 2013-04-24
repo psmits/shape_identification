@@ -1,3 +1,9 @@
+% this document has the propensity to become outdated as the code base
+% and results are updated over time. the pdf file should represent the most
+% stable implementation of this document.
+%
+% this is the basic ``template'' for all reports for meetings with ken and to
+% send to collaborators.
 \documentclass{article}
 \usepackage{amsmath, amsthm}
 \usepackage{graphicx, microtype, parskip}

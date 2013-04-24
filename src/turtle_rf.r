@@ -41,5 +41,14 @@ trf <- mapply(multi.train,
                                 , importance = TRUE
                                 ), 
               SIMPLIFY = FALSE)
+trf.a <- mapply(multi.train,
+                form = tform.a, data = adult.train,
+                MoreArgs = list(method = 'rf'
+                                , trControl = ctrl
+                                , ntree = 1000
+                                , importance = TRUE
+                                ), 
+                SIMPLIFY = FALSE)
+
 save(trf, file = 'rf_boot_mod.RData')
 
