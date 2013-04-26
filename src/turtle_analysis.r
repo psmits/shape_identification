@@ -49,18 +49,19 @@ tnn.a <- clean.mods(tnnet.a)
 trf.a <- clean.mods(trf.a)
 
 # multinomial logistic regression
-tm.a.sel <- lapply(tm.a, function(x)
+tm.sel <- lapply(tm, function(x)
                    model.sel(lapply(x, function(y) y$finalModel)))
 
-tm.a.best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
-                    sel = tm.a.sel, mod = tm.a,
+tm.best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
+                    sel = tm.sel, mod = tm,
                     SIMPLIFY = FALSE)
 
-tm.a.class <- mapply(predict, tm.a.best, adult.test,
-                     MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+tm.class <- mapply(predict, tm.best, turtle.test,
+                   MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
 
-tm.a.conf <- Map(confusionMatrix,
-                 tm.a.class, classes)
+tm.conf <- Map(confusionMatrix,
+               tm.class, classes)
+
 
 tm.a.sel <- lapply(tm.a, function(x)
                    model.sel(lapply(x, function(y) y$finalModel)))
@@ -178,6 +179,14 @@ names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
 tmod.a <- lapply(mods, flatten.next)
 tmod.a.re <- lapply(tmod.a, resamples)
 tmod.a.redi <- lapply(tmod.re, diff)
+
+
+## relative risk and class specific accuracy
+t.rr <- lapply(tm.best, function(x) {
+               exp(coef(x$finalModel))})
+t.a.rr <- lapply(tm.a.best, function(x) {
+                 exp(coef(x$finalModel))})
+
 
 
 save.image(file = 'turtle_analysis.RData')

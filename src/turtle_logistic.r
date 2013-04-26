@@ -39,11 +39,12 @@ tmulti <- mapply(multi.train,
                                  , maxit = 1000),
                  SIMPLFY = FALSE)
 
+set.seed(1)
 tmulti.a <- mapply(multi.train,
-                   form = tform.a, data = turtle.train,
+                   form = tform.a, data = adult.train,
                    MoreArgs = list(method = 'multinom'
                                    , trControl = ctrl
                                    , maxit = 1000),
                    SIMPLIFY = FALSE)
 
-save(tmulti, file = 'multi_boot_mod.RData')
+save(tmulti, tmulti.a, file = 'multi_boot_mod.RData')

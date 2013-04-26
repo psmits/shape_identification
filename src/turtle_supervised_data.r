@@ -52,10 +52,12 @@ classes <- Map(function(x, y) x[, y], turtle.test, classes)
 
 # excluding juvies
 set.seed(1)
-ad.train <- data.make(unlist(groups), turtle.adult)
+ad.train <- data.maker(unlist(groups), turtle.adult)
 adult.train <- lapply(ad.train, function(x) turtle.adult[x, ])
 adult.test <- lapply(ad.train, function(x) turtle.adult[-x, ])
 
 ad.class <- Map(function(x, y) colnames(x) %in% y, adult.test, groups)
-ad.class <- Map(function(x, y) x[, y], adult.test, classes)
+ad.class <- Map(function(x, y) x[, y], adult.test, ad.class)
+
+# O
 save.image('supervised_misc.RData')

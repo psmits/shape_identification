@@ -41,6 +41,8 @@ trf <- mapply(multi.train,
                                 , importance = TRUE
                                 ), 
               SIMPLIFY = FALSE)
+
+set.seed(1)
 trf.a <- mapply(multi.train,
                 form = tform.a, data = adult.train,
                 MoreArgs = list(method = 'rf'
@@ -50,5 +52,5 @@ trf.a <- mapply(multi.train,
                                 ), 
                 SIMPLIFY = FALSE)
 
-save(trf, file = 'rf_boot_mod.RData')
+save(trf, trf.a, file = 'rf_boot_mod.RData')
 
