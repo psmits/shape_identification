@@ -1,4 +1,4 @@
-###############################################################################
+##############################################################################
 ##
 ##  analysis of turtlee plastron data
 ##  analysis of machine learning results
@@ -101,10 +101,10 @@ tnn.a.varimp <- lapply(tnn.a, function(x) lapply(x[-1], varImp,
 tnn.a.re <- lapply(tnn.a, resamples)
 tnn.a.redi <- lapply(tnn.a.re, diff)
 
-tnn.a.best <- Map(function(x, y) x[y], x = tnn.a, y = list(8:9,
+tnn.a.best <- Map(function(x, y) x[y], x = tnn.a, y = list(7:8,
                                                            7:8,
-                                                           9:10,
-                                                           8:9))
+                                                           8:9,
+                                                           10))
 
 tnn.a.class <- mapply(predict, tnn.a.best, adult.test,
                       MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
@@ -137,11 +137,9 @@ trf.a.varimp <- lapply(trf.a, function(x) lapply(x[-1], varImp,
 trf.a.re <- lapply(trf.a, resamples)
 trf.a.redi <- lapply(trf.a.re, diff)
 
-# need to confirm which the actual best are
-# also, this code will break because there are fewer overall models
-trf.a.best <- Map(function(x, y) x[y], x = trf.a, y = list(10,
-                                                           10,
-                                                           9:10,
+trf.a.best <- Map(function(x, y) x[y], x = trf.a, y = list(8:9,
+                                                           8:9,
+                                                           8:9,
                                                            8:9))
 
 trf.a.class <- mapply(predict, trf.a.best, adult.test,
