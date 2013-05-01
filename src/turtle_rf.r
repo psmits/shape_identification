@@ -31,26 +31,26 @@ source('../src/support_functions.r')
 
 load('../src/supervised_misc.RData')
 
-# random forest
 set.seed(1)
-trf <- mapply(multi.train,
-                form = tform, data = turtle.train,
-                MoreArgs = list(method = 'rf'
-                                , trControl = ctrl
-                                , ntree = 1000
-                                , importance = TRUE
-                                ), 
-              SIMPLIFY = FALSE)
+trf <- Map(function(x, y) {
+           rfe(x = x[, 1:floor(max.var)]
+               , y = x[, y]
+               , sizes = 1:floor(max.var)
+               , rfeControl = rf.ctrl
+               , ntree = 1000
+               , trControl = ctrl)}, 
+           x = turtle.train, y = groups)
 
 set.seed(1)
-trf.a <- mapply(multi.train,
-                form = tform.a, data = adult.train,
-                MoreArgs = list(method = 'rf'
-                                , trControl = ctrl
-                                , ntree = 1000
-                                , importance = TRUE
-                                ), 
-                SIMPLIFY = FALSE)
+trf.a <- Map(function(x, y) {
+             rfe(x = x[, 1:floor(max.ad)]
+                 , y = x[, y]
+                 , sizes = 1:floor(max.ad)
+                 , rfeControl = rf.ctrl
+                 , ntree = 1000
+                 , trControl = ctrl)},
+             x = adult.train, y = groups)
+
 
 save(trf, trf.a, file = 'rf_boot_mod.RData')
 

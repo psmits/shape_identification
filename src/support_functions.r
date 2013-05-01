@@ -108,10 +108,29 @@ data.maker <- function(gr, data, p = 0.75) {
 
 require(caret)
 ctrl <- trainControl(#method = 'LOOCV',
-                     method = 'repeatedCV',
+                     method = 'repeatedcv',
                      #classProbs = TRUE,
                      number = 10,
                      repeats = 10)
+
+nnetFuncs <- caretFuncs
+nnetFuncs$fit <- function(x, y, first, last, ...) {
+  train(x, y, method = 'nnet', ...)
+}
+nnet.ctrl <- rfeControl(functions = nnetFuncs,
+                        method = 'repeatedcv',
+                        repeats = 10,
+                        number = 10,
+                        verbose = FALSE,
+                        returnResamp = 'final',
+                        allowParallel = FALSE)
+
+rf.ctrl <- rfeControl(functions = rfFuncs,
+                      method = 'repeatedcv',
+                      repeats = 10,
+                      number = 10,
+                      verbose = FALSE, 
+                      returnResamp = 'final')
 
 make.form <- function(vari, resp) {
   form <- vector(mode = 'list', length = length(vari))

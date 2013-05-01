@@ -114,39 +114,27 @@ tnn.a.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
 
 
 # random forests
-trf.varimp <- lapply(trf, function(x) lapply(x[-1], varImp,
-                                             scale = TRUE))
+trf.varimp <- lapply(trf, varImp)
 
-trf.re <- lapply(trf, resamples)
-trf.redi <- lapply(trf.re, diff)
+trf.re <- resamples(trf)
+trf.redi <- diff(trf.re)
 
-trf.best <- Map(function(x, y) x[y], x = trf, y = list(10,
-                                                       10,
-                                                       9:10,
-                                                       8:9))
+trf.class <- mapply(predict, trf, turtle.test,
+                    SIMPLIFY = FALSE)
 
-trf.class <- mapply(predict, trf.best, turtle.test,
-                    MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+trf.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+                x = trf.class, y = classes)
 
-trf.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
-                trf.class, classes)
+trf.a.varimp <- lapply(trf.a, varImp)
 
-trf.a.varimp <- lapply(trf.a, function(x) lapply(x[-1], varImp,
-                                             scale = TRUE))
+trf.a.re <- resamples(trf.a)
+trf.a.redi <- diff(trf.a.re)
 
-trf.a.re <- lapply(trf.a, resamples)
-trf.a.redi <- lapply(trf.a.re, diff)
+trf.a.class <- mapply(predict, trf.a, adult.test,
+                      SIMPLIFY = FALSE)
 
-trf.a.best <- Map(function(x, y) x[y], x = trf.a, y = list(8:9,
-                                                           8:9,
-                                                           8:9,
-                                                           8:9))
-
-trf.a.class <- mapply(predict, trf.a.best, adult.test,
-                    MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
-
-trf.a.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
-                trf.a.class, ad.class)
+trf.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+                  x = trf.a.class, y = ad.class)
 
 
 # best models compared
@@ -158,7 +146,7 @@ mods <- list()
 for(ii in seq(length(tm.best))) {
   mods[[ii]] <- list(multi = tm.best[[ii]],
                      nnet = tnn.best[[ii]],
-                     rf = trf.best[[ii]])
+                     rf = trf[[ii]])
 }
 names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
 
@@ -170,7 +158,7 @@ a.mod <- list()
 for(jj in seq(length(tm.a.best))) {
   a.mod[[jj]] <- list(multi = tm.a.best[[jj]],
                       nnet = tnn.a.best[[jj]],
-                      rf = trf.a.best[[jj]])
+                      rf = trf.a[[jj]])
 }
 names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
 
