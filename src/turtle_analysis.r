@@ -78,38 +78,26 @@ tm.a.conf <- Map(confusionMatrix,
 
 
 # neural nets
-tnn.varimp <- lapply(tnn, function(x) lapply(x[-1], varImp,
-                                             scale = TRUE))
+tnn.varimp <- lapply(tnn, varImp)
 
-tnn.re <- lapply(tnn, resamples)
-tnn.redi <- lapply(tnn.re, diff)
-
-tnn.best <- Map(function(x, y) x[y], x = tnn, y = list(8:9,
-                                                       7:8,
-                                                       9:10,
-                                                       8:9))
+tnn.re <- resamples(tnn)
+tnn.redi <- diff(tnn.re)
 
 tnn.class <- mapply(predict, tnn.best, turtle.test,
-                    MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+                    SIMPLFIY = FALSE)
 
-tnn.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
-                tnn.class, classes)
+tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+                x = tnn.class, y = classes)
 
-tnn.a.varimp <- lapply(tnn.a, function(x) lapply(x[-1], varImp,
-                                                 scale = TRUE))
+tnn.a.varimp <- lapply(tnn.a, varImp)
 
-tnn.a.re <- lapply(tnn.a, resamples)
-tnn.a.redi <- lapply(tnn.a.re, diff)
-
-tnn.a.best <- Map(function(x, y) x[y], x = tnn.a, y = list(7:8,
-                                                           7:8,
-                                                           8:9,
-                                                           10))
+tnn.a.re <- resamples(tnn.a)
+tnn.a.redi <- diff(tnn.a.re)
 
 tnn.a.class <- mapply(predict, tnn.a.best, adult.test,
-                      MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+                      SIMPLIFY = FALSE)
 
-tnn.a.conf <- Map(function(x, y) lapply(x, confusionMatrix, y),
+tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
                   tnn.a.class, ad.class)
 
 
@@ -145,7 +133,7 @@ trf.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
 mods <- list()
 for(ii in seq(length(tm.best))) {
   mods[[ii]] <- list(multi = tm.best[[ii]],
-                     nnet = tnn.best[[ii]],
+                     nnet = tnn[[ii]],
                      rf = trf[[ii]])
 }
 names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
@@ -157,7 +145,7 @@ tmod.redi <- lapply(tmod.re, diff)
 a.mod <- list()
 for(jj in seq(length(tm.a.best))) {
   a.mod[[jj]] <- list(multi = tm.a.best[[jj]],
-                      nnet = tnn.a.best[[jj]],
+                      nnet = tnn.a[[jj]],
                       rf = trf.a[[jj]])
 }
 names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
