@@ -39,8 +39,7 @@ trf <- Map(function(x, y) {
                , rfeControl = rf.ctrl
                , ntree = 1000
                , metric = 'ROC'
-               , trControl = ctrl
-               )}, 
+               , trControl = ctrl)}, 
            x = turtle.train, y = groups)
 
 set.seed(1)
@@ -56,4 +55,3 @@ trf.a <- Map(function(x, y) {
 
 
 save(trf, trf.a, file = 'rf_boot_mod.RData')
-

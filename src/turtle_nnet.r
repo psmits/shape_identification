@@ -54,21 +54,4 @@ tnnet.a <- Map(function(x, y) {
                x = adult.train, y = groups)
 
 
-# neural networks
-#set.seed(1)
-#tnnet <- mapply(multi.train,
-#                form = tform, data = turtle.train,
-#                MoreArgs = list(method = 'nnet'
-#                                , trControl = ctrl
-#                                , maxit = 1000),
-#                SIMPLFY = FALSE)
-
-#set.seed(1)
-#tnnet.a <- mapply(multi.train,
-#                 form = tform.a, data = adult.train,
-#                 MoreArgs = list(method = 'nnet'
-#                                 , trControl = ctrl
-#                                 , maxit = 1000),
-#                 SIMPLFY = FALSE)
-
 save(tnnet, tnnet.a, file = 'nnet_boot_mod.RData')

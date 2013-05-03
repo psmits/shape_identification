@@ -22,7 +22,7 @@ source('../src/support_functions.r')
 load('../src/cluster_res.RData')
 load('../src/supervised_misc.RData')
 load('../src/multi_boot_mod.RData')
-#load('../src/nnet_boot_mod.RData')
+load('../src/nnet_boot_mod.RData')
 load('../src/rf_boot_mod.RData')
 
 clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
@@ -41,11 +41,11 @@ clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
 }
 
 tm <- clean.mods(tmulti)
-#tnn <- clean.mods(tnnet)
+tnn <- clean.mods(tnnet)
 trf <- clean.mods(trf)
 
 tm.a <- clean.mods(tmulti.a)
-#tnn.a <- clean.mods(tnnet.a)
+tnn.a <- clean.mods(tnnet.a)
 trf.a <- clean.mods(trf.a)
 
 # multinomial logistic regression
@@ -78,27 +78,27 @@ tm.a.conf <- Map(confusionMatrix,
 
 
 # neural nets
-#tnn.varimp <- lapply(tnn, varImp)
+tnn.varimp <- lapply(tnn, varImp)
 
-#tnn.re <- resamples(tnn)
-#tnn.redi <- diff(tnn.re)
+tnn.re <- resamples(tnn)
+tnn.redi <- diff(tnn.re)
 
-#tnn.class <- mapply(predict, tnn, turtle.test,
-#                    SIMPLFIY = FALSE)
+tnn.class <- mapply(predict, tnn, turtle.test,
+                    SIMPLFIY = FALSE)
 
-#tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-#                x = tnn.class, y = classes)
+tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+                x = tnn.class, y = classes)
 
-#tnn.a.varimp <- lapply(tnn.a, varImp)
+tnn.a.varimp <- lapply(tnn.a, varImp)
 
-#tnn.a.re <- resamples(tnn.a)
-#tnn.a.redi <- diff(tnn.a.re)
+tnn.a.re <- resamples(tnn.a)
+tnn.a.redi <- diff(tnn.a.re)
 
-#tnn.a.class <- mapply(predict, tnn.a, adult.test,
-#                      SIMPLIFY = FALSE)
+tnn.a.class <- mapply(predict, tnn.a, adult.test,
+                      SIMPLIFY = FALSE)
 
-#tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-#                  tnn.a.class, ad.class)
+tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+                  tnn.a.class, ad.class)
 
 
 # random forests
@@ -169,4 +169,4 @@ t.a.rr.ci <- lapply(tm.a.best, function(x) {
 
 
 
-save.image(file = 'turtle_analysis_TEMP.RData')
+save.image(file = 'turtle_analysis.RData')
