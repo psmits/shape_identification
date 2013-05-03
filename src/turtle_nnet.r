@@ -38,6 +38,7 @@ tnnet <- Map(function(x, y) {
                  , sizes = 1:floor(max.var)
                  , rfeControl = nnet.ctrl
                  , maxit = 1000
+                 , metric = 'ROC'
                  , trControl = ctrl)},
              x = turtle.train, y = groups)
 
@@ -48,6 +49,7 @@ tnnet.a <- Map(function(x, y) {
                    , sizes = 1:floor(max.ad)
                    , rfeControl = nnet.ctrl
                    , maxit = 1000
+                   , metric = 'ROC'
                    , trControl = ctrl)},
                x = adult.train, y = groups)
 

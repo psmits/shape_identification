@@ -1,3 +1,9 @@
+% this document has the propensity to become outdated as the code base
+% and results are updated over time. the pdf file should represent the most
+% stable implementation of this document.
+%
+% this is the basic ``template'' for all reports for meetings with ken and to
+% send to collaborators.
 \documentclass{article}\usepackage{graphicx, color}
 %% maxwidth is the original width if it is less than linewidth
 %% otherwise use linewidth (to make sure the graphics do not exceed the margin)
@@ -105,7 +111,11 @@ How well does data conform to predetermined structure?
 \subsection{Unsupervised}
 Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately 40 after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statistic values are within 0.0064 of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/gap} 
 
+\end{knitrout}
 
 \begin{figure}[ht]
   \centering
@@ -114,10 +124,18 @@ Comparison of gap statistic over a very wide range of plausible partitions indic
   \label{fig:gap}
 \end{figure}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/a-gap} 
+
+\end{knitrout}
+
+
+
 Dissimilarity based EAC estimated approximately 5 optimal partitions (Table \ref{tab:dac}) though this may be only a marginal difference. I need to increase the number of resamples from 100 to 500 because that is when approximate stability is estimated to occur. 
 
 % latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Mon Apr  8 09:29:56 2013
+% Fri May  3 10:50:12 2013
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rr}
@@ -140,7 +158,16 @@ Dissimilarity based EAC estimated approximately 5 optimal partitions (Table \ref
 
 Here is the PCA plot of the turtle pastra (Fig. \ref{fig:gm}). Also included is the mean shape and the dispersion around the landmarks. I haven't put nay classification labels on the points because an optimal partition scheme has not been selected.
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## [1] "To speed up use option distances=FALSE"
+## [1] "To speed up use option pcaoutput=FALSE"
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/gm} 
 
+\end{knitrout}
 
 
 \begin{figure}[ht]
@@ -156,7 +183,7 @@ Here is the PCA plot of the turtle pastra (Fig. \ref{fig:gm}). Also included is 
 I'm currently holding back on showing all the tables and model selection procedures because there are a lot of them. I'll show the confusion matrices from the multinomial logistic regressions because they are easy (Tables \ref{tab:multi-conf-sh1}, \ref{tab:multi-conf-sh2}, \ref{tab:multi-conf-sh3}, \ref{tab:multi-conf-spinks}). The confusion matrices from the neural network and random forest models are easy to make too, just would increase the overall length of this document by quite a bit.
 
 % latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Mon Apr  8 09:29:56 2013
+% Fri May  3 10:50:17 2013
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rrrr}
@@ -173,7 +200,7 @@ CCR &  40 &  14 &  11 \\
 \end{center}
 \end{table}
 % latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Mon Apr  8 09:29:56 2013
+% Fri May  3 10:50:17 2013
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rrrr}
@@ -190,7 +217,7 @@ CCR &  44 &  12 &  10 \\
 \end{center}
 \end{table}
 % latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Mon Apr  8 09:29:56 2013
+% Fri May  3 10:50:17 2013
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rrrrr}
@@ -208,7 +235,7 @@ CCR &  37 &  11 &   9 &   2 \\
 \end{center}
 \end{table}
 % latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Mon Apr  8 09:29:56 2013
+% Fri May  3 10:50:17 2013
 \begin{table}[ht]
 \begin{center}
 \begin{tabular}{rrrrr}
@@ -230,7 +257,34 @@ CCR &  37 &  11 &   9 &   2 \\
 
 But I can show the comparison of the predictive accuracies (Fig. \ref{fig:resamp}).
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## $sh1
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/resamp1} 
+\begin{kframe}\begin{verbatim}
+## 
+## $sh2
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/resamp2} 
+\begin{kframe}\begin{verbatim}
+## 
+## $sh3
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/resamp3} 
+\begin{kframe}\begin{verbatim}
+## 
+## $spinks
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/resamp4} 
 
+
+\end{knitrout}
 
 
 \begin{figure}[t]
@@ -267,7 +321,34 @@ But I can show the comparison of the predictive accuracies (Fig. \ref{fig:resamp
 
 In the interest of space/time, I'm only going to display results from one of the selected models from each method for each classification scheme.
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## $sh1
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/multi-map1} 
+\begin{kframe}\begin{verbatim}
+## 
+## $sh2
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/multi-map2} 
+\begin{kframe}\begin{verbatim}
+## 
+## $sh3
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/multi-map3} 
+\begin{kframe}\begin{verbatim}
+## 
+## $spinks
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/multi-map4} 
 
+
+\end{knitrout}
 
 
 \begin{figure}[t]
@@ -301,7 +382,16 @@ In the interest of space/time, I'm only going to display results from one of the
   \label{fig:multi-map}
 \end{figure}
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tnn.class' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tnn.class.tiny' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tnn.map' not found}}\end{kframe}
+\end{knitrout}
 
 
 \begin{figure}[t]
@@ -336,7 +426,34 @@ In the interest of space/time, I'm only going to display results from one of the
 \end{figure}
 
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+\begin{verbatim}
+## $sh1
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/rf-map1} 
+\begin{kframe}\begin{verbatim}
+## 
+## $sh2
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/rf-map2} 
+\begin{kframe}\begin{verbatim}
+## 
+## $sh3
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/rf-map3} 
+\begin{kframe}\begin{verbatim}
+## 
+## $spinks
+\end{verbatim}
+\end{kframe}
+\includegraphics[width=\maxwidth]{figure/rf-map4} 
 
+
+\end{knitrout}
 
 
 \begin{figure}[t]

@@ -17,12 +17,12 @@ require(pROC)
 require(MuMIn)
 
 source('../src/support_functions.r')
-source('../src/turtle_mung.r')
+#source('../src/turtle_mung.r')
 
 load('../src/cluster_res.RData')
 load('../src/supervised_misc.RData')
 load('../src/multi_boot_mod.RData')
-load('../src/nnet_boot_mod.RData')
+#load('../src/nnet_boot_mod.RData')
 load('../src/rf_boot_mod.RData')
 
 clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
@@ -41,11 +41,11 @@ clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
 }
 
 tm <- clean.mods(tmulti)
-tnn <- clean.mods(tnnet)
+#tnn <- clean.mods(tnnet)
 trf <- clean.mods(trf)
 
 tm.a <- clean.mods(tmulti.a)
-tnn.a <- clean.mods(tnnet.a)
+#tnn.a <- clean.mods(tnnet.a)
 trf.a <- clean.mods(trf.a)
 
 # multinomial logistic regression
@@ -78,27 +78,27 @@ tm.a.conf <- Map(confusionMatrix,
 
 
 # neural nets
-tnn.varimp <- lapply(tnn, varImp)
+#tnn.varimp <- lapply(tnn, varImp)
 
-tnn.re <- resamples(tnn)
-tnn.redi <- diff(tnn.re)
+#tnn.re <- resamples(tnn)
+#tnn.redi <- diff(tnn.re)
 
-tnn.class <- mapply(predict, tnn, turtle.test,
-                    SIMPLFIY = FALSE)
+#tnn.class <- mapply(predict, tnn, turtle.test,
+#                    SIMPLFIY = FALSE)
 
-tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-                x = tnn.class, y = classes)
+#tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+#                x = tnn.class, y = classes)
 
-tnn.a.varimp <- lapply(tnn.a, varImp)
+#tnn.a.varimp <- lapply(tnn.a, varImp)
 
-tnn.a.re <- resamples(tnn.a)
-tnn.a.redi <- diff(tnn.a.re)
+#tnn.a.re <- resamples(tnn.a)
+#tnn.a.redi <- diff(tnn.a.re)
 
-tnn.a.class <- mapply(predict, tnn.a, adult.test,
-                      SIMPLIFY = FALSE)
+#tnn.a.class <- mapply(predict, tnn.a, adult.test,
+#                      SIMPLIFY = FALSE)
 
-tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-                  tnn.a.class, ad.class)
+#tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+#                  tnn.a.class, ad.class)
 
 
 # random forests
@@ -133,24 +133,26 @@ trf.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
 mods <- list()
 for(ii in seq(length(tm.best))) {
   mods[[ii]] <- list(multi = tm.best[[ii]],
-                     nnet = tnn[[ii]],
+#                     nnet = tnn[[ii]],
                      rf = trf[[ii]])
 }
 names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
 
-tmod <- lapply(mods, flatten.next)
+#tmod <- lapply(mods, flatten.next)
+tmod <- mods
 tmod.re <- lapply(tmod, resamples)
 tmod.redi <- lapply(tmod.re, diff)
 
 a.mod <- list()
 for(jj in seq(length(tm.a.best))) {
   a.mod[[jj]] <- list(multi = tm.a.best[[jj]],
-                      nnet = tnn.a[[jj]],
+#                      nnet = tnn.a[[jj]],
                       rf = trf.a[[jj]])
 }
 names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
 
-tmod.a <- lapply(mods, flatten.next)
+#tmod.a <- lapply(a.mod, flatten.next)
+tmod.a <- a.mod
 tmod.a.re <- lapply(tmod.a, resamples)
 tmod.a.redi <- lapply(tmod.re, diff)
 
@@ -158,9 +160,13 @@ tmod.a.redi <- lapply(tmod.re, diff)
 ## relative risk and class specific accuracy
 t.rr <- lapply(tm.best, function(x) {
                exp(coef(x$finalModel))})
+t.rr.ci <- lapply(tm.best, function(x) {
+                  exp(confint(x$finalModel))})
 t.a.rr <- lapply(tm.a.best, function(x) {
                  exp(coef(x$finalModel))})
+t.a.rr.ci <- lapply(tm.a.best, function(x) {
+                    exp(confint(x$finalModel))})
 
 
 
-save.image(file = 'turtle_analysis.RData')
+save.image(file = 'turtle_analysis_TEMP.RData')

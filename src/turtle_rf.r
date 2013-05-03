@@ -38,7 +38,9 @@ trf <- Map(function(x, y) {
                , sizes = 1:floor(max.var)
                , rfeControl = rf.ctrl
                , ntree = 1000
-               , trControl = ctrl)}, 
+               , metric = 'ROC'
+               , trControl = ctrl
+               )}, 
            x = turtle.train, y = groups)
 
 set.seed(1)
@@ -48,6 +50,7 @@ trf.a <- Map(function(x, y) {
                  , sizes = 1:floor(max.ad)
                  , rfeControl = rf.ctrl
                  , ntree = 1000
+                 , metric = 'ROC'
                  , trControl = ctrl)},
              x = adult.train, y = groups)
 

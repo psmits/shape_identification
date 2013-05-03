@@ -13,6 +13,8 @@ require(shapes)
 require(nnet)
 require(caret)
 require(e1071)
+require(pROC)
+source('../src/multiclass_roc.r')
 
 ## functions
 
@@ -109,14 +111,17 @@ data.maker <- function(gr, data, p = 0.75) {
 require(caret)
 ctrl <- trainControl(#method = 'LOOCV',
                      method = 'repeatedcv',
-                     #classProbs = TRUE,
+                     classProbs = TRUE,
+                     summaryFunction = multiClassSummary,
                      number = 10,
-                     repeats = 10)
+                     repeats = 10,
+                     returnResamp = 'all')
 
 nnetFuncs <- caretFuncs
 nnetFuncs$fit <- function(x, y, first, last, ...) {
   train(x, y, method = 'nnet', ...)
 }
+nnetFuncs$summary <- multiClassSummary
 nnet.ctrl <- rfeControl(functions = nnetFuncs,
                         method = 'repeatedcv',
                         repeats = 10,
@@ -125,12 +130,14 @@ nnet.ctrl <- rfeControl(functions = nnetFuncs,
                         returnResamp = 'final',
                         allowParallel = FALSE)
 
+rfFuncs$summary <- multiClassSummary
 rf.ctrl <- rfeControl(functions = rfFuncs,
                       method = 'repeatedcv',
                       repeats = 10,
                       number = 10,
                       verbose = FALSE, 
-                      returnResamp = 'final')
+                      returnResamp = 'final'
+                      )
 
 make.form <- function(vari, resp) {
   form <- vector(mode = 'list', length = length(vari))

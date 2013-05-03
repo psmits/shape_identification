@@ -26,7 +26,8 @@ opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
 <<results = 'hide'>>=
 source('../src/support_functions.r')
 source('../src/plotting_functions.r')
-load('../src/turtle_analysis.RData')
+#load('../src/turtle_analysis.RData')
+load('../src/turtle_analysis_TEMP.RData')
 @
 
 <<>>=
@@ -84,7 +85,7 @@ How well does data conform to predetermined structure?
 \subsection{Unsupervised}
 Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately \Sexpr{max(tmorph.km$clustering)} after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statistic values are within \Sexpr{max(tmorph.gap$Tab[, 3]) - min(tmorph.gap$Tab[, 3])} of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
 
-<<gap, eval = FALSE>>=
+<<gap, eval = TRUE>>=
 gg.gap <- gap.plot(tmorph.gap)
 gg.gap
 @
@@ -94,6 +95,12 @@ gg.gap
   \caption{Gap statistic values for multiple PAM-based clustering configurations of the Riemmanian shape distances of the \textit{Emys marmorata} plastra. Higher values indicate greater clustering. Standard errors are estimated from 100 bootstrap resamples.}
   \label{fig:gap}
 \end{figure}
+
+<<a-gap, eval = TRUE>>=
+ad.gap <- gap.plot(tadult.gap)
+ad.gap
+@
+
 
 Dissimilarity based EAC estimated approximately \Sexpr{max(tmorph.dac)} optimal partitions (Table \ref{tab:dac}) though this may be only a marginal difference. I need to increase the number of resamples from 100 to 500 because that is when approximate stability is estimated to occur. 
 
@@ -108,7 +115,7 @@ print.xtable(dac.tab
 
 Here is the PCA plot of the turtle pastra (Fig. \ref{fig:gm}). Also included is the mean shape and the dispersion around the landmarks. I haven't put nay classification labels on the points because an optimal partition scheme has not been selected.
 
-<<gm, eval = FALSE>>=
+<<gm, eval = TRUE>>=
 gg.morph <- ggpairs(turtle.info, columns = c(1:3),
                     upper = 'blank')
 fits <- procGPA(turtle.land.info)
@@ -126,6 +133,13 @@ gg.morph
 
 
 \subsection{Supervised}
+
+\subsubsection{Model selection}
+% multinomial logistic regression AICc tables
+%
+% nnet recursive feature selection
+%
+% random forest recursive feature selection
 
 I'm currently holding back on showing all the tables and model selection procedures because there are a lot of them. I'll show the confusion matrices from the multinomial logistic regressions because they are easy (Tables \ref{tab:multi-conf-sh1}, \ref{tab:multi-conf-sh2}, \ref{tab:multi-conf-sh3}, \ref{tab:multi-conf-spinks}). The confusion matrices from the neural network and random forest models are easy to make too, just would increase the overall length of this document by quite a bit.
 
@@ -147,7 +161,7 @@ for(jj in seq(length(mt))) {
 
 But I can show the comparison of the predictive accuracies (Fig. \ref{fig:resamp}).
 
-<<resamp, eval = FALSE>>=
+<<resamp, eval = TRUE>>=
 tmod.re.clean <- lapply(tmod.re, function(x) clean.resamp(x$values))
 tmod.re.gg <- lapply(tmod.re.clean, resamp.plot)
 tmod.re.gg
@@ -187,7 +201,7 @@ tmod.re.gg
 
 In the interest of space/time, I'm only going to display results from one of the selected models from each method for each classification scheme.
 
-<<multi-map, eval = FALSE>>=
+<<multi-map, eval = TRUE>>=
 tm.map <- mapply(class.map
                  , train = turtle.train
                  , test = turtle.test
@@ -273,7 +287,7 @@ tnn.map
 \end{figure}
 
 
-<<rf-map, eval = FALSE>>=
+<<rf-map, eval = TRUE>>=
 trf.class.tiny <- lapply(trf.class, function(x) x[[1]])
 trf.map <- mapply(class.map
                  , train = turtle.train
