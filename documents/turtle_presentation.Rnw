@@ -1,0 +1,172 @@
+\documentclass{beamer}
+\usepackage{amsmath, amsthm}
+\usepackage{parskip, microtype, graphicx, caption}
+
+\frenchspacing  % i likes it
+
+<<message = FALSE, echo = FALSE, warning = FALSE>>=
+require(knitr)
+require(xtable)
+require(ggplot2)
+require(reshape2)
+require(GGally)
+
+opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
+               highlight = TRUE, background = 'white',
+               fig.height = 3, fig.width = 4
+               , eval = FALSE
+               )
+
+
+#source('../src/plotting_functions.r')
+#load('../src/turtle_analysis.r')
+@
+
+<<>>=
+# need to format all the map data so it plays nicely
+correct.map <- function(data) {
+  out <- lapply(data, 
+                function(x) {
+                  x$long <- as.numeric(as.character(x$long)) * -1
+                  x$lat <- as.numeric(as.character(x$lat))
+                  x})
+
+  out
+}
+
+map <- map_data('state')
+st <- c('california', 'oregon', 'washington')
+map <- map[map$region == st, ]
+
+turtle.train <- correct.map(turtle.train)
+turtle.test <- correct.map(turtle.test)
+adult.train <- correct.map(adult.train)
+adult.test <- correct.map(adult.test)
+
+labs <- Map(function(x, n) x[, n],
+            x = turtle.train, n = names(turtle.train))
+@
+
+\title{How cryptic is cryptic diversity? Machine learning approaches to fine scale variation in the morphology of \textit{Emys marmorata}.}
+\author[shortname]{Peter D Smits\inst{1}, 
+                   Kenneth D Angielczyk\inst{2}, 
+                   James F Parham\inst{3}}
+\institute[shortinst]{\inst{1} Committee on Evolution Biology, University of Chicago,
+                      \inst{2} Department of Geology, Field Museum of Natural History,
+                      \inst{3} Department of Geological Sciences, California State University -- Fullerton}
+
+\begin{document}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+
+\section{Introduction}
+\begin{frame}
+  \frametitle{Cryptic diversity}
+  % image of example taxa that are morphologically identical and are only differentiated via genetic means
+\end{frame}
+
+\begin{frame}
+  \frametitle{\textit{Emys marmorata}}
+  % picture of a turtle
+  % this is the study system
+  % a little natural history
+  % a little biogeography
+\end{frame}
+
+\begin{frame}
+  \frametitle{Morphological hypotheses}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Phylogenetic hypotheses}
+  % images of the different phylobiogeographic hypotheses from the different spinks papers
+\end{frame}
+
+
+\section{Methods}
+\begin{frame}
+  \frametitle{Methods: morphometrics}
+  % two columns, text on one side and idealized landmarks on the other
+  % ken probably has an image for the landmarks
+  % these landmarks have been used before in other studies
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item plastral (``belly'') shape
+        \item landmarks averaged across bilat axis
+        \item total 13 landmarks, 7 on bilat axis, 6 off
+        %\item \Sexpr{nrow(turtle.adult)} adult individuals
+        \item geographic information known/inferred
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      idealized plastral landmarks
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Methods: unsupervised learning}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Methods: supervised learning}
+\end{frame}
+
+
+\section{Results}
+\begin{frame}
+  \frametitle{Results: mophometrics}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results: gap clustering}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results: d-EAC}
+\end{frame}
+
+% model selection is unnecessary because of time constraints
+\begin{frame}
+  \frametitle{Results: multinomial logistic regression}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results: neural networks}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results: random forests}
+\end{frame}
+
+
+\section{Discussion}
+\begin{frame}
+  \frametitle{Best classification scheme}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Future}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Acknowledgements}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item Ben Frable, Dallas Krentzel, Michael Foote
+        \item COLLECTIONS
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[height = 0.25\textheight, keepaspectratio = true]{figure/chicago} \\
+      \includegraphics[height = 0.25\textheight, width = \textwidth, keepaspectratio = true]{figure/field} \\
+      \includegraphics[height = 0.25\textheight, keepaspectratio = true]{figure/csu}
+    \end{column}
+  \end{columns}
+\end{frame}
+\end{document}

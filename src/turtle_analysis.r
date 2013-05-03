@@ -83,7 +83,7 @@ tnn.varimp <- lapply(tnn, varImp)
 tnn.re <- resamples(tnn)
 tnn.redi <- diff(tnn.re)
 
-tnn.class <- mapply(predict, tnn.best, turtle.test,
+tnn.class <- mapply(predict, tnn, turtle.test,
                     SIMPLFIY = FALSE)
 
 tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
@@ -94,7 +94,7 @@ tnn.a.varimp <- lapply(tnn.a, varImp)
 tnn.a.re <- resamples(tnn.a)
 tnn.a.redi <- diff(tnn.a.re)
 
-tnn.a.class <- mapply(predict, tnn.a.best, adult.test,
+tnn.a.class <- mapply(predict, tnn.a, adult.test,
                       SIMPLIFY = FALSE)
 
 tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
