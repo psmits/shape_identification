@@ -35,6 +35,7 @@ set.seed(1)
 tmulti <- mapply(multi.train,
                  form = tform, data = turtle.train,
                  MoreArgs = list(method = 'multinom'
+                                 , metric = 'ROC'
                                  , trControl = ctrl
                                  , maxit = 1000),
                  SIMPLFY = FALSE)
@@ -43,6 +44,7 @@ set.seed(1)
 tmulti.a <- mapply(multi.train,
                    form = tform.a, data = adult.train,
                    MoreArgs = list(method = 'multinom'
+                                   , metric = 'ROC'
                                    , trControl = ctrl
                                    , maxit = 1000),
                    SIMPLIFY = FALSE)
