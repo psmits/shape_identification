@@ -12,7 +12,6 @@
 require(MASS)
 require(nnet)
 require(cluster)
-require(e1071)
 require(caret)
 require(randomForest)
 require(pROC)

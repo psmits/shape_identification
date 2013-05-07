@@ -12,7 +12,6 @@
 require(MASS)
 require(nnet)
 require(cluster)
-require(e1071)
 require(caret)
 require(randomForest)
 require(pROC)
@@ -39,8 +38,18 @@ trf <- Map(function(x, y) {
                , rfeControl = rf.ctrl
                , ntree = 1000
                , metric = 'ROC'
-               , trControl = ctrl)}, 
+               , trControl = ctrl)},
            x = turtle.train, y = groups)
+set.seed(1)
+trf.s <- Map(function(x) {
+             rfe(x = x[, -ncol(x)]
+                 , y = x$cate
+                 , sizes = 3:(ncol(x) - 1)
+                 , rfeControl = rf.ctrl
+                 , ntree = 1000
+                 , metric = 'ROC'
+                 , trControl = ctrl)}, 
+             x = turtle.design)
 
 set.seed(1)
 trf.a <- Map(function(x, y) {
@@ -52,6 +61,18 @@ trf.a <- Map(function(x, y) {
                  , metric = 'ROC'
                  , trControl = ctrl)},
              x = adult.train, y = groups)
+set.seed(1)
+trf.a.s <- Map(function(x) {
+             rfe(x = x[, -ncol(x)]
+                 , y = x$cate
+                 , sizes = 3:(ncol(x) - 1)
+                 , rfeControl = rf.ctrl
+                 , ntree = 1000
+                 , metric = 'ROC'
+                 , trControl = ctrl)},
+             x = adult.design)
 
 
-save(trf, trf.a, file = 'rf_boot_mod.RData')
+save(trf, trf.s,
+     trf.a, trf.a.s, 
+     file = 'rf_boot_mod.RData')

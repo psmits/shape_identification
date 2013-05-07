@@ -47,37 +47,41 @@ names(turtle.meta) <- c('ind', 'spec', 'lat', 'long', 'year',
 turtle.meta$spinks <- as.factor(turtle.meta$spinks)
 
 
-# seperate turtles that have no geographic and/or spinks values
-turtle.which.noinfo <- is.na(turtle.meta$lat) | is.na(turtle.meta$long) |
-                 is.na(turtle.meta$spinks) | is.na(turtle.meta$sh1) |
-                 is.na(turtle.meta$sh2) | is.na(turtle.meta$sh3)
-turtle.land.noinfo <- turtle.fit$rotated[, , turtle.which.noinfo]
-turtle.land.info <- turtle.fit$rotated[, , !turtle.which.noinfo]
-turtle.scores.noinfo <- turtle.fit$stdscores[turtle.which.noinfo, ]
-turtle.scores.info <- turtle.fit$stdscores[!turtle.which.noinfo, ]
+# turtles with no geographic infomation
+no.geo <- is.na(turtle.meta$lat) | is.na(turtle.meta$long)
+no.assign <- is.na(turtle.meta$sh1) | is.na(turtle.meta$sh2) |
+             is.na(turtle.meta$sh3) | is.na(turtle.meta$spinks)
+no.info <- no.geo | no.assign
 
+turtle.land.info <- turtle.fit$rotated[, , !no.info]
+turtle.scores.info <- turtle.fit$stdscores[!no.info, ]
+turtle.meta.info <- turtle.meta[!no.info, ]
+turtle.geo <- cbind(lat = as.numeric(as.character(turtle.meta.info$lat)),
+                    long = (as.numeric(as.character(turtle.meta.info$long)) * -1))
 
-turtle.meta.info <- turtle.meta[!turtle.which.noinfo, ]
-turtle.geo <- cbind(as.numeric(as.character(turtle.meta.info$lat)),
-                    as.numeric(as.character(turtle.meta.info$long)))
-# there are two geographic outliers....need to check with other guys
-turtle.geo.meta <- turtle.meta.info[(turtle.geo[, 2]) > 100, ]
+outlier <- which(turtle.geo[, 'long'] > 0)
+turtle.land.info <- turtle.land.info[, , -outlier]
+turtle.scores.info <- turtle.scores.info[-outlier, ]
+turtle.meta.info <- turtle.meta.info[-outlier, ]
+turtle.geo <- turtle.geo[-outlier, ]
 
-turtle.land.info <- turtle.land.info[, , (turtle.geo[, 2]) > 100]
+turtle.meta.info$lat <- turtle.geo[, 'lat']
+turtle.meta.info$long <- turtle.geo[, 'long']
+turtle.info <- cbind(turtle.scores.info,
+                     turtle.meta.info)  # turtle.scores.info is longer necessary
 
-turtle.info <- cbind(turtle.scores.info[(turtle.geo[, 2]) > 100, ],
-                                         turtle.geo.meta)
+no.class <- which(turtle.info$sh3 == '')
+turtle.land.info <- turtle.land.info[, , -no.class]
+turtle.info <- turtle.info[-no.class, ]
+turtle.geo <- turtle.geo[-no.class, ]
 
-turtle.land.info <- turtle.land.info[, , turtle.info$sh3 != '']
-
-turtle.info <- turtle.info[turtle.info$sh3 != '', ]
-turtle.info$spinks <- as.factor(as.character(turtle.info$spinks))
 turtle.info$sh1 <- as.factor(as.character(turtle.info$sh1))
 turtle.info$sh2 <- as.factor(as.character(turtle.info$sh2))
 turtle.info$sh3 <- as.factor(as.character(turtle.info$sh3))
+turtle.info$spinks <- as.factor(as.character(turtle.info$spinks))
 
 turtle.info.dist <- riem.matrix(turtle.land.info)  # riemmanian shape-distance
-turtle.geo <- turtle.geo[(turtle.geo[, 2]) > 100, ]
+
 
 ## remove juvies
 ## there are two classification options. ASK KEN WHICH IS THE ONE TO FOLLOW

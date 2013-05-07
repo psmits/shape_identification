@@ -24,24 +24,10 @@ opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
 
 <<>>=
 # need to format all the map data so it plays nicely
-correct.map <- function(data) {
-  out <- lapply(data, 
-                function(x) {
-                  x$long <- as.numeric(as.character(x$long)) * -1
-                  x$lat <- as.numeric(as.character(x$lat))
-                  x})
-
-  out
-}
-
 map <- map_data('state')
 st <- c('california', 'oregon', 'washington')
 map <- map[map$region == st, ]
 
-turtle.train <- correct.map(turtle.train)
-turtle.test <- correct.map(turtle.test)
-adult.train <- correct.map(adult.train)
-adult.test <- correct.map(adult.test)
 
 labs <- Map(function(x, n) x[, n],
             x = turtle.train, n = names(turtle.train))

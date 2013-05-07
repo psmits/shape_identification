@@ -22,7 +22,7 @@ source('../src/support_functions.r')
 load('../src/cluster_res.RData')
 load('../src/supervised_misc.RData')
 load('../src/multi_boot_mod.RData')
-load('../src/nnet_boot_mod.RData')
+#load('../src/nnet_boot_mod.RData')
 load('../src/rf_boot_mod.RData')
 
 clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
@@ -41,100 +41,69 @@ clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
 }
 
 tm <- clean.mods(tmulti)
-tnn <- clean.mods(tnnet)
+tm.s <- clean.mods(tmulti.s)
+#tnn <- clean.mods(tnnet)
 trf <- clean.mods(trf)
+trf.s <- clean.mods(trf.s)
 
 tm.a <- clean.mods(tmulti.a)
-tnn.a <- clean.mods(tnnet.a)
+tm.a.s <- clean.mods(tmulti.a.s)
+#tnn.a <- clean.mods(tnnet.a)
 trf.a <- clean.mods(trf.a)
+trf.a.s <- clean.mods(trf.a.s)
+
+multi.analysis <- function(model, class, test) {
+  out <- list()
+  out$sel <- lapply(model, function(x)
+                    model.sel(lapply(x, function(y) y$finalModel)))
+  out$best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
+                     sel = out$sel, mod = model,
+                     SIMPLIFY = FALSE)
+  out$class <- mapply(predict, out$best, test,
+                      MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+  out$conf <- Map(confusionMatrix,
+                  out$class, class)
+
+  out
+}
+
+rf.analysis <- function(model, class, test) {
+  out <- list()
+  out$varimp <- lapply(model, varImp)
+  out$re <- resamples(model)
+  out$redi <- resamples(out$re)
+  out$class <- mapply(predict, model, test,
+                      SIMPLIFY = FALSE)
+  out$conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+                  x = out$class, y = class)
+  out
+}
 
 # multinomial logistic regression
-tm.sel <- lapply(tm, function(x)
-                   model.sel(lapply(x, function(y) y$finalModel)))
+tm.analysis <- multi.analysis(tm, classes, turtle.test)
+tm.s.analysis <- multi.analysis(tm.s, classes, turtle.test)
 
-tm.best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
-                    sel = tm.sel, mod = tm,
-                    SIMPLIFY = FALSE)
-
-tm.class <- mapply(predict, tm.best, turtle.test,
-                   MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
-
-tm.conf <- Map(confusionMatrix,
-               tm.class, classes)
-
-
-tm.a.sel <- lapply(tm.a, function(x)
-                   model.sel(lapply(x, function(y) y$finalModel)))
-
-tm.a.best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
-                    sel = tm.a.sel, mod = tm.a,
-                    SIMPLIFY = FALSE)
-
-tm.a.class <- mapply(predict, tm.a.best, adult.test,
-                     MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
-
-tm.a.conf <- Map(confusionMatrix,
-                 tm.a.class, ad.class)
-
-
-# neural nets
-tnn.varimp <- lapply(tnn, varImp)
-
-tnn.re <- resamples(tnn)
-tnn.redi <- diff(tnn.re)
-
-tnn.class <- mapply(predict, tnn, turtle.test,
-                    SIMPLFIY = FALSE)
-
-tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-                x = tnn.class, y = classes)
-
-tnn.a.varimp <- lapply(tnn.a, varImp)
-
-tnn.a.re <- resamples(tnn.a)
-tnn.a.redi <- diff(tnn.a.re)
-
-tnn.a.class <- mapply(predict, tnn.a, adult.test,
-                      SIMPLIFY = FALSE)
-
-tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-                  tnn.a.class, ad.class)
+tm.a.analysis <- multi.analysis(tm.a, ad.class, adult.test)
+tm.a.s.analysis <- multi.analysis(tm.a.s, ad.class, adult.test)
 
 
 # random forests
-trf.varimp <- lapply(trf, varImp)
+trf.analysis <- rf.analysis(trf, classes, turtle.test)
+trf.s.analysis <- rf.analysis(trf.s, classes, turtle.test)
 
-trf.re <- resamples(trf)
-trf.redi <- diff(trf.re)
-
-trf.class <- mapply(predict, trf, turtle.test,
-                    SIMPLIFY = FALSE)
-
-trf.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-                x = trf.class, y = classes)
-
-trf.a.varimp <- lapply(trf.a, varImp)
-
-trf.a.re <- resamples(trf.a)
-trf.a.redi <- diff(trf.a.re)
-
-trf.a.class <- mapply(predict, trf.a, adult.test,
-                      SIMPLIFY = FALSE)
-
-trf.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-                  x = trf.a.class, y = ad.class)
+trf.a.analysis <- rf.analysis(trf.a, ad.class, adult.test)
+trf.a.s.analysis <- rf.analysis(trf.a.s, ad.class, adult.test)
 
 
 # best models compared
 #tm.best
-#tnn.best
 #trf.best
 
 mods <- list()
 for(ii in seq(length(tm.best))) {
-  mods[[ii]] <- list(multi = tm.best[[ii]],
+  mods[[ii]] <- list(multi = tm.analysis[[ii]]$best,
 #                     nnet = tnn[[ii]],
-                     rf = trf[[ii]])
+                     rf = trf.analysis[[ii]]$best)
 }
 names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
 
@@ -158,15 +127,40 @@ tmod.a.redi <- lapply(tmod.re, diff)
 
 
 ## relative risk and class specific accuracy
-t.rr <- lapply(tm.best, function(x) {
+t.rr <- lapply(tm.analysis$best, function(x) {
                exp(coef(x$finalModel))})
-t.rr.ci <- lapply(tm.best, function(x) {
+t.rr.ci <- lapply(tm.analysis$best, function(x) {
                   exp(confint(x$finalModel))})
-t.a.rr <- lapply(tm.a.best, function(x) {
+t.a.rr <- lapply(tm.a.analysis$best, function(x) {
                  exp(coef(x$finalModel))})
-t.a.rr.ci <- lapply(tm.a.best, function(x) {
+t.a.rr.ci <- lapply(tm.a.analysis$best, function(x) {
                     exp(confint(x$finalModel))})
 
 
-
 save.image(file = 'turtle_analysis.RData')
+
+
+
+
+# neural nets
+#tnn.varimp <- lapply(tnn, varImp)
+
+#tnn.re <- resamples(tnn)
+#tnn.redi <- diff(tnn.re)
+
+#tnn.class <- mapply(predict, tnn, turtle.test,
+#                    SIMPLFIY = FALSE)
+
+#tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+#                x = tnn.class, y = classes)
+
+#tnn.a.varimp <- lapply(tnn.a, varImp)
+
+#tnn.a.re <- resamples(tnn.a)
+#tnn.a.redi <- diff(tnn.a.re)
+
+#tnn.a.class <- mapply(predict, tnn.a, adult.test,
+#                      SIMPLIFY = FALSE)
+
+#tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
+#                  tnn.a.class, ad.class)
