@@ -74,4 +74,4 @@ adult.design <- Map(function(x, y) {
                     x = adult.train, y = groups)
 
 # O
-save.image('supervised_misc.RData')
+save.image('../data/supervised_misc.RData')

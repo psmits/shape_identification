@@ -28,7 +28,7 @@ registerDoParallel(cores = detectCores())
 # source files
 source('../src/support_functions.r')
 
-load('../src/supervised_misc.RData')
+load('../data/supervised_misc.RData')
 
 set.seed(1)
 trf <- Map(function(x, y) {
@@ -75,4 +75,4 @@ trf.a.s <- Map(function(x) {
 
 save(trf, trf.s,
      trf.a, trf.a.s, 
-     file = 'rf_boot_mod.RData')
+     file = '../data/rf_boot_mod.RData')

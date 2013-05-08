@@ -20,10 +20,10 @@ source('../src/support_functions.r')
 #source('../src/turtle_mung.r')
 
 load('../src/cluster_res.RData')
-load('../src/supervised_misc.RData')
-load('../src/multi_boot_mod.RData')
+load('../data/supervised_misc.RData')
+load('../data/multi_boot_mod.RData')
 #load('../src/nnet_boot_mod.RData')
-load('../src/rf_boot_mod.RData')
+load('../data/rf_boot_mod.RData')
 
 clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
   if (!is.null(dim(models))) {
@@ -137,30 +137,4 @@ t.a.rr.ci <- lapply(tm.a.analysis$best, function(x) {
                     exp(confint(x$finalModel))})
 
 
-save.image(file = 'turtle_analysis.RData')
-
-
-
-
-# neural nets
-#tnn.varimp <- lapply(tnn, varImp)
-
-#tnn.re <- resamples(tnn)
-#tnn.redi <- diff(tnn.re)
-
-#tnn.class <- mapply(predict, tnn, turtle.test,
-#                    SIMPLFIY = FALSE)
-
-#tnn.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-#                x = tnn.class, y = classes)
-
-#tnn.a.varimp <- lapply(tnn.a, varImp)
-
-#tnn.a.re <- resamples(tnn.a)
-#tnn.a.redi <- diff(tnn.a.re)
-
-#tnn.a.class <- mapply(predict, tnn.a, adult.test,
-#                      SIMPLIFY = FALSE)
-
-#tnn.a.conf <- Map(function(x, y) confusionMatrix(x$pred, y),
-#                  tnn.a.class, ad.class)
+save.image(file = '../data/turtle_analysis.RData')

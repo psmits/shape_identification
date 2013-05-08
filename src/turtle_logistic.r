@@ -28,7 +28,7 @@ registerDoParallel(cores = detectCores())
 # source files
 source('../src/support_functions.r')
 
-load('../src/supervised_misc.RData')
+load('../data/supervised_misc.RData')
 
 set.seed(1)
 # change to be the design format and using recursive feature selection
@@ -67,4 +67,4 @@ tmulti.a.s <- mapply(multi.train,
 
 save(tmulti, tmulti.s,
      tmulti.a, tmulti.a.s,
-     file = 'multi_boot_mod.RData')
+     file = '../data/multi_boot_mod.RData')
