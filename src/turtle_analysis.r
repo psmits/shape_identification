@@ -19,7 +19,7 @@ require(MuMIn)
 source('../src/support_functions.r')
 #source('../src/turtle_mung.r')
 
-load('../src/cluster_res.RData')
+load('../data/cluster_res.RData')
 load('../data/supervised_misc.RData')
 load('../data/multi_boot_mod.RData')
 #load('../src/nnet_boot_mod.RData')
