@@ -11,7 +11,6 @@
 }
 \makeatother
 
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
 \newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
 \newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
@@ -72,6 +71,7 @@
 \institute[shortinst]{\inst{1} Committee on Evolution Biology, University of Chicago,
                       \inst{2} Department of Geology, Field Museum of Natural History,
                       \inst{3} Department of Geological Sciences, California State University -- Fullerton}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 
 \begin{document}
 
@@ -92,6 +92,13 @@
   % this is the study system
   % a little natural history
   % a little biogeography
+  \begin{figure}[h]
+    \centering
+    \captionsetup{justification = raggedleft, slc = off}
+    \includegraphics[width = 0.8\textwidth, keepaspectratio = true]{figure/turtle}
+    \caption*{wikimedia}
+    \label{fig:turtle}
+  \end{figure}
 \end{frame}
 
 \begin{frame}
@@ -100,6 +107,8 @@
 
 \begin{frame}
   \frametitle{Phylogenetic hypotheses}
+
+  Number of subspecies and where they occur.
   % images of the different phylobiogeographic hypotheses from the different spinks papers
 \end{frame}
 
@@ -107,58 +116,89 @@
 \section{Methods}
 \begin{frame}
   \frametitle{Methods: morphometrics}
-  % two columns, text on one side and idealized landmarks on the other
-  % ken probably has an image for the landmarks
-  % these landmarks have been used before in other studies
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \begin{itemize}
+        %\item nrow(turtle.adult) adult individuals
         \item plastral (``belly'') shape
         \item landmarks averaged across bilat axis
         \item total 13 landmarks, 7 on bilat axis, 6 off
-        %\item nrow(turtle.adult) adult individuals
         \item geographic information known/inferred
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
-      idealized plastral landmarks
+      \centering
+      \includegraphics[width = \textwidth, keepaspectratio = true]{figure/plastra}
     \end{column}
   \end{columns}
 \end{frame}
 
 \begin{frame}
   \frametitle{Methods: unsupervised learning}
+
+  Fancy way of saying clustering or density estimation.
+
+  Partitioning around mediods (PAM) compared with ``gap'' statistic.
+
+  (dissimilarity based) Evidence accumulation clustering
 \end{frame}
 
 \begin{frame}
   \frametitle{Methods: supervised learning}
+
+  Fancy way of saying classification and regression.
+
+  Here, features (principal components) predict class (subspecific assignment).
+
+  Multnomial logistic regression
+
+  Random forests
 \end{frame}
+
+\begin{frame}
+  \frametitle{Methods: model training and selection}
+  Unknown appropriate number of features to ``best'' predict class. Want to minimize false positive, while maximizing true positive.
+
+  Split data set, 75-25, training and testing.
+
+  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation.
+
+  Multinomial logistic model selected via min AICc. Random forest model via max AUC ROC.
+
+\end{frame}
+%\begin{frame}
+%  \frametitle{Methods: ROC}
+%\end{frame}
 
 
 \section{Results}
 \begin{frame}
   \frametitle{Results: mophometrics}
+
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Results: gap clustering}
+
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Results: d-EAC}
+
 \end{frame}
 
 % model selection is unnecessary because of time constraints
 \begin{frame}
   \frametitle{Results: multinomial logistic regression}
-\end{frame}
 
-\begin{frame}
-  \frametitle{Results: neural networks}
 \end{frame}
 
 \begin{frame}
   \frametitle{Results: random forests}
+  % plot the ROC curves
+  % four facets, multiple lines
 \end{frame}
 
 

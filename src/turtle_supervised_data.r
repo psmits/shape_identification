@@ -63,12 +63,12 @@ ad.class <- Map(function(x, y) colnames(x) %in% y, adult.test, groups)
 ad.class <- Map(function(x, y) x[, y], adult.test, ad.class)
 
 turtle.design <- Map(function(x, y) {
-                     cbind(x$lat, x$long,
+                     cbind(lat = x$lat, long = x$long,
                            x[, 1:max.var],
                            cate = x[, y])},
                      x = turtle.train, y = groups)
 adult.design <- Map(function(x, y) {
-                    cbind(x$lat, x$long,
+                    cbind(lat = x$lat, long = x$long,
                           x[, 1:max.ad],
                           cate = x[, y])},
                     x = adult.train, y = groups)

@@ -17,7 +17,6 @@
 }
 \makeatother
 
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
 \newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
 \newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
@@ -70,13 +69,28 @@
 
 
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
 
 
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: cannot open the connection}}\end{kframe}
+\end{knitrout}
 
 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'turtle.train' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'turtle.test' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'turtle.train' not found}}\end{kframe}
+\end{knitrout}
 
 
 \title{How cryptic is cryptic diversity? Machine learning approaches to fine scale variation in the morphology of \textit{Emys marmorata}.}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 
 \begin{document}
 \maketitle
@@ -109,12 +123,19 @@ How well does data conform to predetermined structure?
 
 \section{Preliminary results}
 \subsection{Unsupervised}
-Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately 40 after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statistic values are within 0.0064 of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
+Comparison of gap statistic over a very wide range of plausible partitions indicates that as the number of partitions increase, there is a marginal increasing gap statistic until approximately 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\\Error in eval(expr, envir, enclos) : object 'tmorph.km' not found}} after which there is a marginal decrease in gap statistic (Fig. \ref{fig:gap}). It is notable that the standard errors around the gap statistic values are very large, and the marginal increases in gap statistic with an increased number of partitions may not be important. Additionally, all gap statistic values are within 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\\Error in eval(expr, envir, enclos) : object 'tmorph.gap' not found}} of each other meaning that there is little over all consensus for how many clusters are present when comparing gap statistics.
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/gap} 
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tmorph.gap' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'gg.gap' not found}}\end{kframe}
 \end{knitrout}
 
 \begin{figure}[ht]
@@ -125,48 +146,47 @@ Comparison of gap statistic over a very wide range of plausible partitions indic
 \end{figure}
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/a-gap} 
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tadult.gap' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'ad.gap' not found}}\end{kframe}
 \end{knitrout}
 
 
 
-Dissimilarity based EAC estimated approximately 5 optimal partitions (Table \ref{tab:dac}) though this may be only a marginal difference. I need to increase the number of resamples from 100 to 500 because that is when approximate stability is estimated to occur. 
+Dissimilarity based EAC estimated approximately 
 
-% latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Fri May  3 10:50:12 2013
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{rr}
-  \hline
- & tmorph.dac \\ 
-  \hline
-1 & 722 \\ 
-  2 &   1 \\ 
-  3 &   1 \\ 
-  4 &   1 \\ 
-  5 &   1 \\ 
-   \hline
-\end{tabular}
-\caption{Number of specimens assigned to optimal number of partitions as determined by dissimilarity based EAC. Each column corresponds to a different partition, with the number assigned directly below it.}
-\label{tab:dac}
-\end{center}
-\end{table}
+{\ttfamily\noindent\bfseries\color{errorcolor}{\\Error in eval(expr, envir, enclos) : object 'tmorph.dac' not found}} optimal partitions (Table \ref{tab:dac}) though this may be only a marginal difference. I need to increase the number of resamples from 100 to 500 because that is when approximate stability is estimated to occur. 
 
+\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tmorph.dac' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'dac.tab' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'dac.tab' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'dac.tab' not found}}\end{kframe}
 
 
 Here is the PCA plot of the turtle pastra (Fig. \ref{fig:gm}). Also included is the mean shape and the dispersion around the landmarks. I haven't put nay classification labels on the points because an optimal partition scheme has not been selected.
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
-\begin{verbatim}
-## [1] "To speed up use option distances=FALSE"
-## [1] "To speed up use option pcaoutput=FALSE"
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/gm} 
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'turtle.info' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'turtle.land.info' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'fits' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'gg.morph' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'gg.morph' not found}}\end{kframe}
 \end{knitrout}
 
 
@@ -180,110 +200,36 @@ Here is the PCA plot of the turtle pastra (Fig. \ref{fig:gm}). Also included is 
 
 \subsection{Supervised}
 
+\subsubsection{Model selection}
+% multinomial logistic regression AICc tables
+%
+% nnet recursive feature selection
+%
+% random forest recursive feature selection
+
 I'm currently holding back on showing all the tables and model selection procedures because there are a lot of them. I'll show the confusion matrices from the multinomial logistic regressions because they are easy (Tables \ref{tab:multi-conf-sh1}, \ref{tab:multi-conf-sh2}, \ref{tab:multi-conf-sh3}, \ref{tab:multi-conf-spinks}). The confusion matrices from the neural network and random forest models are easy to make too, just would increase the overall length of this document by quite a bit.
 
-% latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Fri May  3 10:50:17 2013
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{rrrr}
-  \hline
- & CCR & marm & pall \\ 
-  \hline
-CCR &  40 &  14 &  11 \\ 
-  marm &  25 &  74 &   2 \\ 
-  pall &   3 &   1 &  10 \\ 
-   \hline
-\end{tabular}
-\caption{Confusion matrix for sh1 classification scheme. Rows correspond to predicted class. Columns correspond to reference class. From multinomial logistic regression models.}
-\label{tab:multi-conf-sh1}
-\end{center}
-\end{table}
-% latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Fri May  3 10:50:17 2013
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{rrrr}
-  \hline
- & CCR & marm & pall \\ 
-  \hline
-CCR &  44 &  12 &  10 \\ 
-  marm &  17 &  82 &   6 \\ 
-  pall &   2 &   1 &   7 \\ 
-   \hline
-\end{tabular}
-\caption{Confusion matrix for sh2 classification scheme. Rows correspond to predicted class. Columns correspond to reference class. From multinomial logistic regression models.}
-\label{tab:multi-conf-sh2}
-\end{center}
-\end{table}
-% latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Fri May  3 10:50:17 2013
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{rrrrr}
-  \hline
- & CCR & marm & pall & SJ \\ 
-  \hline
-CCR &  37 &  11 &   9 &   2 \\ 
-  marm &  18 &  59 &   3 &  10 \\ 
-  pall &   7 &   2 &  10 &   0 \\ 
-  SJ &   1 &   4 &   1 &   7 \\ 
-   \hline
-\end{tabular}
-\caption{Confusion matrix for sh3 classification scheme. Rows correspond to predicted class. Columns correspond to reference class. From multinomial logistic regression models.}
-\label{tab:multi-conf-sh3}
-\end{center}
-\end{table}
-% latex table generated in R 2.15.3 by xtable 1.7-0 package
-% Fri May  3 10:50:17 2013
-\begin{table}[ht]
-\begin{center}
-\begin{tabular}{rrrrr}
-  \hline
- & 1 & 2 & 3 & 4 \\ 
-  \hline
-1 & 107 &   9 &  13 &  13 \\ 
-  2 &   1 &   8 &   0 &   0 \\ 
-  3 &   4 &   0 &   8 &   3 \\ 
-  4 &   4 &   0 &   2 &   8 \\ 
-   \hline
-\end{tabular}
-\caption{Confusion matrix for spinks classification scheme. Rows correspond to predicted class. Columns correspond to reference class. From multinomial logistic regression models.}
-\label{tab:multi-conf-spinks}
-\end{center}
-\end{table}
+\begin{kframe}
 
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tm.conf' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'mt' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'mt' not found}}\end{kframe}
 
 
 But I can show the comparison of the predictive accuracies (Fig. \ref{fig:resamp}).
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
-\begin{verbatim}
-## $sh1
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/resamp1} 
-\begin{kframe}\begin{verbatim}
-## 
-## $sh2
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/resamp2} 
-\begin{kframe}\begin{verbatim}
-## 
-## $sh3
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/resamp3} 
-\begin{kframe}\begin{verbatim}
-## 
-## $spinks
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/resamp4} 
 
 
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tmod.re' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tmod.re.clean' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tmod.re.gg' not found}}\end{kframe}
 \end{knitrout}
 
 
@@ -323,31 +269,11 @@ In the interest of space/time, I'm only going to display results from one of the
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
-\begin{verbatim}
-## $sh1
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/multi-map1} 
-\begin{kframe}\begin{verbatim}
-## 
-## $sh2
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/multi-map2} 
-\begin{kframe}\begin{verbatim}
-## 
-## $sh3
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/multi-map3} 
-\begin{kframe}\begin{verbatim}
-## 
-## $spinks
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/multi-map4} 
 
 
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'turtle.train' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tm.map' not found}}\end{kframe}
 \end{knitrout}
 
 
@@ -382,16 +308,7 @@ In the interest of space/time, I'm only going to display results from one of the
   \label{fig:multi-map}
 \end{figure}
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
 
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tnn.class' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tnn.class.tiny' not found}}
-
-{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'tnn.map' not found}}\end{kframe}
-\end{knitrout}
 
 
 \begin{figure}[t]
@@ -428,31 +345,13 @@ In the interest of space/time, I'm only going to display results from one of the
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}\begin{kframe}
-\begin{verbatim}
-## $sh1
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/rf-map1} 
-\begin{kframe}\begin{verbatim}
-## 
-## $sh2
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/rf-map2} 
-\begin{kframe}\begin{verbatim}
-## 
-## $sh3
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/rf-map3} 
-\begin{kframe}\begin{verbatim}
-## 
-## $spinks
-\end{verbatim}
-\end{kframe}
-\includegraphics[width=\maxwidth]{figure/rf-map4} 
 
 
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'trf.class' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'turtle.train' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: object 'trf.map' not found}}\end{kframe}
 \end{knitrout}
 
 

@@ -35,18 +35,18 @@ pred.dist <- function(best, train, nsim = 1000) {
     data
   }
 
-  re.dist <- function(best, train, nsim = 1000) {
-    groups <- names(train)
+  re.dist <- function(best, train, group, nsim = 1000) {
     pred <- vector(mode = 'list', length = nsim)
     for(ii in seq(nsim)) {
-      re <- resample.class(data = train, class = groups)
+      re <- resample.class(data = train, class = group)
       re.pred <- predict(best, re, type = 'raw')
       pred[[ii]] <- re.pred
     }
     pred
   }
 
-  out <- mapply(re.dist, best = best, train = train,
+  groups <- names(train)
+  out <- mapply(re.dist, best = best, train = train, group = groups,
                 MoreArgs = list(nsim = nsim), SIMPLFY = FALSE)
 
   out

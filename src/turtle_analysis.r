@@ -71,7 +71,6 @@ rf.analysis <- function(model, class, test) {
   out <- list()
   out$varimp <- lapply(model, varImp)
   out$re <- resamples(model)
-  out$redi <- resamples(out$re)
   out$class <- mapply(predict, model, test,
                       SIMPLIFY = FALSE)
   out$conf <- Map(function(x, y) confusionMatrix(x$pred, y),
@@ -100,7 +99,7 @@ trf.a.s.analysis <- rf.analysis(trf.a.s, ad.class, adult.test)
 #trf.best
 
 mods <- list()
-for(ii in seq(length(tm.best))) {
+for(ii in seq(length(groups))) {
   mods[[ii]] <- list(multi = tm.analysis[[ii]]$best,
 #                     nnet = tnn[[ii]],
                      rf = trf.analysis[[ii]]$best)
@@ -109,21 +108,21 @@ names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
 
 #tmod <- lapply(mods, flatten.next)
 tmod <- mods
-tmod.re <- lapply(tmod, resamples)
-tmod.redi <- lapply(tmod.re, diff)
+#tmod.re <- lapply(tmod, resamples)
+#tmod.redi <- lapply(tmod.re, diff)
 
 a.mod <- list()
-for(jj in seq(length(tm.a.best))) {
-  a.mod[[jj]] <- list(multi = tm.a.best[[jj]],
+for(jj in seq(length(groups))) {
+  a.mod[[jj]] <- list(multi = tm.a.analysis[[jj]]$best,
 #                      nnet = tnn.a[[jj]],
-                      rf = trf.a[[jj]])
+                      rf = trf.a.analysis[[jj]]$best)
 }
 names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
 
 #tmod.a <- lapply(a.mod, flatten.next)
 tmod.a <- a.mod
-tmod.a.re <- lapply(tmod.a, resamples)
-tmod.a.redi <- lapply(tmod.re, diff)
+#tmod.a.re <- lapply(tmod.a, resamples)
+#tmod.a.redi <- lapply(tmod.re, diff)
 
 
 ## relative risk and class specific accuracy
