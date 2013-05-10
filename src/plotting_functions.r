@@ -37,21 +37,14 @@ gap.plot <- function(gap) {
   gg
 }
 
-mshape.plot <- function(fits, all.points = TRUE) {
+mshape.plot <- function(fits) {
   shape <- as.data.frame(fits$mshape)
   land <- land.frame(fits$rotated)
-  gg <- ggplot(shape, aes(x = V2, y = V1))
-  if (all.points) {
-    gg <- gg + geom_point(data = land,
-                          mapping = aes(x = y,
-                                        y = x),
-                          alpha = 0.5)
-  }
-  gg <- gg + geom_point(data = shape,
-                        mapping = aes(x = V2,
-                                      y = V1,
-                                      colour = 'red',
-                                      size = 1.5))
+  gg <- ggplot(land, aes(x = y, y = x)) + geom_point(alpha = 0.5,
+                                                     size = 0.7)
+  gg <- gg + geom_point(data = shape, mapping = aes(x = V2,
+                                                    y = V1,
+                                                    colour = 'red'))
   gg
 }
 
@@ -211,4 +204,7 @@ shorten <- function(x, n = 3) {
   # helper function for creating nice confusion matrix with xtable
   let2str(grab.letters(x, n))
 }
-  
+ 
+
+# model comparison plots that are actually meaningful
+

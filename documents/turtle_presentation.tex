@@ -84,6 +84,8 @@
 \begin{frame}
   \frametitle{Cryptic diversity}
   % image of example taxa that are morphologically identical and are only differentiated via genetic means
+  %
+  How much of cryptic diversity is just a function of sample size?
 \end{frame}
 
 \begin{frame}
@@ -172,15 +174,24 @@
 
 
 \section{Results}
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Results: mophometrics}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/gm} 
+
+\end{knitrout}
 
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Results: gap clustering}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/gap} 
 
+\end{knitrout}
 
 \end{frame}
 
@@ -190,23 +201,38 @@
 \end{frame}
 
 % model selection is unnecessary because of time constraints
-\begin{frame}
-  \frametitle{Results: multinomial logistic regression}
+\begin{frame}[fragile]
+  \frametitle{ROC}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/roc} 
+
+\end{knitrout}
+
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{Results: random forests}
-  % plot the ROC curves
-  % four facets, multiple lines
+  \frametitle{Are the AUC ROC values meaningful?}
 \end{frame}
 
 
-\section{Discussion}
 \begin{frame}
   \frametitle{Best classification scheme}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Variable importance}
+  % ggpairs from the best random forest model
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/imp} 
+
+\end{knitrout}
+
+\end{frame}
+
+\section{Discussion}
 \begin{frame}
   \frametitle{Future}
 \end{frame}

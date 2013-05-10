@@ -7,19 +7,22 @@
 <<message = FALSE, echo = FALSE, warning = FALSE>>=
 require(knitr)
 require(xtable)
+require(grid)
 require(ggplot2)
 require(reshape2)
 require(GGally)
+require(scales)
 
 opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
                highlight = TRUE, background = 'white',
                fig.height = 3, fig.width = 4
-               , eval = FALSE
+               , eval = TRUE
                )
 
+theme_set(theme_bw())
 
 source('../src/plotting_functions.r')
-#load('../src/turtle_analysis.r')
+load('../data/turtle_analysis.RData')
 @
 
 <<>>=
@@ -51,6 +54,8 @@ labs <- Map(function(x, n) x[, n],
 \begin{frame}
   \frametitle{Cryptic diversity}
   % image of example taxa that are morphologically identical and are only differentiated via genetic means
+  %
+  How much of cryptic diversity is just a function of sample size?
 \end{frame}
 
 \begin{frame}
@@ -139,22 +144,26 @@ labs <- Map(function(x, n) x[, n],
 
 
 \section{Results}
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Results: mophometrics}
-<<gm, eval = FALSE>>=
+<<gm, results = 'hide', fig.width = 3.5, fig.height = 3.5, eval = TRUE>>=
 morph <- ggpairs(turtle.adult, columns = c(1:3),
-                 upper = 'blank')
+                 upper = 'blank',
+                 params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
 fits <- procGPA(turtle.land.adult)
-land <- mshape.plot(fits, all.points = TRUE)
+land <- mshape.plot(fits)
 morph <- putPlot(morph, land, 1, 3)
 morph
 @
+
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Results: gap clustering}
-<<gap, eval = FALSE>>=
+<<gap, fig.width = 4, fig.height = 3,  eval = TRUE>>=
 gap <- gap.plot(tadult.gap)
+gap <- gap + theme(axis.title = element_text(size = 7.5),
+                   axis.text = element_text(size = 6))
 gap
 @
 \end{frame}
@@ -165,23 +174,69 @@ gap
 \end{frame}
 
 % model selection is unnecessary because of time constraints
-\begin{frame}
-  \frametitle{Results: multinomial logistic regression}
+\begin{frame}[fragile]
+  \frametitle{ROC}
+<<roc, eval = TRUE>>=
+rf.rocs <- lapply(trf.a, function(x) {
+                  rr <- x$results$ROC
+                  rr})
+rf.rocs <- ldply(rf.rocs)
+multi.rocs <- lapply(tm.a, function(x) {
+                     lapply(x, function(y) {
+                            rr <- max(y$results$ROC)
+                            rr})})
+multi.rocs <- ldply(lapply(lapply(multi.rocs, ldply), t))
+
+names(rf.rocs) <- names(multi.rocs) 
+roc.mod <- rbind(rf.rocs, multi.rocs)
+mod.names <- c(rep('rf', nrow(rf.rocs)), rep('multi', nrow(multi.rocs)))
+roc.mod <- cbind(mod.names, roc.mod)
+roc.mod <- melt(roc.mod)
+roc.mod$variable <- as.numeric(roc.mod$variable)
+
+ggroc <- ggplot(roc.mod, aes(x = variable, y = value, color = mod.names))
+ggroc <- ggroc + geom_line()
+ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
+ggroc <- ggroc + scale_color_discrete(labels = c('multinomial', 
+                                                 'random forest'))
+ggroc <- ggroc + theme(legend.title = element_blank(),
+                       legend.position = 'right',
+                       legend.margin = unit(0, 'cm'),
+                       legend.text = element_text(size = 5),
+                       axis.title = element_text(size = 8),
+                       axis.text = element_text(size = 5))
+ggroc <- ggroc + labs(x = '# of features', y = 'AUC ROC')
+ggroc <- ggroc + facet_wrap(~.id)
+ggroc
+@
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{Results: random forests}
-  % plot the ROC curves
-  % four facets, multiple lines
+  \frametitle{Are the AUC ROC values meaningful?}
 \end{frame}
 
 
-\section{Discussion}
 \begin{frame}
   \frametitle{Best classification scheme}
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Variable importance}
+  % ggpairs from the best random forest model
+<<imp, fig.width = 3.5, fig.height = 3.5, eval = TRUE>>=
+most.imp <- trf.a$spinks$optVariables
+ww <- 'spinks'
+ggimp <- ggpairs(turtle.adult,
+                 columns = c(most.imp[1:3], ww), 
+                 colour = 'spinks',
+                 upper = 'blank',
+                 params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
+ggimp
+@
+\end{frame}
+
+\section{Discussion}
 \begin{frame}
   \frametitle{Future}
 \end{frame}
