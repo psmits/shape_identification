@@ -28,6 +28,32 @@ source('../src/support_functions.r')
 # are the models better than random?
 # can then see if ROC is significant
 
+#' Create distribution of resampling values
+#'
+#' TODO allow of x and y instead of just formula
+#'
+#' @param model object of class formula
+#' @param data object of class data.frame for use with formula as training data
+#' @param nsim number of resamples to compute 
+#' @param ... additional arguments passed to caret::train
+sim.train <- function(model, data, nsim, ...) {
+  out <- vector(mode = 'list', length = nsim)
+  for(ii in seq(nsim)) {
+    out[[ii]] <- mapply(resample.train,
+                        model = model,
+                        data = data,
+                        MoreArgs = list(...),
+                        SIMPLIFY = FALSE)
+  }
+
+  out <- lapply(out, function(x) {
+                names(x) <- names(data)
+                x})
+
+  out
+}
+
+
 resample.class <- function(data, class) {
   data[, class] <- sample(data[, class])
   data

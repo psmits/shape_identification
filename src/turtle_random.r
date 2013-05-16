@@ -29,31 +29,33 @@ source('../src/randomize_funcs.r')
 
 load('../data/turtle_analysis.RData')
 
-nsim <- 100
+ns <- 100
 
 # multinomial
-
-# extract formulas
 mod.num <- lapply(tm.analysis$sel, function(x) rownames(x[1, ]))
 mod.num <- lapply(mod.num, as.numeric)
-best.form <- Map(function(x, n) x[[n]], x = tform, n = mod.num)
+multi.form <- Map(function(x, n) x[[n]], x = tform, n = mod.num)
+multi.sim <- sim.train(multi.form, turtle.train, nsim = ns, 
+                       method = 'multinom', metric = 'ROC', 
+                       trControl = ctrl, maxit = 1000)
 
-out <- vector(mode = 'list', length = nsim)
-for(ii in seq(nsim)) {
-  out[[ii]] <- mapply(resample.train,
-                      model = best.form,
-                      data = turtle.train,
-                      MoreArgs = list(method = 'multinom'
-                                      , metric = 'ROC'
-                                      , trControl = ctrl
-                                      , maxit = 1000),
-                      SIMPLIFY = FALSE)
-}
+mod.num <- lapply(tm.a.analysis$sel, function(x) rownames(x[1, ]))
+mod.num <- lapply(mod.num, as.numeric)
+multi.aform <- Map(function(x, n) x[[n]], x = tform.a, n = mod.num)
+multia.sim <- sim.train(multi.aform, adult.train, nsim = ns,
+                        method = 'multinom', metric = 'ROC',
+                        trControl = ctrl, maxit = 1000)
 
-out <- lapply(out, function(x) {
-              names(x) <- groups
-              x})
+ww <- lapply(trf, function(x) x$bestSubset)
+rf.form <- Map(function(x, n) x[[n]], x = tform, n = ww)
+rf.sim <- sim.train(rf.form, turtle.train, nsim = ns,
+                    method = 'rf', metric = 'ROC',
+                    trControl = ctrl, ntree = 1000)
 
-out <- roc.dist(tt)
+ww <- lapply(trf.a, function(x) x$bestSubset)
+rf.aform <- Map(function(x, n) x[[n]], x = tform.a, n = ww)
+rfa.sim <- sim.train(rf.aform, adult.train, nsim = ns,
+                     method = 'rf', metric = 'ROC',
+                     trControl = ctrl, ntree = 1000)
 
-save(out, '../data/turtle_random_test.RData')
+save.image('../data/resample_runs.RData')
