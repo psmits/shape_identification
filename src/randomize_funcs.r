@@ -33,36 +33,47 @@ resample.class <- function(data, class) {
   data
 }
 
-# write these as more generic
-resample.rf <- function(model, training, class) {
-  re.tr <- resample.class(data = training, class = class)
-  new.train <- train(form = as.formula(paste0(class, '~',
-                                       paste(model$optVariables, 
-                                             collapse = '+'))),
-                     data = re.tr,
-                     method = 'rf',
-                     metric = 'ROC',
-                     trControl = ctrl,
-                     ntree= 10000)
+#' Train model to resampled data.
+#'
+#' Resampling is done internally.
+#'
+#' TODO make it so you don't require the formula but can just 
+#' take x and y arguments
+#'
+#' @param model object of class formula suitable for caret::train function
+#' @param data object of class data frame which model uses
+#' @param ... arguments passed to caret:train
+resample.train <- function(model, data, ...) {
+  if('formula' %in% class(model)) {
+    css <- all.vars(model)[1]
+  }
 
-  new.train
+  new.data <- resample.class(data, css)
+  new.train <- train(form = model, data = new.data, ...)
+
+  out <- list()
+  out$resamp <- new.data
+  out$retrain <- new.train
+
+  out
 }
 
-resample.multi <- function(model, training, class) {
-  re.tr <- resample.class(data = training, class = class)
-  new.train <- train(form ,
-                     data = re.tr,
-                     method = 'mulinom',
-                     metric = 'ROC',
-                     trControl = ctrl,
-                     maxit = 10000)
-
-  new.train
+#' Create distribution of ROC 
+#'
+#' @param resamples list of outputs from resample.train
+roc.dist <- function(resamples) {
+  # extract ROC value from every element of a list
+  dis <- laply(resample, function(x) {
+               y <- max(x$retrain$results$ROC)
+               y})
+  dis
 }
 
-
-roc.dist <- function(models) {
-}
-
-predict.dist <- function(models, test) {
+#' predict class from resamples
+#'
+predict.dist <- function(models, test, ...) {
+  preds <- lapply(models, function(x, y) {
+                  predict(object = x, newdata = y, ...)},
+                  y = test)
+  preds
 }
