@@ -61,11 +61,17 @@ resample.train <- function(model, data, ...) {
 #' Create distribution of ROC 
 #'
 #' @param resamples list of outputs from resample.train
-roc.dist <- function(resamples) {
+roc.dist <- function(resamples, spl = FALSE) {
   # extract ROC value from every element of a list
-  dis <- laply(resample, function(x) {
-               y <- max(x$retrain$results$ROC)
-               y})
+  dis <- lapply(resamples, function(x) {
+                lapply(x, function(y) {
+                       max(y$retrain$results$ROC)})})
+  dis <- melt(dis)
+
+  if(spl) {
+    dis <- split(dis, dis$L2)
+  }
+
   dis
 }
 
