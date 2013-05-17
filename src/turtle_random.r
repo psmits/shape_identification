@@ -58,4 +58,6 @@ rfa.sim <- sim.train(rf.aform, adult.train, nsim = ns,
                      method = 'rf', metric = 'ROC',
                      trControl = ctrl, ntree = 1000)
 
-save.image('../data/resample_runs.RData')
+save(multi.sim, multia.sim,
+     rf.sim, rfa.sim,
+     '../data/randomization_results.RData')

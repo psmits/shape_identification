@@ -1,6 +1,6 @@
 \documentclass{beamer}
 \usepackage{amsmath, amsthm}
-\usepackage{parskip, microtype, graphicx, caption}
+\usepackage{parskip, microtype, graphicx, caption, multirow}
 
 \frenchspacing  % i likes it
 
@@ -35,7 +35,7 @@ labs <- Map(function(x, n) x[, n],
             x = turtle.train, n = names(turtle.train))
 @
 
-\title{How cryptic is cryptic diversity? Machine learning approaches to fine scale variation in the morphology of \textit{Emys marmorata}.}
+\title{How cryptic is cryptic diversity? \newline Machine learning approaches to fine scale variation in the morphology of \textit{Emys marmorata}.}
 \author[shortname]{Peter D Smits\inst{1}, 
                    Kenneth D Angielczyk\inst{2}, 
                    James F Parham\inst{3}}
@@ -55,7 +55,10 @@ labs <- Map(function(x, n) x[, n],
   \frametitle{Cryptic diversity}
   % image of example taxa that are morphologically identical and are only differentiated via genetic means
   %
-  How much of cryptic diversity is just a function of sample size?
+  Crytic species are species delimitated via molecular means which were not/cannot be identified via morphology.
+
+  How much of cryptic diversity is just a function of sample size and/or method?
+
 \end{frame}
 
 \begin{frame}
@@ -80,8 +83,9 @@ labs <- Map(function(x, n) x[, n],
 \begin{frame}
   \frametitle{Phylogenetic hypotheses}
 
-  Number of subspecies and where they occur.
+  % Number of subspecies and where they occur.
   % images of the different phylobiogeographic hypotheses from the different spinks papers
+ 
 \end{frame}
 
 
@@ -99,14 +103,19 @@ labs <- Map(function(x, n) x[, n],
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \centering
-      \includegraphics[width = \textwidth, keepaspectratio = true]{figure/plastra}
+      \begin{figure}[h]
+        \centering
+        \captionsetup{justification = raggedleft, slc = off}
+        \includegraphics[width = \textwidth, keepaspectratio = true]{figure/plastra}
+        \caption*{\scriptsize{Angielczyk \textit{et al.} 2011 \textit{Evolution}}}
+        \label{fig:plast}
+      \end{figure}
     \end{column}
   \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Methods: unsupervised learning}
+  \frametitle{Unsupervised learning}
 
   Fancy way of saying clustering or density estimation.
 
@@ -116,31 +125,70 @@ labs <- Map(function(x, n) x[, n],
 \end{frame}
 
 \begin{frame}
-  \frametitle{Methods: supervised learning}
+  \frametitle{Supervised learning}
 
   Fancy way of saying classification and regression.
 
   Here, features (principal components) predict class (subspecific assignment).
 
-  Multnomial logistic regression
+  Multinomial logistic regression
 
   Random forests
 \end{frame}
 
 \begin{frame}
-  \frametitle{Methods: model training and selection}
+  \frametitle{Model training and selection}
   Unknown appropriate number of features to ``best'' predict class. Want to minimize false positive, while maximizing true positive.
 
   Split data set, 75-25, training and testing.
 
-  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation.
+  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation. Selection viamax AUC ROC.
 
-  Multinomial logistic model selected via min AICc. Random forest model via max AUC ROC.
+  Best multinomial logistic model selected via min AICc. Best random forest model via max AUC ROC.
 
 \end{frame}
-%\begin{frame}
-%  \frametitle{Methods: ROC}
-%\end{frame}
+
+\begin{frame}
+  \frametitle{ROC and confusion matrices}
+
+  \begin{center}
+    \begin{tabular}[c]{ p{2cm} c | p{2cm} | p{2cm} |}
+      \cline{3-4} 
+      & & \multicolumn{2}{ c |}{Predicted class} \\ \cline{3-4}
+      & & 1 & 0 \\ \hline
+      \multicolumn{1}{| c |}{\multirow{2}{*}{Actual class}}
+      & 1 & TRUE \newline POSITIVE & FALSE \newline NEGATIVE \\ \cline{2-4}
+      \multicolumn{1}{| c |}{} & 0 & FALSE \newline POSITIVE & TRUE \newline NEGATIVE \\
+      \hline
+    \end{tabular}
+  \end{center}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{ROC}
+  \begin{columns}
+    \begin{column}{0.4\textwidth}
+      \begin{itemize}
+        \item receiver operating characteristic
+        \item true positive rate or sensitivity: \(\frac{TP}{TP + FN}\)
+        \item false positive rate or \newline 1 - specificity: \(\frac{FP}{FP + TN}\)
+        \item multiclass, all-against one (Hand and Till 2001 \textit{Machine Learning})
+        \item area under curve model summary statistic (min 0.5)
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.6\textwidth}
+      \begin{figure}[h]
+        \centering
+        \captionsetup{justification = raggedleft, slc = off}
+        \includegraphics[width = \textwidth, keepaspectratio = true]{figure/wiki_roc}
+        \caption*{\scriptsize{wikimedia}}
+        \label{fig:roc}
+      \end{figure}
+    \end{column}
+  \end{columns}
+
+\end{frame}
 
 
 \section{Results}
@@ -218,7 +266,7 @@ ggroc
 
 
 \begin{frame}
-  \frametitle{Best classification scheme}
+  \frametitle{Best classification scheme?}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -248,6 +296,7 @@ ggimp
       \begin{itemize}
         \item Ben Frable, Dallas Krentzel, Michael Foote
         \item COLLECTIONS
+        \item FUNDING AGENCIES
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
