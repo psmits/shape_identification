@@ -22,7 +22,7 @@ require(doParallel)
 
 RNGkind(kind = "L'Ecuyer-CMRG")
 set.seed(1)
-registerDoParallel(cores = detectCores())
+registerDoParallel(cores = 2)
 
 source('../src/support_functions.r')
 source('../src/randomize_funcs.r')
@@ -46,18 +46,5 @@ multia.sim <- sim.train(multi.aform, adult.train, nsim = ns,
                         method = 'multinom', metric = 'ROC',
                         trControl = ctrl, maxit = 1000)
 
-ww <- lapply(trf, function(x) x$bestSubset)
-rf.form <- Map(function(x, n) x[[n]], x = tform, n = ww)
-rf.sim <- sim.train(rf.form, turtle.train, nsim = ns,
-                    method = 'rf', metric = 'ROC',
-                    trControl = ctrl, ntree = 1000)
-
-ww <- lapply(trf.a, function(x) x$bestSubset)
-rf.aform <- Map(function(x, n) x[[n]], x = tform.a, n = ww)
-rfa.sim <- sim.train(rf.aform, adult.train, nsim = ns,
-                     method = 'rf', metric = 'ROC',
-                     trControl = ctrl, ntree = 1000)
-
 save(multi.sim, multia.sim,
-     rf.sim, rfa.sim,
-     '../data/randomization_results.RData')
+     file = '../data/log_random.RData')
