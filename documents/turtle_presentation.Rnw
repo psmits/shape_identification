@@ -12,6 +12,7 @@ require(ggplot2)
 require(reshape2)
 require(GGally)
 require(scales)
+require(boot)
 
 opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
                highlight = TRUE, background = 'white',
@@ -20,19 +21,32 @@ opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
                )
 
 theme_set(theme_bw())
+cbp <- c(#'#999999', 
+         '#E69F00', '#56B4E9', '#009E73', 
+         '#F0E442', '#0072B2', '#D55E00', '#CC79A7')
 
+source('../src/support_functions.r')
 source('../src/plotting_functions.r')
 load('../data/turtle_analysis.RData')
+load('../data/turtle_gen.RData')
 @
 
 <<>>=
 # need to format all the map data so it plays nicely
 map <- map_data('state')
-st <- c('california', 'oregon', 'washington')
+st <- c('california'
+        , 'oregon'
+        #, 'washington'
+        )
 map <- map[map$region == st, ]
 
 labs <- Map(function(x, n) x[, n],
-            x = turtle.train, n = names(turtle.train))
+            x = adult.train, n = names(adult.train))
+
+turtle.adult$long[which(turtle.adult$long > -100)] <- turtle.adult$long[which(turtle.adult$long > -100)] - 100
+
+adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
+
 @
 
 \title{How cryptic is cryptic diversity? \newline Machine learning approaches to fine scale variation in the morphology of \textit{Emys marmorata}.}
@@ -142,7 +156,7 @@ labs <- Map(function(x, n) x[, n],
 
   Split data set, 75-25, training and testing.
 
-  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation. Selection viamax AUC ROC.
+  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation. Selection via max AUC ROC.
 
   Best multinomial logistic model selected via min AICc. Best random forest model via max AUC ROC.
 
@@ -170,11 +184,9 @@ labs <- Map(function(x, n) x[, n],
   \begin{columns}
     \begin{column}{0.4\textwidth}
       \begin{itemize}
-        \item receiver operating characteristic
         \item true positive rate or sensitivity: \(\frac{TP}{TP + FN}\)
         \item false positive rate or \newline 1 - specificity: \(\frac{FP}{FP + TN}\)
         \item multiclass, all-against one (Hand and Till 2001 \textit{Machine Learning})
-        \item area under curve model summary statistic (min 0.5)
       \end{itemize}
     \end{column}
     \begin{column}{0.6\textwidth}
@@ -217,11 +229,24 @@ gap
 \end{frame}
 
 \begin{frame}
-  \frametitle{Results: d-EAC}
+  \frametitle{Second best cluster}
+<<>>=
+gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
+gap.map <- map.plot(data = turtle.adult,
+                    label = gap.second$clustering,
+                    map = map)
+gap.map <- gap.map + scale_fill_manual(values = cbp)
+gap.map <- gap.map + theme(legend.position = 'none')
+gap.map
+@
 
 \end{frame}
 
-% model selection is unnecessary because of time constraints
+%\begin{frame}
+%  \frametitle{Results: d-EAC}
+%
+%\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{ROC}
 <<roc, eval = TRUE>>=
@@ -245,8 +270,9 @@ roc.mod$variable <- as.numeric(roc.mod$variable)
 ggroc <- ggplot(roc.mod, aes(x = variable, y = value, color = mod.names))
 ggroc <- ggroc + geom_line()
 ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
-ggroc <- ggroc + scale_color_discrete(labels = c('multinomial', 
-                                                 'random forest'))
+ggroc <- ggroc + scale_color_manual(labels = c('multinomial', 
+                                                 'random forest'),
+                                      values = cbp)
 ggroc <- ggroc + theme(legend.title = element_blank(),
                        legend.position = 'right',
                        legend.margin = unit(0, 'cm'),
@@ -260,13 +286,34 @@ ggroc
 
 \end{frame}
 
-\begin{frame}
-  \frametitle{Are the AUC ROC values meaningful?}
-\end{frame}
+%\begin{frame}
+%  \frametitle{Are the AUC ROC values meaningful?}
+%\end{frame}
 
+\begin{frame}
+  \frametitle{Generalize}
+<<>>=
+oo <- Reduce(cbind, Map(function(x) x$t, rr))
+colnames(oo) <- groups
+dd <- melt(oo)
+gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.3)
+gdist <- gdist + theme(legend.title = element_blank())
+gdist <- gdist + scale_fill_manual(values = cbp)
+
+gdist
+@
+
+\end{frame}
 
 \begin{frame}
   \frametitle{Best classification scheme?}
+<<>>=
+gg <- class.map(adult.train$spinks, adult.test$spinks, labs$spinks, 
+                trf.a.analysis$class$spinks$pred, map)
+gg <- gg + scale_fill_manual(values = cbp)
+gg
+@
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -283,6 +330,7 @@ ggimp <- ggpairs(turtle.adult,
 ggimp
 @
 \end{frame}
+
 
 \section{Discussion}
 \begin{frame}

@@ -49,3 +49,18 @@ multiClassSummary <- function(data, lev = NULL, model = NULL) {
   return(stats)
 
 }
+
+
+# multiclass roc
+allvone <- function(pred.res, obs) {
+  pred <- pred.res$pred
+  prob <- lapply(levels(pred), function(class) {
+                 pp <- ifelse(pred == class, 1, 0)
+                 oo <- ifelse(obs == class, 1, 0)
+                 prob <- pred.res[, class]
+
+                 ps <- auc(oo, prob)
+                 ps})
+  mauc <- colMeans(do.call(rbind, prob))
+  mauc
+}

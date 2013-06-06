@@ -81,16 +81,18 @@ class.map <- function(train, test, label, pred, map) {
   gg <- gg + geom_point(data = train,
                         mapping = aes(x = long, y = lat,
                                       group = NULL,
-                                      colour = factor(label)),
+                                      colour = factor(label),
+                                      size = 2),
                         alpha = 0.7)
   test <- cbind(test, label = pred)
   gg <- gg + geom_point(data = test,
                         mapping = aes(x = long, y = lat,
                                       group = NULL,
                                       colour = factor(label),
-                                      size = 4
+                                      size = 2
                                       ), 
                         shape = 15,
+#                        size = 3,
                         alpha = 0.8)
   gg
 }

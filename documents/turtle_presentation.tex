@@ -172,7 +172,7 @@
 
   Split data set, 75-25, training and testing.
 
-  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation. Selection viamax AUC ROC.
+  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation. Selection via max AUC ROC.
 
   Best multinomial logistic model selected via min AICc. Best random forest model via max AUC ROC.
 
@@ -200,11 +200,9 @@
   \begin{columns}
     \begin{column}{0.4\textwidth}
       \begin{itemize}
-        \item receiver operating characteristic
         \item true positive rate or sensitivity: \(\frac{TP}{TP + FN}\)
         \item false positive rate or \newline 1 - specificity: \(\frac{FP}{FP + TN}\)
         \item multiclass, all-against one (Hand and Till 2001 \textit{Machine Learning})
-        \item area under curve model summary statistic (min 0.5)
       \end{itemize}
     \end{column}
     \begin{column}{0.6\textwidth}
@@ -244,11 +242,21 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Results: d-EAC}
+  \frametitle{Second best cluster}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-3} 
+
+\end{knitrout}
+
 
 \end{frame}
 
-% model selection is unnecessary because of time constraints
+%\begin{frame}
+%  \frametitle{Results: d-EAC}
+%
+%\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{ROC}
 \begin{knitrout}
@@ -260,13 +268,30 @@
 
 \end{frame}
 
-\begin{frame}
-  \frametitle{Are the AUC ROC values meaningful?}
-\end{frame}
+%\begin{frame}
+%  \frametitle{Are the AUC ROC values meaningful?}
+%\end{frame}
 
+\begin{frame}
+  \frametitle{Generalize}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-4} 
+
+\end{knitrout}
+
+
+\end{frame}
 
 \begin{frame}
   \frametitle{Best classification scheme?}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-5} 
+
+\end{knitrout}
+
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -279,6 +304,7 @@
 \end{knitrout}
 
 \end{frame}
+
 
 \section{Discussion}
 \begin{frame}
