@@ -69,7 +69,8 @@ map.plot <- function(data, label, map, coord = 'gilbert') {
   gg <- gg + geom_point(data = data,
                         mapping = aes(x = long, y = lat,
                                       group = NULL,
-                                      colour = factor(label)))
+                                      colour = factor(label)),
+                        size = 1)
   gg
 }
 
@@ -81,18 +82,20 @@ class.map <- function(train, test, label, pred, map) {
   gg <- gg + geom_point(data = train,
                         mapping = aes(x = long, y = lat,
                                       group = NULL,
-                                      colour = factor(label),
-                                      size = 2),
+                                      colour = factor(label)
+                                      #, size = 1
+                                      ),
+                        size = 1,
                         alpha = 0.7)
   test <- cbind(test, label = pred)
   gg <- gg + geom_point(data = test,
                         mapping = aes(x = long, y = lat,
                                       group = NULL,
-                                      colour = factor(label),
-                                      size = 2
+                                      colour = factor(label)
+                                      #, size = 1
                                       ), 
+                        size = 1.5,
                         shape = 15,
-#                        size = 3,
                         alpha = 0.8)
   gg
 }

@@ -1,6 +1,6 @@
 \documentclass{beamer}
 \usepackage{amsmath, amsthm}
-\usepackage{parskip, microtype, graphicx, caption, multirow}
+\usepackage{parskip, microtype, graphicx, caption, multirow, subcaption}
 
 \frenchspacing  % i likes it
 
@@ -13,6 +13,9 @@ require(reshape2)
 require(GGally)
 require(scales)
 require(boot)
+
+require(shapes)
+require(geomorph)
 
 opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
                highlight = TRUE, background = 'white',
@@ -91,12 +94,30 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
 \end{frame}
 
 \begin{frame}
-  \frametitle{Morphological hypotheses}
+  \frametitle{Morphological hypothesis}
+
+  \begin{figure}[h]
+    \centering
+    \captionsetup{justification = raggedleft, slc = off}
+    \includegraphics[height = 0.8\textheight, keepaspectratio = true]{figure/seeliger}
+    \caption*{\scriptsize{Seeliger 1945 \textit{Copeia}}}
+    \label{fig:seeliger}
+  \end{figure}
+  % basic north/south stuff
+  % earlier work by the masters student
+
 \end{frame}
 
 \begin{frame}
   \frametitle{Phylogenetic hypotheses}
 
+  \begin{figure}[h]
+    \centering
+    \captionsetup{justification = raggedleft, slc = off}
+    \includegraphics[height = 0.8\textheight, keepaspectratio = true]{figure/spinks10}
+    \caption*{\scriptsize{Spinks \textit{et al.} 2010 \textit{Molec. Ecol}}}
+    \label{fig:spinks}
+  \end{figure}
   % Number of subspecies and where they occur.
   % images of the different phylobiogeographic hypotheses from the different spinks papers
  
@@ -135,19 +156,19 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
 
   Partitioning around mediods (PAM) compared with ``gap'' statistic.
 
-  (dissimilarity based) Evidence accumulation clustering
+  %(dissimilarity based) Evidence accumulation clustering
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Supervised learning}
 
-  Fancy way of saying classification and regression.
+  Fancy way of saying classification (and regression).
 
   Here, features (principal components) predict class (subspecific assignment).
 
-  Multinomial logistic regression
+  Multinomial logistic regression and random forests.
 
-  Random forests
 \end{frame}
 
 \begin{frame}
@@ -235,8 +256,11 @@ gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
 gap.map <- map.plot(data = turtle.adult,
                     label = gap.second$clustering,
                     map = map)
-gap.map <- gap.map + scale_fill_manual(values = cbp)
-gap.map <- gap.map + theme(legend.position = 'none')
+gap.map <- gap.map + scale_colour_manual(values = cbp)
+gap.map <- gap.map + theme(legend.position = 'none',
+                           legend.text = element_text(size = 5),
+                           axis.title = element_text(size = 8),
+                           axis.text = element_text(size = 5))
 gap.map
 @
 
@@ -297,8 +321,12 @@ oo <- Reduce(cbind, Map(function(x) x$t, rr))
 colnames(oo) <- groups
 dd <- melt(oo)
 gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.3)
-gdist <- gdist + theme(legend.title = element_blank())
-gdist <- gdist + scale_fill_manual(values = cbp)
+gdist <- gdist + theme(legend.title = element_blank(),
+                       legend.margin = unit(0, 'cm'),
+                       legend.text = element_text(size = 5),
+                       axis.title = element_text(size = 8),
+                       axis.text = element_text(size = 5))
+gdist <- gdist + scale_fill_manual(name = '', values = cbp)
 
 gdist
 @
@@ -310,7 +338,12 @@ gdist
 <<>>=
 gg <- class.map(adult.train$spinks, adult.test$spinks, labs$spinks, 
                 trf.a.analysis$class$spinks$pred, map)
-gg <- gg + scale_fill_manual(values = cbp)
+gg <- gg + scale_colour_manual(name = '', values = cbp)
+gg <- gg + theme(#legend.position = 'none',
+                 legend.margin = unit(0, 'cm'),
+                 legend.text = element_text(size = 5),
+                 axis.title = element_text(size = 8),
+                 axis.text = element_text(size = 5))
 gg
 @
 
@@ -327,14 +360,92 @@ ggimp <- ggpairs(turtle.adult,
                  colour = 'spinks',
                  upper = 'blank',
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
+
+#putPlot
 ggimp
 @
 \end{frame}
 
+\begin{frame}
+  \frametitle{Shape across most important features}
+
+<<tps, include = FALSE>>=
+fst.max <- which.max(turtle.adult[, most.imp[1]])
+fst.min <- which.min(turtle.adult[, most.imp[1]])
+
+snd.max <- which.max(turtle.adult[, most.imp[2]])
+snd.min <- which.min(turtle.adult[, most.imp[2]])
+
+par(mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1)
+
+tpsgrid(turtle.land.adult[, , fst.max], mt)
+tpsgrid(turtle.land.adult[, , fst.min], mt)
+
+tpsgrid(turtle.land.adult[, , snd.max], mt)
+tpsgrid(turtle.land.adult[, , snd.min], mt)
+
+imp <- cbind(turtle.adult[, most.imp[1:2]], sp = turtle.adult$spinks)
+imp.pca <- ggplot(imp, aes(x = PC3, y = PC8, colour = sp)) + geom_point()
+imp.pca <- imp.pca + scale_colour_manual(name = '', values = cbp)
+imp.pca
+@
+
+% show tps grids to the side of the PCA plot of the first two most important axes
+\begin{figure}[h]
+  \centering
+  \hspace*{\fill}
+  \begin{subfigure}[h]{0.3\textwidth}
+    \centering
+    \includegraphics[width = \textwidth]{figure/tps2}    
+  \end{subfigure}
+  \begin{subfigure}[h]{0.3\textwidth}
+    \centering
+    \includegraphics[width = \textwidth]{figure/tps5}    
+  \end{subfigure}
+  \begin{subfigure}[h]{0.3\textwidth}
+    \centering
+    \includegraphics[width = \textwidth]{figure/tps1}    
+  \end{subfigure}
+  \hspace*{\fill}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Mean shape of classes}
+
+<<fig.width = 3.75, fig.height = 3.75>>=
+mt <- mshape(turtle.land.adult)
+# get mean of each class
+spi <- turtle.adult$spinks
+wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
+mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
+par(mfrow = c(2, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
+    xaxt = 'n', yaxt = 'n')
+mapply(function(x, m, n) {
+      tpsgrid(x, m)
+      title(main = paste(n))}, x = mspi, n = levels(spi),
+      MoreArgs = list(m = mt), SIMPLIFY = FALSE)
+par(mfrow = c(1, 1))
+@
+
+\end{frame}
 
 \section{Discussion}
 \begin{frame}
   \frametitle{Future}
+
+  \begin{itemize}
+    \item illustration of morphological validation of previously cryptic variation
+      \begin{itemize}
+        \item the concordance is remarkable
+        \item large sample sizes can be difficult
+      \end{itemize}
+    \item utility of large data, machine learning methods 
+    \item unsupervised methods for when no explicit hypothesis -- nonparametric Bayes
+    \item cause of interclass variation -- local adaptation? pure isolation?
+  \end{itemize}
+
 \end{frame}
 
 \begin{frame}
