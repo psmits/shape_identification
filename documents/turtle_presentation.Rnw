@@ -156,7 +156,9 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
 
   Partitioning around mediods (PAM) compared with ``gap'' statistic.
 
-  %(dissimilarity based) Evidence accumulation clustering
+  Minimize sum of dissimilarities between points and medoids.
+
+  ``Gap'' is analogous to goodness-of-clustering.
   
 \end{frame}
 
@@ -165,7 +167,7 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
 
   Fancy way of saying classification (and regression).
 
-  Here, features (principal components) predict class (subspecific assignment).
+  Features (principal components) predict class (subspecific assignment).
 
   Multinomial logistic regression and random forests.
 
@@ -173,13 +175,17 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
 
 \begin{frame}
   \frametitle{Model training and selection}
-  Unknown appropriate number of features to ``best'' predict class. Want to minimize false positive, while maximizing true positive.
 
-  Split data set, 75-25, training and testing.
-
-  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation. Selection via max AUC ROC.
-
-  Best multinomial logistic model selected via min AICc. Best random forest model via max AUC ROC.
+  \begin{itemize}
+    \item split into training and testing sets, 75-25.
+    \item tuning parameters via grid-search
+    \item uncertainty via 10-fold CV
+    \item model selection
+      \begin{itemize}
+        \item multinomial logistic regression: min AICc
+        \item random forest: max ROC
+      \end{itemize}
+  \end{itemize}
 
 \end{frame}
 
@@ -233,6 +239,7 @@ morph <- ggpairs(turtle.adult, columns = c(1:3),
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
 fits <- procGPA(turtle.land.adult)
 land <- mshape.plot(fits)
+land <- land + coord_equal()
 morph <- putPlot(morph, land, 1, 3)
 morph
 @
@@ -266,13 +273,9 @@ gap.map
 
 \end{frame}
 
-%\begin{frame}
-%  \frametitle{Results: d-EAC}
-%
-%\end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{ROC}
+  \frametitle{Model selection via ROC}
 <<roc, eval = TRUE>>=
 rf.rocs <- lapply(trf.a, function(x) {
                   rr <- x$results$ROC
@@ -315,7 +318,7 @@ ggroc
 %\end{frame}
 
 \begin{frame}
-  \frametitle{Generalize}
+  \frametitle{Generalize using best random forest model}
 <<>>=
 oo <- Reduce(cbind, Map(function(x) x$t, rr))
 colnames(oo) <- groups
@@ -334,7 +337,7 @@ gdist
 \end{frame}
 
 \begin{frame}
-  \frametitle{Best classification scheme?}
+  \frametitle{Best classification scheme via RF model results}
 <<>>=
 gg <- class.map(adult.train$spinks, adult.test$spinks, labs$spinks, 
                 trf.a.analysis$class$spinks$pred, map)
@@ -350,7 +353,26 @@ gg
 \end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{Variable importance}
+  \frametitle{Mean shape of classes}
+
+<<fig.width = 3.75, fig.height = 3.75>>=
+# get mean of each class
+spi <- turtle.adult$spinks
+wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
+mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
+par(mfrow = c(2, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
+    xaxt = 'n', yaxt = 'n')
+mapply(function(x, m, n) {
+      tpsgrid(x, m, mag = 2)
+      title(main = paste(n))}, x = mspi, n = levels(spi),
+      MoreArgs = list(m = mt), SIMPLIFY = FALSE)
+par(mfrow = c(1, 1))
+@
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Variable importance of random forest model}
   % ggpairs from the best random forest model
 <<imp, fig.width = 3.5, fig.height = 3.5, eval = TRUE>>=
 most.imp <- trf.a$spinks$optVariables
@@ -367,69 +389,41 @@ ggimp
 \end{frame}
 
 \begin{frame}
-  \frametitle{Shape across most important features}
+  \frametitle{Shape across PC3}
 
-<<tps, include = FALSE>>=
+<<fig.width = 5>>=
+mt <- mshape(turtle.land.adult)
+
 fst.max <- which.max(turtle.adult[, most.imp[1]])
 fst.min <- which.min(turtle.adult[, most.imp[1]])
 
 snd.max <- which.max(turtle.adult[, most.imp[2]])
 snd.min <- which.min(turtle.adult[, most.imp[2]])
 
-par(mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1)
-
-tpsgrid(turtle.land.adult[, , fst.max], mt)
-tpsgrid(turtle.land.adult[, , fst.min], mt)
-
-tpsgrid(turtle.land.adult[, , snd.max], mt)
-tpsgrid(turtle.land.adult[, , snd.min], mt)
-
-imp <- cbind(turtle.adult[, most.imp[1:2]], sp = turtle.adult$spinks)
-imp.pca <- ggplot(imp, aes(x = PC3, y = PC8, colour = sp)) + geom_point()
-imp.pca <- imp.pca + scale_colour_manual(name = '', values = cbp)
-imp.pca
-@
-
-% show tps grids to the side of the PCA plot of the first two most important axes
-\begin{figure}[h]
-  \centering
-  \hspace*{\fill}
-  \begin{subfigure}[h]{0.3\textwidth}
-    \centering
-    \includegraphics[width = \textwidth]{figure/tps2}    
-  \end{subfigure}
-  \begin{subfigure}[h]{0.3\textwidth}
-    \centering
-    \includegraphics[width = \textwidth]{figure/tps5}    
-  \end{subfigure}
-  \begin{subfigure}[h]{0.3\textwidth}
-    \centering
-    \includegraphics[width = \textwidth]{figure/tps1}    
-  \end{subfigure}
-  \hspace*{\fill}
-\end{figure}
-
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Mean shape of classes}
-
-<<fig.width = 3.75, fig.height = 3.75>>=
-mt <- mshape(turtle.land.adult)
-# get mean of each class
-spi <- turtle.adult$spinks
-wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
-mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
-par(mfrow = c(2, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
+par(mfrow = c(1, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
     xaxt = 'n', yaxt = 'n')
-mapply(function(x, m, n) {
-      tpsgrid(x, m)
-      title(main = paste(n))}, x = mspi, n = levels(spi),
-      MoreArgs = list(m = mt), SIMPLIFY = FALSE)
+tpsgrid(turtle.land.adult[, , fst.min], mt, mag = 2)
+title(main = 'min observed')
+tpsgrid(turtle.land.adult[, , fst.max], mt, mag = 2)
+title(main = 'max observed')
 par(mfrow = c(1, 1))
 @
 
 \end{frame}
+
+\begin{frame}
+  \frametitle{Shape across PC8}
+<<fig.width = 5>>=
+par(mfrow = c(1, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
+    xaxt = 'n', yaxt = 'n')
+tpsgrid(turtle.land.adult[, , snd.min], mt, mag = 2)
+title(main = 'min observed')
+tpsgrid(turtle.land.adult[, , snd.max], mt, mag = 2)
+title(main = 'max observed')
+par(mfrow = c(1, 1))
+@
+\end{frame}
+
 
 \section{Discussion}
 \begin{frame}
@@ -453,7 +447,7 @@ par(mfrow = c(1, 1))
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \begin{itemize}
-        \item Ben Frable, Dallas Krentzel, Michael Foote
+        \item Ben Frable, Dallas Krentzel, Michael Foote, David Bapst
         \item COLLECTIONS
         \item FUNDING AGENCIES
       \end{itemize}

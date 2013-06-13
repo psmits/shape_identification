@@ -40,10 +40,10 @@ gap.plot <- function(gap) {
 mshape.plot <- function(fits) {
   shape <- as.data.frame(fits$mshape)
   land <- land.frame(fits$rotated)
-  gg <- ggplot(land, aes(x = y, y = x)) + geom_point(alpha = 0.5,
+  gg <- ggplot(land, aes(x = y, y = -x)) + geom_point(alpha = 0.5,
                                                      size = 0.7)
   gg <- gg + geom_point(data = shape, mapping = aes(x = V2,
-                                                    y = V1,
+                                                    y = -V1,
                                                     colour = 'red'))
   gg
 }
@@ -85,7 +85,7 @@ class.map <- function(train, test, label, pred, map) {
                                       colour = factor(label)
                                       #, size = 1
                                       ),
-                        size = 1,
+                        size = 1.25,
                         alpha = 0.7)
   test <- cbind(test, label = pred)
   gg <- gg + geom_point(data = test,

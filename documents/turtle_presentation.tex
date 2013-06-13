@@ -169,7 +169,9 @@
 
   Partitioning around mediods (PAM) compared with ``gap'' statistic.
 
-  %(dissimilarity based) Evidence accumulation clustering
+  Minimize sum of dissimilarities between points and medoids.
+
+  ``Gap'' is analogous to goodness-of-clustering.
   
 \end{frame}
 
@@ -178,7 +180,7 @@
 
   Fancy way of saying classification (and regression).
 
-  Here, features (principal components) predict class (subspecific assignment).
+  Features (principal components) predict class (subspecific assignment).
 
   Multinomial logistic regression and random forests.
 
@@ -186,13 +188,17 @@
 
 \begin{frame}
   \frametitle{Model training and selection}
-  Unknown appropriate number of features to ``best'' predict class. Want to minimize false positive, while maximizing true positive.
 
-  Split data set, 75-25, training and testing.
-
-  Tuning parameters via grid-search. Uncertainty via 10-fold cross-validation. Selection via max AUC ROC.
-
-  Best multinomial logistic model selected via min AICc. Best random forest model via max AUC ROC.
+  \begin{itemize}
+    \item split into training and testing sets, 75-25.
+    \item tuning parameters via grid-search
+    \item uncertainty via 10-fold CV
+    \item model selection
+      \begin{itemize}
+        \item multinomial logistic regression: min AICc
+        \item random forest: max ROC
+      \end{itemize}
+  \end{itemize}
 
 \end{frame}
 
@@ -270,13 +276,9 @@
 
 \end{frame}
 
-%\begin{frame}
-%  \frametitle{Results: d-EAC}
-%
-%\end{frame}
 
 \begin{frame}[fragile]
-  \frametitle{ROC}
+  \frametitle{Model selection via ROC}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
 \includegraphics[width=\maxwidth]{figure/roc} 
@@ -291,7 +293,7 @@
 %\end{frame}
 
 \begin{frame}
-  \frametitle{Generalize}
+  \frametitle{Generalize using best random forest model}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
 \includegraphics[width=\maxwidth]{figure/unnamed-chunk-4} 
@@ -302,51 +304,13 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Best classification scheme?}
+  \frametitle{Best classification scheme via RF model results}
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
 \includegraphics[width=\maxwidth]{figure/unnamed-chunk-5} 
 
 \end{knitrout}
 
-
-\end{frame}
-
-\begin{frame}[fragile]
-  \frametitle{Variable importance}
-  % ggpairs from the best random forest model
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/imp} 
-
-\end{knitrout}
-
-\end{frame}
-
-\begin{frame}
-  \frametitle{Shape across most important features}
-
-
-
-
-% show tps grids to the side of the PCA plot of the first two most important axes
-\begin{figure}[h]
-  \centering
-  \hspace*{\fill}
-  \begin{subfigure}[h]{0.3\textwidth}
-    \centering
-    \includegraphics[width = \textwidth]{figure/tps2}    
-  \end{subfigure}
-  \begin{subfigure}[h]{0.3\textwidth}
-    \centering
-    \includegraphics[width = \textwidth]{figure/tps5}    
-  \end{subfigure}
-  \begin{subfigure}[h]{0.3\textwidth}
-    \centering
-    \includegraphics[width = \textwidth]{figure/tps1}    
-  \end{subfigure}
-  \hspace*{\fill}
-\end{figure}
 
 \end{frame}
 
@@ -375,6 +339,40 @@
 
 \end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Variable importance of random forest model}
+  % ggpairs from the best random forest model
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/imp} 
+
+\end{knitrout}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Shape across PC3}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-7} 
+
+\end{knitrout}
+
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Shape across PC8}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{1, 1, 1}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/unnamed-chunk-8} 
+
+\end{knitrout}
+
+\end{frame}
+
+
 \section{Discussion}
 \begin{frame}
   \frametitle{Future}
@@ -397,7 +395,7 @@
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \begin{itemize}
-        \item Ben Frable, Dallas Krentzel, Michael Foote
+        \item Ben Frable, Dallas Krentzel, Michael Foote, David Bapst
         \item COLLECTIONS
         \item FUNDING AGENCIES
       \end{itemize}
