@@ -240,7 +240,8 @@ morph <- ggpairs(turtle.adult, columns = c(1:3),
                  upper = 'blank',
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
 fits <- procGPA(turtle.land.adult)
-land <- mshape.plot(fits)
+links <- c(1:7, 13:8)
+land <- mshape.plot(fits, links = links)
 land <- land + coord_equal()
 morph <- putPlot(morph, land, 1, 3)
 morph
@@ -325,10 +326,12 @@ ggroc
 oo <- Reduce(cbind, Map(function(x) x$t, rr))
 colnames(oo) <- groups
 dd <- melt(oo)
-gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.3)
-gdist <- gdist + theme(legend.title = element_blank(),
-                       legend.margin = unit(0, 'cm'),
-                       legend.text = element_text(size = 5),
+gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.5,
+                                                              size = 0.1)
+gdist <- gdist + theme(legend.position = 'none',
+                       #legend.title = element_blank(),
+                       #legend.margin = unit(0, 'cm'),
+                       #legend.text = element_blank(),
                        axis.title = element_text(size = 8),
                        axis.text = element_text(size = 5))
 gdist <- gdist + scale_fill_manual(name = '', values = cbp)
@@ -344,9 +347,9 @@ gdist
 gg <- class.map(adult.train$spinks, adult.test$spinks, labs$spinks, 
                 trf.a.analysis$class$spinks$pred, map)
 gg <- gg + scale_colour_manual(name = '', values = cbp)
-gg <- gg + theme(#legend.position = 'none',
-                 legend.margin = unit(0, 'cm'),
-                 legend.text = element_text(size = 5),
+gg <- gg + theme(legend.position = 'none',
+                 #legend.margin = unit(0, 'cm'),
+                 #legend.text = element_text(size = 5),
                  axis.title = element_text(size = 8),
                  axis.text = element_text(size = 5))
 gg
@@ -359,6 +362,9 @@ gg
 
 <<fig.width = 3.75, fig.height = 3.75>>=
 # get mean of each class
+
+mt <- mshape(turtle.land.adult)
+
 spi <- turtle.adult$spinks
 wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
 mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
@@ -366,12 +372,15 @@ par(mfrow = c(2, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
     xaxt = 'n', yaxt = 'n')
 mins <- lapply(mspi, function(x) min(x[, 2]))
 mins <- min(unlist(mins))
+lmat <- cbind(links, c(links[-1], links[1]))
 mapply(function(x, m, n) {
       #tpsgrid(x, m, mag = 2, ext = 0, cex = 2)
-      plotRefToTarget(M1 = m, M2 = x, mag = 2)
+      plotRefToTarget(M1 = m, M2 = x, mag = 2, links = lmat)
       title(main = paste(n))}, x = mspi, n = levels(spi),
       MoreArgs = list(m = mt), SIMPLIFY = FALSE)
 par(mfrow = c(1, 1))
+
+multi.mean <- multishape.plot(mspi, links = links)
 @
 
 \end{frame}
@@ -397,7 +406,6 @@ ggimp
   \frametitle{Shape across PC3}
 
 <<fig.width = 5>>=
-mt <- mshape(turtle.land.adult)
 
 fst.max <- which.max(turtle.adult[, most.imp[1]])
 fst.min <- which.min(turtle.adult[, most.imp[1]])
@@ -405,15 +413,33 @@ fst.min <- which.min(turtle.adult[, most.imp[1]])
 snd.max <- which.max(turtle.adult[, most.imp[2]])
 snd.min <- which.min(turtle.adult[, most.imp[2]])
 
-par(mfrow = c(1, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
-    xaxt = 'n', yaxt = 'n')
-tpsgrid(turtle.land.adult[, , fst.min], mt, mag = 2)
+#par(mfrow = c(1, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
+#    xaxt = 'n', yaxt = 'n', bty = 'n')
+#tpsgrid(turtle.land.adult[, , fst.min], mt, mag = 2)
 #plotRefToTarget(M1 = mt, M2 = turtle.land.adult[, , fst.min])
-title(main = 'min observed')
-tpsgrid(turtle.land.adult[, , fst.max], mt, mag = 2)
+#title(main = 'min observed')
+#tpsgrid(turtle.land.adult[, , fst.max], mt, mag = 2)
 #plotRefToTarget(M1 = mt, M2 = turtle.land.adult[, , fst.max])
-title(main = 'max observed')
-par(mfrow = c(1, 1))
+#title(main = 'max observed')
+#par(mfrow = c(1, 1))
+
+
+ex.lab <- function(var, value) {
+  value <- as.character(value)
+  if(var == 'lab') {
+    value[value == '1'] <- 'min'
+    value[value == '2'] <- 'max'
+  }
+  return(value)
+}
+
+fst.mean <- multishape.plot(list(turtle.land.adult[, , fst.min], 
+                                 turtle.land.adult[, , fst.max]), 
+                            links = links,
+                            labeller = ex.lab)
+fst.mean <- fst.mean + theme(axis.title = element_blank(),
+                             axis.text = element_text(size = 5))
+fst.mean
 @
 
 \end{frame}
@@ -421,15 +447,23 @@ par(mfrow = c(1, 1))
 \begin{frame}
   \frametitle{Shape across PC8}
 <<fig.width = 5>>=
-par(mfrow = c(1, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
-    xaxt = 'n', yaxt = 'n')
-tpsgrid(turtle.land.adult[, , snd.min], mt, mag = 2)
+#par(mfrow = c(1, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
+#    xaxt = 'n', yaxt = 'n', bty = 'n')
+#tpsgrid(turtle.land.adult[, , snd.min], mt, mag = 2)
 #plotRefToTarget(M1 = mt, M2 = turtle.land.adult[, , snd.min])
-title(main = 'min observed')
-tpsgrid(turtle.land.adult[, , snd.max], mt, mag = 2)
+#title(main = 'min observed')
+#tpsgrid(turtle.land.adult[, , snd.max], mt, mag = 2)
 #plotRefToTarget(M1 = mt, M2 = turtle.land.adult[, , snd.max])
-title(main = 'max observed')
-par(mfrow = c(1, 1))
+#title(main = 'max observed')
+#par(mfrow = c(1, 1))
+
+snd.mean <- multishape.plot(list(turtle.land.adult[, , snd.min], 
+                                 turtle.land.adult[, , snd.max]), 
+                            links = links,
+                            labeller = ex.lab)
+snd.mean <- snd.mean + theme(axis.title = element_blank(),
+                             axis.text = element_text(size = 5))
+snd.mean
 @
 \end{frame}
 
@@ -457,8 +491,8 @@ par(mfrow = c(1, 1))
     \begin{column}{0.5\textwidth}
       \begin{itemize}
         \item Ben Frable, Dallas Krentzel, Michael Foote, David Bapst
-        \item COLLECTIONS
-        \item FUNDING AGENCIES
+        \item collections at CAS, FMNH, LACM, LSUMNS, MSE, MVZ, NMNH, SBMNH, SDMNH, UCMP, UMZC
+        \item NSF DBI-0306158 to KDA
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}

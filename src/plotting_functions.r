@@ -37,14 +37,56 @@ gap.plot <- function(gap) {
   gg
 }
 
-mshape.plot <- function(fits) {
+mshape.plot <- function(fits, links) {
   shape <- as.data.frame(fits$mshape)
+  shape <- shape[links, ]
+  shape <- cbind(shape, rbind(shape[-1, ], shape[1, ]))
+  names(shape) <- c('V1', 'V2', 'V3', 'V4')
+
   land <- land.frame(fits$rotated)
   gg <- ggplot(land, aes(x = y, y = -x)) + geom_point(alpha = 0.5,
-                                                     size = 0.7)
+                                                     size = 0.5)
+  gg <- gg + geom_segment(data = shape, mapping = aes(x = V2,
+                                                      xend = V4,
+                                                      y = -V1,
+                                                      yend = -V3),
+                          alpha = 0.5)
   gg <- gg + geom_point(data = shape, mapping = aes(x = V2,
                                                     y = -V1,
-                                                    colour = 'red'))
+                                                    colour = 'red'),
+                        size = 0.9)
+
+  gg
+}
+
+shape.plot <- function(shape, links) {
+  shape <- as.data.frame(shape)
+  shape <- shape[links, ]
+  shape <- cbind(shape, rbind(shape[-1, ], shape[1, ]))
+  names(shape) <- c('V1', 'V2', 'V3', 'V4')
+  gg <- ggplot(shape, aes(x = V2, y = -V1))
+  gg <- gg + geom_point(size = 0.9)
+  gg <- gg + geom_segment(mapping = aes(x = V2, xend = V4,
+                                        y = -V1, yend = -V3))
+
+  gg
+}
+
+multishape.plot <- function(shapes, links, labeller = 'label_value') {
+  shapes <- lapply(shapes, as.data.frame)
+  shapes <- lapply(shapes, function(x) x[links, ])
+  shapes <- lapply(shapes, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
+  shapes <- lapply(shapes, function(x) {
+                   names(x) <- c('V1', 'V2', 'V3', 'V4')
+                   x})
+  na <- c(rep(seq(length(shapes)), lapply(shapes, nrow)))
+  shapes <- Reduce(rbind, shapes)
+  shapes <- cbind(shapes, lab = factor(na))
+  gg <- ggplot(shapes, aes(x = V2, y = -V1))
+  gg <- gg + geom_point(size = 1.3)
+  gg <- gg + geom_segment(mapping = aes(x = V2, xend = V4,
+                                        y = -V1, yend = -V3))
+  gg <- gg + facet_grid(. ~ lab, labeller = labeller)
 
   gg
 }
