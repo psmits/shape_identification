@@ -45,6 +45,7 @@ mshape.plot <- function(fits) {
   gg <- gg + geom_point(data = shape, mapping = aes(x = V2,
                                                     y = -V1,
                                                     colour = 'red'))
+
   gg
 }
 
@@ -74,29 +75,47 @@ map.plot <- function(data, label, map, coord = 'gilbert') {
   gg
 }
 
-class.map <- function(train, test, label, pred, map) {
+class.map <- function(train, test, label, pred, map, facet = TRUE) {
   gg <- ggplot(map, aes(x = long, y = lat, group = group))
   gg <- gg + geom_polygon(fill = 'white', colour = 'black')
   gg <- gg + coord_map('gilbert')
-  train <- cbind(train, label = label)
-  gg <- gg + geom_point(data = train,
-                        mapping = aes(x = long, y = lat,
-                                      group = NULL,
-                                      colour = factor(label)
-                                      #, size = 1
-                                      ),
-                        size = 1.25,
-                        alpha = 0.7)
-  test <- cbind(test, label = pred)
-  gg <- gg + geom_point(data = test,
-                        mapping = aes(x = long, y = lat,
-                                      group = NULL,
-                                      colour = factor(label)
-                                      #, size = 1
-                                      ), 
-                        size = 1.5,
-                        shape = 15,
-                        alpha = 0.8)
+
+  if(facet) {
+    tr <- cbind(long = train$long, lat = train$lat, label = label)
+    te <- cbind(long = test$long, lat = test$lat, label = pred)
+    dat <- list(train = tr, test = te)
+    tt <- c('train', 'test')
+    dat <- Map(function(x, y) cbind(as.data.frame(x), type = rep(y, nrow(x))),
+               x = dat, y = tt)
+    dat <- Reduce(rbind, dat)
+
+    gg <- gg + geom_point(data = dat,
+                          mapping = aes(x = long, y = lat, 
+                                        group = NULL,
+                                        colour = factor(label)),
+                          size = 1.25,
+                          alpha = 0.7)
+    gg <- gg + facet_wrap(~ type)
+  } else {
+    train <- cbind(train, label = label)
+    gg <- gg + geom_point(data = train,
+                         mapping = aes(x = long, y = lat,
+                                       group = NULL,
+                                       colour = factor(label)
+                                       ),
+                         size = 1.25,
+                         alpha = 0.7)
+    test <- cbind(test, label = pred)
+    gg <- gg + geom_point(data = test,
+                          mapping = aes(x = long, y = lat,
+                                        group = NULL,
+                                        colour = factor(label)
+                                        ), 
+                          size = 1.5,
+                          shape = 15,
+                          alpha = 0.8)
+  }
+
   gg
 }
 

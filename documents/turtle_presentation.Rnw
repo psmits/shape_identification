@@ -72,7 +72,7 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
   \frametitle{Cryptic diversity}
   % image of example taxa that are morphologically identical and are only differentiated via genetic means
   %
-  Crytic species are species delimitated via molecular means which were not/cannot be identified via morphology.
+  Crytic species are species delimitated via molecular means. Taxa were not/cannot be identified via morphology.
 
   How much of cryptic diversity is just a function of sample size and/or method?
 
@@ -130,7 +130,7 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
   \begin{columns}
     \begin{column}{0.5\textwidth}
       \begin{itemize}
-        %\item \Sexpr{nrow(turtle.adult)} adult individuals
+        \item \Sexpr{nrow(turtle.adult)} adult individuals
         \item plastral (``belly'') shape
         \item landmarks averaged across bilat axis
         \item total 13 landmarks, 7 on bilat axis, 6 off
@@ -155,6 +155,8 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
   Fancy way of saying clustering or density estimation.
 
   Partitioning around mediods (PAM) compared with ``gap'' statistic.
+
+  Analogous to \textit{k}-means clustering, a divisive clustering algorithm.
 
   Minimize sum of dissimilarities between points and medoids.
 
@@ -362,8 +364,11 @@ wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
 mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
 par(mfrow = c(2, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
     xaxt = 'n', yaxt = 'n')
+mins <- lapply(mspi, function(x) min(x[, 2]))
+mins <- min(unlist(mins))
 mapply(function(x, m, n) {
-      tpsgrid(x, m, mag = 2)
+      #tpsgrid(x, m, mag = 2, ext = 0, cex = 2)
+      plotRefToTarget(M1 = m, M2 = x, mag = 2)
       title(main = paste(n))}, x = mspi, n = levels(spi),
       MoreArgs = list(m = mt), SIMPLIFY = FALSE)
 par(mfrow = c(1, 1))
@@ -403,8 +408,10 @@ snd.min <- which.min(turtle.adult[, most.imp[2]])
 par(mfrow = c(1, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
     xaxt = 'n', yaxt = 'n')
 tpsgrid(turtle.land.adult[, , fst.min], mt, mag = 2)
+#plotRefToTarget(M1 = mt, M2 = turtle.land.adult[, , fst.min])
 title(main = 'min observed')
 tpsgrid(turtle.land.adult[, , fst.max], mt, mag = 2)
+#plotRefToTarget(M1 = mt, M2 = turtle.land.adult[, , fst.max])
 title(main = 'max observed')
 par(mfrow = c(1, 1))
 @
@@ -417,8 +424,10 @@ par(mfrow = c(1, 1))
 par(mfrow = c(1, 2), mar = c(0, 0, 1, 1) + 0.1, oma = c(5, 4, 0, 0) + 0.1,
     xaxt = 'n', yaxt = 'n')
 tpsgrid(turtle.land.adult[, , snd.min], mt, mag = 2)
+#plotRefToTarget(M1 = mt, M2 = turtle.land.adult[, , snd.min])
 title(main = 'min observed')
 tpsgrid(turtle.land.adult[, , snd.max], mt, mag = 2)
+#plotRefToTarget(M1 = mt, M2 = turtle.land.adult[, , snd.max])
 title(main = 'max observed')
 par(mfrow = c(1, 1))
 @
