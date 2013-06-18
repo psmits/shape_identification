@@ -428,17 +428,20 @@ ex.lab <- function(var, value) {
   value <- as.character(value)
   if(var == 'lab') {
     value[value == '1'] <- 'min'
-    value[value == '2'] <- 'max'
+    value[value == '2'] <- 'mean'
+    value[value == '3'] <- 'max'
   }
   return(value)
 }
 
 fst.mean <- multishape.plot(list(turtle.land.adult[, , fst.min], 
+                                 mt,
                                  turtle.land.adult[, , fst.max]), 
                             links = links,
                             labeller = ex.lab)
 fst.mean <- fst.mean + theme(axis.title = element_blank(),
-                             axis.text = element_text(size = 5))
+                             axis.text = element_text(size = 4))
+fst.mean <- fst.mean + coord_equal()
 fst.mean
 @
 
@@ -458,11 +461,13 @@ fst.mean
 #par(mfrow = c(1, 1))
 
 snd.mean <- multishape.plot(list(turtle.land.adult[, , snd.min], 
+                                 mt,
                                  turtle.land.adult[, , snd.max]), 
                             links = links,
                             labeller = ex.lab)
 snd.mean <- snd.mean + theme(axis.title = element_blank(),
-                             axis.text = element_text(size = 5))
+                             axis.text = element_text(size = 4))
+snd.mean <- snd.mean + coord_equal()
 snd.mean
 @
 \end{frame}
