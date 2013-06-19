@@ -328,13 +328,15 @@ colnames(oo) <- groups
 dd <- melt(oo)
 gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.5,
                                                               size = 0.1)
-gdist <- gdist + theme(legend.position = 'none',
-                       #legend.title = element_blank(),
-                       #legend.margin = unit(0, 'cm'),
+gdist <- gdist + theme(#legend.position = 'none',
+                       legend.title = element_blank(),
+                       legend.margin = unit(0, 'cm'),
                        #legend.text = element_blank(),
                        axis.title = element_text(size = 8),
                        axis.text = element_text(size = 5))
-gdist <- gdist + scale_fill_manual(name = '', values = cbp)
+gdist <- gdist + scale_fill_manual(name = '', values = cbp,
+                                   labels = c('morph 1', 'morph 2',
+                                              'molec 1', 'molec 2'))
 
 gdist
 @
@@ -396,6 +398,9 @@ ggimp <- ggpairs(turtle.adult,
                  colour = 'spinks',
                  upper = 'blank',
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
+classlab <- ggally_text('molec 2', size = 3)
+
+ggimp <- putPlot(ggimp, classlab, 4, 4)
 
 #putPlot
 ggimp
