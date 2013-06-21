@@ -72,7 +72,7 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
   \frametitle{Cryptic diversity}
   % image of example taxa that are morphologically identical and are only differentiated via genetic means
   %
-  Crytic species are species delimitated via molecular means. Taxa were not/cannot be identified via morphology.
+  Cryptic species are species delimited via molecular means. Taxa were not/cannot be identified via morphology.
 
   How much of cryptic diversity is just a function of sample size and/or method?
 
@@ -297,6 +297,11 @@ roc.mod <- cbind(mod.names, roc.mod)
 roc.mod <- melt(roc.mod)
 roc.mod$variable <- as.numeric(roc.mod$variable)
 
+roc.mod$.id[roc.mod$.id == 'sh1'] <- 'morph 1'
+roc.mod$.id[roc.mod$.id == 'sh2'] <- 'morph 2'
+roc.mod$.id[roc.mod$.id == 'sh3'] <- 'molec 1'
+roc.mod$.id[roc.mod$.id == 'spinks'] <- 'molec 2'
+
 ggroc <- ggplot(roc.mod, aes(x = variable, y = value, color = mod.names))
 ggroc <- ggroc + geom_line()
 ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
@@ -306,9 +311,10 @@ ggroc <- ggroc + scale_color_manual(labels = c('multinomial',
 ggroc <- ggroc + theme(legend.title = element_blank(),
                        legend.position = 'right',
                        legend.margin = unit(0, 'cm'),
-                       legend.text = element_text(size = 5),
+                       legend.text = element_text(size = 4),
                        axis.title = element_text(size = 8),
-                       axis.text = element_text(size = 5))
+                       axis.text = element_text(size = 5),
+                       strip.text = element_text(size = 5))
 ggroc <- ggroc + labs(x = '# of features', y = 'AUC ROC')
 ggroc <- ggroc + facet_wrap(~.id)
 ggroc
@@ -331,12 +337,13 @@ gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.5,
 gdist <- gdist + theme(#legend.position = 'none',
                        legend.title = element_blank(),
                        legend.margin = unit(0, 'cm'),
-                       #legend.text = element_blank(),
+                       legend.text = element_text(size = 4),
                        axis.title = element_text(size = 8),
                        axis.text = element_text(size = 5))
 gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                    labels = c('morph 1', 'morph 2',
                                               'molec 1', 'molec 2'))
+gdist <- gdist + labs(x = 'AUC ROC')
 
 gdist
 @
@@ -349,9 +356,9 @@ gdist
 gg <- class.map(adult.train$spinks, adult.test$spinks, labs$spinks, 
                 trf.a.analysis$class$spinks$pred, map)
 gg <- gg + scale_colour_manual(name = '', values = cbp)
-gg <- gg + theme(legend.position = 'none',
-                 #legend.margin = unit(0, 'cm'),
-                 #legend.text = element_text(size = 5),
+gg <- gg + theme(#legend.position = 'none',
+                 legend.margin = unit(0, 'cm'),
+                 legend.text = element_text(size = 4),
                  axis.title = element_text(size = 8),
                  axis.text = element_text(size = 5))
 gg
