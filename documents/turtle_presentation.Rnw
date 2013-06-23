@@ -109,7 +109,7 @@ adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$sp
 \end{frame}
 
 \begin{frame}
-  \frametitle{Phylogenetic hypotheses}
+  \frametitle{Molecular hypotheses}
 
   \begin{figure}[h]
     \centering
