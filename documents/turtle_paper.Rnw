@@ -1,0 +1,109 @@
+% how cryptic is cryptic diversity?
+% paper describing the motivation, methods and results of the turtle
+% subspecies identification project.
+% journal submission order:
+%   American Naturalist
+%   Journal of Evolutionary Biology
+
+\documentclass[12pt]{article}
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx, microtype, parskip, hyperref, authblk}
+\usepackage{rotating, longtable, caption, subcaption, multirow}
+\usepackage[sort&compress]{natbib}
+
+% for american naturalist
+\usepackage{lineno}
+
+\frenchspacing
+
+% bring in various code necessities
+% all the figures are made externally, so this would just be for numerics
+<<message = FALSE, echo = FALSE, warning = FALSE>>=
+opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
+               highlight = TRUE, background = 'white')
+
+load('../data/turtle_analysis.RData')
+load('../data/turtle_gen.RData')
+@
+
+\title{How cryptic is cryptic diversity? Machine learning approaches to plastral variation in \textit{Emys marmorata}.}
+\author[1]{Peter D Smits \thanks{psmits@uchicago.edu}}
+\author[2]{Kenneth D Angielczyk \thanks{kangielczyk@fieldmuseum.org}}
+\author[3]{James F Parham \thanks{jparham@fullerton.edu}}
+\affil[1]{Committee on Evolution Biology, University of Chicago}
+\affil[2]{Department of Geology, Field Museum of Natural History}
+\affil[3]{Department of Geological Sciences, California State University -- Fullerton}
+
+
+\begin{document}
+
+\maketitle
+
+\linenumbers
+\modulolinenumbers[2]
+
+\begin{abstract}
+  % 200 words
+
+\end{abstract}
+
+\section{Introduction}
+
+% cryptic diversity
+%   most species are still deliminated solely based on morphology
+%   paleo problem
+Cryptic diversity is when taxa were only first deliminated via molecular means and were not or cannot deliminated via morphological identification CITATION. The discovery of this previously unknown diversity has 
+
+% e. marmorata
+%   natural history
+%   morphological hypothesis of subspecies
+%   molecular hypothesis
+
+% central hypothesis/question of study
+Here, we address the question of how much of cryptic diversity may be a product of sample size as well as methodology used for classifying taxa based solely on morphology. Specifically, we ask if fine scale variation in morphology can provide corroboration for subspecific assignment, and if 
+% statement of goals and approach
+To analyze this question, we apply multiple machine learning approaches to estimate the best classification scheme of \textit{E. marmorata} subspecies based on morphological variation in plastral shape. 
+
+
+
+
+\section{Materials and Methods}
+\subsection{Specimens}
+We collected morphometric data from \Sexpr{nrow(turtle.adult)} specimens. Geographic information was recorded from museum collection information. When precise latitude and longitude information was not known for a specimen, it was inferred from whatever locality information was presented.
+
+Specimens were given a class assignment was based on geographic information. Because the exact geographic barriers between different class is unknown and fuzzy, two assignments for both morphological and molecular hypotheses of class were used. 
+
+\subsection{Geometric morphometrics}
+% landmarks
+Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. These landmarks were chosen to maximize the description of plastral variation. 12 of these landmarks are symmetrical across the axis of symmetry and in order to prevent degrees of freedom and other concerns \citep{Klingenberg2007}, these landmarks were reflected across the axis of symmetry and the average position of each symmetrical pair was used. Analysis was then conducted on the resulting ``half'' plastra.
+
+% GP superimposition
+``Half'' plastra landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components of shape were calculated. This was done using the \texttt{shapes} package in R \citep{2013, Dryden2013}.
+% PCA
+
+\subsection{Machine learning analyses}
+\subsubsection{Unsupervised learning}
+
+\subsubsection{Supervised learning}
+
+
+
+\section{Results}
+\subsection{Geometric morphometrics}
+
+\subsection{Machine learning analyses}
+\subsubsection{Unsupervised learning}
+
+\subsubsection{Supervised learning}
+
+
+\section{Discussion}
+
+
+\section*{Acknowledgements}
+PDS would like to thank David Bapst, Benjmin Frable, Michael Foote, and Dallas Krentzel for useful discussion which enhanced the quality of this study.
+
+\bibliographystyle{amnatnat}
+\bibliography{turtle,packages}
+
+\end{document}

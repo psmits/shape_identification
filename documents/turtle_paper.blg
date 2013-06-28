@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: turtle_paper.aux
+The style file: amnatnat.bst
+Database file #1: turtle.bib
+Database file #2: packages.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 472446405560.
+You've used 6 entries,
+            3251 wiz_defined-function locations,
+            695 strings with 5591 characters,
+and the built_in function-call counts, 2911 in all, are:
+= -- 248
+> -- 114
+< -- 4
++ -- 39
+- -- 33
+* -- 178
+:= -- 501
+add.period$ -- 23
+call.type$ -- 6
+change.case$ -- 39
+chr.to.int$ -- 6
+cite$ -- 6
+duplicate$ -- 216
+empty$ -- 218
+format.name$ -- 47
+if$ -- 570
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 41
+newline$ -- 33
+num.names$ -- 24
+pop$ -- 91
+preamble$ -- 1
+purify$ -- 35
+quote$ -- 0
+skip$ -- 79
+stack$ -- 0
+substring$ -- 124
+swap$ -- 84
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 51
+warning$ -- 0
+while$ -- 22
+width$ -- 0
+write$ -- 76

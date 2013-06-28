@@ -1,0 +1,158 @@
+% how cryptic is cryptic diversity?
+% paper describing the motivation, methods and results of the turtle
+% subspecies identification project.
+% journal submission order:
+%   American Naturalist
+%   Journal of Evolutionary Biology
+
+\documentclass[12pt]{article}\usepackage{graphicx, color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
+\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
+\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
+\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlargument}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.180392156862745,0.6,0.341176470588235}{#1}}%
+\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0.43921568627451,0.47843137254902,0.701960784313725}{#1}}%
+\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
+\newcommand{\hlassignement}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
+\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.709803921568627,0.145098039215686}{#1}}%
+\newcommand{\hlslot}[1]{\textit{#1}}%
+\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlprompt}[1]{\textcolor[rgb]{0.2,0.2,0.2}{#1}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx, microtype, parskip, hyperref, authblk}
+\usepackage{rotating, longtable, caption, subcaption, multirow}
+\usepackage[sort&compress]{natbib}
+
+% for american naturalist
+\usepackage{lineno}
+
+\frenchspacing
+
+% bring in various code necessities
+% all the figures are made externally, so this would just be for numerics
+
+
+
+\title{How cryptic is cryptic diversity? Machine learning approaches to plastral variation in \textit{Emys marmorata}.}
+\author[1]{Peter D Smits \thanks{psmits@uchicago.edu}}
+\author[2]{Kenneth D Angielczyk \thanks{kangielczyk@fieldmuseum.org}}
+\author[3]{James F Parham \thanks{jparham@fullerton.edu}}
+\affil[1]{Committee on Evolution Biology, University of Chicago}
+\affil[2]{Department of Geology, Field Museum of Natural History}
+\affil[3]{Department of Geological Sciences, California State University -- Fullerton}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+\begin{document}
+
+\maketitle
+
+\linenumbers
+\modulolinenumbers[2]
+
+\begin{abstract}
+  % 200 words
+
+\end{abstract}
+
+\section{Introduction}
+
+% cryptic diversity
+%   most species are still deliminated solely based on morphology
+%   paleo problem
+Cryptic diversity is when taxa were only first deliminated via molecular means and were not or cannot deliminated via morphological identification CITATION. The discovery of this previously unknown diversity has 
+
+% e. marmorata
+%   natural history
+%   morphological hypothesis of subspecies
+%   molecular hypothesis
+
+% central hypothesis/question of study
+Here, we address the question of how much of cryptic diversity may be a product of sample size as well as methodology used for classifying taxa based solely on morphology. Specifically, we ask if fine scale variation in morphology can provide corroboration for subspecific assignment, and if 
+% statement of goals and approach
+To analyze this question, we apply multiple machine learning approaches to estimate the best classification scheme of \textit{E. marmorata} subspecies based on morphological variation in plastral shape. 
+
+
+
+
+\section{Materials and Methods}
+\subsection{Specimens}
+We collected morphometric data from 524 specimens. Geographic information was recorded from museum collection information. When precise latitude and longitude information was not known for a specimen, it was inferred from whatever locality information was presented.
+
+Specimens were given a class assignment was based on geographic information. Because the exact geographic barriers between different class is unknown and fuzzy, two assignments for both morphological and molecular hypotheses of class were used. 
+
+\subsection{Geometric morphometrics}
+% landmarks
+Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. These landmarks were chosen to maximize the description of plastral variation. 12 of these landmarks are symmetrical across the axis of symmetry and in order to prevent degrees of freedom and other concerns \citep{Klingenberg2007}, these landmarks were reflected across the axis of symmetry and the average position of each symmetrical pair was used. Analysis was then conducted on the resulting ``half'' plastra.
+
+% GP superimposition
+``Half'' plastra landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components of shape were calculated. This was done using the \texttt{shapes} package in R \citep{2013, Dryden2013}.
+% PCA
+
+\subsection{Machine learning analyses}
+\subsubsection{Unsupervised learning}
+
+\subsubsection{Supervised learning}
+
+
+
+\section{Results}
+\subsection{Geometric morphometrics}
+
+\subsection{Machine learning analyses}
+\subsubsection{Unsupervised learning}
+
+\subsubsection{Supervised learning}
+
+
+\section{Discussion}
+
+
+\section*{Acknowledgements}
+PDS would like to thank David Bapst, Benjmin Frable, Michael Foote, and Dallas Krentzel for useful discussion which enhanced the quality of this study.
+
+\bibliographystyle{amnatnat}
+\bibliography{turtle,packages}
+
+\end{document}
