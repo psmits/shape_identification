@@ -2,7 +2,7 @@
 % paper describing the motivation, methods and results of the turtle
 % subspecies identification project.
 % journal submission order:
-%   American Naturalist
+%   American Naturalist (21 pages)
 %   Journal of Evolutionary Biology
 
 \documentclass[12pt]{article}\usepackage{graphicx, color}
@@ -61,9 +61,10 @@
 
 \usepackage{alltt}
 \usepackage{amsmath, amsthm}
-\usepackage{graphicx, microtype, parskip, hyperref, authblk}
+\usepackage{graphicx, microtype, hyperref, authblk}
 \usepackage{rotating, longtable, caption, subcaption, multirow}
 \usepackage[sort&compress]{natbib}
+%\usepackage{fullpage}
 
 % for american naturalist
 \usepackage{lineno}
@@ -84,6 +85,7 @@
 \affil[3]{Department of Geological Sciences, California State University -- Fullerton}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 
+
 \begin{document}
 
 \maketitle
@@ -101,41 +103,72 @@
 % cryptic diversity
 %   most species are still deliminated solely based on morphology
 %   paleo problem
-Cryptic diversity is when taxa were only first deliminated via molecular means and were not or cannot deliminated via morphological identification CITATION. The discovery of this previously unknown diversity has 
+Cryptic diversity is when taxa were only first deliminated via molecular means and were not or cannot deliminated via morphological identification CITATION. The discovery of this previously unknown diversity has
+
+Here, we address the question of how much of cryptic diversity may be a product of sample size as well as methodology used for classifying taxa based solely on morphology. Specifically, we ask if fine scale variation in morphology can provide corroboration for subspecific assignment, and if it is possible to determine the best classification hypothesis amoungst a few.
 
 % e. marmorata
 %   natural history
+%     conservation importance (turtles in general, e. marmorata in specific)
+In this study, we address the subspecific classification scheme of \textit{Emys marmorata}, or western pond turtle. \textit{E. marmorata} has a distribution from northern Washington State, USA to Baja California, Mexico.
 %   morphological hypothesis of subspecies
 %   molecular hypothesis
+Traditionally, \textit{E. marmorata} was classified into three subgroups: the northern \textit{E. marmorata marmorata}, the southern \textit{E. marmorata palida}, and a central Californian intergrade zone \citep{Seeliger1945}. More recently, \textit{E. marmorata} was divided into four subgroups based on mitochrondial DNA: a northern clade, a southern clade, and two central Californian clades \citep{Spinks2005,Spinks2009}.
 
 % central hypothesis/question of study
-Here, we address the question of how much of cryptic diversity may be a product of sample size as well as methodology used for classifying taxa based solely on morphology. Specifically, we ask if fine scale variation in morphology can provide corroboration for subspecific assignment, and if 
 % statement of goals and approach
-To analyze this question, we apply multiple machine learning approaches to estimate the best classification scheme of \textit{E. marmorata} subspecies based on morphological variation in plastral shape. 
-
-
+In this study, we apply multiple machine learning approaches to estimate the best classification scheme of \textit{E. marmorata} subspecies based on morphological variation in plastral shape. 
 
 
 \section{Materials and Methods}
 \subsection{Specimens}
-We collected morphometric data from 524 specimens. Geographic information was recorded from museum collection information. When precise latitude and longitude information was not known for a specimen, it was inferred from whatever locality information was presented.
+We collected morphometric data from 524 specimens. Geographic information was recorded from museum collection information. When precise latitude and longitude information was not known for a specimen, it was inferred from whatever locality information was presented. % museum information?
 
 Specimens were given a class assignment was based on geographic information. Because the exact geographic barriers between different class is unknown and fuzzy, two assignments for both morphological and molecular hypotheses of class were used. 
 
 \subsection{Geometric morphometrics}
 % landmarks
-Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. These landmarks were chosen to maximize the description of plastral variation. 12 of these landmarks are symmetrical across the axis of symmetry and in order to prevent degrees of freedom and other concerns \citep{Klingenberg2007}, these landmarks were reflected across the axis of symmetry and the average position of each symmetrical pair was used. Analysis was then conducted on the resulting ``half'' plastra.
+Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. These landmarks were chosen to maximize the description of plastral variation. 12 of these landmarks are symmetrical across the axis of symmetry and in order to prevent degrees of freedom and other concerns \citep{Klingenberg2007}, these landmarks were reflected across the axis of symmetry and the average position of each symmetrical pair was used. In cases where damage or incompleteness prevented symetric landmarks from being determined, only the single member of the pair was used. Analysis was then conducted on the resulting ``half'' plastra.
 
 % GP superimposition
-``Half'' plastra landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components of shape were calculated. This was done using the \texttt{shapes} package in R \citep{2013, Dryden2013}.
+``Half'' plastra landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components of shape were calculated. This was done using the \texttt{shapes} package for R \citep{2013, Dryden2013}.
+
 % PCA
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
+% PAM
+%   Riemannian shape distance
+%   gap statistic
+PAM was conducted using the \texttt{cluster} package for R \citep{Maechler2013}.
 
 \subsubsection{Supervised learning}
+% training testing split
+The dataset of 524 plastron landmarks was split into training and testing datasets. The former was used for model fitting (training) and was 75\% of the total dataset, split proportionally per class, while the testing dataset was used to estimate the effectiveness of each classification scheme (i.e. performance in the wild).
+
+% model types
+%   multinomial logistic regression
+%   random forest
+Multinomial logistic regression models were fit using the \texttt{nnet} package for R \citep{Venables2002} while random forest models were fit using the \texttt{randomForest} package for R \citep{Liaw2002}.
 
 
+% model training
+%   tuning parameters
+%     grid search
+%       what are the tuning parameters for each model?
+%     best AUC ROC
+In order to prevent over fitting each machine learning model, tuning parameters were estimated using 10-fold cross-validation (CV) across a grid search of all tuning parameter combinations. Optimal tuning parameter values were selected based on area under the receiver operating characteristic curve (AUC ROC). Multiclass AUC ROC was estimated using the all-against one strategy described in \citet{Hand2001}.
+
+%   model selection
+%     AICc
+For the multinomial logistic regression models, PCs were added sequentially in order to increase the overall amount of variation in shape included in each model and the final model was that with the lowest AICc \cite{Burnham2002a}. This procedure was used because the optimal number of PCs to include is unknown, and while including all of the PCs of shape would mean that all of the variability in plastron shape would be used to estimate class, this may cause the model to be over fit and not provide an accurate estimate of unsampled plastral variation. The maximum number of PCs allowed to be used as predictors was 10 because of both the number of parameters estimated per model and the necessary sample size needed to estimate that many parameters accurately. 
+
+%     recursive feature selection
+Because random forest models are not fit using maximum likelihood, a recursive feature selection algorithm was used to choose the optimal number of PCs to include based on the AUC ROC of the model. PCs were sequentially added as features until the AUC ROC of the model did not increase. After each PC was added, 10-fold CV was used to estimate the optimal values of the tuning parameters as well as quantify the uncertainty of each model. Like the multinomial logistic regression models, 10 was the maximum number of PCs that could have been included in the model. The recursive feature selection algorithm used here is that implemented in the \texttt{caret} package for R \citep{Kuhn2013}.
+
+% generalization
+%   bootstrap resample of AUC ROC
+The final selected models were then used to estimate the class assignments of the training dataset. Model performance was measured using AUC ROC. A distribution of AUC ROC values were estimated for each classification scheme using 1000 nonparametric bootstrap resamples of the training dataset.
 
 \section{Results}
 \subsection{Geometric morphometrics}
@@ -150,7 +183,7 @@ Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 
 
 
 \section*{Acknowledgements}
-PDS would like to thank David Bapst, Benjmin Frable, Michael Foote, and Dallas Krentzel for useful discussion which enhanced the quality of this study.
+PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas Krentzel for useful discussion which enhanced the quality of this study.
 
 \bibliographystyle{amnatnat}
 \bibliography{turtle,packages}
