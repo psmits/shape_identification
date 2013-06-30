@@ -147,9 +147,14 @@ PAM was conducted using the \texttt{cluster} package for R \citep{Maechler2013}.
 The dataset of 524 plastron landmarks was split into training and testing datasets. The former was used for model fitting (training) and was 75\% of the total dataset, split proportionally per class, while the testing dataset was used to estimate the effectiveness of each classification scheme (i.e. performance in the wild).
 
 % model types
+Two types of supervised learning, or classification, models were fit to the PCs of plastral shape: multinomial logistic regression and random forest. These model types were chosen because of various properties of these models which allow for useful interpretations about the strength and structure of the classification. Multinomial logistic regression models were fit using the \texttt{nnet} package for R \citep{Venables2002} while random forest models were fit using the \texttt{randomForest} package for R \citep{Liaw2002}.
+
 %   multinomial logistic regression
+Multinomial logistic regression is an extension of logistic regression, where instead of a binary response it is possible to have three or more response classes CITATION. Effectively, this type of model can be viewed as multiple, simultaneous logistic regression models for each class and the final classification of the observation being the most probable of all the sub-model classifications. From the final model the relative risk of a given classification, with reference to a given class, can be calculated from the coefficients of the features, or predictors. This is similar to the log-odds calculated from the coefficients of a logistic regression.
+
 %   random forest
-Multinomial logistic regression models were fit using the \texttt{nnet} package for R \citep{Venables2002} while random forest models were fit using the \texttt{randomForest} package for R \citep{Liaw2002}.
+Random forest models are an extension of classification and regression trees (CART) CITATION. Basically, CARTs are built for random subsamples of both the features of the proposed model and observations. This process is repeated many times, 1000 times here, and the final model is chosen as the mode of the parameter estimates from the distribution of CARTs CITATION. In addition to fitting a classification model, this procedure allows for the features to be ranked in order of importance, means that the variables most important for determining a given classification scheme can be estimated. In the context of predicting class from geometric morphometric data, this identifies the PCs that describe the variation that best distinguishes the different classes.
+%   R statement
 
 
 % model training
