@@ -137,10 +137,18 @@ Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
-% PAM
+% clustering
 %   Riemannian shape distance
+Because shape space, or configurations after Procrustes superimposition, is a Riemannian manifold \citep{Dryden1998a} the dissimilarity between each landmark configuration was measured as the Riemmanian shape distance \citep{Dryden1998a} AND KENDALL CITATION.
+
+%   PAM
+The dissimilarity matrix of shape was divisivly clustering using partioning around mediods (PAM) which is analogous to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized CITATION. 
+
 %   gap statistic
-PAM was conducted using the \texttt{cluster} package for R \citep{Maechler2013}.
+The optimal number of clusters of shape configurations is unknown being possibly three, four, or some other unknown. Clustering solutions were estimated for between 1 and 40 clusters. Clustering solutions were compared using the gap statistic, which is a measure of goodness of clustering CITATION.
+
+%  R implementation
+PAM clustering and gap statistic calculation was conducted using the \texttt{cluster} package for R \citep{Maechler2013}.
 
 \subsubsection{Supervised learning}
 % training testing split
@@ -162,11 +170,11 @@ Random forest models are an extension of classification and regression trees (CA
 %     grid search
 %       what are the tuning parameters for each model?
 %     best AUC ROC
-In order to prevent over fitting each machine learning model, tuning parameters were estimated using 10-fold cross-validation (CV) across a grid search of all tuning parameter combinations. Optimal tuning parameter values were selected based on area under the receiver operating characteristic curve (AUC ROC). Multiclass AUC ROC was estimated using the all-against one strategy described in \citet{Hand2001}.
+In order to prevent over fitting each machine learning model, tuning parameters were estimated using 10-fold cross-validation (CV) across a grid search of all tuning parameter combinations. Optimal tuning parameter values were selected based on area under the receiver operating characteristic curve (AUC ROC). Multiclass AUC ROC was estimated using the all-against one strategy derived by \citet{Hand2001} in implemented in PROC PACKGE.
 
 %   model selection
 %     AICc
-For the multinomial logistic regression models, PCs were added sequentially in order to increase the overall amount of variation in shape included in each model and the final model was that with the lowest AICc \cite{Burnham2002a}. This procedure was used because the optimal number of PCs to include is unknown, and while including all of the PCs of shape would mean that all of the variability in plastron shape would be used to estimate class, this may cause the model to be over fit and not provide an accurate estimate of unsampled plastral variation. The maximum number of PCs allowed to be used as predictors was 10 because of both the number of parameters estimated per model and the necessary sample size needed to estimate that many parameters accurately. 
+For the multinomial logistic regression models, PCs were added sequentially in order to increase the overall amount of variation in shape included in each model and the final model was that with the lowest AICc \citep{Burnham2002a} AKAIKE AND OTHER CITATION. This procedure was used because the optimal number of PCs to include is unknown, and while including all of the PCs of shape would mean that all of the variability in plastron shape would be used to estimate class, this may cause the model to be over fit and not provide an accurate estimate of unsampled plastral variation. The maximum number of PCs allowed to be used as predictors was 10 because of both the number of parameters estimated per model and the necessary sample size needed to estimate that many parameters accurately. 
 
 %     recursive feature selection
 Because random forest models are not fit using maximum likelihood, a recursive feature selection algorithm was used to choose the optimal number of PCs to include based on the AUC ROC of the model. PCs were sequentially added as features until the AUC ROC of the model did not increase. After each PC was added, 10-fold CV was used to estimate the optimal values of the tuning parameters as well as quantify the uncertainty of each model. Like the multinomial logistic regression models, 10 was the maximum number of PCs that could have been included in the model. The recursive feature selection algorithm used here is that implemented in the \texttt{caret} package for R \citep{Kuhn2013}.
@@ -180,8 +188,19 @@ The final selected models were then used to estimate the class assignments of th
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
+% figure
+%   gap statistic results
 
 \subsubsection{Supervised learning}
+% figure
+%   ROC model selection (see talk)
+%   generalize densities
+%     facet: multinomial, rf (see talk)
+%   maps
+%     facet: training, multinomial, rf
+%
+% table
+%   AICc model selection
 
 
 \section{Discussion}
