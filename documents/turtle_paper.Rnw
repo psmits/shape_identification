@@ -25,6 +25,8 @@ opts_chunk$set(warning = FALSE, echo = FALSE, message = FALSE,
 
 load('../data/turtle_analysis.RData')
 load('../data/turtle_gen.RData')
+
+#source('../src/turtle_plots.r')
 @
 
 \title{How cryptic is cryptic diversity? Machine learning approaches to plastral variation in \textit{Emys marmorata}.}
@@ -54,8 +56,12 @@ load('../data/turtle_gen.RData')
 %   most species are still deliminated solely based on morphology
 %   paleo problem
 Cryptic diversity is when taxa were only first deliminated via molecular means and were not or cannot deliminated via morphological identification CITATION. The discovery of this previously unknown diversity has
+% all the work done on species delimitation strictly from molecular data
+%
+% past work on automatic taxon identification and older approaches to classifying taxa
+% why use machine learning methods
 
-Here, we address the question of how much of cryptic diversity may be a product of sample size as well as methodology used for classifying taxa based solely on morphology. Specifically, we ask if fine scale variation in morphology can provide corroboration for subspecific assignment, and if it is possible to determine the best classification hypothesis amoungst a few.
+Here, we address the question of how much of cryptic diversity may be a product of sample size as well as methodology used for classifying taxa based solely on morphology. Specifically, we ask if fine scale variation in morphology can provide corroboration for subspecific assignment, and if it is possible to determine the best classification hypothesis amongst a few.
 
 % e. marmorata
 %   natural history
@@ -63,7 +69,7 @@ Here, we address the question of how much of cryptic diversity may be a product 
 In this study, we address the subspecific classification scheme of \textit{Emys marmorata}, or western pond turtle. \textit{E. marmorata} has a distribution from northern Washington State, USA to Baja California, Mexico.
 %   morphological hypothesis of subspecies
 %   molecular hypothesis
-Traditionally, \textit{E. marmorata} was classified into three subgroups: the northern \textit{E. marmorata marmorata}, the southern \textit{E. marmorata palida}, and a central Californian intergrade zone \citep{Seeliger1945}. More recently, \textit{E. marmorata} was divided into four subgroups based on mitochrondial DNA: a northern clade, a southern clade, and two central Californian clades \citep{Spinks2005,Spinks2009}.
+Traditionally, \textit{E. marmorata} was classified into three subgroups: the northern \textit{E. marmorata marmorata}, the southern \textit{E. marmorata palida}, and a central Californian intergrade zone \citep{Seeliger1945}. More recently, \textit{E. marmorata} was divided into four subgroups based on mitochrondial DNA: a northern clade, a southern clade, and two central Californian clades \citep{Spinks2005,Spinks2010}.
 
 % central hypothesis/question of study
 % statement of goals and approach
@@ -80,23 +86,20 @@ Specimens were given a class assignment was based on geographic information. Bec
 % landmarks
 Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. These landmarks were chosen to maximize the description of plastral variation. 12 of these landmarks are symmetrical across the axis of symmetry and in order to prevent degrees of freedom and other concerns \citep{Klingenberg2007}, these landmarks were reflected across the axis of symmetry and the average position of each symmetrical pair was used. In cases where damage or incompleteness prevented symetric landmarks from being determined, only the single member of the pair was used. Analysis was then conducted on the resulting ``half'' plastra.
 
-% GP superimposition
+% GP superimposition and PCA
 ``Half'' plastra landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components of shape were calculated. This was done using the \texttt{shapes} package for R \citep{2013, Dryden2013}.
 
-% PCA
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
 % clustering
 %   Riemannian shape distance
-Because shape space, or configurations after Procrustes superimposition, is a Riemannian manifold \citep{Dryden1998a} the dissimilarity between each landmark configuration was measured as the Riemmanian shape distance \citep{Dryden1998a} AND KENDALL CITATION.
+Because shape space, or configurations after Procrustes superimposition, is a Riemannian manifold \citep{Dryden1998a} the dissimilarity between each landmark configuration was measured as the Riemmanian shape distance or \(\rho\) \citep{Kendall1984a,Dryden1998a} which should vary between 0 and \(\pi / 2\) assuming no reflection invariance.
 
 %   PAM
-The dissimilarity matrix of shape was divisivly clustering using partioning around mediods (PAM) which is analogous to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized CITATION. 
-
+The dissimilarity matrix of shape was divisivly clustering using partioning around mediods (PAM) which is analogous to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized \citep{Kaufman1990}.
 %   gap statistic
-The optimal number of clusters of shape configurations is unknown being possibly three, four, or some other unknown. Clustering solutions were estimated for between 1 and \Sexpr{nrow(tadult.gap$Tab)} clusters. Clustering solutions were compared using the gap statistic, which is a measure of goodness of clustering CITATION.
-
+The optimal number of clusters of shape configurations is unknown being possibly three, four, or some other value. Clustering solutions were estimated for between 1 and \Sexpr{nrow(tadult.gap$Tab)} clusters. Clustering solutions were compared using the gap statistic, which is a measure of goodness of clustering \citep{Tibshirani2001a}. Standard errors of the gap statistic for each clustering solution were estimated from \Sexpr{tadult.gap$B} bootstrap samples.
 %  R implementation
 PAM clustering and gap statistic calculation was conducted using the \texttt{cluster} package for R \citep{Maechler2013}.
 
@@ -131,27 +134,63 @@ Because random forest models are not fit using maximum likelihood, a recursive f
 
 % generalization
 %   bootstrap resample of AUC ROC
-The final selected models were then used to estimate the class assignments of the training dataset. Model performance was measured using AUC ROC. A distribution of AUC ROC values were estimated for each classification scheme using 1000 nonparametric bootstrap resamples of the training dataset.
+The final selected models were then used to estimate the class assignments of the training dataset. Model performance was measured using AUC ROC. A distribution of AUC ROC values were estimated for each classification scheme using \Sexpr{rr$sh1$R} nonparametric bootstrap resamples of the training dataset.
 
 \section{Results}
 \subsection{Geometric morphometrics}
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
+
+% PAM results
+Comparison of the gap statistic values for the different PAM solutions indicates that the optimal number of clusters is \Sexpr{which.max(tadult.gap$Tab[, 'gap'])} (Fig. \ref{fig:gap}). The second best clustering solution is two clusters, however there is no geographic structure to this classification scheme SUPPLEMENT?. Increasing the number of clusters does appear to improve the gap statistic enough to merit comparison.
+
 % figure
 %   gap statistic results
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/gap_res}
+  \caption{Gap statistic values for PAM clustering results for the \(\rho\) dissimliarity matrix of plastron shape. Error bars are standard errors estimated via \Sexpr{tadult.gap$B} bootstrap samples.}
+  \label{fig:gap}
+\end{figure}
 
 \subsubsection{Supervised learning}
+For all classification schemes, the optimal random forest model based on recursive feature selection by maximizing AUC ROC of the model was one with many features (Fig. \ref{fig:roc})
 % figure
 %   ROC model selection (see talk)
 %   generalize densities
 %     facet: multinomial, rf (see talk)
-%   maps
-%     facet: training, multinomial, rf
-%
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/roc_sel}
+  \caption{Effect of increasing the number of PCs as features, or predictors, of classification of plastra for all four classification schemes. As the number of PCs increase, AUC ROC increases until eventually leveling off. Both multinomial logisitic regression and random forest models are illustrated here, though AUC ROC based model selection was only performed for random forest models.}
+  \label{fig:roc}
+\end{figure}
+
 % table
 %   AICc model selection
+%   SUPPLEMENT?
 
+%   maps
+%     facet: training, multinomial, rf
+Results of the bootstrap resamples of the AUC ROC of the generalization of the selected multinomial logistic regression and random forest models demonstrates that one of the molecular classification hypotheses based on \citet{Spinks2005} and \citet{Spinks2010} appears to be the best classification scheme (Fig. \ref{fig:gen_res}). The distribution of bootstrapped AUC ROC for the molecular hypothesis is significantly different MANN-WHITNEY U TEST and greater than all of the other classification scheme. What is remarkable is that the best classification hypothesis is identical based on both the multinomial logistic regression and random forest models.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/gen_res}
+  \caption{Density estimates of AUC ROC values of predictions of the testing dataset of plastra from \Sexpr{rr$sh1$R} bootstrap resamples. The top facet corresponds to values using the optimal multinomial logistic regression model, as chosen by minimum AICc value. The bottom facet corresponds to the values using the optimal random forest model, as chosen by maximum AUC ROC value.}
+  \label{fig:gen_res}
+\end{figure}
+
+When the classification results of the training set for the optimal classification scheme are compared with the references classes, (Fig. \ref{fig:gen_map})
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/gen_map}
+  \caption{Comparison between reference classification of testing data set and the estimated classifications based on the selected multinomial logistic regression and random forest models, from left to right respectively. Classification corresponds to the four classes as suggested by the hypothesis of \citet{Spinks2005} and \citet{Spinks2010}.}
+  \label{fig:gen_map}
+\end{figure}
 
 \section{Discussion}
 

@@ -39,4 +39,13 @@ for (ii in seq(length(groups))) {
 }
 names(rr) <- groups
 
-save(rr, file = '../data/turtle_gen.RData')
+mm <- list()
+for (ii in seq(length(groups))) {
+  oo <- cbind(tm.a.analysis$class[[ii]],
+              test = adult.test[[ii]][, groups[[ii]]])
+
+  mm[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
+}
+names(mm) <- groups
+
+save(rr, mm, file = '../data/turtle_gen.RData')

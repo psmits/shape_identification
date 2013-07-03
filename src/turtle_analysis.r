@@ -54,15 +54,21 @@ trf.a.s <- clean.mods(trf.a.s)
 
 multi.analysis <- function(model, class, test) {
   out <- list()
-  out$sel <- lapply(model, function(x)
-                    model.sel(lapply(x, function(y) y$finalModel)))
+  out$sel <- lapply(model, function(mod) model.sel(lapply(mod, function(x) x$finalModel)))
   out$best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
                      sel = out$sel, mod = model,
                      SIMPLIFY = FALSE)
-  out$class <- mapply(predict, out$best, test,
-                      MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
-  out$conf <- Map(confusionMatrix,
-                  out$class, class)
+  pc <- mapply(predict, out$best, test,
+               MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+  pp <- vector(mode = 'list', length = length(out$best))
+  for(ii in seq(length(out$best))) {
+    pp[[ii]] <- predict(out$best[[ii]]$finalModel, test[[ii]], type = 'probs')
+  }
+  out$class <- mapply(function(x, y) cbind(pred = x, as.data.frame(y)), 
+                      x = pc, y = pp, SIMPLIFY = FALSE)
+    
+  #out$conf <- Map(confusionMatrix,
+  #                out$class$class, class)
 
   out
 }
@@ -100,7 +106,7 @@ trf.a.s.analysis <- rf.analysis(trf.a.s, ad.class, adult.test)
 
 mods <- list()
 for(ii in seq(length(groups))) {
-  mods[[ii]] <- list(multi = tm.analysis[[ii]]$best,
+  mods[[ii]] <- list(multi = tm.analysis$best[[ii]],
 #                     nnet = tnn[[ii]],
                      rf = trf.analysis[[ii]]$best)
 }
@@ -113,7 +119,7 @@ tmod <- mods
 
 a.mod <- list()
 for(jj in seq(length(groups))) {
-  a.mod[[jj]] <- list(multi = tm.a.analysis[[jj]]$best,
+  a.mod[[jj]] <- list(multi = tm.a.analysis$best[[jj]],
 #                      nnet = tnn.a[[jj]],
                       rf = trf.a.analysis[[jj]]$best)
 }
