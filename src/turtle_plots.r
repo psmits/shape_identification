@@ -38,7 +38,9 @@ links <- c(1:7, 13:8)
 land <- mshape.plot(fits, links = links)
 land <- land + coord_equal()
 morph <- putPlot(morph, land, 1, 3)
-#ggsave(file = '../documents/figure/pca_res.png', plot = morph)
+pdf(file = '../documents/figure/pca_res.pdf')
+print(morph)
+dev.off()
 
 
 # gap statistic plot
@@ -185,5 +187,65 @@ ggimp <- putPlot(ggimp, pc3, 3, 2)
 ggimp <- putPlot(ggimp, hist1, 4, 1)
 ggimp <- putPlot(ggimp, hist2, 4, 2)
 ggimp <- putPlot(ggimp, hist3, 4, 3)
+pdf(file = '../documents/figure/pca_imp.pdf')
+print(ggimp)
+dev.off()
 #ggsave(plot = ggimp)
 
+
+# mean of the different classes
+# these are going to be combined into a single plot using latex
+mt <- mshape(turtle.land.adult)
+spi <- turtle.adult$spinks
+wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
+mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
+mins <- lapply(mspi, function(x) min(x[, 2]))
+mins <- min(unlist(mins))
+lmat <- cbind(links, c(links[-1], links[1]))
+for(ii in seq(length(mspi))) {
+  pdf(file = paste0('../documents/figure/mshape_', ii, '.pdf'))
+  plotRefToTarget(M1 = mt, M2 = mspi[[ii]], mag = 2, links = lmat)
+  dev.off()
+}
+
+
+# variation along most important axes
+fst.max <- which.max(turtle.adult[, most.imp[1]])
+fst.min <- which.min(turtle.adult[, most.imp[1]])
+snd.max <- which.max(turtle.adult[, most.imp[2]])
+snd.min <- which.min(turtle.adult[, most.imp[2]])
+
+ex.lab <- function(var, value) {
+  value <- as.character(value)
+  if(var == 'lab') {
+    value[value == '1'] <- 'min'
+    value[value == '2'] <- 'mean'
+    value[value == '3'] <- 'max'
+  }
+  return(value)
+}
+
+comps <- list(turtle.land.adult[, , fst.min], turtle.land.adult[, , fst.max],
+              mt,
+              turtle.land.adult[, , snd.min], turtle.land.adult[, , snd.max], 
+              mt)
+comps <- lapply(comps, as.data.frame)
+comps <- lapply(comps, function(x) x[links, ])
+comps <- lapply(comps, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
+comps <- lapply(comps, function(x) {
+                names(x) <- c('V1', 'V2', 'V3', 'V4')
+                x})
+comps <- Reduce(rbind, comps)
+shl <- unlist(lapply(most.imp[1:2], function(x) rep(x, 3 * nrow(mt))))
+typ <- c(rep('min', nrow(mt)), rep('max', nrow(mt)))
+mm <- rep('mean', nrow(mt))
+typ <- c(typ, mm, typ, mm)
+varshape <- cbind(comps, shl, typ)
+
+gsh <- ggplot(varshape, aes(x = V2, y = -V1)) + geom_point()
+gsh <- gsh + geom_segment(mapping = aes(x = V2, xend = V4,
+                                        y = -V1, yend = -V3))
+gsh <- gsh + facet_grid(shl ~ typ)
+gsh <- gsh + theme(axis.title = element_blank(),
+                   axis.text = element_blank())
+ggsave(file = '../documents/figure/imp_var.png', plot = gsh)
