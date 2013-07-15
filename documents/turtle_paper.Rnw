@@ -6,17 +6,49 @@
 %   American Naturalist (21 pages)
 %   Journal of Evolutionary Biology
 
-\documentclass[12pt]{article}
+\documentclass[12pt,letterpaper]{article}
 \usepackage{amsmath, amsthm}
 \usepackage{graphicx, microtype, hyperref, authblk}
 \usepackage{rotating, longtable, caption, subcaption, multirow}
 \usepackage[sort&compress]{natbib}
-%\usepackage{fullpage}
+\usepackage{fullpage}
 
 % for american naturalist
 \usepackage{lineno}
 
 \frenchspacing
+\linespread{1.66}
+\setlength{\parindent}{0.5in}
+
+\setcounter{secnumdepth}{0}
+
+\pagestyle{empty}
+
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+
+\renewcommand{\tableofcontents}{}
+
+\bibpunct{(}{)}{;}{a}{}{,}  % this is a citation format command for natbib
 
 % bring in various code necessities
 % all the figures are made externally, so this would just be for numerics
@@ -31,34 +63,36 @@ source('../src/turtle_plots.r')
 @
 
 \title{How cryptic is cryptic diversity? Machine learning approaches to plastral variation in \textit{Emys marmorata}.}
-\author[1]{Peter D Smits \thanks{psmits@uchicago.edu}}
-\author[2]{Kenneth D Angielczyk \thanks{kangielczyk@fieldmuseum.org}}
-\author[3]{James F Parham \thanks{jparham@fullerton.edu}}
+\author[1]{Peter D Smits}%\thanks{psmits@uchicago.edu}}
+\author[2]{Kenneth D Angielczyk}%\thanks{kangielczyk@fieldmuseum.org}}
+\author[3]{James F Parham}%\thanks{jparham@fullerton.edu}}
 \affil[1]{Committee on Evolution Biology, University of Chicago}
 \affil[2]{Department of Geology, Field Museum of Natural History}
 \affil[3]{Department of Geological Sciences, California State University -- Fullerton}
 
 
+
 \begin{document}
-
 \maketitle
+\noindent{\textbf{Crresponding author:} Peter D Smits, Committee on Evolutionary Biology, University of Chicago, ADDRESS, STATE, ZIP, USA; E-mail: \href{mailto:psmits@uchicago.edu}{psmits@uchicago.edu}}
 
-\linenumbers
-\modulolinenumbers[2]
+%\linenumbers
+%\modulolinenumbers[2]
 
 \begin{abstract}
   % 200 words
-
+\noindent (Keywords: Testudines, morphology, geometric morphometrics)
 \end{abstract}
 
-\section{Introduction}
+%\section{Introduction}
 
 % cryptic diversity
 %   most species are still deliminated solely based on morphology
-%   paleo problem
-Cryptic diversity is when taxa were only first deliminated via molecular means and were not or cannot deliminated via morphological identification CITATION. The discovery of this previously unknown diversity has
+Cryptic diversity is when taxa were only first deliminated via molecular means and were not or cannot deliminated via morphological identification CITATION. The discovery of this previously unknown diversity has expanded diversity amoungst certain taxa CITATION. Additionally, a suite of methods have been developed to more accurately deliminate taxa based on molecular divergence CITATION.
 % all the work done on species delimitation strictly from molecular data
-%
+
+%   paleo problem
+Concerns about cryptic diversity are enhanced when taxa are only known from morphology, such as the case of extinct organisms CITATION. 
 
 Here, we address the question of how much of cryptic diversity may be a product of sample size as well as methodology used for classifying taxa based solely on morphology. Specifically, we ask if fine scale variation in morphology can provide corroboration for subspecific assignment, and if it is possible to determine the best classification hypothesis amongst a few.
 
@@ -93,7 +127,7 @@ Specimens were given a class assignment was based on geographic information. Bec
 Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. These landmarks were chosen to maximize the description of plastral variation. 12 of these landmarks are symmetrical across the axis of symmetry and in order to prevent degrees of freedom and other concerns \citep{Klingenberg2007}, these landmarks were reflected across the axis of symmetry and the average position of each symmetrical pair was used. In cases where damage or incompleteness prevented symetric landmarks from being determined, only the single member of the pair was used. Analysis was then conducted on the resulting ``half'' plastra.
 
 % GP superimposition and PCA
-``Half'' plastra landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components of shape were calculated. This was done using the \texttt{shapes} package for R \citep{2013, Dryden2013}.
+``Half'' plastra landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components (PC) of shape were calculated. This was done using the \texttt{shapes} package for R \citep{2013, Dryden2013}.
 
 
 \subsection{Machine learning analyses}
@@ -129,7 +163,7 @@ Random forest models are an extension of classification and regression trees (CA
 %     grid search
 %       what are the tuning parameters for each model?
 %     best AUC ROC
-For both types of supervised learning models, tuning parameters were estimated using 10 rounds of 10-fold cross-validation (CV) across a grid search of all tuning parameter combinations. Optimal tuning parameter values were selected based on area under the receiver operating characteristic curve (AUC ROC). Multiclass AUC ROC was estimated using the all-against one strategy derived by \citet{Hand2001} in implemented in PROC PACKGE.
+For both types of supervised learning models, tuning parameters were estimated using 10 rounds of 10-fold cross-validation (CV) across a grid search of all tuning parameter combinations. Optimal tuning parameter values were selected based on area under the receiver operating characteristic curve (AUC ROC). Multiclass AUC ROC was estimated using the all-against one strategy derived by \citet{Hand2001} in implemented in PROC PACKAGE.
 
 %   model selection
 %     AICc
@@ -162,12 +196,30 @@ Increasing the number of clusters does appear to improve the gap statistic enoug
 \end{figure}
 
 \subsubsection{Supervised learning}
-For all classification schemes, the optimal random forest model based on recursive feature selection by maximizing AUC ROC of the model was one with many features (Fig. \ref{fig:roc})
+%For all of the classification schemes, the optimal models for both the multinomial logistic regression (Table SUPPLEMENT) and random forest (Fig. \ref{fig:roc}) methods include many, if not most, of the possible features.
+<<>>=
+daic <- unlist(lapply(lapply(tm.a.analysis$sel, function(x) x$delta), 
+                      function(x) x[2]))
+@
+% multinomial logistic regression model
+The optimal multinomial logistic regression models for all four classification schemes, based on AICc, have all \Sexpr{length(tm.a.analysis$best$spinks$coefnames)} possible PCs as features(Table SUPPLEMENT). The second best models for all classification schemes have \Sexpr{length(tm.a.analysis$best$spinks$coefnames) - 1} PCs as features. The \(\delta\)AICc values between the optimal and second best model range from \Sexpr{min(daic)} for the first morphological based classification hypothesis to \Sexpr{max(daic)} for the second molecular based classification hypothesis. 
+
+While the \(\delta\)AICc value between the optimal and second best model for the first morphological based classification hypothesis is within the range to be considered sufficient and equally optimal \citep{Burnham2002a}, for this analysis we chose to use only the absolute AICc best model. While AICc values can not be compared between models with different responses \citep{Burnham2002a}, we interpret the fact that the optimal model for all classification schemes is the global model as a reason to just use this model structure for all cases. Additionally, by maintaining a single optimal model for all classification schemes, this limits the total number of comparisons between the bootstrap resampled distributions of the AUC ROC values for the testing data set (see below).
+
+% random forest model
+<<>>=
+oprf <- unlist(lapply(trf.a, function(x) x$optsize))
+@
+
+The selected number of features in the optimal random forest models for each classification scheme vary much more than in the case of the multinomial logistic regression models (Fig. \ref{fig:roc}), ranging from \Sexpr{min(oprf)} for the first morphological based classification hypothesis to \Sexpr{max(oprf)} for the second morphological based classification hypothesis. 
+
 % need to discuss the final models in both cases.
 % figure
 %   ROC model selection (see talk)
 %   generalize densities
 %     facet: multinomial, rf (see talk)
+
+In the case of all models, there is a substantial increase in model performance as measured by AICc for the multinomial logistic models (Tables SUPPLEMENT) or in AUC ROC for the random forest models and illustrated for the multinomial logistic regression models as the number of features increases (Fig. \ref{fig:roc}). 
 
 \begin{figure}[ht]
   \centering
@@ -200,7 +252,7 @@ When the classification results of the training set for the optimal classificati
   \label{fig:gen_map}
 \end{figure}
 
-This pattern of misclassification may be caused by the differences in mean shape between each of the different classes (Fig. \ref{fig:mean_shape}). The mean shape of the northern clade is the most similar to the mean shape of the entire dataset (Fig. ), which may mean that specimens that are closer to the mean shape will be systematically misclassified as the northern clade.
+This pattern of misclassification may be caused by the differences in mean shape between each of the different classes (Fig. \ref{fig:mean_shape}). The mean shape of the northern clade is the most similar to the mean shape of the entire dataset (Fig. \ref{fig:mean_shape}\ref{fig:imp_var}), which may mean that specimens that are closer to the mean shape will be systematically misclassified as the northern clade.
 
 % mean shapes of all the classes
 \begin{figure}[ht]
@@ -263,6 +315,8 @@ The lack of coherent geographical subclass assignment from PAM based clustering 
 % methodological concerns
 %   compromise in the supervised learning models
 %     fair because as much variation as ``necessary'' is used
+The methods presented here for supervised learning analysis of the landmark variation represent a compromise
+
 %   unsupervised learning
 %     model based clustering
 %     nonparametric bayesian approach
@@ -278,7 +332,7 @@ Ultimately, it would be optimal to not require such explicit classification hypo
 % closing statements
 In this study we have demonstrated that given a large sample size and appropriate methodology, it is possible to determine which of multiple hypothesized classification schemes best explain variation in a taxon. The plastral variation of \textit{E. marmorata} is most consistent with the mitochondrial based hypothesis of \citet{Spinks2005} and \citet{Spinks2010} and not with the original morphology based hypothesis of \citet{Seeliger1945}. We have also demonstrated the utility of various machine learning approaches to understanding variation in morphometric data. Specifically, better understanding odds misclassification and identifying which is the most important for deliminating different classes.
 
-\section*{Acknowledgements}
+\section{Acknowledgements}
 PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas Krentzel for useful discussion which enhanced the quality of this study.
 
 \bibliographystyle{sysbio}
