@@ -299,7 +299,7 @@ The gap statistic values for both three and four clusters are much lower than fo
 
 
 % multinomial logistic regression model
-The AICc best multinomial logistic regression models, for all four classification schemes, all include the first 10 possible PCs as features (Table SUPPLEMENT). The second best models for all classification schemes had the first 9 PCs as features. The \(\Delta\)AICc values between the optimal and second best model range from 2.0639 for the first morphological based classification hypothesis to 19.8349 for the second molecular based classification hypothesis (Table IN SUPPLEMENT?). The first 10 PCs describe 88.6043874205075\% of total variation in plastral shape.
+The AICc best multinomial logistic regression models, for all four classification schemes, all include the first 10 possible PCs as features (Tables \ref{tab:mod_sel_1}\ref{tab:mod_sel_2}\ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}). The second best models for all classification schemes had the first 9 PCs as features. The \(\Delta\)AICc values between the optimal and second best model range from 2.0639 for the first morphological based classification hypothesis to 19.8349 for the second molecular based classification hypothesis (Table IN SUPPLEMENT?). The first 10 PCs describe 88.6043874205075\% of total variation in plastral shape.
 
 While the \(\Delta\)AICc value between the optimal and second best model for the first morphological based classification hypothesis was within the range to be considered equally optimal \citep{Burnham2002a}, for this analysis we chose to use only the AICc best model. While AICc values can not be compared between models with different responses \citep{Burnham2002a}, we interpret the fact that the optimal model for all classification schemes is the global model as a reason to use only the AICc best model for all cases. Additionally, by using a single model for all classification schemes, this limits the number of comparisons between the bootstrap resampled distributions of the AUC values for the testing dataset (see below).
 
@@ -450,5 +450,120 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 
 \bibliographystyle{sysbio}
 \bibliography{turtle,packages}
+
+\pagebreak
+
+\begin{sidewaystable}
+  \centering
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Sun Jul 28 05:52:00 2013
+{\small
+\begin{tabular}{lllllllllllrrrrr}
+  \hline
+(Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 & df & logLik & AICc & delta & weight \\ 
+  \hline
++ & + & + & + & + & + & + & + & + & + & + & 22.00 & -245.34 & 537.41 & 0.00 & 0.74 \\ 
+  + & + & + & + & + & + & + & + & + & + &  & 20.00 & -248.61 & 539.48 & 2.06 & 0.26 \\ 
+  + & + & + & + & + & + & + & + & + &  &  & 18.00 & -255.73 & 549.28 & 11.87 & 0.00 \\ 
+  + & + & + & + & + & + & + & + &  &  &  & 16.00 & -267.59 & 568.62 & 31.21 & 0.00 \\ 
+  + & + & + & + & + & + &  &  &  &  &  & 12.00 & -283.44 & 591.70 & 54.29 & 0.00 \\ 
+  + & + & + & + & + &  &  &  &  &  &  & 10.00 & -286.02 & 592.61 & 55.20 & 0.00 \\ 
+  + & + & + & + & + & + & + &  &  &  &  & 14.00 & -282.24 & 593.59 & 56.17 & 0.00 \\ 
+  + & + & + & + &  &  &  &  &  &  &  & 8.00 & -307.43 & 631.23 & 93.81 & 0.00 \\ 
+  + & + & + &  &  &  &  &  &  &  &  & 6.00 & -340.94 & 694.09 & 156.68 & 0.00 \\ 
+  + & + &  &  &  &  &  &  &  &  &  & 4.00 & -345.95 & 700.01 & 162.60 & 0.00 \\ 
+   \hline
+\end{tabular}
+}
+
+
+\caption{Multinomial logistic regression model selection table for the first morphologically based classification hypothesis. This classification hypothesis corresponds to ``morph 1'' also depicted in figures \ref{fig:roc} and \ref{fig:gen_res}. This hypothesis is based on \citet{Seeliger1945}.}
+  \label{tab:mod_sel_1}
+\end{sidewaystable}
+
+\begin{sidewaystable}
+  \centering
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Sun Jul 28 05:52:00 2013
+{\small
+\begin{tabular}{lllllllllllrrrrr}
+  \hline
+(Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 & df & logLik & AICc & delta & weight \\ 
+  \hline
++ & + & + & + & + & + & + & + & + & + & + & 22.00 & -242.26 & 531.25 & 0.00 & 0.86 \\ 
+  + & + & + & + & + & + & + & + & + & + &  & 20.00 & -246.34 & 534.94 & 3.70 & 0.14 \\ 
+  + & + & + & + & + & + & + & + & + &  &  & 18.00 & -252.76 & 543.34 & 12.10 & 0.00 \\ 
+  + & + & + & + & + & + & + & + &  &  &  & 16.00 & -263.19 & 559.83 & 28.59 & 0.00 \\ 
+  + & + & + & + & + & + &  &  &  &  &  & 12.00 & -275.48 & 575.79 & 44.54 & 0.00 \\ 
+  + & + & + & + & + & + & + &  &  &  &  & 14.00 & -273.87 & 576.85 & 45.60 & 0.00 \\ 
+  + & + & + & + & + &  &  &  &  &  &  & 10.00 & -280.27 & 581.11 & 49.86 & 0.00 \\ 
+  + & + & + & + &  &  &  &  &  &  &  & 8.00 & -303.54 & 623.46 & 92.22 & 0.00 \\ 
+  + & + & + &  &  &  &  &  &  &  &  & 6.00 & -342.40 & 697.01 & 165.76 & 0.00 \\ 
+  + & + &  &  &  &  &  &  &  &  &  & 4.00 & -348.78 & 705.67 & 174.42 & 0.00 \\ 
+   \hline
+\end{tabular}
+}
+
+
+\caption{Multinomial logistic regression model selection table for the second morphologically based classification hypothesis. This classification hypothesis corresponds to ``morph 2'' also depicted in figures \ref{fig:roc} and \ref{fig:gen_res}. This hypothesis is based on \citet{Seeliger1945}.}
+  \label{tab:mod_sel_2}
+\end{sidewaystable}
+
+\begin{sidewaystable}
+  \centering
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Sun Jul 28 05:52:00 2013
+{\small
+\begin{tabular}{lllllllllllrrrrr}
+  \hline
+(Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 & df & logLik & AICc & delta & weight \\ 
+  \hline
++ & + & + & + & + & + & + & + & + & + & + & 33.00 & -297.91 & 668.06 & 0.00 & 0.97 \\ 
+  + & + & + & + & + & + & + & + & + & + &  & 30.00 & -305.12 & 675.37 & 7.30 & 0.03 \\ 
+  + & + & + & + & + & + & + & + & + &  &  & 27.00 & -314.81 & 687.76 & 19.70 & 0.00 \\ 
+  + & + & + & + & + & + & + & + &  &  &  & 24.00 & -329.53 & 710.30 & 42.24 & 0.00 \\ 
+  + & + & + & + & + & + & + &  &  &  &  & 21.00 & -342.93 & 730.35 & 62.28 & 0.00 \\ 
+  + & + & + & + & + & + &  &  &  &  &  & 18.00 & -353.86 & 745.55 & 77.49 & 0.00 \\ 
+  + & + & + & + & + &  &  &  &  &  &  & 15.00 & -357.66 & 746.59 & 78.53 & 0.00 \\ 
+  + & + & + & + &  &  &  &  &  &  &  & 12.00 & -385.36 & 795.54 & 127.48 & 0.00 \\ 
+  + & + & + &  &  &  &  &  &  &  &  & 9.00 & -424.50 & 867.48 & 199.41 & 0.00 \\ 
+  + & + &  &  &  &  &  &  &  &  &  & 6.00 & -442.85 & 897.91 & 229.85 & 0.00 \\ 
+   \hline
+\end{tabular}
+}
+
+
+\caption{Multinomial logistic regression model selection table for the first molecularlly based classification hypothesis. This classification hypothesis corresponds to ``molec 1'' also depicted in figures \ref{fig:roc} and \ref{fig:gen_res}. This hypothesis is based on \citet{Spinks2005} and \citet{Spinks2010}.}
+  \label{tab:mod_sel_3}
+\end{sidewaystable}
+
+\begin{sidewaystable}
+  \centering
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Sun Jul 28 05:52:00 2013
+{\small
+\begin{tabular}{lllllllllllrrrrr}
+  \hline
+(Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 & df & logLik & AICc & delta & weight \\ 
+  \hline
++ & + & + & + & + & + & + & + & + & + & + & 33.00 & -253.75 & 579.72 & 0.00 & 1.00 \\ 
+  + & + & + & + & + & + & + & + & + & + &  & 30.00 & -267.22 & 599.55 & 19.83 & 0.00 \\ 
+  + & + & + & + & + & + & + & + & + &  &  & 27.00 & -275.24 & 608.60 & 28.88 & 0.00 \\ 
+  + & + & + & + & + & + & + & + &  &  &  & 24.00 & -302.99 & 657.22 & 77.51 & 0.00 \\ 
+  + & + & + & + & + & + & + &  &  &  &  & 21.00 & -307.70 & 659.88 & 80.16 & 0.00 \\ 
+  + & + & + & + & + &  &  &  &  &  &  & 15.00 & -327.52 & 686.30 & 106.59 & 0.00 \\ 
+  + & + & + & + & + & + &  &  &  &  &  & 18.00 & -324.35 & 686.51 & 106.79 & 0.00 \\ 
+  + & + & + & + &  &  &  &  &  &  &  & 12.00 & -350.14 & 725.11 & 145.39 & 0.00 \\ 
+  + & + & + &  &  &  &  &  &  &  &  & 9.00 & -390.78 & 800.03 & 220.32 & 0.00 \\ 
+  + & + &  &  &  &  &  &  &  &  &  & 6.00 & -405.14 & 822.49 & 242.77 & 0.00 \\ 
+   \hline
+\end{tabular}
+}
+
+
+\caption{Multinomial logistic regression model selection table for the second molecularlly based classification hypothesis. This classification hypothesis corresponds to ``molec 2'' also depicted in figures \ref{fig:roc} and \ref{fig:gen_res}. This hypothesis is based on \citet{Spinks2005} and \citet{Spinks2010}.}
+  \label{tab:mod_sel_4}
+\end{sidewaystable}
+
 
 \end{document}

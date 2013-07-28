@@ -159,27 +159,37 @@ ggsave(file = '../documents/figure/gen_map.png', plot = gg)
 # 3 most important variables
 most.imp <- trf.a$spinks$optVariables
 ww <- 'spinks'
+turtle.adult$labe[turtle.adult[, ww] == 1] = 'Northern'
+turtle.adult$labe[turtle.adult[, ww] == 2] = 'Eastern'
+turtle.adult$labe[turtle.adult[, ww] == 3] = 'Western'
+turtle.adult$labe[turtle.adult[, ww] == 4] = 'Southern'
+turtle.adult$labe <- factor(turtle.adult$labe, 
+                            levels = c('Northern', 
+                                       'Eastern', 
+                                       'Western', 
+                                       'Southern'))
+
 ggimp <- ggpairs(turtle.adult,
-                 columns = c(most.imp[1:3], ww), 
-                 colour = 'spinks',
+                 columns = c(most.imp[1:3], 'labe'), 
+                 colour = 'labe',
                  upper = 'blank',
                  lower = 'blank',
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
-pc1 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC8, colour = spinks))
+pc1 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC8, colour = labe))
 pc1 <- pc1 + geom_point() + scale_color_manual(values = cbp)
-pc2 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC6, colour = spinks))
+pc2 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC6, colour = labe))
 pc2 <- pc2 + geom_point() + scale_color_manual(values = cbp)
-pc3 <- ggplot(turtle.adult, mapping = aes(x = PC8, y = PC6, colour = spinks))
+pc3 <- ggplot(turtle.adult, mapping = aes(x = PC8, y = PC6, colour = labe))
 pc3 <- pc3 + geom_point() + scale_color_manual(values = cbp)
-hist1 <- ggplot(turtle.adult, mapping = aes(x = PC3, fill = spinks))
+hist1 <- ggplot(turtle.adult, mapping = aes(x = PC3, fill = labe))
 hist1 <- hist1 + geom_histogram()
-hist1 <- hist1 + facet_grid(spinks ~ .) + scale_fill_manual(values = cbp)
-hist2 <- ggplot(turtle.adult, mapping = aes(x = PC8, fill = spinks))
+hist1 <- hist1 + facet_grid(labe ~ .) + scale_fill_manual(values = cbp)
+hist2 <- ggplot(turtle.adult, mapping = aes(x = PC8, fill = labe))
 hist2 <- hist2 + geom_histogram()
-hist2 <- hist2 + facet_grid(spinks ~ .) + scale_fill_manual(values = cbp)
-hist3 <- ggplot(turtle.adult, mapping = aes(x = PC6, fill = spinks))
+hist2 <- hist2 + facet_grid(labe ~ .) + scale_fill_manual(values = cbp)
+hist3 <- ggplot(turtle.adult, mapping = aes(x = PC6, fill = labe))
 hist3 <- hist3 + geom_histogram()
-hist3 <- hist3 + facet_grid(spinks ~ .) + scale_fill_manual(values = cbp)
+hist3 <- hist3 + facet_grid(labe ~ .) + scale_fill_manual(values = cbp)
 
 ggimp <- putPlot(ggimp, pc1, 2, 1)
 ggimp <- putPlot(ggimp, pc2, 3, 1)

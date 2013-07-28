@@ -60,6 +60,7 @@ load('../data/turtle_analysis.RData')
 load('../data/turtle_gen.RData')
 
 source('../src/turtle_plots.r')
+source('../src/turtle_tables.r')
 
 options(digits = 4)
 @
@@ -255,7 +256,7 @@ daic <- unlist(lapply(lapply(tm.a.analysis$sel, function(x) x$delta),
                       function(x) x[2]))
 @
 % multinomial logistic regression model
-The AICc best multinomial logistic regression models, for all four classification schemes, all include the first \Sexpr{length(tm.a.analysis$best$spinks$coefnames)} possible PCs as features (Table SUPPLEMENT). The second best models for all classification schemes had the first \Sexpr{length(tm.a.analysis$best$spinks$coefnames) - 1} PCs as features. The \(\Delta\)AICc values between the optimal and second best model range from \Sexpr{min(daic)} for the first morphological based classification hypothesis to \Sexpr{max(daic)} for the second molecular based classification hypothesis (Table IN SUPPLEMENT?). The first \Sexpr{length(tm.a.analysis$best$spinks$coefnames)} PCs describe \Sexpr{paste0(sum(turtle.fit$percent[1:10]))}\% of total variation in plastral shape.
+The AICc best multinomial logistic regression models, for all four classification schemes, all include the first \Sexpr{length(tm.a.analysis$best$spinks$coefnames)} possible PCs as features (Tables \ref{tab:mod_sel_1}\ref{tab:mod_sel_2}\ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}). The second best models for all classification schemes had the first \Sexpr{length(tm.a.analysis$best$spinks$coefnames) - 1} PCs as features. The \(\Delta\)AICc values between the optimal and second best model range from \Sexpr{min(daic)} for the first morphological based classification hypothesis to \Sexpr{max(daic)} for the second molecular based classification hypothesis (Table IN SUPPLEMENT?). The first \Sexpr{length(tm.a.analysis$best$spinks$coefnames)} PCs describe \Sexpr{paste0(sum(turtle.fit$percent[1:10]))}\% of total variation in plastral shape.
 
 While the \(\Delta\)AICc value between the optimal and second best model for the first morphological based classification hypothesis was within the range to be considered equally optimal \citep{Burnham2002a}, for this analysis we chose to use only the AICc best model. While AICc values can not be compared between models with different responses \citep{Burnham2002a}, we interpret the fact that the optimal model for all classification schemes is the global model as a reason to use only the AICc best model for all cases. Additionally, by using a single model for all classification schemes, this limits the number of comparisons between the bootstrap resampled distributions of the AUC values for the testing dataset (see below).
 
@@ -407,5 +408,60 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 
 \bibliographystyle{sysbio}
 \bibliography{turtle,packages}
+
+\pagebreak
+
+\begin{sidewaystable}
+  \centering
+<<results = 'asis'>>=
+print.xtable(tmx.1, 
+             include.rownames = FALSE,
+             floating = FALSE,
+             size = '\\small',
+             sanitize.colnames.function = identity)
+@
+\caption{Multinomial logistic regression model selection table for the first morphologically based classification hypothesis. This classification hypothesis corresponds to ``morph 1'' also depicted in figures \ref{fig:roc} and \ref{fig:gen_res}. This hypothesis is based on \citet{Seeliger1945}.}
+  \label{tab:mod_sel_1}
+\end{sidewaystable}
+
+\begin{sidewaystable}
+  \centering
+<<results = 'asis'>>=
+print.xtable(tmx.2, 
+             include.rownames = FALSE,
+             floating = FALSE,
+             size = '\\small',
+             sanitize.colnames.function = identity)
+@
+\caption{Multinomial logistic regression model selection table for the second morphologically based classification hypothesis. This classification hypothesis corresponds to ``morph 2'' also depicted in figures \ref{fig:roc} and \ref{fig:gen_res}. This hypothesis is based on \citet{Seeliger1945}.}
+  \label{tab:mod_sel_2}
+\end{sidewaystable}
+
+\begin{sidewaystable}
+  \centering
+<<results = 'asis'>>=
+print.xtable(tmx.3, 
+             include.rownames = FALSE,
+             floating = FALSE,
+             size = '\\small',
+             sanitize.colnames.function = identity)
+@
+\caption{Multinomial logistic regression model selection table for the first molecularlly based classification hypothesis. This classification hypothesis corresponds to ``molec 1'' also depicted in figures \ref{fig:roc} and \ref{fig:gen_res}. This hypothesis is based on \citet{Spinks2005} and \citet{Spinks2010}.}
+  \label{tab:mod_sel_3}
+\end{sidewaystable}
+
+\begin{sidewaystable}
+  \centering
+<<results = 'asis'>>=
+print.xtable(tmx.4, 
+             include.rownames = FALSE,
+             floating = FALSE,
+             size = '\\small',
+             sanitize.colnames.function = identity)
+@
+\caption{Multinomial logistic regression model selection table for the second molecularlly based classification hypothesis. This classification hypothesis corresponds to ``molec 2'' also depicted in figures \ref{fig:roc} and \ref{fig:gen_res}. This hypothesis is based on \citet{Spinks2005} and \citet{Spinks2010}.}
+  \label{tab:mod_sel_4}
+\end{sidewaystable}
+
 
 \end{document}
