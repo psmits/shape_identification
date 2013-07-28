@@ -45,8 +45,8 @@ dev.off()
 
 # gap statistic plot
 gap <- gap.plot(tadult.gap)
-gap <- gap + theme(axis.title = element_text(size = 7.5),
-                   axis.text = element_text(size = 6))
+gap <- gap + theme(axis.title = element_text(size = 8.5),
+                   axis.text = element_text(size = 7))
 ggsave(file = '../documents/figure/gap_res.png', plot = gap)
 
 
@@ -73,20 +73,20 @@ roc.mod$.id[roc.mod$.id == 'sh2'] <- 'morph 2'
 roc.mod$.id[roc.mod$.id == 'sh3'] <- 'molec 1'
 roc.mod$.id[roc.mod$.id == 'spinks'] <- 'molec 2'
 
-ggroc <- ggplot(roc.mod, aes(x = variable, y = value, color = mod.names))
+ggroc <- ggplot(roc.mod, aes(x = variable, y = value, lty = mod.names))
 ggroc <- ggroc + geom_line()
 ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
-ggroc <- ggroc + scale_color_manual(labels = c('multinomial', 
-                                                 'random forest'),
-                                      values = cbp)
+ggroc <- ggroc + scale_linetype_manual(labels = c('multinomial', 
+                                                  'random forest'),
+                                      values = c(1,2))
 ggroc <- ggroc + theme(legend.title = element_blank(),
                        #legend.position = 'bottom',
                        legend.margin = unit(0, 'cm'),
-                       legend.text = element_text(size = 4),
-                       axis.title = element_text(size = 8),
-                       axis.text = element_text(size = 5),
-                       strip.text = element_text(size = 5))
-ggroc <- ggroc + labs(x = '# of features (PCs)', y = 'AUC ROC')
+                       legend.text = element_text(size = 5),
+                       axis.title = element_text(size = 9),
+                       axis.text = element_text(size = 6),
+                       strip.text = element_text(size = 6))
+ggroc <- ggroc + labs(x = '# of features (PCs)', y = 'AUC')
 ggroc <- ggroc + facet_wrap(~.id)
 ggsave(file = '../documents/figure/roc_sel.png', plot = ggroc)
 
@@ -112,14 +112,14 @@ gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.5,
 gdist <- gdist + theme(#legend.position = 'bottom',
                        legend.title = element_blank(),
                        legend.margin = unit(0, 'cm'),
-                       legend.text = element_text(size = 4),
-                       axis.title = element_text(size = 8),
-                       axis.text = element_text(size = 5))
+                       legend.text = element_text(size = 5),
+                       axis.title = element_text(size = 9),
+                       axis.text = element_text(size = 6))
 gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                    labels = c('morph 1', 'morph 2',
                                               'molec 1', 'molec 2'))
 gdist <- gdist + facet_grid(L1 ~ ., labeller = gen.name)
-gdist <- gdist + labs(x = 'AUC ROC')
+gdist <- gdist + labs(x = 'AUC')
 ggsave(file = '../documents/figure/gen_res.png', plot = gdist)
 
 
@@ -150,9 +150,9 @@ gg <- gg + facet_wrap(~ type)
 gg <- gg + scale_colour_manual(name = '', values = cbp)
 gg <- gg + theme(legend.position = 'none',
                  legend.margin = unit(0, 'cm'),
-                 legend.text = element_text(size = 4),
-                 axis.title = element_text(size = 8),
-                 axis.text = element_text(size = 5))
+                 legend.text = element_text(size = 5),
+                 axis.title = element_text(size = 9),
+                 axis.text = element_text(size = 6))
 ggsave(file = '../documents/figure/gen_map.png', plot = gg)
 
 
@@ -249,3 +249,32 @@ gsh <- gsh + facet_grid(shl ~ typ)
 gsh <- gsh + theme(axis.title = element_blank(),
                    axis.text = element_blank())
 ggsave(file = '../documents/figure/imp_var.png', plot = gsh)
+
+
+# relative risk of the multinomial logistic regression model
+relrisk <- t.rr$spinks
+relci <- t.rr.ci$spinks
+op <- trf.a$spinks$optVariables
+rel <- list()
+for(ii in seq(nrow(relrisk))) {
+  rel[[ii]] <- as.data.frame(cbind(relrisk[ii, op], relci[op, , ii]))
+  colnames(rel[[ii]]) <- c('rr', 'bot', 'up')
+}
+names(rel) <- c('eastern', 'western', 'southern')
+rel <- lapply(rel, function(x) cbind(x, pc = rownames(x)))
+rel <- mapply(function(x, y) cbind(x, class = rep(y, nrow(x))), 
+              x = rel, y = names(rel),
+              SIMPLIFY = FALSE)
+rel <- Reduce(rbind, rel)
+
+rel$pc <- factor(rel$pc, levels = trf.a$spinks$optVariables)
+rel <- rel[rel$pc %in% op[1:3], ]
+
+ggrel <- ggplot(rel, aes(x = class, y = rr, ymax = up, ymin = bot)) 
+ggrel <- ggrel + geom_pointrange()
+ggrel <- ggrel + geom_hline(aes(yintercept = 0), lty = 2)
+ggrel <- ggrel + facet_wrap(~ pc)
+ggrel <- ggrel + labs(y = 'relative risk')
+ggrel <- ggrel + theme(axis.text = element_text(size = 8)) 
+
+ggsave(file = '../documents/figure/rel_risk.png', plot = ggrel)
