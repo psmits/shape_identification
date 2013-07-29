@@ -127,16 +127,15 @@
 %\modulolinenumbers[2]
 
 \begin{abstract}
-  %\textbf{Write me please.}
-  Cryptic diversity is the phenomenon where some taxa are believed to be identifiable solely from molecular data. The reality of this phenomenon is concerning because the majority of extant taxa are delimited solely based on morphology. Additionally, virtually all extant taxa are known entirely from morphology and thus can only be delimited based on morphology. Here we address questions about whether it is possible to determine entirely based on morphology if one classification hypotheses can be considered better than others.
+  Cryptic diversity is the phenomenon where some taxa are believed to be identifiable only based on molecular data. This phenomenon is concerning because the majority of extant taxa are delimited entirely from morphological differences. Additionally, virtually all extinct taxa are known entirely from morphology and thus can only be delimited in this manner. Here we address questions about whether it is possible to determine, based on morphology, if one classification hypotheses can be considered better than others. We investigate various methodological approaches from characterizing morphological variation.
   %
-  By using a combination of unsupervised and supervised learning methods, each with different useful properties, we demonstrate a suite of approaches for better understanding differences in morphological variation between classes, the odds of classifying an observation as one class relative to another, and what aspects of morphology best describe the variation between different classes.
+  By using a combination of unsupervised and supervised machine learning methods we demonstrate a suite of approaches for better understanding differences in morphology between classes, the odds of classifying an observation as one class relative to another, and what aspects of morphology best describe the differences between classes.
   %
-  These approaches are applied to the classification of the Emyidine turtle, \textit{Emys marmorata}. This species has conflicting hypotheses of the number of meaningful clades based on either morphological or molecular information. By characterizing the variation in plastral shape and how it may be identifiably different between different classes, we compared multiple different explicit classification hypotheses. By splitting a large dataset of specimens into both training and testing datasets, we were also able to determine which of the classification hypotheses best corresponded to the observed plastral variation.
+  These approaches are applied to the classification of the emydid turtle, \textit{Emys marmorata}. This species has conflicting hypotheses of the number of meaningful subclades based on either morphological or molecular information. We compared multiple explicit classification hypotheses by characterizing the variation plastral shape and how it may be identifiably different between different classes, By splitting a large dataset of specimens into both training and testing datasets, we were also able to determine which of the classification hypotheses best corresponded to the observed plastral variation.
   %
-  The results from our analysis shows that the seemingly best classification of \textit{Emys marmorata} is in accordance with the molecularly based hypothesis.
+  The results from our analysis shows that the seemingly best classification of \textit{Emys marmorata} is in accordance with the molecularly based hypothesis. This demonstrates that by using alternative methods for characterizing variability it is possible to estimate the best classification scheme that agrees with observed morphological variation. Additionally, we demontrate that it is possible that not all examples of cryptic variation may be truly cryptic, just a product of sample size or methodology because of the extremely fine scale variation between the different classes.
  
-\noindent (Keywords: Testudines, morphology, geometric morphometrics, random forests)
+\noindent (Keywords: Testudines, Emydidae, morphology, geometric morphometrics, random forests)
 \end{abstract}
 
 %\section{Introduction}
@@ -282,7 +281,10 @@ The results of the PCA of the total dataset of \textit{E. marmorata} pastral lan
 \subsubsection{Unsupervised learning}
 
 % PAM results
-Comparison of gap statistic values for the range of PAM solutions indicates that the optimal number of clusters is one (Fig. \ref{fig:gap}). The next best clustering solution had only two clusters, however there is no geographic structure to this classification scheme, with members of these clusters being seemingly randomly distributed SUPPLEMENT?. Unfortunately, it was not possible to obtain enough detailed information on the sex of each \textit{E. marmorata} specimen, thus it is difficult at best to determine if this clustering solution corresponds to sexual dimorphism between the observations. Male Emyidine turtles are known to have a plastral concavity which may influence landmark position along the midline. However, the plastral concavity of \textit{E. mamorata} males is considered less pronounced than in other Emyidine turtles. While we cannot completely rule out sexual dimorphism as the root cause of this observation, because of the very small degree of known sexual dimorphism in \textit{E. marmorata} we are less concerned with possible effects of sexual dimorphism for the later supervised learning methods. 
+Comparison of gap statistic values for the range of PAM solutions indicates that the optimal number of clusters is one (Fig. \ref{fig:gap}). The next best clustering solution had only two clusters, however there is no geographic structure to this classification scheme, with members of these clusters being seemingly randomly distributed SUPPLEMENT?. Importantly, these clusters do not conform to the nuclear DNA hypothesis of only two groups, nothern and southern \citep{Spinks2010}.
+
+Unfortunately, it was not possible to obtain enough detailed information on the sex of each \textit{E. marmorata} specimen, thus it is difficult at best to determine if this clustering solution corresponds to sexual dimorphism between the observations. Male emydid turtles are known to have a plastral concavity which may influence landmark position along the midline. However, the plastral concavity of \textit{E. mamorata} males is considered less pronounced than in other emydid turtles. While we cannot completely rule out sexual dimorphism as the root cause of this observation, because of the very small degree of known sexual dimorphism in \textit{E. marmorata} we are less concerned with possible effects of sexual dimorphism for the later supervised learning methods. 
+
 The gap statistic values for both three and four clusters are much lower than for one and two and are statistically identical. Interestingly, other solutions with a much greater number of clusters have higher gap statistic values though these are also not significantly different. Increasing the number of clusters does appear to improve the gap statistic enough compared to the best clustering solution to merit detailed discussion.
 
 % figure
@@ -456,7 +458,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Sun Jul 28 05:52:00 2013
+% Mon Jul 29 07:10:37 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -484,7 +486,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Sun Jul 28 05:52:00 2013
+% Mon Jul 29 07:10:37 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -512,7 +514,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Sun Jul 28 05:52:00 2013
+% Mon Jul 29 07:10:37 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -540,7 +542,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Sun Jul 28 05:52:00 2013
+% Mon Jul 29 07:10:37 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
