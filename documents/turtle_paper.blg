@@ -1,47 +1,46 @@
 This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
 The top-level auxiliary file: turtle_paper.aux
-The style file: amnatnat.bst
+The style file: sysbio.bst
 Database file #1: turtle.bib
 Database file #2: packages.bib
-Reallocated wiz_functions (elt_size=4) to 6000 items from 472446405560.
-You've used 18 entries,
-            3251 wiz_defined-function locations,
-            773 strings with 7508 characters,
-and the built_in function-call counts, 9514 in all, are:
-= -- 823
-> -- 384
-< -- 16
-+ -- 129
-- -- 111
-* -- 613
-:= -- 1581
-add.period$ -- 73
-call.type$ -- 18
-change.case$ -- 126
-chr.to.int$ -- 27
-cite$ -- 18
-duplicate$ -- 702
-empty$ -- 707
-format.name$ -- 167
-if$ -- 1895
+You've used 33 entries,
+            2858 wiz_defined-function locations,
+            827 strings with 9995 characters,
+and the built_in function-call counts, 17998 in all, are:
+= -- 1579
+> -- 760
+< -- 22
++ -- 249
+- -- 216
+* -- 1298
+:= -- 2843
+add.period$ -- 131
+call.type$ -- 33
+change.case$ -- 231
+chr.to.int$ -- 33
+cite$ -- 66
+duplicate$ -- 1323
+empty$ -- 1337
+format.name$ -- 319
+if$ -- 3648
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 139
-newline$ -- 93
-num.names$ -- 72
-pop$ -- 295
+missing$ -- 298
+newline$ -- 143
+num.names$ -- 132
+pop$ -- 498
 preamble$ -- 1
-purify$ -- 109
+purify$ -- 204
 quote$ -- 0
-skip$ -- 242
+skip$ -- 460
 stack$ -- 0
-substring$ -- 425
-swap$ -- 294
+substring$ -- 818
+swap$ -- 549
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 150
+type$ -- 273
 warning$ -- 0
-while$ -- 73
+while$ -- 136
 width$ -- 0
-write$ -- 229
+write$ -- 396
