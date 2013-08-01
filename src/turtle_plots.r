@@ -45,9 +45,25 @@ dev.off()
 
 # gap statistic plot
 gap <- gap.plot(tadult.gap)
-gap <- gap + theme(axis.title = element_text(size = 8.5),
-                   axis.text = element_text(size = 7))
+gap <- gap + theme(axis.title = element_text(size = 9.5),
+                   axis.text = element_text(size = 8))
 ggsave(file = '../documents/figure/gap_res.png', plot = gap)
+
+
+#classes of the gap statistic plot for 2 clust
+turtle.adult$long[which(turtle.adult$long > -100)] <- turtle.adult$long[which(turtle.adult$long > -100)] - 100
+adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
+
+gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
+gap.map <- map.plot(data = turtle.adult,
+                    label = gap.second$clustering,
+                    map = map)
+gap.map <- gap.map + scale_colour_manual(values = cbp)
+gap.map <- gap.map + theme(legend.position = 'none',
+                           legend.text = element_text(size = 7),
+                           axis.title = element_text(size = 10),
+                           axis.text = element_text(size = 7))
+ggsave(file = '../documents/figure/gap_map.png', plot = gap.map)
 
 
 # model selection plots
@@ -82,10 +98,10 @@ ggroc <- ggroc + scale_linetype_manual(labels = c('multinomial',
 ggroc <- ggroc + theme(legend.title = element_blank(),
                        #legend.position = 'bottom',
                        legend.margin = unit(0, 'cm'),
-                       legend.text = element_text(size = 5),
-                       axis.title = element_text(size = 9),
-                       axis.text = element_text(size = 6),
-                       strip.text = element_text(size = 6))
+                       legend.text = element_text(size = 6),
+                       axis.title = element_text(size = 10),
+                       axis.text = element_text(size = 7),
+                       strip.text = element_text(size = 7))
 ggroc <- ggroc + labs(x = '# of features (PCs)', y = 'AUC')
 ggroc <- ggroc + facet_wrap(~.id)
 ggsave(file = '../documents/figure/roc_sel.png', plot = ggroc)
@@ -112,9 +128,9 @@ gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.5,
 gdist <- gdist + theme(#legend.position = 'bottom',
                        legend.title = element_blank(),
                        legend.margin = unit(0, 'cm'),
-                       legend.text = element_text(size = 5),
-                       axis.title = element_text(size = 9),
-                       axis.text = element_text(size = 6))
+                       legend.text = element_text(size = 6),
+                       axis.title = element_text(size = 10),
+                       axis.text = element_text(size = 7))
 gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                    labels = c('morph 1', 'morph 2',
                                               'molec 1', 'molec 2'))
@@ -150,9 +166,9 @@ gg <- gg + facet_wrap(~ type)
 gg <- gg + scale_colour_manual(name = '', values = cbp)
 gg <- gg + theme(legend.position = 'none',
                  legend.margin = unit(0, 'cm'),
-                 legend.text = element_text(size = 5),
-                 axis.title = element_text(size = 9),
-                 axis.text = element_text(size = 6))
+                 legend.text = element_text(size = 6),
+                 axis.title = element_text(size = 10),
+                 axis.text = element_text(size = 7))
 ggsave(file = '../documents/figure/gen_map.png', plot = gg)
 
 
@@ -285,6 +301,6 @@ ggrel <- ggrel + geom_pointrange()
 ggrel <- ggrel + geom_hline(aes(yintercept = 0), lty = 2)
 ggrel <- ggrel + facet_wrap(~ pc)
 ggrel <- ggrel + labs(y = 'relative risk')
-ggrel <- ggrel + theme(axis.text = element_text(size = 8)) 
+ggrel <- ggrel + theme(axis.text = element_text(size = 9)) 
 
 ggsave(file = '../documents/figure/rel_risk.png', plot = ggrel)
