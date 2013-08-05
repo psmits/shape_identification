@@ -141,7 +141,7 @@
 
 % cryptic diversity
 %   most species are still deliminated solely based on morphology
-Cryptic diversity is the phenomenon that not all taxa can be recognized based on morphology and can only be delimited using molecular information \citep{Stuart2006,Pfenninger2007,Funk2012,Clare2011}. Conceringly, most extant taxa, and nearly all extinct taxa, are delimited based solely via morphological analysis. This phenomenon is of great concern when studying variation and diversity dynamics over long periods of time, where apparent morphological stasis may not actually reflect true diversity CITATIONS. In the case of endangered or conserved taxa, morphometric approaches for classifying and identifying taxa and populations of importance would greatly improve the ability to maintain these high risk groups. Additionally, this would allow for better classifying extinct taxa.
+Cryptic diversity is the phenomenon that not all taxa can be recognized based on morphology and can only be delimited using molecular information \citep{Stuart2006,Pfenninger2007,Funk2012,Clare2011}. Conceringly, most extant taxa, and nearly all extinct taxa, are delimited based solely via morphological analysis. This phenomenon is of great concern when studying variation and diversity dynamics over long periods of time, where apparent morphological stasis may not actually reflect true diversity \citet{Hunt2008,Eldredge1972,Gould1977a}. In the case of endangered or conserved taxa, morphometric approaches for classifying and identifying taxa and populations of importance would greatly improve the ability to maintain these high risk groups. Additionally, this would allow for better classifying extinct taxa.
 
 Much work has been devoted to species delimitation via sequence difference \citep{Fujita2012,Yang2010b} while comparatively little has been devoted for case of purely morphological data. The majority of this effort has focused on identifying differences between already identified taxa \citep{Zelditch2004} and automated taxon identification \citep{MacLeod2007}.
 % all the work done on species delimitation strictly from molecular data
@@ -163,9 +163,10 @@ The two major classes of machine learning methods, unsupervised and supervised, 
 In this study, we investiage the subspecific classification of the western pond turtle, \textit{Emys marmorata}. \textit{E. marmorata} is distributed from northern Washington State, USA to Baja California, Mexico.
 %   morphological hypothesis of subspecies
 %   molecular hypothesis
-Traditionally, \textit{E. marmorata} was classified into three groups: the northern \textit{E. marmorata marmorata}, the southern \textit{E. marmorata palida}, and a central Californian intergrade zone \citep{Seeliger1945} UNPUBLISHED MASTERS THESIS. \textit{E. marmorata marmorata} is differentiated from \textit{E. marmorata palida} by the presence of a pair of triangular inguinal plates and darker neck markings. It should be noted that the triangular inguinal plates can sometimes be present in \textit{E. marmorata palida} though they are considerably smaller.
+Traditionally, \textit{E. marmorata} was classified into three groups: the northern \textit{E. marmorata marmorata}, the southern \textit{E. marmorata palida}, and a central Californian intergrade zone \citep{Seeliger1945,Holland1992}. \textit{E. marmorata marmorata} is differentiated from \textit{E. marmorata palida} by the presence of a pair of triangular inguinal plates and darker neck markings. It should be noted that the triangular inguinal plates can sometimes be present in \textit{E. marmorata palida} though they are considerably smaller.
 
-Previous work on morphological differentiation between subspecies of \textit{E. marmorata} focused on just the known subspecies of \citet{Seeliger1945}. SEE MASTERS THESIS AND INCLUDE INFORMATION ON THE LINEAR MORPHOMETRIC CLASSIFICATION WORK DONE PRIOR ON E MARMORATA.
+Previous work on morphological differentiation between different populations of \textit{E. marmorata} with no alternative subspecific assignments \citep{Seeliger1945,Holland1992}. \citet{Holland1992} used comparisons of linear measures of the carapace of \textit{E. marmorata} from different populations over the entire range of the species. This study was interested in the relative effect of distance versus barriers had in terms of fostering morphological differentiation in \textit{E. marmorata}. Analyses were performed to determine how different, morphologically, different populations in three different regions of the species range. Additionally, the degree of sexual dimorphism present in \textit{E. marmorata}. The study concluded that distance was a poor indicator of morphological differentiation as opposed to barriers, such as different drainage basins, are probably more important barriers to reproduction. This conclusion was later echoed by \citet{Spinks2005} via molecular phylogenetic analysis. Additionally, \citet{Holland1992} found that with increasing amount of barriers and distance, morphological differentiation was observable though the underlying variation required many variables obtain indicating the very fine degree of morphological differentiation between putatively distinct populations. \citet{Holland1992} concluded that \textit{E. marmorata} is best classified as three distinct species as opposed to subspecies: a northern species, southern species, and Columbia basin species. This classification is similar to \citet{Seeliger1945}, except elevated to the species as opposed to subspecific level.
+
 
 More recently, \textit{E. marmorata} was divided into four clades based on mitochondrial DNA: a northern clade, a southern clade, and eastern and western central Californian clades \citep{Spinks2005,Spinks2010}. While nuclear DNA supports two major clades, one northern and one southern, \citet{Spinks2010} argue that the four clade classification is of greater conservation utility. 
 While the mitochondrially based classification is considered robust, there is no known morphological differentiation between these clades.
@@ -240,6 +241,7 @@ The area under the ROC curve (AUC) is a summary statistic of the quality of the 
   TPR = \frac{TP}{TP + FN}
   \label{eq:tpr}
 \end{equation}
+
 %   model selection
 %     AICc
 For the multinomial logistic regression models, 10 different models were fit each having sequentially more PCs as predictors in order to have models representing different levels of overall amount of shape variation and to estimate how much was necessary and sufficient to best estimate class. The maximum number of PCs allowed as predictors was 10 because of both the large number of parameters estimated per model and the necessary sample size needed to estimate that many parameters accurately. The final model was that with the lowest AICc \citep{Akaike1974,Hurvich1989,Burnham2002a}. AICc is a model selection criterion where the model with lowest AICc has the fairest variance--bias tradeoff \citep{Burnham2002a}. Model selection was performed in this manner because the optimal number of PCs to use as predictors was not know \textit{a priori}, and while including all of the PCs of shape would mean that all shape variability would be used to estimate class, this may cause the model to be overfit and not provide an accurate estimate of unsampled plastral variation. In addition to the AICc of each model the \(\Delta\)AICc and Akaike weights are also reported. \(\Delta\)AICc values are the different in AICc between the AICc best model and that model while Akaike weights are a transformation of the AICc of a model with relation to all other models being compared and measures the relative amount of information explained by that model compared to all other models \citep{Burnham2002a}. 
@@ -254,19 +256,35 @@ The final selected models were then used to estimate the class assignments of th
 \section{Results}
 \subsection{Geometric morphometrics}
 The results of the PCA of the total dataset of \textit{E. marmorata} pastral landmarks configurations demonstrates no clear or obvious groupings (Fig. \ref{fig:pca}). The first three PCs, which represent 55.0075790871272\% of the total variation, are a cloud of points with no structure. Additionally, individual landmark variation is mostly circular around each landmark with some more elliptical variation observed along some midline landmarks and the most lateral landmark (Fig. \ref{fig:pca}). However, it is important to note that Procustes based superimposition attempts to evenly distribute variance around the mean landmark \citep{Zelditch2004} and this observation should be considered cursory at best.
+The first PC appears to describe variation in lateral plastral shape, from a very pointed medial edge to a much more rounded and blunt edge (Fig. \ref{fig:pc_var}). Variation along the second PC appears to be characterized by variation along the midline, especially in terms of the ``straightness'' of the individual landmarks along it.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/pca_res}
-  \caption{Results from PCA of the Procrustes superimposed ``half'' plastral landmarks. Depicted here are the for three PCs (lower triangle) and the mean shape with observed variance around each point (upper right). The first three PCs account for total 0 of the variance in plastral shape.}
+  \caption{Results from PCA of the Procrustes superimposed ``half'' plastral landmarks. Depicted here are the for three PCs (lower triangle) and the mean shape with observed variance around each point (upper right). The first three PCs account for total 55.0075790871272\% of the variance in plastral shape.}
   \label{fig:pca}
 \end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/pc_var}
+  \caption{Landmark variation along the first two PCs of the Procrustes superimposed ``half'' plastral landmarks. The first row corresponds to variation along the first PC, while the second row corresponds to the second PC. The left most column represents the observation with the highest eigenscore along that PC, while the right most column represents the observation with the lowest eigenscore. The middle column, for both rows, is the mean plastral shape for all observations. The first PC represents 30.4118\% of the total variation in plastral shape while PC represents 14.926\% of the variance.}
+  \label{fig:pc_var}
+\end{figure}
+
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
 
 % PAM results
 Comparison of gap statistic values for the range of PAM solutions indicates that the optimal number of clusters is one (Fig. \ref{fig:gap}). The next best clustering solution had only two clusters, however there is no geographic structure to this classification scheme, with members of these clusters being seemingly randomly distributed (Fig. \ref{fig:gap_map}). Importantly, these clusters do not conform to the nothern and souther groups from the nuclear DNA hypothesis \citep{Spinks2010}.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/gap_res}
+  \caption{Gap statistic values for PAM clustering results for the \(\rho\) dissimliarity matrix of plastron shape. Error bars are standard errors estimated via 500 bootstrap samples.}
+  \label{fig:gap}
+\end{figure}
 
 \begin{figure}[ht]
   \centering
@@ -281,12 +299,6 @@ The gap statistic values for both three and four clusters are much lower than fo
 
 % figure
 %   gap statistic results
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width = \textwidth]{figure/gap_res}
-  \caption{Gap statistic values for PAM clustering results for the \(\rho\) dissimliarity matrix of plastron shape. Error bars are standard errors estimated via 500 bootstrap samples.}
-  \label{fig:gap}
-\end{figure}
 
 \subsubsection{Supervised learning}
 %For all of the classification schemes, the optimal models for both the multinomial logistic regression (Table SUPPLEMENT) and random forest (Fig. \ref{fig:roc}) methods include many, if not most, of the possible features.
@@ -408,7 +420,7 @@ The relative risk values for classification from the multinomial logistic regres
 \section{Discussion}
 % discussion of results
 %   remarkable concordance in the supervised learning methods
-The results of this study support the mitochrondial based classification hypothesis of \textit{E. marmorata} \citep{Spinks2005,Spinks2010}. This is contrary to the original classification of \textit{E. marmorata} \citep{Seeliger1945} MASTERS THESIS and lends credence to the idea that at least some aspect of cryptic diversity is a product of sample size, methodology, or both.
+The results of this study support the mitochrondial based classification hypothesis of \textit{E. marmorata} \citep{Spinks2005,Spinks2010}. This is contrary to the original classification of \textit{E. marmorata} \citep{Seeliger1945,Holland1992} and lends credence to the idea that at least some aspect of cryptic diversity is a product of sample size, methodology, or both.
 
 %   what does this mean about cryptic diversity?
 %   unsupervised learning shortcomings
@@ -434,7 +446,7 @@ Ultimately, it would be useful to not require such explicit classification hypot
 %     as indicated about, nonparametric bayes and other model based clustering can help
 
 % closing statements
-In this study we have demonstrated that, using alternative methodology to that which is most frequently applied, it is possible to determine which classification scheme best matches variation in a taxon amongst a set of alternative hypotheses. The observed plastral variation of \textit{E. marmorata} is most consistent with the mitochondrial based hypothesis of \citet{Spinks2005} and \citet{Spinks2010} and not with the original morphology based hypothesis of \citet{Seeliger1945}. We have also demonstrated the utility of various machine learning approaches to understanding the structure of variation in morphometric data. Specifically, methods for better understanding misclassification and identifying which is the most important for delimiting different classes. These methods represent new applications which may be important for future studies on class-based morphological comparison and variation, both in the context of cryptic diversity and with known classifications.
+In this study we have demonstrated that, using alternative methodology to that which is most frequently applied, it is possible to determine which classification scheme best matches variation in a taxon amongst a set of alternative hypotheses. The observed plastral variation of \textit{E. marmorata} is most consistent with the mitochondrial based hypothesis of \citet{Spinks2005} and \citet{Spinks2010} and not with the original morphology based hypothesis of \citet{Seeliger1945,Holland1992}. We have also demonstrated the utility of various machine learning approaches to understanding the structure of variation in morphometric data. Specifically, methods for better understanding misclassification and identifying which is the most important for delimiting different classes. These methods represent new applications which may be important for future studies on class-based morphological comparison and variation, both in the context of cryptic diversity and with known classifications.
 
 \section{Acknowledgements}
 PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas Krentzel for useful discussion which enhanced the quality of this study. MUSEUMS. GRANTING AGENCIES.
@@ -462,7 +474,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  1 01:26:49 2013
+% Mon Aug  5 16:44:37 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -490,7 +502,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  1 01:26:49 2013
+% Mon Aug  5 16:44:37 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -518,7 +530,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  1 01:26:49 2013
+% Mon Aug  5 16:44:37 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -546,7 +558,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  1 01:26:49 2013
+% Mon Aug  5 16:44:37 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -574,10 +586,9 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  1 01:26:49 2013
-\begin{tabular}{rrrrr}
-  \hline
- & morph 1 & morph 2 & molec 1 & molec 2 \\ 
+% Mon Aug  5 16:44:37 2013
+\begin{tabular}{r|rrrr}
+  & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
 morph 1 &  &  &  &  \\ 
   morph 2 & 0.00 &  &  &  \\ 
@@ -587,17 +598,16 @@ morph 1 &  &  &  &  \\
 \end{tabular}
 
 
-  \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the multinomial logistic regression models. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method CITATION.}
+  \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the multinomial logistic regression models. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method \citep{Holm1979}.}
   \label{tab:mm_test}
 \end{table}
 
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  1 01:26:49 2013
-\begin{tabular}{rrrrr}
-  \hline
- & morph 1 & morph 2 & molec 1 & molec 2 \\ 
+% Mon Aug  5 16:44:37 2013
+\begin{tabular}{r|rrrr}
+  & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
 morph 1 &  &  &  &  \\ 
   morph 2 & 0.00 &  &  &  \\ 
@@ -607,7 +617,7 @@ morph 1 &  &  &  &  \\
 \end{tabular}
 
 
-  \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the random forest models. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method CITATION.}
+  \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the random forest models. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method \citep{Holm1979}.}
   \label{tab:rf_test}
 \end{table}
 

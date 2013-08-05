@@ -38,6 +38,7 @@ mm.tab <- cbind(mm.tab, '4' = rep(NA, 4))
 colnames(mm.tab) <- coln
 rownames(mm.tab) <- rown
 mm.tabx <- xtable(as.table(mm.tab))
+align(mm.tabx) <- 'r|rrrr'
 
 rf.comp <- cbind(sh1 = rr$sh1$t, sh2 = rr$sh2$t, sh3 = rr$sh3$t, spinks = rr$spinks$t)
 rf.c <- melt(rf.comp)
@@ -49,3 +50,4 @@ rf.tab <- cbind(rf.tab, '4' = rep(NA, 4))
 colnames(rf.tab) <- coln
 rownames(rf.tab) <- rown
 rf.tabx <- xtable(as.table(rf.tab))
+align(rf.tabx) <- 'r|rrrr'

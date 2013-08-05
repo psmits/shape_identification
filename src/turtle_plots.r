@@ -43,6 +43,49 @@ print(morph)
 dev.off()
 
 
+# variation along first two PCs
+mt <- mshape(turtle.land.adult)
+pc1.max <- which.max(turtle.adult$PC1)
+pc1.min <- which.min(turtle.adult$PC1)
+pc2.max <- which.max(turtle.adult$PC2)
+pc2.min <- which.min(turtle.adult$PC2)
+
+ex.lab <- function(var, value) {
+  value <- as.character(value)
+  if(var == 'lab') {
+    value[value == '1'] <- 'min'
+    value[value == '2'] <- 'mean'
+    value[value == '3'] <- 'max'
+  }
+  return(value)
+}
+
+inits <- list(turtle.land.adult[, , pc1.min], turtle.land.adult[, , pc1.max],
+              mt,
+              turtle.land.adult[, , pc2.min], turtle.land.adult[, , pc2.max], 
+              mt)
+inits <- lapply(inits, as.data.frame)
+inits <- lapply(inits, function(x) x[links, ])
+inits <- lapply(inits, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
+inits <- lapply(inits, function(x) {
+                names(x) <- c('V1', 'V2', 'V3', 'V4')
+                x})
+inits <- Reduce(rbind, inits)
+pcl <- unlist(lapply(c('PC1', 'PC2'), function(x) rep(x, 3 * nrow(mt))))
+pc.typ <- c(rep('min', nrow(mt)), rep('max', nrow(mt)))
+pc.mm <- rep('mean', nrow(mt))
+pc.typ <- c(pc.typ, pc.mm, pc.typ, pc.mm)
+pcvar <- cbind(inits, pcl, pc.typ)
+
+gpc <- ggplot(pcvar, aes(x = V2, y = -V1)) + geom_point()
+gpc <- gpc + geom_segment(mapping = aes(x = V2, xend = V4,
+                                        y = -V1, yend = -V3))
+gpc <- gpc + facet_grid(pcl ~ pc.typ)
+gpc <- gpc + theme(axis.title = element_blank(),
+                   axis.text = element_blank())
+ggsave(file = '../documents/figure/pc_var.png', plot = gpc)
+
+
 # gap statistic plot
 gap <- gap.plot(tadult.gap)
 gap <- gap + theme(axis.title = element_text(size = 9.5),

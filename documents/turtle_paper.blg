@@ -3,44 +3,44 @@ The top-level auxiliary file: turtle_paper.aux
 The style file: sysbio.bst
 Database file #1: turtle.bib
 Database file #2: packages.bib
-You've used 33 entries,
+You've used 38 entries,
             2858 wiz_defined-function locations,
-            827 strings with 9995 characters,
-and the built_in function-call counts, 17998 in all, are:
-= -- 1579
-> -- 760
-< -- 22
-+ -- 249
-- -- 216
-* -- 1298
-:= -- 2843
-add.period$ -- 131
-call.type$ -- 33
-change.case$ -- 231
-chr.to.int$ -- 33
-cite$ -- 66
-duplicate$ -- 1323
-empty$ -- 1337
-format.name$ -- 319
-if$ -- 3648
+            865 strings with 10796 characters,
+and the built_in function-call counts, 20708 in all, are:
+= -- 1834
+> -- 841
+< -- 27
++ -- 276
+- -- 238
+* -- 1477
+:= -- 3267
+add.period$ -- 152
+call.type$ -- 38
+change.case$ -- 262
+chr.to.int$ -- 38
+cite$ -- 76
+duplicate$ -- 1525
+empty$ -- 1555
+format.name$ -- 354
+if$ -- 4211
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 298
-newline$ -- 143
-num.names$ -- 132
-pop$ -- 498
+missing$ -- 339
+newline$ -- 163
+num.names$ -- 154
+pop$ -- 564
 preamble$ -- 1
-purify$ -- 204
+purify$ -- 231
 quote$ -- 0
-skip$ -- 460
+skip$ -- 541
 stack$ -- 0
-substring$ -- 818
-swap$ -- 549
+substring$ -- 969
+swap$ -- 637
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 273
+type$ -- 318
 warning$ -- 0
-while$ -- 136
+while$ -- 161
 width$ -- 0
-write$ -- 396
+write$ -- 457
