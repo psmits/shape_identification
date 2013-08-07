@@ -91,7 +91,7 @@ p.juv <- grep(pattern = '[jhJ]',
 b.juv <- grep(pattern = '[jhJ]', 
               x = as.character(turtle.info$b.sex),
               perl = TRUE)
-turtle.adult <- turtle.info[-p.juv, ]
-turtle.land.adult <- turtle.land.info[, , -p.juv]
 turtle.adult.dist <- riem.matrix(turtle.land.adult)
+turtle.land.adult <- turtle.land.info[, , -p.juv]
+turtle.adult <- turtle.info[-p.juv, ]
 turtle.geo.adult <- turtle.geo[-p.juv, ]

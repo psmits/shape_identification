@@ -218,37 +218,37 @@ ggsave(file = '../documents/figure/gen_map.png', plot = gg)
 # 3 most important variables
 most.imp <- trf.a$spinks$optVariables
 ww <- 'spinks'
-turtle.adult$labe[turtle.adult[, ww] == 1] = 'Northern'
-turtle.adult$labe[turtle.adult[, ww] == 2] = 'Eastern'
-turtle.adult$labe[turtle.adult[, ww] == 3] = 'Western'
-turtle.adult$labe[turtle.adult[, ww] == 4] = 'Southern'
-turtle.adult$labe <- factor(turtle.adult$labe, 
-                            levels = c('Northern', 
-                                       'Eastern', 
-                                       'Western', 
-                                       'Southern'))
+turtle.adult$label[turtle.adult[, ww] == 1] = 'Northern'
+turtle.adult$label[turtle.adult[, ww] == 2] = 'Eastern'
+turtle.adult$label[turtle.adult[, ww] == 3] = 'Western'
+turtle.adult$label[turtle.adult[, ww] == 4] = 'Southern'
+turtle.adult$label <- factor(turtle.adult$label, 
+                             levels = c('Northern', 
+                                        'Eastern', 
+                                        'Western', 
+                                        'Southern'))
 
 ggimp <- ggpairs(turtle.adult,
-                 columns = c(most.imp[1:3], 'labe'), 
-                 colour = 'labe',
+                 columns = c(most.imp[1:3], 'label'), 
+                 colour = 'label',
                  upper = 'blank',
                  lower = 'blank',
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
-pc1 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC8, colour = labe))
+pc1 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC8, colour = label))
 pc1 <- pc1 + geom_point() + scale_color_manual(values = cbp)
-pc2 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC6, colour = labe))
+pc2 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC6, colour = label))
 pc2 <- pc2 + geom_point() + scale_color_manual(values = cbp)
-pc3 <- ggplot(turtle.adult, mapping = aes(x = PC8, y = PC6, colour = labe))
+pc3 <- ggplot(turtle.adult, mapping = aes(x = PC8, y = PC6, colour = label))
 pc3 <- pc3 + geom_point() + scale_color_manual(values = cbp)
-hist1 <- ggplot(turtle.adult, mapping = aes(x = PC3, fill = labe))
+hist1 <- ggplot(turtle.adult, mapping = aes(x = PC3, fill = label))
 hist1 <- hist1 + geom_histogram()
-hist1 <- hist1 + facet_grid(labe ~ .) + scale_fill_manual(values = cbp)
-hist2 <- ggplot(turtle.adult, mapping = aes(x = PC8, fill = labe))
+hist1 <- hist1 + facet_grid(label ~ .) + scale_fill_manual(values = cbp)
+hist2 <- ggplot(turtle.adult, mapping = aes(x = PC8, fill = label))
 hist2 <- hist2 + geom_histogram()
-hist2 <- hist2 + facet_grid(labe ~ .) + scale_fill_manual(values = cbp)
-hist3 <- ggplot(turtle.adult, mapping = aes(x = PC6, fill = labe))
+hist2 <- hist2 + facet_grid(label ~ .) + scale_fill_manual(values = cbp)
+hist3 <- ggplot(turtle.adult, mapping = aes(x = PC6, fill = label))
 hist3 <- hist3 + geom_histogram()
-hist3 <- hist3 + facet_grid(labe ~ .) + scale_fill_manual(values = cbp)
+hist3 <- hist3 + facet_grid(label ~ .) + scale_fill_manual(values = cbp)
 
 ggimp <- putPlot(ggimp, pc1, 2, 1)
 ggimp <- putPlot(ggimp, pc2, 3, 1)
@@ -265,15 +265,21 @@ dev.off()
 # mean of the different classes
 # these are going to be combined into a single plot using latex
 mt <- mshape(turtle.land.adult)
+mts <- mt[, 2:1]
+mts[, 2] <- -1 * mts[, 2]
 spi <- turtle.adult$spinks
 wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
 mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
 mins <- lapply(mspi, function(x) min(x[, 2]))
 mins <- min(unlist(mins))
 lmat <- cbind(links, c(links[-1], links[1]))
+mspi <- lapply(mspi, function(x) x[, 2:1])
+mspi <- lapply(mspi, function(x) {
+               x[, 2] <- -1 * x[, 2]
+               x})
 for(ii in seq(length(mspi))) {
   pdf(file = paste0('../documents/figure/mshape_', ii, '.pdf'))
-  plotRefToTarget(M1 = mt, M2 = mspi[[ii]], mag = 2, links = lmat)
+  plotRefToTarget(M1 = mts, M2 = mspi[[ii]], mag = 2, links = lmat)
   dev.off()
 }
 

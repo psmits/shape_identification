@@ -8,13 +8,13 @@
 
 \documentclass[12pt,letterpaper]{article}
 \usepackage{amsmath, amsthm}
-\usepackage{graphicx, microtype, hyperref, authblk}
+\usepackage{graphicx, morefloats, microtype, hyperref, authblk}
 \usepackage{rotating, longtable, caption, subcaption, multirow}
 \usepackage[sort&compress]{natbib}
 \usepackage{fullpage}
 
 % for american naturalist
-%\usepackage{lineno}
+\usepackage{lineno}
 
 \frenchspacing
 \linespread{1.66}
@@ -65,12 +65,12 @@ source('../src/turtle_tables.r')
 options(digits = 4)
 @
 
-\title{How cryptic is cryptic diversity? Machine learning approaches to classifying morphological variation.}
+\title{How cryptic is cryptic diversity? Machine learning approaches to classifying morphological variation in \textit{Emys marmorata} (Testudinoidea, Emydidae).}
 \author[1]{Peter D Smits}%\thanks{psmits@uchicago.edu}}
-\author[2]{Kenneth D Angielczyk}%\thanks{kangielczyk@fieldmuseum.org}}
+\author[1,2]{Kenneth D Angielczyk}%\thanks{kangielczyk@fieldmuseum.org}}
 \author[3]{James F Parham}%\thanks{jparham@fullerton.edu}}
 \affil[1]{Committee on Evolutionary Biology, University of Chicago}
-\affil[2]{Department of Geology, Field Museum of Natural History}
+\affil[2]{Integrative Research Center, Field Museum of Natural History}
 \affil[3]{Department of Geological Sciences, California State University -- Fullerton}
 
 
@@ -78,8 +78,8 @@ options(digits = 4)
 \maketitle
 \noindent{\textbf{Corresponding author:} Peter D Smits, Committee on Evolutionary Biology, University of Chicago, 1025 E. 57th Street, Culver Hall 402, Chicago, IL, 60637, USA; E-mail: \href{mailto:psmits@uchicago.edu}{psmits@uchicago.edu}}
 
-%\linenumbers
-%\modulolinenumbers[2]
+\linenumbers
+\modulolinenumbers[2]
 
 \begin{abstract}
   Cryptic diversity is the phenomenon where some taxa are believed to be identifiable only based on molecular data. This is concerning because the majority of extant taxa and virtually all extinct taxa are delimited entirely via morphology. Here we address questions about whether it is possible to determine, based on morphology, if one classification hypotheses can be considered better than others. %
@@ -106,10 +106,13 @@ Here, we address the question of how can alternative approaches and methodology 
 % past work on automatic taxon identification and older approaches to classifying taxa
 % why use machine learning methods
 \subsection{Background and system}
-Differences in morphological variation between different classes has previously been analyzed using methods like linear discriminate analysis and canonical variates analysis \citep{Zelditch2004}. These methods are comparatively simple and straight forward ways of understanding the differences in morphology between classes. Also, they are very visual methods which aides in interpretation and presentation of information. Neural network models have also been introduced and applied frequently in the context of automated taxon identification along with more general applications \citep{MacLeod2007}. Here, we used multiple alternative machine learning methods, both unsupervised and supervised, in order to compare different classification hypotheses. These methods provide different and unique advantages for understanding how to classify taxa, with what accuracy, and what these classifications are based on. Additionally, we investigate variation in continuous traits, and do not search for discrete differences between each class, instead focusing on suites of traits together.
+Differences in morphological variation between different classes has previously been analyzed using methods like linear discriminate analysis and canonical variates analysis \citep{Zelditch2004}. These methods are comparatively simple and straight forward ways of understanding the differences in morphology between classes. Also, they are very visual methods which aides in interpretation and presentation of information. Neural network models have also been introduced and applied frequently in the context of automated taxon identification along with more general applications \citep{MacLeod2007}. Here, we used multiple alternative machine learning methods, both unsupervised and supervised, in order to compare different classification hypotheses. These methods provide different and unique advantages for understanding how to classify taxa, with what accuracy, and what these classifications are based on. Additionally, we investigate variation in continuous traits, and do not search for discrete differences between each class, instead focusing on multivariate quantification of shape.
 
 % this paragraph kind of sucks
-The two major classes of machine learning methods, unsupervised and supervised, are essentially extensions of known statistical methods. Unsupervised learning methods are analogous to clustering and density estimation methods, while supervised learning methods are analogous classification and regression models. In both cases, many of these methods are not fit via maximum likelihood and are supplemented by randomization, sorting, and partitioning algorithms along with the maximization or minimization of summary statistics in order to best estimate a general model for all data, both sampled and unsampled. The application of the alternative approaches used in this study illustrates only a sampling of the various previously derived methods for clustering observations and fitting classification models. Additionally, instead of pure classification accuracy, here we use a statistic of classification strength that reflects the rate at which taxa are both accurately and inaccurately classified (see Methods).
+The two major classes of machine learning methods, unsupervised and supervised, are essentially extensions of known statistical methods \citep{Hastie2009}. Unsupervised learning methods are analogous to clustering and density estimation methods \citep{Kaufman1990}, while supervised learning methods are analogous classification and regression models \citep{Breiman1984}. In both cases, many of these methods are not fit via maximum likelihood and are supplemented by randomization, sorting, and partitioning algorithms along with the maximization or minimization of summary statistics in order to best estimate a general model for all data, both sampled and unsampled \citep{Hastie2009}. The application of the alternative approaches used in this study illustrates only a sampling of the various previously derived methods for clustering observations and fitting classification models. 
+% Applications of these methods outside of this study
+% epidemeology, computer science, marketing
+Additionally, instead of pure classification accuracy, here we use a statistic of classification strength that reflects the rate at which taxa are both accurately and inaccurately classified (see Methods).
 
 
 % e. marmorata
@@ -120,7 +123,11 @@ In this study, we investiage the subspecific classification of the western pond 
 %   molecular hypothesis
 Traditionally, \textit{E. marmorata} was classified into three groups: the northern \textit{E. marmorata marmorata}, the southern \textit{E. marmorata palida}, and a central Californian intergrade zone \citep{Seeliger1945,Holland1992}. \textit{E. marmorata marmorata} is differentiated from \textit{E. marmorata palida} by the presence of a pair of triangular inguinal plates and darker neck markings. It should be noted that the triangular inguinal plates can sometimes be present in \textit{E. marmorata palida} though they are considerably smaller.
 
-Previous work on morphological differentiation between different populations of \textit{E. marmorata} with no alternative subspecific assignments \citep{Seeliger1945,Holland1992}. \citet{Holland1992} used comparisons of linear measures of the carapace of \textit{E. marmorata} from different populations over the entire range of the species. This study was interested in the relative effect of distance versus barriers had in terms of fostering morphological differentiation in \textit{E. marmorata}. Analyses were performed to determine how different, morphologically, different populations in three different regions of the species range. Additionally, the degree of sexual dimorphism present in \textit{E. marmorata}. The study concluded that distance was a poor indicator of morphological differentiation as opposed to barriers, such as different drainage basins, are probably more important barriers to reproduction. This conclusion was later echoed by \citet{Spinks2005} via molecular phylogenetic analysis. Additionally, \citet{Holland1992} found that with increasing amount of barriers and distance, morphological differentiation was observable though the underlying variation required many variables obtain indicating the very fine degree of morphological differentiation between putatively distinct populations. \citet{Holland1992} concluded that \textit{E. marmorata} is best classified as three distinct species as opposed to subspecies: a northern species, southern species, and Columbia basin species. This classification is similar to \citet{Seeliger1945}, except elevated to the species as opposed to subspecific level.
+Previous work on morphological differentiation between different populations of \textit{E. marmorata} with no alternative subspecific assignments \citep{Seeliger1945,Holland1992}. 
+%
+\citet{Holland1992} used comparisons of linear measures of the carapace of \textit{E. marmorata} from different populations over the entire range of the species. This study was interested in the relative effect of distance versus barriers had in terms of fostering morphological differentiation in \textit{E. marmorata}. Analyses were performed to determine how different, morphologically, different populations in three different regions of the species range. Additionally, sexual dimorphism present in \textit{E. marmorata} was only assesed in the context of size measures such as length of carapace and mass. In general, \citet{Holland1992} and others \citep{Lubcke2007,Germano2008} found that males of \textit{E. marmorata} are larger than females in terms of size. However, the effect of sexual dimorphism on shape, \textit{sensu} \citet{Kendall1977a} and \citet{Dryden1998a}, was not assessed \citep{Holland1992,Lubcke2007,Germano2008}.
+
+\citet{Holland1992} concluded that distance was a poor indicator of morphological differentiation as opposed to barriers, such as different drainage basins, are probably more important barriers to reproduction. This conclusion was later echoed by \citet{Spinks2005} via molecular phylogenetic analysis. Additionally, \citet{Holland1992} found that with increasing amount of barriers and distance, morphological differentiation was observable though the underlying variation required many variables obtain indicating the very fine degree of morphological differentiation between putatively distinct populations. \citet{Holland1992} concluded that \textit{E. marmorata} is best classified as three distinct species as opposed to subspecies: a northern species, southern species, and Columbia basin species. This classification is similar to \citet{Seeliger1945}, except elevated to the species as opposed to subspecific level.
 
 
 More recently, \textit{E. marmorata} was divided into four clades based on mitochondrial DNA: a northern clade, a southern clade, and eastern and western central Californian clades \citep{Spinks2005,Spinks2010}. While nuclear DNA supports two major clades, one northern and one southern, \citet{Spinks2010} argue that the four clade classification is of greater conservation utility. 
@@ -132,11 +139,12 @@ In this study, we attempt to estimate the best classification scheme of \textit{
 
 \section{Materials and Methods}
 \subsection{Specimens}
-We collected landmark-based morphometric data from \Sexpr{nrow(turtle.adult)} adult \textit{E. marmorata} museum specimens. Specimen classification was based on known specimen geographic information which was recorded from museum collection information. When precise latitude and longitude information was not available it was estimated from whatever locality information was present. Because the specimens used to define the subclades in \citet{Spinks2005} and \citet{Spinks2010} were not available for study, all specimen classifications were based solely on this geographic information and not from explicit assignment in previous studies. Because the exact barriers between different biogeographic regions are unknown and unclear, two assignments for both the morphologically and molecularly based hypotheses were used. Each morphologically based hypothesis had three classes, while each molecular-based had four classes. In total, each specimen was given four different classifications. 
+We collected landmark-based morphometric data from \Sexpr{nrow(turtle.adult)} adult \textit{E. marmorata} museum specimens. These specimens include both newly sampled individuals and those sampled in previous studies of plastral shape variation \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}. 
+Specimen classification was based on known specimen geographic information which was recorded from museum collection information. When precise latitude and longitude information was not available it was estimated from whatever locality information was present. Because the specimens used to define the subclades in \citet{Spinks2005} and \citet{Spinks2010} were not available for study, all specimen classifications were based solely on this geographic information and not from explicit assignment in previous studies. The classifications here were based on matching museum locality data with the geographic boundaries of the moelcularly-defined clades of \citet{Spinks2005} and \citet{Spinks2010}. Because the exact barriers between different biogeographic regions are unknown and unclear, two assignments for both the morphologically and molecularly based hypotheses were used. Each morphologically based hypothesis had three classes, while each molecular-based had four classes. In total, each specimen was given four different classifications. 
 
 \subsection{Geometric morphometrics}
 % landmarks
-Following \citet{Angielczyk2011}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. These landmarks were chosen to maximize the description of general plastral variation. 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. 12 of these landmarks were chosen to be symmetrical across the axis of symmetry and, in order to prevent degrees of freedom and other concerns \citep{Klingenberg2007}, prior to analysis these landmarks were reflected across the axis of symmetry (i.e. midline) and the average position of each symmetrical pair was used. In cases where damage or incompleteness prevented symmetric landmarks from being determined, only the single member of the pair was used. Analysis was conducted on the resulting ``half'' plastra.
+Following previous work on plastral variation \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. These landmarks were chosen to maximize the description of general plastral variation(Fig. \ref{fig:plastra}). 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. 12 of these landmarks were chosen to be symmetrical across the axis of symmetry and, in order to prevent degrees of freedom and other concerns \citep{Klingenberg2002}, prior to analysis these landmarks were reflected across the axis of symmetry (i.e. midline) and the average position of each symmetrical pair was used. In cases where damage or incompleteness prevented symmetric landmarks from being determined, only the single member of the pair was used. Analysis was conducted on the resulting ``half'' plastra.
 % GP superimposition and PCA
 Plastral landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components (PC) of shape were calculated. This was done using the \texttt{shapes} package for R \citep{2013,Dryden2013}.
 
@@ -154,13 +162,13 @@ Because the optimal number of clusters of shape configurations in the study was 
 \[Gap_{n}(k) = E^{*}_{n}[\log(W_{k})] - \log(W_{k})\] 
 where \(W_{k}\) is
 \[W_{k} = \sum^{k}_{r = 1}{\frac{1}{2n_{r}} (\sum_{i,i' \in C_{r}} d_{ii'})}\].
-\(d_{ii'}\) is the dispersion of the clustering solution or the sum of the pairwise dissimilarities between observations in each cluster and there respective mediods (\(C\)) for all clusters \(r\). This value is averaged and compared to the expected dispersion (\(E^{*}_{n}\)) of a sample \(n\) from a reference distribution. In this case, the reference distribution was estimated from \Sexpr{tadult.gap$B} resamples of the dataset taking into account the original structure of the data.
+\(d_{ii'}\) is the dispersion of the clustering solution or the sum of the pairwise dissimilarities between observations in each cluster and their respective mediods (\(C\)) for all clusters \(r\). This value is averaged and compared to the expected dispersion (\(E^{*}_{n}\)) of a sample \(n\) from a reference distribution. In this case, the reference distribution was estimated from \Sexpr{tadult.gap$B} resamples of the dataset while maintaining the original dispersion of the data.
 %  R implementation
 This analysis was conducted using the \texttt{cluster} package for R \citep{Maechler2013} using all \Sexpr{nrow(turtle.adult)} observations.
 
 \subsubsection{Supervised learning}
 % training testing split
-The total dataset of \Sexpr{nrow(turtle.adult)} observations was split into training and testing datasets. The training dataset represented 75\% of the total dataset, split proportionally by class, and was used for model fitting. The testing dataset represented the remaining 25\% of the total dataset and  was used after model fitting to estimate the effectiveness of each classification hypothesis and generalizability of the supervised learning models (i.e. performance in the wild).
+The total dataset of \Sexpr{nrow(turtle.adult)} observations was split into training and testing datasets. The training dataset represented 75\% of the total dataset, split proportionally by class, and was used for model fitting. The testing dataset represented the remaining 25\% of the total dataset and  was used after model fitting to estimate the effectiveness of each classification hypothesis and generalizability of the supervised learning models (i.e. performance in the wild). This split was chosen to allow for a large enough sample size for model fitting while also providing a large enough testing dataset to determine any systematic misclassifcations.
 
 % model types
 Two different supervised learning methods were used to model the relationship between plastral shape and class: multinomial logistic regression and random forest. These methods were chosen because of various properties of these methods which allow for useful interpretations about the quality and structure of the classification.
@@ -202,7 +210,7 @@ The area under the ROC curve (AUC) is a summary statistic of the quality of the 
 For the multinomial logistic regression models, \Sexpr{floor(max.ad)} different models were fit each having sequentially more PCs as predictors in order to have models representing different levels of overall amount of shape variation and to estimate how much was necessary and sufficient to best estimate class. The maximum number of PCs allowed as predictors was \Sexpr{floor(max.ad)} because of both the large number of parameters estimated per model and the necessary sample size needed to estimate that many parameters accurately. The final model was that with the lowest AICc \citep{Akaike1974,Hurvich1989,Burnham2002a}. AICc is a model selection criterion where the model with lowest AICc has the fairest variance--bias tradeoff \citep{Burnham2002a}. Model selection was performed in this manner because the optimal number of PCs to use as predictors was not know \textit{a priori}, and while including all of the PCs of shape would mean that all shape variability would be used to estimate class, this may cause the model to be overfit and not provide an accurate estimate of unsampled plastral variation. In addition to the AICc of each model the \(\Delta\)AICc and Akaike weights are also reported. \(\Delta\)AICc values are the different in AICc between the AICc best model and that model while Akaike weights are a transformation of the AICc of a model with relation to all other models being compared and measures the relative amount of information explained by that model compared to all other models \citep{Burnham2002a}. 
 
 %     recursive feature selection
-Random forest models are not fit using maximum likelihood so AICc based model selection was not possible. Instead, a recursive feature selection algorithm was used to choose the optimal number of PCs to include based on the AUC of the model. Following the backwards selection algorithm implemented in \texttt{caret} \citep{Kuhn2013}, the maximum number of features were included in the initial model, there importance ranked, and the AUC of the model calculated. The lowest ranked feature was then removed, and the AUC of the model recalculated. This was repeated until only one feature, remained. Similar to the multinomial logistic regression models described above, the maximum number of PCs that could have been included in the model was \Sexpr{floor(max.ad)}. After each PC was removed , 10-fold CV was used to estimate the optimal values of the tuning parameters as well as quantify the uncertainty of each model. Random forest model parameters were estimated from 1000 subtrees. Because PCs were kept in order of importance and not in relation to the amount of variance each PC described, this means that the exact PCs included in each model do not correspond to the PCs in each of the 10 multinomial logistic regressions models.
+Random forest models are not fit using maximum likelihood so AICc based model selection was not possible. Instead, a recursive feature selection algorithm was used to choose the optimal number of PCs to include based on the AUC of the model. Following the backwards selection algorithm implemented in \texttt{caret} \citep{Kuhn2013}, the maximum number of features were included in the initial model, their importance ranked, and the AUC of the model calculated. The lowest ranked feature was then removed, and the AUC of the model recalculated. This was repeated until only one feature, remained. Similar to the multinomial logistic regression models described above, the maximum number of PCs that could have been included in the model was \Sexpr{floor(max.ad)}. After each PC was removed , 10-fold CV was used to estimate the optimal values of the tuning parameters as well as quantify the uncertainty of each model. Random forest model parameters were estimated from 1000 subtrees. Because PCs were kept in order of importance and not in relation to the amount of variance each PC described, this means that the exact PCs included in each model do not correspond to the PCs in each of the 10 multinomial logistic regressions models.
 
 % generalization
 %   bootstrap resample of AUC
@@ -211,43 +219,20 @@ The final selected models were then used to estimate the class assignments of th
 \section{Results}
 \subsection{Geometric morphometrics}
 The results of the PCA of the total dataset of \textit{E. marmorata} pastral landmarks configurations demonstrates no clear or obvious groupings (Fig. \ref{fig:pca}). The first three PCs, which represent \Sexpr{paste0(sum(turtle.fit$percent[1:3]))}\% of the total variation, are a cloud of points with no structure. Additionally, individual landmark variation is mostly circular around each landmark with some more elliptical variation observed along some midline landmarks and the most lateral landmark (Fig. \ref{fig:pca}). However, it is important to note that Procustes based superimposition attempts to evenly distribute variance around the mean landmark \citep{Zelditch2004} and this observation should be considered cursory at best.
-The first PC appears to describe variation in lateral plastral shape, from a very pointed medial edge to a much more rounded and blunt edge (Fig. \ref{fig:pc_var}). Variation along the second PC appears to be characterized by variation along the midline, especially in terms of the ``straightness'' of the individual landmarks along it.
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width = \textwidth]{figure/pca_res}
-  \caption{Results from PCA of the Procrustes superimposed ``half'' plastral landmarks. Depicted here are the for three PCs (lower triangle) and the mean shape with observed variance around each point (upper right). The first three PCs account for total \Sexpr{paste0(sum(turtle.fit$percent[1:3]))}\% of the variance in plastral shape.}
-  \label{fig:pca}
-\end{figure}
+The first PC appears to describe variation in lateral plastral shape, from a very pointed medial edge to a much more rounded and blunt edge (Fig. \ref{fig:pc_var}). Landmark 10 (Fig. \ref{fig:plastra}), which appears to be the most variable along this axis (Fig. \ref{fig:pca} and \ref{fig:pc_var}), is positioned on the bridge between the plastron and the carapace. Over ontogeny, this is an area that deepens dorsoventrally and when the plastron was projected into two dimensions this it created the effect of mediolateral movement.
+Variation along the second PC appears to be characterized by variation along the midline, especially in terms of the ``straightness'' of the individual landmarks along it. This is most likely caused by the fact that plastral scutes do not always line up perfectly along the midline.
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width = \textwidth]{figure/pc_var}
-  \caption{Landmark variation along the first two PCs of the Procrustes superimposed ``half'' plastral landmarks. The first row corresponds to variation along the first PC, while the second row corresponds to the second PC. The left most column represents the observation with the highest eigenscore along that PC, while the right most column represents the observation with the lowest eigenscore. The middle column, for both rows, is the mean plastral shape for all observations. The first PC represents \Sexpr{turtle.fit$percent[1]}\% of the total variation in plastral shape while PC represents \Sexpr{turtle.fit$percent[2]}\% of the variance.}
-  \label{fig:pc_var}
-\end{figure}
+% size correlation with either of the first two PCs?
 
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
 
 % PAM results
-Comparison of gap statistic values for the range of PAM solutions indicates that the optimal number of clusters is one (Fig. \ref{fig:gap}). The next best clustering solution had only two clusters, however there is no geographic structure to this classification scheme, with members of these clusters being seemingly randomly distributed (Fig. \ref{fig:gap_map}). Importantly, these clusters do not conform to the nothern and souther groups from the nuclear DNA hypothesis \citep{Spinks2010}.
+Comparison of gap statistic values for the range of PAM solutions indicates that the optimal number of clusters is one (Fig. \ref{fig:gap}). The next best clustering solution had only two clusters, however there is no geographic structure to this classification scheme, with members of these clusters being seemingly randomly distributed (Fig. \ref{fig:gap_map}). Importantly, these clusters do not conform to the northern and southern groups from the nuclear DNA hypothesis \citep{Spinks2010}.
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width = \textwidth]{figure/gap_res}
-  \caption{Gap statistic values for PAM clustering results for the \(\rho\) dissimliarity matrix of plastron shape. Error bars are standard errors estimated via \Sexpr{tadult.gap$B} bootstrap samples.}
-  \label{fig:gap}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics{figure/gap_map}
-  \caption{Clustering solution for PAM with two mediods for the entire set of observed \textit{E. marmorata}. Clustering was based entirely on the \(\rho\) dissimilarity matrix of ``half'' plastral landmark configurations following Procrustes superimposition.}
-  \label{fig:gap_map}
-\end{figure}
-
+% some sex information. Analyze it.
 Unfortunately, it was not possible to obtain enough detailed information on the sex of each \textit{E. marmorata} specimen, thus it is difficult at best to determine if this clustering solution corresponds to sexual dimorphism between observations. Male emydid turtles are known to have a plastral concavity which may influence landmark position along the midline. However, the plastral concavity of \textit{E. mamorata} males is considered less pronounced than in other emydid turtles. While we cannot completely rule out sexual dimorphism as the root cause of this observation, because of the very small degree of known sexual dimorphism in \textit{E. marmorata} we are less concerned with possible effects of sexual dimorphism for the later supervised learning methods. 
 
 The gap statistic values for both three and four clusters are much lower than for one and two and are statistically identical. Interestingly, other solutions with a much greater number of clusters have higher gap statistic values though these are also not significantly different. Increasing the number of clusters does appear to improve the gap statistic enough compared to the best clustering solution to merit detailed discussion.
@@ -281,14 +266,96 @@ The selected number of features in the final random forest model for each classi
 
 In the case of all models, there is a substantial increase in model performance as measured by AICc for the multinomial logistic models (Tables \ref{tab:mod_sel_1},\ref{tab:mod_sel_2},\ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}) or in AUC for the random forest models and illustrated for the multinomial logistic regression models as the number of features increases (Fig. \ref{fig:roc}). 
 
+The results from the generalization of the selected supervised learning models, measured by the distributions of the bootstrapped AUC values of the testing dataset, show that the second molecular classification hypotheses was the best overall classification scheme (Fig. \ref{fig:gen_res}). For both methods, the distribution of bootstrapped AUC for the molecular hypothesis was significantly greater than all of the other classification schemes (Tables \ref{tab:mm_test} and \ref{tab:rf_test}). Remarkably, the best classification hypothesis was identical based on both the multinomial logistic regression and random forest models.
+
+
+When the classification results of the training set for the best classification scheme based on the generalization results are compared with the references classes, the higher AUC value of the best multinomial logistic regression model compared to the best random forest model can be observed as the classifications are much closer to the reference classes (Fig. \ref{fig:gen_map}). The best random forest model misclassified many of the observations as the northern clade instead of the correct class. This pattern of misclassification is observable but not as exaggerated in the classifications of the multinomial logistic regression model.
+
+This pattern of misclassification may have been caused by the subtle differences in mean shape between each of the different classes (Fig. \ref{fig:mean_shape}). The mean shape of the northern clade is the most similar to the mean shape of the entire dataset (Fig. \ref{fig:mean_shape1}), which may indicate that specimens that are closer to the mean shape will be systematically misclassified as the northern clade.
+
+% variation along the most important axes
+<<>>=
+rf.w <- gsub('PC', x = trf.a$spinks$optVariables, replacement = '')
+@
+The results of fitting the final random forest model also include the variable importance for best separating the different classes. The selected random forest model for the best classification scheme had \Sexpr{trf.a$spinks$optsize} PCs as features. The PCs included as features in the final random forest model, in descending order of importance, were PCs \Sexpr{paste(rf.w[1:6])} and \Sexpr{paste(rf.w[7])}. Of these \Sexpr{trf.a$spinks$optsize} features, the first three are illustrated here (Fig. \ref{fig:imp_pc}) in descending order of importance. 
+
+
+The first two most important features describe different aspects of variation (Fig. \ref{fig:imp_var}). The third and most important PC describes variation in the relative position of landmarks on anterior and posterior portions of the plastron and represents \Sexpr{turtle.fit$percent[3]}\% of total variation. The eighth and second most important PC mostly describes variation in landmarks along the midline of the plastron and represents \Sexpr{turtle.fit$percent[8]}\% of total variation. The major variations along these axes correspond well to the differences between the mean shape of each class (Fig. \ref{fig:mean_shape}) where major class differences seem based on the relative ballooning or shrinking of the anterior and posterior portions of the plastron together.
+
+The relative risk values for classification from the multinomial logistic regression model, based on the three most important PCs, demonstrate that while an individual PC might not be sufficient to differentiate any individual class from the northern group, given multiple features the odds of determining the correct classification increase (Fig. \ref{fig:rel_risk}). Changes along the second most important axes contribute very little to increasing the odds of classification. This is observable from the class histograms of PC 8 (Fig. \ref{fig:imp_var}). Changes along the first and third most important axes contribute more obviously to increasing the odds of correctly identifying the class of an observation, a result that is observable in both the relative risk (Fig. \ref{fig:rel_risk}) and the different class histograms of the PCs (Fig. \ref{fig:imp_var}).
+
+\section{Discussion}
+% discussion of results
+%   remarkable concordance in the supervised learning methods
+The results of this study support the mitochrondial based classification hypothesis of \textit{E. marmorata} \citep{Spinks2005,Spinks2010}. This is contrary to the original classification of \textit{E. marmorata} \citep{Seeliger1945,Holland1992} and lends credence to the idea that at least some aspect of cryptic diversity is a product of sample size, methodology, or both.
+
+%   what does this mean about cryptic diversity?
+%   unsupervised learning shortcomings
+
+The lack of coherent geographical subclass assignment from PAM clustering (Fig. \ref{fig:gap}) as well as the large number of features necessary before no increase in AUC for all models (Fig. \ref{fig:roc}) indicates that the morphological variation between classes is extremely fine grained. This was also exemplified by the small differences between mean class shapes of the final chosen classification scheme (Fig. \ref{fig:imp_var}).
+
+% methodological concerns
+%   compromise in the supervised learning models
+%     fair because as much variation as ``necessary'' is used
+The approaches presented here for supervised learning analysis of the landmark variation represent a compromise between explicitly modeling all shape variation and preventing models from being overfit and ungeneralizable. While all aspects of shape may be evolving simultaneously, and not along individual PCs, including all shape variation in each model might increase model complexity beyond a reasonable level for the sample size and possibly the necessary complexity to accurately model the response. Additionally, because only individual PCs are used as features in the models, this does not accurately represent shape evolution and how exactly different classes might be evolving in relation to each other. However, this compromise is not without its advantages. Because both AICc and AUC values improved rapidly with increased model complexity (Fig. \ref{fig:roc}), this helped demonstrate how fine scale the actual variation between classes was. Additionally, the relative risk values from the mulitinomial logistic regression models demonstrate that a single PC is probably not sufficient for estimating the class of an observation, but that given a set of PCs this classification would be more accurate (Fig. \ref{fig:rel_risk}). The results of the relative risk values also shows that while a variable can be considered important for the random forest models (Fig. \ref{fig:imp_pc}, \ref{fig:imp_var}) they each might not be considered useful on their own (Fig. \ref{fig:rel_risk}).
+
+%   unsupervised learning
+Ultimately, it would be useful to not require such explicit classification hypotheses, especially when concerned about possible cryptic variation in extinct taxa. The only unsupervised method employed in this study, PAM, is rather simple and not model based. A more useful approach would be to employ various model based clustering approaches \citep{Fraley2002,Zhong2003}. In this manner, a series of candidate models can be compared via model comparison methods, such as AIC or Bayes factors \citep{Fraley2002}, in order to asses the best clustering solution. % beat complaints from reviewers
+Here we focused on the results and utility of supervised methods because they are both more powerful and hypothesis driven \citep{Hastie2009}. Because there are two alternative classification schemes for \textit{E. marmorata}, it was most appropriate to compare these two hypotheses and estimate which one most accurately reflected the variation. Future work would be to explore and derive unsupervised methods which corroborate these results.
+
+% closing statements
+In this study we have demonstrated that, using alternative methodology to that which is most frequently applied, it is possible to determine which classification scheme best matches variation in a taxon amongst a set of alternative hypotheses. The observed plastral variation of \textit{E. marmorata} is most consistent with the mitochondrial based hypothesis of \citet{Spinks2005} and \citet{Spinks2010} and not with the original morphology based hypothesis of \citet{Seeliger1945,Holland1992}. We have also demonstrated the utility of various machine learning approaches to understanding the structure of variation in morphometric data. Specifically, methods for better understanding misclassification and identifying which is the most important for delimiting different classes. These methods represent new applications which may be important for future studies on class-based morphological comparison and variation, both in the context of cryptic diversity and with known classifications.
+
+\section{Acknowledgements}
+PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas Krentzel for useful discussion which enhanced the quality of this study. For access to emydine specimens, we thank: J. Vindum and R. Drewes (CAS); A. Resetar (FMNH); R. Feeney (LACM); C. Austin (LSUMNS); S. Sweet (MSE); J. McGuire and C. Conroy (MVZ); A. Wynn (NMNH); P. Collins (SBMNH); B. Hollingsworth (SDMNH); C. Bell and R. Burroughs (TMM); T. LaDuc and R. Burroughs (TNHC); P. Holroyd (UCMP); R. Symonds (UMZC); J. Buskirk. We are greatful to S. Sweet for field assistance and the California Department of Fish and Game for permits. Much of the data collection was funded by NSD DBI-0306158 (to KDA).
+
+\bibliographystyle{sysbio}
+\bibliography{turtle,packages}
+
+\pagebreak
+
+% figures
+\begin{figure}[ht]
+  \centering
+  \includegraphics{figure/plastra}
+  \caption{Depiction of general plastral shape of \textit{E. marmorata} and position of the 19 landmark used in this study. Anterior is towards the top of the figure.}
+  \label{fig:plastra}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/pca_res}
+  \caption{Results from PCA of the Procrustes superimposed ``half'' plastral landmarks. Depicted here are the for three PCs (lower triangle) and the mean shape with observed variance around each point (upper right). The first three PCs account for total \Sexpr{paste0(sum(turtle.fit$percent[1:3]))}\% of the variance in plastral shape.}
+  \label{fig:pca}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/pc_var}
+  \caption{Landmark variation along the first two PCs of the Procrustes superimposed ``half'' plastral landmarks. The first row corresponds to variation along the first PC, while the second row corresponds to the second PC. The left most column represents the observation with the highest eigenscore along that PC, while the right most column represents the observation with the lowest eigenscore. The middle column, for both rows, is the mean plastral shape for all observations. The first PC represents \Sexpr{turtle.fit$percent[1]}\% of the total variation in plastral shape while PC represents \Sexpr{turtle.fit$percent[2]}\% of the variance.}
+  \label{fig:pc_var}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/gap_res}
+  \caption{Gap statistic values for PAM clustering results for the \(\rho\) dissimliarity matrix of plastron shape. Error bars are standard errors estimated via \Sexpr{tadult.gap$B} bootstrap samples.}
+  \label{fig:gap}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics{figure/gap_map}
+  \caption{Clustering solution for PAM with two mediods for the entire set of observed \textit{E. marmorata}. Clustering was based entirely on the \(\rho\) dissimilarity matrix of ``half'' plastral landmark configurations following Procrustes superimposition.}
+  \label{fig:gap_map}
+\end{figure}
+
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/roc_sel}
   \caption{Effect of increasing the number of PCs as features, or predictors, of classification of plastra for all four classification schemes. As the total number of features increase, AUC increases until eventually leveling off. Both multinomial logisitic regression and random forest models are illustrated here, though AUC based model selection was only performed for random forest models.}
   \label{fig:roc}
 \end{figure}
-
-The results from the generalization of the selected supervised learning models, measured by the distributions of the bootstrapped AUC values of the testing dataset, show that one of the molecular classification hypotheses was the best overall classification scheme (Fig. \ref{fig:gen_res}). For both methods, the distribution of bootstrapped AUC for the molecular hypothesis was significantly greater than all of the other classification schemes (Tables \ref{tab:mm_test} and \ref{tab:rf_test}). Remarkably, the best classification hypothesis was identical based on both the multinomial logistic regression and random forest models.
 
 \begin{figure}[ht]
   \centering
@@ -297,17 +364,12 @@ The results from the generalization of the selected supervised learning models, 
   \label{fig:gen_res}
 \end{figure}
 
-
-When the classification results of the training set for the best classification scheme based on the generalization results are compared with the references classes, the higher AUC value of the best multinomial logistic regression model compared to the best random forest model can be observed as the classifications are much closer to the reference classes (Fig. \ref{fig:gen_map}). The best random forest model misclassified many of the observations as the northern clade instead of the correct class. This pattern of misclassification is observable but not as exaggerated in the classifications of the multinomial logistic regression model.
-
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/gen_map}
   \caption{Comparison between reference classification of testing data set and the estimated classifications based on the selected multinomial logistic regression and random forest models, from left to right respectively. Classification corresponds to the four classes as suggested by the hypothesis of \citet{Spinks2005} and \citet{Spinks2010}.}
   \label{fig:gen_map}
 \end{figure}
-
-This pattern of misclassification may have been caused by the subtle differences in mean shape between each of the different classes (Fig. \ref{fig:mean_shape}). The mean shape of the northern clade is the most similar to the mean shape of the entire dataset (Fig. \ref{fig:mean_shape1}), which may indicate that specimens that are closer to the mean shape will be systematically misclassified as the northern clade.
 
 % mean shapes of all the classes
 \begin{figure}[ht]
@@ -342,22 +404,12 @@ This pattern of misclassification may have been caused by the subtle differences
   \label{fig:mean_shape}
 \end{figure}
 
-
-% variation along the most important axes
-<<>>=
-rf.w <- gsub('PC', x = trf.a$spinks$optVariables, replacement = '')
-@
-The results of fitting the final random forest model also include the variable importance for best separating the different classes. The selected random forest model for the best classification scheme had \Sexpr{trf.a$spinks$optsize} PCs as features. The PCs included as features in the final random forest model, in descending order of importance, were PCs \Sexpr{paste(rf.w[1:6])} and \Sexpr{paste(rf.w[7])}. Of these \Sexpr{trf.a$spinks$optsize} features, the first three are illustrated here (Fig. \ref{fig:imp_pc}) in descending order of importance. 
-
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/pca_imp}
   \caption{Pairs plot of the first three most important variables of the optimal random forest model of turtle plastral shape. The variables descend in importance from the upper left to the lower right. The observations are colored as in figure \ref{fig:gen_map}.  The bottom row are histograms of classification occurrences along the PCs.}
   \label{fig:imp_pc}
 \end{figure}
-% need to add in variance percentages on the different axes.
-
-The first two most important features describe different aspects of variation (Fig. \ref{fig:imp_var}). The third and most important PC describes variation in the relative position of landmarks on anterior and posterior portions of the plastron and represents \Sexpr{turtle.fit$percent[3]}\% of total variation. The eighth and second most important PC mostly describes variation in landmarks along the midline of the plastron and represents \Sexpr{turtle.fit$percent[8]}\% of total variation. The major variations along these axes correspond well to the differences between the mean shape of each class (Fig. \ref{fig:mean_shape}) where major class differences seem based on the relative ballooning or shrinking of the anterior and posterior portions of the plastron together.
 
 \begin{figure}[ht]
   \centering
@@ -366,9 +418,6 @@ The first two most important features describe different aspects of variation (F
   \label{fig:imp_var}
 \end{figure}
 
-%RELATIVE RISK FROM THE MULTINOMIAL LOGISTIC REGRESSION MODELS
-The relative risk values for classification from the multinomial logistic regression model, based on the three most important PCs, demonstrate that while an individual PC might not be sufficient to differentiate any individual class from the northern group, given multiple features the odds of determining the correct classification increase (Fig. \ref{fig:rel_risk}). Changes along the second most important axes contribute very little to increasing the odds of classification. This is observable from the class histograms of PC 8 (Fig. \ref{fig:imp_var}). Changes along the first and third most important axes contribute more obviously to increasing the odds of correctly identifying the class of an observation, a result that is observable in both the relative risk (Fig. \ref{fig:rel_risk}) and the different class histograms of the PCs (Fig. \ref{fig:imp_var}).
-
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/rel_risk}
@@ -376,45 +425,8 @@ The relative risk values for classification from the multinomial logistic regres
   \label{fig:rel_risk}
 \end{figure}
 
-\section{Discussion}
-% discussion of results
-%   remarkable concordance in the supervised learning methods
-The results of this study support the mitochrondial based classification hypothesis of \textit{E. marmorata} \citep{Spinks2005,Spinks2010}. This is contrary to the original classification of \textit{E. marmorata} \citep{Seeliger1945,Holland1992} and lends credence to the idea that at least some aspect of cryptic diversity is a product of sample size, methodology, or both.
-
-%   what does this mean about cryptic diversity?
-%   unsupervised learning shortcomings
-
-The lack of coherent geographical subclass assignment from PAM clustering (Fig. \ref{fig:gap}) as well as the large number of features necessary before no increase in AUC for all models (Fig. \ref{fig:roc}) indicates that the morphological variation between classes is extremely fine grained. This was also exemplified by the small differences between mean class shapes of the final chosen classification scheme (Fig. \ref{fig:imp_var}).
-
-% methodological concerns
-%   compromise in the supervised learning models
-%     fair because as much variation as ``necessary'' is used
-The approaches presented here for supervised learning analysis of the landmark variation represent a compromise between explicitly modeling all shape variation and preventing models from being overfit and ungeneralizable. While all aspects of shape may be evolving simultaneously, and not along individual PCs, including all shape variation in each model might increase model complexity beyond a reasonable level for the sample size and possibly the necessary complexity to accurately model the response. Additionally, because only individual PCs are used as features in the models, this does not accurately represent shape evolution and how exactly different classes might be evolving in relation to each other. However, this compromise is not without its advantages. Because both AICc and AUC values improved rapidly with increased model complexity (Fig. \ref{fig:roc}), this helped demonstrate how fine scale the actual variation between classes was. Additionally, the relative risk values from the mulitinomial logistic regression models demonstrate that a single PC is probably not sufficient for estimating the class of an observation, but that given a set of PCs this classification would be more accurate (Fig. \ref{fig:rel_risk}). The results of the relative risk values also shows that while a variable can be considered important for the random forest models (Fig. \ref{fig:imp_pc}, \ref{fig:imp_var}) they each might not be considered useful on their own (Fig. \ref{fig:rel_risk}).
-
-%   unsupervised learning
-%     model based clustering
-%     nonparametric bayesian approach
-%     anything about semisupervised clustering? probably not
-Ultimately, it would be useful to not require such explicit classification hypotheses, especially when concerned about possible cryptic variation in extinct taxa. The only unsupervised method employed in this study, PAM, is rather simple and not model based. A more useful approach would be to employ various model based clustering approaches \citep{Fraley2002,Zhong2003}. In this manner, a series of candidate models can be compared via model comparison methods, such as AIC or Bayes factors \citep{Fraley2002}, in order to asses the best clustering solution.
-
-% future directions
-%   potentially useful for phylogenetic comparative method stuff
-%   conservation utility
-%   fossil diversity
-%     current approach favors having an extremely explicit classification hypothesis
-%     as indicated about, nonparametric bayes and other model based clustering can help
-
-% closing statements
-In this study we have demonstrated that, using alternative methodology to that which is most frequently applied, it is possible to determine which classification scheme best matches variation in a taxon amongst a set of alternative hypotheses. The observed plastral variation of \textit{E. marmorata} is most consistent with the mitochondrial based hypothesis of \citet{Spinks2005} and \citet{Spinks2010} and not with the original morphology based hypothesis of \citet{Seeliger1945,Holland1992}. We have also demonstrated the utility of various machine learning approaches to understanding the structure of variation in morphometric data. Specifically, methods for better understanding misclassification and identifying which is the most important for delimiting different classes. These methods represent new applications which may be important for future studies on class-based morphological comparison and variation, both in the context of cryptic diversity and with known classifications.
-
-\section{Acknowledgements}
-PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas Krentzel for useful discussion which enhanced the quality of this study. MUSEUMS. GRANTING AGENCIES.
-
-\bibliographystyle{sysbio}
-\bibliography{turtle,packages}
-
 \pagebreak
-
+% tables
 \begin{table}
   \centering
   \begin{tabular}[c]{ p{2cm} c | p{2cm} | p{2cm} |}
