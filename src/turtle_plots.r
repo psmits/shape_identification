@@ -312,6 +312,7 @@ comps <- lapply(comps, function(x) {
                 x})
 comps <- Reduce(rbind, comps)
 shl <- unlist(lapply(most.imp[1:2], function(x) rep(x, 3 * nrow(mt))))
+shl <- factor(shl, levels = c('PC3', 'PC2'))
 typ <- c(rep('min', nrow(mt)), rep('max', nrow(mt)))
 mm <- rep('mean', nrow(mt))
 typ <- c(typ, mm, typ, mm)
@@ -327,8 +328,8 @@ ggsave(file = '../documents/figure/imp_var.png', plot = gsh)
 
 
 # relative risk of the multinomial logistic regression model
-relrisk <- t.rr$spinks
-relci <- t.rr.ci$spinks
+relrisk <- t.a.rr$spinks
+relci <- t.a.rr.ci$spinks
 op <- trf.a$spinks$optVariables
 rel <- list()
 for(ii in seq(nrow(relrisk))) {

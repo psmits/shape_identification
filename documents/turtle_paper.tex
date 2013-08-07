@@ -263,9 +263,10 @@ The final selected models were then used to estimate the class assignments of th
 
 \section{Results}
 \subsection{Geometric morphometrics}
-The results of the PCA of the total dataset of \textit{E. marmorata} pastral landmarks configurations demonstrates no clear or obvious groupings (Fig. \ref{fig:pca}). The first three PCs, which represent 55.0075790871272\% of the total variation, are a cloud of points with no structure. Additionally, individual landmark variation is mostly circular around each landmark with some more elliptical variation observed along some midline landmarks and the most lateral landmark (Fig. \ref{fig:pca}). However, it is important to note that Procustes based superimposition attempts to evenly distribute variance around the mean landmark \citep{Zelditch2004} and this observation should be considered cursory at best.
-The first PC appears to describe variation in lateral plastral shape, from a very pointed medial edge to a much more rounded and blunt edge (Fig. \ref{fig:pc_var}). Landmark 10 (Fig. \ref{fig:plastra}), which appears to be the most variable along this axis (Fig. \ref{fig:pca} and \ref{fig:pc_var}), is positioned on the bridge between the plastron and the carapace. Over ontogeny, this is an area that deepens dorsoventrally and when the plastron was projected into two dimensions this it created the effect of mediolateral movement.
-Variation along the second PC appears to be characterized by variation along the midline, especially in terms of the ``straightness'' of the individual landmarks along it. This is most likely caused by the fact that plastral scutes do not always line up perfectly along the midline.
+The results of the PCA of the total dataset of \textit{E. marmorata} pastral landmarks configurations demonstrates no clear or obvious groupings (Fig. \ref{fig:pca}). The first three PCs, which represent 45.2924805932624\% of the total variation, are a cloud of points with no structure. Additionally, individual landmark variation is mostly circular around each landmark with some more elliptical variation observed along some midline landmarks and the most lateral landmark (Fig. \ref{fig:pca}). However, it is important to note that Procustes based superimposition attempts to evenly distribute variance around the mean landmark \citep{Zelditch2004} and this observation should be considered cursory at best.
+
+The first two PCs appear to describe variation in lateral plastral shape, from a very pointed medial edge to a much more rounded and blunt edge (Fig. \ref{fig:pc_var}). Landmark 10 (Fig. \ref{fig:plastra}), which appears to be the most variable along this axis (Fig. \ref{fig:pca} and \ref{fig:pc_var}), is positioned on the bridge between the plastron and the carapace. Over ontogeny, this is an area that deepens dorsoventrally and when the plastron was projected into two dimensions this it created the effect of mediolateral movement.
+Additional variation along the second PC appears to be characterized by variation in anterior and posterior landmarks along the medial edge of the plastron.
 
 % size correlation with either of the first two PCs?
 
@@ -289,15 +290,17 @@ The gap statistic values for both three and four clusters are much lower than fo
 
 
 % multinomial logistic regression model
-The AICc best multinomial logistic regression models, for all four classification schemes, all include the first 10 possible PCs as features (Tables \ref{tab:mod_sel_1},\ref{tab:mod_sel_2},\ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}). The second best models for all classification schemes had the first 9 PCs as features. The \(\Delta\)AICc values between the optimal and second best model range from 2.0639 for the first morphological based classification hypothesis to 19.8349 for the second molecular based classification hypothesis (Tables \ref{tab:mod_sel_1},\ref{tab:mod_sel_2},\ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}). The first 10 PCs describe 88.6043874205075\% of total variation in plastral shape.
+The AICc best multinomial logistic regression model for three of the four classification schemes include the first 9 PCs as features (Tables \ref{tab:mod_sel_1}, \ref{tab:mod_sel_2}, and \ref{tab:mod_sel_3}). The second molecularly based classification hypothesis includes all 10 PCs predictors (Tables \ref{tab:mod_sel_4}).
+The \(\Delta\)AICc values between the optimal and second best model range from 1.1782 for the first morphological based classification hypothesis to 26.5107 for the second molecular based classification hypothesis (Tables \ref{tab:mod_sel_1},\ref{tab:mod_sel_2},\ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}). The first 9 PCs describe 83.2255838908058\% of total variation in plastral shape, while the first 10 PCs describe 0\% of the variation.
 
-While the \(\Delta\)AICc value between the optimal and second best model for the first morphological based classification hypothesis was within the range to be considered equally optimal \citep{Burnham2002a}, for this analysis we chose to use only the AICc best model. While AICc values can not be compared between models with different responses \citep{Burnham2002a}, we interpret the fact that the optimal model for all classification schemes is the global model as a reason to use only the AICc best model for all cases. Additionally, by using a single model for all classification schemes, this limits the number of comparisons between the bootstrap resampled distributions of the AUC values for the testing dataset (see below).
+While the \(\Delta\)AICc value between the optimal and second best model for the first morphological and first molecular based classification hypothesis was within the range to be considered equally optimal \citep{Burnham2002a}, for this analysis we chose to use only the AICc best model. While AICc values can not be compared between models with different responses \citep{Burnham2002a}, we interpret the fact that the optimal model for three of the classification schemes having the same number of predictors and the fact that the \(\Delta\)AICc best model in these cases is the simpler mode as reasons to use only the AICc best model for all cases. 
+Additionally, by using a single model for all classification schemes, this limits the number of comparisons between the bootstrap resampled distributions of the AUC values for the testing dataset (see below).
 
 % random forest model
 
 
 
-The selected number of features in the final random forest model for each classification scheme varied much more than for the multinomial logistic regression models, ranging from 6 for the first morphological based classification hypothesis to 10 for the second morphological based classification hypothesis (Fig. \ref{fig:roc}). 
+The selected number of features in the final random forest model for each classification scheme varied as much as the multinomial logistic regression models, ranging from 9 for the second morphological based classification hypothesis and both molecular based classification hypotheses to 10 for the first morphological based classification hypothesis (Fig. \ref{fig:roc}). 
 
 % need to discuss the final models in both cases.
 % figure
@@ -317,12 +320,12 @@ This pattern of misclassification may have been caused by the subtle differences
 % variation along the most important axes
 
 
-The results of fitting the final random forest model also include the variable importance for best separating the different classes. The selected random forest model for the best classification scheme had 7 PCs as features. The PCs included as features in the final random forest model, in descending order of importance, were PCs 3, 8, 6, 1, 4, 2 and 10. Of these 7 features, the first three are illustrated here (Fig. \ref{fig:imp_pc}) in descending order of importance. 
+The results of fitting the final random forest model also include the variable importance for best separating the different classes. The selected random forest model for the best classification scheme had 9 PCs as features. The PCs included as features in the final random forest model, in descending order of importance, were PCs 3, 2, 1, 6, 5, 10, 9, 8 and 4. Of these 9 features, the first three are illustrated here (Fig. \ref{fig:imp_pc}) in descending order of importance. 
 
 
-The first two most important features describe different aspects of variation (Fig. \ref{fig:imp_var}). The third and most important PC describes variation in the relative position of landmarks on anterior and posterior portions of the plastron and represents 9.6697\% of total variation. The eighth and second most important PC mostly describes variation in landmarks along the midline of the plastron and represents 4.1061\% of total variation. The major variations along these axes correspond well to the differences between the mean shape of each class (Fig. \ref{fig:mean_shape}) where major class differences seem based on the relative ballooning or shrinking of the anterior and posterior portions of the plastron together.
+The first two most important features describe different aspects of variation (Fig. \ref{fig:imp_var}). The third and most important PC describes variation roundedness of the medial portion of the plastron, both the anterior and posterior portions of the plastron. Additionally, the relative position of the landmarks along the midline. This PC represents 12.1948\% of total variation. The second and second most important PC is described above and principally described variation in landmarks along the medial and anterior edge of the plastron. This PC represents 12.7794\% of total variation. The major variations along these axes correspond well to the differences between the mean shape of each class (Fig. \ref{fig:mean_shape}) where major class differences seem based on the relative ballooning or shrinking of the anterior and posterior portions of the plastron together.
 
-The relative risk values for classification from the multinomial logistic regression model, based on the three most important PCs, demonstrate that while an individual PC might not be sufficient to differentiate any individual class from the northern group, given multiple features the odds of determining the correct classification increase (Fig. \ref{fig:rel_risk}). Changes along the second most important axes contribute very little to increasing the odds of classification. This is observable from the class histograms of PC 8 (Fig. \ref{fig:imp_var}). Changes along the first and third most important axes contribute more obviously to increasing the odds of correctly identifying the class of an observation, a result that is observable in both the relative risk (Fig. \ref{fig:rel_risk}) and the different class histograms of the PCs (Fig. \ref{fig:imp_var}).
+The relative risk values for classification from the multinomial logistic regression model, based on the three most important PCs, demonstrate that individual axes contribute differently to classification and that given multiple features the odds of determining the correct classification increase (Fig. \ref{fig:rel_risk}). The first most important axis contributes strongly to classifying both the western and southern groups while changes along the second most important axes contribute very little to increasing the odds of classification for all but the eastern group. This is observable from the class histograms of PC 2 (Fig. \ref{fig:imp_var}). Changes along the first and third most important axes contribute more obviously to increasing the odds of correctly identifying the class of an observation, a result that is observable in both the relative risk (Fig. \ref{fig:rel_risk}) and the different class histograms of the PCs (Fig. \ref{fig:imp_var}).
 
 \section{Discussion}
 % discussion of results
@@ -337,7 +340,7 @@ The lack of coherent geographical subclass assignment from PAM clustering (Fig. 
 % methodological concerns
 %   compromise in the supervised learning models
 %     fair because as much variation as ``necessary'' is used
-The approaches presented here for supervised learning analysis of the landmark variation represent a compromise between explicitly modeling all shape variation and preventing models from being overfit and ungeneralizable. While all aspects of shape may be evolving simultaneously, and not along individual PCs, including all shape variation in each model might increase model complexity beyond a reasonable level for the sample size and possibly the necessary complexity to accurately model the response. Additionally, because only individual PCs are used as features in the models, this does not accurately represent shape evolution and how exactly different classes might be evolving in relation to each other. However, this compromise is not without its advantages. Because both AICc and AUC values improved rapidly with increased model complexity (Fig. \ref{fig:roc}), this helped demonstrate how fine scale the actual variation between classes was. Additionally, the relative risk values from the mulitinomial logistic regression models demonstrate that a single PC is probably not sufficient for estimating the class of an observation, but that given a set of PCs this classification would be more accurate (Fig. \ref{fig:rel_risk}). The results of the relative risk values also shows that while a variable can be considered important for the random forest models (Fig. \ref{fig:imp_pc}, \ref{fig:imp_var}) they each might not be considered useful on their own (Fig. \ref{fig:rel_risk}).
+The approaches presented here for supervised learning analysis of the landmark variation represent a compromise between explicitly modeling all shape variation and preventing models from being overfit and ungeneralizable. While all aspects of shape may be evolving simultaneously, and not along individual PCs, including all shape variation in each model might increase model complexity beyond a reasonable level for the sample size and possibly the necessary complexity to accurately model the response. Additionally, because only individual PCs are used as features in the models, this does not accurately represent shape evolution and how exactly different classes might be evolving in relation to each other. However, this compromise is not without its advantages. Because both AICc and AUC values improved rapidly with increased model complexity (Fig. \ref{fig:roc}), this helped demonstrate how fine scale the actual variation between classes was. Additionally, the relative risk values from the mulitinomial logistic regression models demonstrate that a single PC is probably not sufficient for estimating the class of an observation, but that given a set of PCs this classification would be more accurate (Fig. \ref{fig:rel_risk}). The results of the relative risk values also shows that while a variable can be considered important for the random forest models (Fig. \ref{fig:imp_pc}, \ref{fig:imp_var}) they each might not be considered useful on their own for all classes (Fig. \ref{fig:rel_risk}).
 
 %   unsupervised learning
 Ultimately, it would be useful to not require such explicit classification hypotheses, especially when concerned about possible cryptic variation in extinct taxa. The only unsupervised method employed in this study, PAM, is rather simple and not model based. A more useful approach would be to employ various model based clustering approaches \citep{Fraley2002,Zhong2003}. In this manner, a series of candidate models can be compared via model comparison methods, such as AIC or Bayes factors \citep{Fraley2002}, in order to asses the best clustering solution. % beat complaints from reviewers
@@ -365,14 +368,14 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/pca_res}
-  \caption{Results from PCA of the Procrustes superimposed ``half'' plastral landmarks. Depicted here are the for three PCs (lower triangle) and the mean shape with observed variance around each point (upper right). The first three PCs account for total 55.0075790871272\% of the variance in plastral shape.}
+  \caption{Results from PCA of the Procrustes superimposed ``half'' plastral landmarks. Depicted here are the for three PCs (lower triangle) and the mean shape with observed variance around each point (upper right). The first three PCs account for total 45.2924805932624\% of the variance in plastral shape.}
   \label{fig:pca}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width = \textwidth]{figure/pc_var}
-  \caption{Landmark variation along the first two PCs of the Procrustes superimposed ``half'' plastral landmarks. The first row corresponds to variation along the first PC, while the second row corresponds to the second PC. The left most column represents the observation with the highest eigenscore along that PC, while the right most column represents the observation with the lowest eigenscore. The middle column, for both rows, is the mean plastral shape for all observations. The first PC represents 30.4118\% of the total variation in plastral shape while PC represents 14.926\% of the variance.}
+  \caption{Landmark variation along the first two PCs of the Procrustes superimposed ``half'' plastral landmarks. The first row corresponds to variation along the first PC, while the second row corresponds to the second PC. The left most column represents the observation with the highest eigenscore along that PC, while the right most column represents the observation with the lowest eigenscore. The middle column, for both rows, is the mean plastral shape for all observations. The first PC represents 20.3183\% of the total variation in plastral shape while PC represents 12.7794\% of the variance.}
   \label{fig:pc_var}
 \end{figure}
 
@@ -485,22 +488,22 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug  7 13:57:44 2013
+% Wed Aug  7 17:21:25 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
 (Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 & df & logLik & AICc & delta & weight \\ 
   \hline
-+ & + & + & + & + & + & + & + & + & + & + & 22.00 & -245.34 & 537.41 & 0.00 & 0.74 \\ 
-  + & + & + & + & + & + & + & + & + & + &  & 20.00 & -248.61 & 539.48 & 2.06 & 0.26 \\ 
-  + & + & + & + & + & + & + & + & + &  &  & 18.00 & -255.73 & 549.28 & 11.87 & 0.00 \\ 
-  + & + & + & + & + & + & + & + &  &  &  & 16.00 & -267.59 & 568.62 & 31.21 & 0.00 \\ 
-  + & + & + & + & + & + &  &  &  &  &  & 12.00 & -283.44 & 591.70 & 54.29 & 0.00 \\ 
-  + & + & + & + & + &  &  &  &  &  &  & 10.00 & -286.02 & 592.61 & 55.20 & 0.00 \\ 
-  + & + & + & + & + & + & + &  &  &  &  & 14.00 & -282.24 & 593.59 & 56.17 & 0.00 \\ 
-  + & + & + & + &  &  &  &  &  &  &  & 8.00 & -307.43 & 631.23 & 93.81 & 0.00 \\ 
-  + & + & + &  &  &  &  &  &  &  &  & 6.00 & -340.94 & 694.09 & 156.68 & 0.00 \\ 
-  + & + &  &  &  &  &  &  &  &  &  & 4.00 & -345.95 & 700.01 & 162.60 & 0.00 \\ 
++ & + & + & + & + & + & + & + & + & + &  & 20.00 & -250.00 & 542.26 & 0.00 & 0.64 \\ 
+  + & + & + & + & + & + & + & + & + & + & + & 22.00 & -248.35 & 543.43 & 1.18 & 0.36 \\ 
+  + & + & + & + & + & + & + & + &  &  &  & 16.00 & -261.94 & 557.33 & 15.07 & 0.00 \\ 
+  + & + & + & + & + & + & + & + & + &  &  & 18.00 & -259.99 & 557.82 & 15.56 & 0.00 \\ 
+  + & + & + & + & + & + & + &  &  &  &  & 14.00 & -275.68 & 580.48 & 38.22 & 0.00 \\ 
+  + & + & + & + & + & + &  &  &  &  &  & 12.00 & -281.10 & 587.03 & 44.77 & 0.00 \\ 
+  + & + & + & + & + &  &  &  &  &  &  & 10.00 & -305.55 & 631.68 & 89.43 & 0.00 \\ 
+  + & + & + & + &  &  &  &  &  &  &  & 8.00 & -318.48 & 653.34 & 111.09 & 0.00 \\ 
+  + & + & + &  &  &  &  &  &  &  &  & 6.00 & -344.14 & 700.49 & 158.24 & 0.00 \\ 
+  + & + &  &  &  &  &  &  &  &  &  & 4.00 & -346.80 & 701.71 & 159.45 & 0.00 \\ 
    \hline
 \end{tabular}
 }
@@ -513,22 +516,22 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug  7 13:57:44 2013
+% Wed Aug  7 17:21:25 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
 (Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 & df & logLik & AICc & delta & weight \\ 
   \hline
-+ & + & + & + & + & + & + & + & + & + & + & 22.00 & -242.26 & 531.25 & 0.00 & 0.86 \\ 
-  + & + & + & + & + & + & + & + & + & + &  & 20.00 & -246.34 & 534.94 & 3.70 & 0.14 \\ 
-  + & + & + & + & + & + & + & + & + &  &  & 18.00 & -252.76 & 543.34 & 12.10 & 0.00 \\ 
-  + & + & + & + & + & + & + & + &  &  &  & 16.00 & -263.19 & 559.83 & 28.59 & 0.00 \\ 
-  + & + & + & + & + & + &  &  &  &  &  & 12.00 & -275.48 & 575.79 & 44.54 & 0.00 \\ 
-  + & + & + & + & + & + & + &  &  &  &  & 14.00 & -273.87 & 576.85 & 45.60 & 0.00 \\ 
-  + & + & + & + & + &  &  &  &  &  &  & 10.00 & -280.27 & 581.11 & 49.86 & 0.00 \\ 
-  + & + & + & + &  &  &  &  &  &  &  & 8.00 & -303.54 & 623.46 & 92.22 & 0.00 \\ 
-  + & + & + &  &  &  &  &  &  &  &  & 6.00 & -342.40 & 697.01 & 165.76 & 0.00 \\ 
-  + & + &  &  &  &  &  &  &  &  &  & 4.00 & -348.78 & 705.67 & 174.42 & 0.00 \\ 
++ & + & + & + & + & + & + & + & + & + &  & 20.00 & -245.15 & 532.56 & 0.00 & 0.83 \\ 
+  + & + & + & + & + & + & + & + & + & + & + & 22.00 & -244.53 & 535.79 & 3.23 & 0.17 \\ 
+  + & + & + & + & + & + & + & + & + &  &  & 18.00 & -254.69 & 547.21 & 14.64 & 0.00 \\ 
+  + & + & + & + & + & + & + & + &  &  &  & 16.00 & -258.00 & 549.45 & 16.88 & 0.00 \\ 
+  + & + & + & + & + & + & + &  &  &  &  & 14.00 & -268.69 & 566.49 & 33.93 & 0.00 \\ 
+  + & + & + & + & + & + &  &  &  &  &  & 12.00 & -271.30 & 567.42 & 34.86 & 0.00 \\ 
+  + & + & + & + & + &  &  &  &  &  &  & 10.00 & -298.53 & 617.64 & 85.07 & 0.00 \\ 
+  + & + & + & + &  &  &  &  &  &  &  & 8.00 & -314.50 & 645.37 & 112.81 & 0.00 \\ 
+  + & + & + &  &  &  &  &  &  &  &  & 6.00 & -342.94 & 698.10 & 165.53 & 0.00 \\ 
+  + & + &  &  &  &  &  &  &  &  &  & 4.00 & -349.55 & 707.20 & 174.64 & 0.00 \\ 
    \hline
 \end{tabular}
 }
@@ -541,22 +544,22 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug  7 13:57:44 2013
+% Wed Aug  7 17:21:25 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
 (Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 & df & logLik & AICc & delta & weight \\ 
   \hline
-+ & + & + & + & + & + & + & + & + & + & + & 33.00 & -297.91 & 668.06 & 0.00 & 0.97 \\ 
-  + & + & + & + & + & + & + & + & + & + &  & 30.00 & -305.12 & 675.37 & 7.30 & 0.03 \\ 
-  + & + & + & + & + & + & + & + & + &  &  & 27.00 & -314.81 & 687.76 & 19.70 & 0.00 \\ 
-  + & + & + & + & + & + & + & + &  &  &  & 24.00 & -329.53 & 710.30 & 42.24 & 0.00 \\ 
-  + & + & + & + & + & + & + &  &  &  &  & 21.00 & -342.93 & 730.35 & 62.28 & 0.00 \\ 
-  + & + & + & + & + & + &  &  &  &  &  & 18.00 & -353.86 & 745.55 & 77.49 & 0.00 \\ 
-  + & + & + & + & + &  &  &  &  &  &  & 15.00 & -357.66 & 746.59 & 78.53 & 0.00 \\ 
-  + & + & + & + &  &  &  &  &  &  &  & 12.00 & -385.36 & 795.54 & 127.48 & 0.00 \\ 
-  + & + & + &  &  &  &  &  &  &  &  & 9.00 & -424.50 & 867.48 & 199.41 & 0.00 \\ 
-  + & + &  &  &  &  &  &  &  &  &  & 6.00 & -442.85 & 897.91 & 229.85 & 0.00 \\ 
++ & + & + & + & + & + & + & + & + & + &  & 30.00 & -303.61 & 672.34 & 0.00 & 0.77 \\ 
+  + & + & + & + & + & + & + & + & + & + & + & 33.00 & -301.25 & 674.74 & 2.41 & 0.23 \\ 
+  + & + & + & + & + & + & + & + & + &  &  & 27.00 & -314.28 & 686.70 & 14.36 & 0.00 \\ 
+  + & + & + & + & + & + & + & + &  &  &  & 24.00 & -318.22 & 687.70 & 15.37 & 0.00 \\ 
+  + & + & + & + & + & + & + &  &  &  &  & 21.00 & -335.11 & 714.71 & 42.37 & 0.00 \\ 
+  + & + & + & + & + & + &  &  &  &  &  & 18.00 & -353.04 & 743.91 & 71.57 & 0.00 \\ 
+  + & + & + & + & + &  &  &  &  &  &  & 15.00 & -385.20 & 801.67 & 129.34 & 0.00 \\ 
+  + & + & + & + &  &  &  &  &  &  &  & 12.00 & -397.69 & 820.21 & 147.87 & 0.00 \\ 
+  + & + & + &  &  &  &  &  &  &  &  & 9.00 & -437.13 & 892.73 & 220.39 & 0.00 \\ 
+  + & + &  &  &  &  &  &  &  &  &  & 6.00 & -451.19 & 914.60 & 242.27 & 0.00 \\ 
    \hline
 \end{tabular}
 }
@@ -569,22 +572,22 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug  7 13:57:44 2013
+% Wed Aug  7 17:21:25 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
 (Intercept) & PC1 & PC2 & PC3 & PC4 & PC5 & PC6 & PC7 & PC8 & PC9 & PC10 & df & logLik & AICc & delta & weight \\ 
   \hline
-+ & + & + & + & + & + & + & + & + & + & + & 33.00 & -253.75 & 579.72 & 0.00 & 1.00 \\ 
-  + & + & + & + & + & + & + & + & + & + &  & 30.00 & -267.22 & 599.55 & 19.83 & 0.00 \\ 
-  + & + & + & + & + & + & + & + & + &  &  & 27.00 & -275.24 & 608.60 & 28.88 & 0.00 \\ 
-  + & + & + & + & + & + & + & + &  &  &  & 24.00 & -302.99 & 657.22 & 77.51 & 0.00 \\ 
-  + & + & + & + & + & + & + &  &  &  &  & 21.00 & -307.70 & 659.88 & 80.16 & 0.00 \\ 
-  + & + & + & + & + &  &  &  &  &  &  & 15.00 & -327.52 & 686.30 & 106.59 & 0.00 \\ 
-  + & + & + & + & + & + &  &  &  &  &  & 18.00 & -324.35 & 686.51 & 106.79 & 0.00 \\ 
-  + & + & + & + &  &  &  &  &  &  &  & 12.00 & -350.14 & 725.11 & 145.39 & 0.00 \\ 
-  + & + & + &  &  &  &  &  &  &  &  & 9.00 & -390.78 & 800.03 & 220.32 & 0.00 \\ 
-  + & + &  &  &  &  &  &  &  &  &  & 6.00 & -405.14 & 822.49 & 242.77 & 0.00 \\ 
++ & + & + & + & + & + & + & + & + & + & + & 33.00 & -251.73 & 575.67 & 0.00 & 1.00 \\ 
+  + & + & + & + & + & + & + & + & + & + &  & 30.00 & -268.54 & 602.18 & 26.51 & 0.00 \\ 
+  + & + & + & + & + & + & + & + & + &  &  & 27.00 & -283.99 & 626.10 & 50.43 & 0.00 \\ 
+  + & + & + & + & + & + & + & + &  &  &  & 24.00 & -295.61 & 642.46 & 66.78 & 0.00 \\ 
+  + & + & + & + & + & + & + &  &  &  &  & 21.00 & -302.50 & 649.48 & 73.81 & 0.00 \\ 
+  + & + & + & + & + & + &  &  &  &  &  & 18.00 & -316.59 & 671.00 & 95.32 & 0.00 \\ 
+  + & + & + & + & + &  &  &  &  &  &  & 15.00 & -340.84 & 712.95 & 137.27 & 0.00 \\ 
+  + & + & + & + &  &  &  &  &  &  &  & 12.00 & -353.01 & 730.84 & 155.17 & 0.00 \\ 
+  + & + & + &  &  &  &  &  &  &  &  & 9.00 & -378.16 & 774.78 & 199.11 & 0.00 \\ 
+  + & + &  &  &  &  &  &  &  &  &  & 6.00 & -395.71 & 803.64 & 227.97 & 0.00 \\ 
    \hline
 \end{tabular}
 }
@@ -597,7 +600,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug  7 13:57:44 2013
+% Wed Aug  7 17:21:25 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
@@ -616,13 +619,13 @@ morph 1 &  &  &  &  \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug  7 13:57:44 2013
+% Wed Aug  7 17:21:25 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
 morph 1 &  &  &  &  \\ 
   morph 2 & 0.00 &  &  &  \\ 
-  molec 1 & 0.51 & 0.00 &  &  \\ 
+  molec 1 & 0.00 & 0.00 &  &  \\ 
   molec 2 & 0.00 & 0.00 & 0.00 &  \\ 
    \hline
 \end{tabular}
