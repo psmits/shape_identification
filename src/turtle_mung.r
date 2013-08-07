@@ -56,15 +56,16 @@ turtle.geo <- turtle.geo[-outlier, ]
 turtle.meta.info$lat <- turtle.geo[, 'lat']
 turtle.meta.info$long <- turtle.geo[, 'long']
 
+no.class <- which(turtle.meta.info$sh3 == '')
+turtle.land.info <- turtle.land.info[, , -no.class]
+turtle.meta.info <- turtle.meta.info[-no.class, ]
+turtle.geo <- turtle.geo[-no.class, ]
+
 turtle.meta.info$sh1 <- as.factor(as.character(turtle.meta.info$sh1))
 turtle.meta.info$sh2 <- as.factor(as.character(turtle.meta.info$sh2))
 turtle.meta.info$sh3 <- as.factor(as.character(turtle.meta.info$sh3))
 turtle.meta.info$spinks <- as.factor(as.character(turtle.meta.info$spinks))
 
-no.class <- which(turtle.meta.info$sh3 == '')
-turtle.land.info <- turtle.land.info[, , -no.class]
-turtle.meta.info <- turtle.meta.info[-no.class, ]
-turtle.geo <- turtle.geo[-no.class, ]
 
 
 

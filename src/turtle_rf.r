@@ -62,17 +62,17 @@ trf.a <- Map(function(x, y) {
                  , trControl = ctrl)},
              x = adult.train, y = groups)
 set.seed(1)
-trf.a.s <- Map(function(x) {
-             rfe(x = x[, -ncol(x)]
-                 , y = x$cate
-                 , sizes = 3:(ncol(x) - 1)
-                 , rfeControl = rf.ctrl
-                 , ntree = 1000
-                 , metric = 'ROC'
-                 , trControl = ctrl)},
-             x = adult.design)
+#trf.a.s <- Map(function(x) {
+#             rfe(x = x[, -ncol(x)]
+#                 , y = x$cate
+#                 , sizes = 3:(ncol(x) - 1)
+#                 , rfeControl = rf.ctrl
+#                 , ntree = 1000
+#                 , metric = 'ROC'
+#                 , trControl = ctrl)},
+#             x = adult.design)
 
 
 save(#trf, trf.s,
-     trf.a, trf.a.s, 
+     trf.a, #trf.a.s, 
      file = '../data/rf_boot_mod.RData')

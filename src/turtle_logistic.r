@@ -57,14 +57,14 @@ tmulti.a <- mapply(multi.train,
                                    , maxit = 1000),
                    SIMPLIFY = FALSE)
 set.seed(1)
-tmulti.a.s <- mapply(multi.train,
-                     form = tform.a.s, data = adult.train,
-                     MoreArgs = list(method = 'multinom'
-                                     , metric = 'ROC'
-                                     , trControl = ctrl
-                                     , maxit = 1000),
-                     SIMPLIFY = FALSE)
+#tmulti.a.s <- mapply(multi.train,
+#                     form = tform.a.s, data = adult.train,
+#                     MoreArgs = list(method = 'multinom'
+#                                     , metric = 'ROC'
+#                                     , trControl = ctrl
+#                                     , maxit = 1000),
+#                     SIMPLIFY = FALSE)
 
 save(#tmulti, tmulti.s,
-     tmulti.a, tmulti.a.s,
+     tmulti.a, #tmulti.a.s,
      file = '../data/multi_boot_mod.RData')

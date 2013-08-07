@@ -47,10 +47,10 @@ clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
 #trf.s <- clean.mods(trf.s)
 
 tm.a <- clean.mods(tmulti.a)
-tm.a.s <- clean.mods(tmulti.a.s)
+#tm.a.s <- clean.mods(tmulti.a.s)
 #tnn.a <- clean.mods(tnnet.a)
 trf.a <- clean.mods(trf.a)
-trf.a.s <- clean.mods(trf.a.s)
+#trf.a.s <- clean.mods(trf.a.s)
 
 multi.analysis <- function(model, class, test) {
   out <- list()
@@ -89,7 +89,7 @@ rf.analysis <- function(model, class, test) {
 #tm.s.analysis <- multi.analysis(tm.s, classes, turtle.test)
 
 tm.a.analysis <- multi.analysis(tm.a, ad.class, adult.test)
-tm.a.s.analysis <- multi.analysis(tm.a.s, ad.class, adult.test)
+#tm.a.s.analysis <- multi.analysis(tm.a.s, ad.class, adult.test)
 
 
 # random forests
@@ -97,7 +97,7 @@ tm.a.s.analysis <- multi.analysis(tm.a.s, ad.class, adult.test)
 #trf.s.analysis <- rf.analysis(trf.s, classes, turtle.test)
 
 trf.a.analysis <- rf.analysis(trf.a, ad.class, adult.test)
-trf.a.s.analysis <- rf.analysis(trf.a.s, ad.class, adult.test)
+#trf.a.s.analysis <- rf.analysis(trf.a.s, ad.class, adult.test)
 
 
 # best models compared
