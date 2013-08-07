@@ -19,7 +19,7 @@ require(MuMIn)
 source('../src/support_functions.r')
 #source('../src/turtle_mung.r')
 
-load('../data/cluster_res.RData')
+#load('../data/cluster_res.RData')
 load('../data/supervised_misc.RData')
 load('../data/multi_boot_mod.RData')
 #load('../src/nnet_boot_mod.RData')
@@ -40,11 +40,11 @@ clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
   mm
 }
 
-tm <- clean.mods(tmulti)
-tm.s <- clean.mods(tmulti.s)
+#tm <- clean.mods(tmulti)
+#tm.s <- clean.mods(tmulti.s)
 #tnn <- clean.mods(tnnet)
-trf <- clean.mods(trf)
-trf.s <- clean.mods(trf.s)
+#trf <- clean.mods(trf)
+#trf.s <- clean.mods(trf.s)
 
 tm.a <- clean.mods(tmulti.a)
 tm.a.s <- clean.mods(tmulti.a.s)
@@ -85,16 +85,16 @@ rf.analysis <- function(model, class, test) {
 }
 
 # multinomial logistic regression
-tm.analysis <- multi.analysis(tm, classes, turtle.test)
-tm.s.analysis <- multi.analysis(tm.s, classes, turtle.test)
+#tm.analysis <- multi.analysis(tm, classes, turtle.test)
+#tm.s.analysis <- multi.analysis(tm.s, classes, turtle.test)
 
 tm.a.analysis <- multi.analysis(tm.a, ad.class, adult.test)
 tm.a.s.analysis <- multi.analysis(tm.a.s, ad.class, adult.test)
 
 
 # random forests
-trf.analysis <- rf.analysis(trf, classes, turtle.test)
-trf.s.analysis <- rf.analysis(trf.s, classes, turtle.test)
+#trf.analysis <- rf.analysis(trf, classes, turtle.test)
+#trf.s.analysis <- rf.analysis(trf.s, classes, turtle.test)
 
 trf.a.analysis <- rf.analysis(trf.a, ad.class, adult.test)
 trf.a.s.analysis <- rf.analysis(trf.a.s, ad.class, adult.test)
@@ -104,16 +104,16 @@ trf.a.s.analysis <- rf.analysis(trf.a.s, ad.class, adult.test)
 #tm.best
 #trf.best
 
-mods <- list()
-for(ii in seq(length(groups))) {
-  mods[[ii]] <- list(multi = tm.analysis$best[[ii]],
-#                     nnet = tnn[[ii]],
-                     rf = trf.analysis[[ii]]$best)
-}
-names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
+#mods <- list()
+#for(ii in seq(length(groups))) {
+#  mods[[ii]] <- list(multi = tm.analysis$best[[ii]],
+##                     nnet = tnn[[ii]],
+#                     rf = trf.analysis[[ii]]$best)
+#}
+#names(mods) <- c('sh1', 'sh2', 'sh3', 'spinks')
 
 #tmod <- lapply(mods, flatten.next)
-tmod <- mods
+#tmod <- mods
 #tmod.re <- lapply(tmod, resamples)
 #tmod.redi <- lapply(tmod.re, diff)
 
@@ -132,10 +132,10 @@ tmod.a <- a.mod
 
 
 ## relative risk and class specific accuracy
-t.rr <- lapply(tm.analysis$best, function(x) {
-               exp(coef(x$finalModel))})
-t.rr.ci <- lapply(tm.analysis$best, function(x) {
-                  exp(confint(x$finalModel))})
+#t.rr <- lapply(tm.analysis$best, function(x) {
+#               exp(coef(x$finalModel))})
+#t.rr.ci <- lapply(tm.analysis$best, function(x) {
+#                  exp(confint(x$finalModel))})
 t.a.rr <- lapply(tm.a.analysis$best, function(x) {
                  exp(coef(x$finalModel))})
 t.a.rr.ci <- lapply(tm.a.analysis$best, function(x) {
