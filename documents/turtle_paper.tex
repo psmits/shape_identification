@@ -151,7 +151,7 @@ Here, we address the question of how can alternative approaches and methodology 
 % past work on automatic taxon identification and older approaches to classifying taxa
 % why use machine learning methods
 \subsection{Background and system}
-Differences in morphological variation between different classes has previously been analyzed using methods like linear discriminate analysis and canonical variates analysis \citep{Zelditch2004,Mitteroecker2011,Polly2007a,Polly2003,Gunduz2007,Gaubert2005b,Demandt2009}. These methods are comparatively simple and straight forward ways of understanding the differences in morphology between classes. Also, they are very visual methods which aides in interpretation and presentation of information. These previous studies, however, do not compare which amongst a set of candidate classification hypotheses is better. Also, there is no generalization of the classification model and training data accuracy is almost exclusively used as the metric off strength of classification.
+Differences in morphological variation between different classes has previously been analyzed using methods like linear discriminate analysis and canonical variates analysis \citep{Zelditch2004,Mitteroecker2011,Polly2007a,Polly2003,Gunduz2007,Gaubert2005b,Demandt2009}. These methods are comparatively simple and straight forward ways of understanding the differences in morphology between classes. Also, they are very visual methods which aides in interpretation and presentation of information. These previous studies, however, do not compare which amongst a set of candidate classification hypotheses is better. For example, studies such as those of \citet{Caumul2005a} and \citet{Polly2007a} focused on comparing different aspects of morphology and their fidelity to a classification scheme, instead of comparing the fidelity of one aspect of morphology to multiple classification shcemes. Also, there is no generalization of the classification model and training data accuracy is almost exclusively used as the metric off strength of classification.
 
 Here, we used multiple alternative machine learning methods, both unsupervised and supervised, in order to compare different classification hypotheses. These methods provide different and unique advantages for understanding how to classify taxa, with what accuracy, and what these classifications are based on. While machine learning methods such as neural networks have been applied to studying shape variation \citep{MacLeod2007}, they have been primarily applied in the context of automated taxon identification and not in terms of group classification and strength of classification. Additionally, we investigate variation in continuous traits, and do not search for discrete differences between each class, instead focusing on multivariate quantification of shape.
 
@@ -280,7 +280,8 @@ Lateral landmark variation along the first PC seemed concentrated in the posteri
 Comparison of gap statistic values for the range of PAM solutions indicates that the optimal number of clusters is one (Fig. \ref{fig:gap}). The next best clustering solution had only two clusters, however there is no geographic structure to this classification scheme, with members of these clusters being seemingly randomly distributed (Fig. \ref{fig:gap_map}). Importantly, these clusters do not conform to the northern and southern groups from the nuclear DNA hypothesis \citep{Spinks2010}.
 
 % some sex information. Analyze it.
-Unfortunately, it was not possible to obtain enough detailed information on the sex of each \textit{E. marmorata} specimen, thus it is difficult at best to determine if this clustering solution corresponds to sexual dimorphism between observations. Male emydid turtles are known to have a plastral concavity which may influence landmark position along the midline. However, the plastral concavity of \textit{E. mamorata} males is considered less pronounced than in other emydid turtles. While we cannot completely rule out sexual dimorphism as the root cause of this observation, because of the very small degree of known sexual dimorphism in \textit{E. marmorata} we are less concerned with possible effects of sexual dimorphism for the later supervised learning methods. 
+Sex information was only avaliable for 399 of the 524 turtles. A \(\chi^{2}\) test of the relationship between sex observation and cluster assignment from PAM with two clusters showed that there was no significant relationship between cluster assignment and sex observation (\(\chi^{2}\): 1.12, df: 1, \textit{p}-value: 0.29, Table \ref{tab:chi}). This results is interesting because while sexual dimorphism has been observed in linear measures and mass estimates of \textit{E. marmorata}, this results demonstrates that this dimorphism may not translate into differences in shape. Interestsingly, male emydid turtles are known to have a plastral concavity which may influence landmark position along the midline. However, the plastral concavity of \textit{E. mamorata} males is considered less pronounced than in other emydid turtles.
+
 
 The gap statistic values for both three and four clusters are much lower than for one and two and are statistically identical. Interestingly, other solutions with a much greater number of clusters have higher gap statistic values though these are also not significantly different. Increasing the number of clusters does appear to improve the gap statistic enough compared to the best clustering solution to merit detailed discussion.
 
@@ -487,10 +488,28 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
   \label{tab:conf}
 \end{table}
 
+\begin{table}
+  \centering
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Thu Aug  8 14:11:16 2013
+\begin{tabular}{r|cc|c}
+  & F & M & tot \\ 
+  \hline
+1 & 101 & 112 & 213 \\ 
+  2 & 99 & 87 & 186 \\ 
+   \hline
+tot & 200 & 199 & 399 \\ 
+  \end{tabular}
+
+
+  \caption{Tabular comparison between sex observation and cluster assignement from PAM with two clusters. This number of clusters was chosen because it represented the second best clustering solution as determined via gap statistic comparison (Fig. \ref{fig:gap}). \(\chi^{2}\) analysis of this contigency table showed that there is no relationship between sex observation and cluster assignment (\(\chi^{2}\): 1.12, df: 1, \textit{p}-value: 0.29).}
+  \label{tab:chi}
+\end{table}
+
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 00:20:39 2013
+% Thu Aug  8 14:11:16 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -518,7 +537,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 00:20:39 2013
+% Thu Aug  8 14:11:16 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -546,7 +565,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 00:20:39 2013
+% Thu Aug  8 14:11:16 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -574,7 +593,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 00:20:39 2013
+% Thu Aug  8 14:11:16 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -602,7 +621,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 00:20:39 2013
+% Thu Aug  8 14:11:16 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
@@ -621,7 +640,7 @@ morph 1 &  &  &  &  \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 00:20:39 2013
+% Thu Aug  8 14:11:16 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline

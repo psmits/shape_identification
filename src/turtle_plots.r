@@ -97,6 +97,7 @@ ggsave(file = '../documents/figure/gap_res.png', plot = gap)
 turtle.adult$long[which(turtle.adult$long > -100)] <- turtle.adult$long[which(turtle.adult$long > -100)] - 100
 adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
 
+set.seed(1)
 gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
 gap.map <- map.plot(data = turtle.adult,
                     label = gap.second$clustering,

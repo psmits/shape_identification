@@ -3,6 +3,13 @@ require(xtable)
 load('../data/turtle_analysis.RData')
 load('../data/turtle_gen.RData')
 
+# 2 x 2 table of sex - cluster assignment
+csex.tab <- rbind(csex.tab, tot = colSums(csex.tab))
+csex.tab <- cbind(csex.tab, tot = rowSums(csex.tab))
+xsex.tab <- xtable(csex.tab)
+align(xsex.tab) <- 'r|cc|c'
+digits(xsex.tab) <- c(0, 0, 0, 0)
+
 
 # multinomial logistic regression model selection tables
 
