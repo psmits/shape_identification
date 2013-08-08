@@ -91,35 +91,29 @@ multishape.plot <- function(shapes, links, labeller = 'label_value') {
   gg
 }
 
-map.plot <- function(data, label, map, coord = 'gilbert') {
+map.plot <- function(data, label, map) {
   # wrapper to make a map with labeled points on it
   #
   # Args:
   #   data: points to be plotted
   #         x, y coordinates
   #   label: vector of factors (or coercible to factors) to color points by
-  #   map: map information (see ggplot::map_data)
-  #   coord: projection type
+  #   map: output from get_map
   #
   # Returns:
   #   object of class ggplot
 
-  data <- cbind(as.data.frame(data), label = label)
-  gg <- ggplot(map, aes(x = long, y = lat, group = group))
-  gg <- gg + geom_polygon(fill = 'white',
-                          colour = 'black')
-  gg <- gg + coord_map(coord)
+  data <- cbind(as.data.frame(data), lab = label)
+  gg <- ggmap(map)
   gg <- gg + geom_point(data = data,
                         mapping = aes(x = long, y = lat,
                                       group = NULL,
-                                      colour = factor(label)))
+                                      colour = factor(lab)))
   gg
 }
 
 class.map <- function(train, test, label, pred, map, facet = TRUE) {
-  gg <- ggplot(map, aes(x = long, y = lat, group = group))
-  gg <- gg + geom_polygon(fill = 'white', colour = 'black')
-  gg <- gg + coord_map('gilbert')
+  gg <- ggmap(map)
 
   if(facet) {
     tr <- cbind(long = train$long, lat = train$lat, label = label)

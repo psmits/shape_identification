@@ -1,4 +1,7 @@
 require(ggplot2)
+require(mapproj) 
+require(maps)
+require(ggmap)
 require(reshape2)
 require(xtable)
 require(grid)
@@ -19,15 +22,26 @@ cbp <- c(#'#999999',
          '#E69F00', '#56B4E9', '#009E73', 
          '#F0E442', '#0072B2', '#D55E00', '#CC79A7')
 
-# map details
-map <- map_data('state')
-reg <- c('california', 'oregon')
-map <- map[map$region %in% reg, ]
 
+# map details
 turtle.adult$long[which(turtle.adult$long > -100)] <- turtle.adult$long[which(turtle.adult$long > -100)] - 100
 
 adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
 
+
+longma <- max(turtle.adult$long)
+longmi <- min(turtle.adult$long)
+latma <- max(turtle.adult$lat)
+latmi <- min(turtle.adult$lat)
+
+goog.map <- get_map(location = c(longmi,
+                                 latmi, 
+                                 longma, 
+                                 latma), 
+                    zoom = 5,
+                    maptype = 'terrain',
+                    color = 'bw')
+ggmap(goog.map)
 
 # PCA results
 morph <- ggpairs(turtle.adult, columns = c(1:3),
@@ -101,7 +115,8 @@ set.seed(1)
 gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
 gap.map <- map.plot(data = turtle.adult,
                     label = gap.second$clustering,
-                    map = map)
+                    map = goog.map)
+gap.map <- gap.map + xlim(longmi, longma) + ylim(latmi, latma)
 gap.map <- gap.map + scale_colour_manual(values = cbp)
 gap.map <- gap.map + theme(legend.position = 'none',
                            legend.text = element_text(size = 7),
@@ -184,9 +199,11 @@ ggsave(file = '../documents/figure/gen_res.png', plot = gdist)
 
 
 # best model map
-gg <- ggplot(map, aes(x = long, y = lat, group = group))
-gg <- gg + geom_polygon(fill = 'white', colour = 'black')
-gg <- gg + coord_map('gilbert')
+gg <- ggmap(goog.map)
+gg <- gg + xlim(longmi, longma) + ylim(latmi, latma)
+#gg <- ggplot(map, aes(x = long, y = lat, group = group))
+#gg <- gg + geom_polygon(fill = 'white', colour = 'black')
+#gg <- gg + coord_map('gilbert')
 
 tr <- cbind(long = adult.test$spinks$long, 
             lat = adult.test$spinks$lat, 
