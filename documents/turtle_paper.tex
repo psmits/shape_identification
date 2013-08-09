@@ -153,7 +153,7 @@ Here, we address the question of how can alternative approaches and methodology 
 \subsection{Background and system}
 Differences in morphological variation between different classes has previously been analyzed using methods like linear discriminate analysis and canonical variates analysis \citep{Zelditch2004,Mitteroecker2011,Polly2007a,Polly2003,Gunduz2007,Gaubert2005b,Demandt2009}. These methods are comparatively simple and straight forward ways of understanding the differences in morphology between classes. Also, they are very visual methods which aides in interpretation and presentation of information. These previous studies, however, do not compare which amongst a set of candidate classification hypotheses is better. For example, studies such as those of \citet{Caumul2005a} and \citet{Polly2007a} focused on comparing different aspects of morphology and their fidelity to a classification scheme, instead of comparing the fidelity of one aspect of morphology to multiple classification shcemes. Also, there is no generalization of the classification model and training data accuracy is almost exclusively used as the metric off strength of classification.
 
-Here, we used multiple alternative machine learning methods, both unsupervised and supervised, in order to compare different classification hypotheses. These methods provide different and unique advantages for understanding how to classify taxa, with what accuracy, and what these classifications are based on. While machine learning methods such as neural networks have been applied to studying shape variation \citep{MacLeod2007}, they have been primarily applied in the context of automated taxon identification and not in terms of group classification and strength of classification. Additionally, we investigate variation in continuous traits, and do not search for discrete differences between each class, instead focusing on multivariate quantification of shape.
+Here, we used multiple machine learning methods, both unsupervised and supervised, in order to compare different classification hypotheses. These methods provide different and unique advantages for understanding how to classify taxa, with what accuracy, and what these classifications are based on. While machine learning methods such as neural networks have been applied to studying shape variation \citep{MacLeod2007}, they have been primarily applied in the context of automated taxon identification and not in terms of group classification and strength of classification. Additionally, we investigate variation in continuous traits, and do not search for discrete differences between each class, instead focusing on multivariate quantification of shape.
 
 % this paragraph kind of sucks
 The two major classes of machine learning methods, unsupervised and supervised, are essentially extensions of known statistical methods \citep{Hastie2009}. Unsupervised learning methods are analogous to clustering and density estimation methods \citep{Kaufman1990}, while supervised learning methods are analogous classification and regression models \citep{Breiman1984}. In both cases, many of these methods are not fit via maximum likelihood and are supplemented by randomization, sorting, and partitioning algorithms along with the maximization or minimization of summary statistics in order to best estimate a general model for all data, both sampled and unsampled \citep{Hastie2009}. The application of the alternative approaches used in this study illustrates only a sampling of the various previously derived methods for clustering observations and fitting classification models. 
@@ -218,8 +218,10 @@ This analysis was conducted using the \texttt{cluster} package for R \citep{Maec
 The total dataset of 524 observations was split into training and testing datasets. The training dataset represented 75\% of the total dataset, split proportionally by class, and was used for model fitting. The testing dataset represented the remaining 25\% of the total dataset and  was used after model fitting to estimate the effectiveness of each classification hypothesis and generalizability of the supervised learning models (i.e. performance in the wild). This split was chosen to allow for a large enough sample size for model fitting while also providing a large enough testing dataset to determine any systematic misclassifcations.
 
 % model types
-Two different supervised learning methods were used to model the relationship between plastral shape and class: multinomial logistic regression and random forest. These methods were chosen because of various properties of these methods which allow for useful interpretations about the quality and structure of the classification.
+Three different supervised learning methods were used to model the relationship between plastral shape and class: linear discriminate analysis, multinomial logistic regression and random forest. These methods were chosen because of various properties of these methods which allow for useful interpretations about the quality and structure of the classification.
 
+% linear discriminate analysis
+Linear discriminate analysis (LDA) is a frequently applied method for characterizing the primary differences in morphology between different classes \citep{Zelditch2004,Mitteroecker2011}. This method attempts to find a linear combination of predictors to best model two or more classes. LDA is very similar to PCA except that instead of finding the linear combination of features that maximize the amount of explained variance in the data, LDA maximizes the differences between classes. The results of this analysis produces a transformation matrix by which the original features can be transformed to reflect the best discrimination between the classes. Like other supervised learning methods, LDA can also be used for predictive analysis on testing data. LDA was done using the \texttt{MASS} package for R \citep{Venables2002a}.
 
 %   multinomial logistic regression
 Multinomial logistic regression is an extension of logistic regression, where instead of a binary response there are three or more response classes \citep{Venables2002a}. Effectively, this type of model can be viewed as multiple, simultaneous logistic regression models for each class and the final classification of the observation being the most probable of all the constituent model results. Similar to the odds ratios calculated from the coefficients of a logistic regression, the relative risk of a classification with reference to a baseline class can be determined from the coefficients of the model. Multinomial logistic regression models were fit using the \texttt{nnet} package for R \citep{Venables2002a}
@@ -236,7 +238,7 @@ In a random forest model, many CARTs are built from a random subsample of both t
 %     grid search
 %       what are the tuning parameters for each model?
 %     best AUC
-Supervised learning models have tuning parameters which help to increase the genearlizability of the model and prevent them from being overfit. For the supervised learning models fit in this study, tuning parameters were estimated via 10 rounds of 10-fold cross-validation (CV) across a grid search of all tuning parameter combinations. Optimal tuning parameter values were selected based on area under the receiver operating characteristic (ROC) curve. The area under the multiclass ROC curves was estimated using the all-against one strategy derived by \citet{Hand2001}. This tuning process was implemented following the default grid search implemented in the \texttt{caret} package for R \citep{Kuhn2013}.
+The supervised learning models used here, except LDA, have tuning parameters which help to increase the genearlizability of the model and prevent them from being overfit. For the supervised learning models fit in this study, tuning parameters were estimated via 10 rounds of 10-fold cross-validation (CV) across a grid search of all tuning parameter combinations. Optimal tuning parameter values were selected based on area under the receiver operating characteristic (ROC) curve. The area under the multiclass ROC curves was estimated using the all-against one strategy derived by \citet{Hand2001}. This tuning process was implemented following the default grid search implemented in the \texttt{caret} package for R \citep{Kuhn2013}.
 
 % what is ROC? what is AUC?
 
@@ -253,6 +255,9 @@ The area under the ROC curve (AUC) is a summary statistic of the quality of the 
 \end{equation}
 
 %   model selection
+%   LDA
+Normally, LDA is applied to the entire set of eigenscores from the PCA of shape \citep{Mitteroecker2011}. Instead here LDA was applied on the eigenscores from a subset of the total number of PCs, ranging from two to 10 in increasing order of complexity. In total, this produced nine different LDA scaling matrices. From this set, the best number of PCs used to determine the LDA scaling matrix were chosen. As LDA is ``fit'' via maximum liklihood, the final combination of number of PCs and LDA scaling matrix chosen was that with the greatest AUC value from the training set.
+
 %     AICc
 For the multinomial logistic regression models, 10 different models were fit each having sequentially more PCs as predictors in order to have models representing different levels of overall amount of shape variation and to estimate how much was necessary and sufficient to best estimate class. The maximum number of PCs allowed as predictors was 10 because of both the large number of parameters estimated per model and the necessary sample size needed to estimate that many parameters accurately. The final model was that with the lowest AICc \citep{Akaike1974,Hurvich1989,Burnham2002a}. AICc is a model selection criterion where the model with lowest AICc has the fairest variance--bias tradeoff \citep{Burnham2002a}. Model selection was performed in this manner because the optimal number of PCs to use as predictors was not know \textit{a priori}, and while including all of the PCs of shape would mean that all shape variability would be used to estimate class, this may cause the model to be overfit and not provide an accurate estimate of unsampled plastral variation. In addition to the AICc of each model the \(\Delta\)AICc and Akaike weights are also reported. \(\Delta\)AICc values are the different in AICc between the AICc best model and that model while Akaike weights are a transformation of the AICc of a model with relation to all other models being compared and measures the relative amount of information explained by that model compared to all other models \citep{Burnham2002a}. 
 
@@ -292,6 +297,11 @@ The gap statistic values for both three and four clusters are much lower than fo
 %For all of the classification schemes, the optimal models for both the multinomial logistic regression (Table SUPPLEMENT) and random forest (Fig. \ref{fig:roc}) methods include many, if not most, of the possible features.
 
 
+The optimal number of PCs used for LDA, as determined by highest ROC score, for three of the four classification schemes had all 10 possible PCs (Fig. \ref{fig:roc}). These were both of the morphological based classification hypotheses and the second molecular hypothesis. LDA of the PCs of the first molecular hypothesis found that, based on ROC, only the first 9 PCs were necessary to best discriminate between the classes (Fig. \ref{fig:roc}). 
+
+
+
+
 % multinomial logistic regression model
 The AICc best multinomial logistic regression model for three of the four classification schemes had the first 9 PCs as features (Tables \ref{tab:mod_sel_1}, \ref{tab:mod_sel_2}, and \ref{tab:mod_sel_3}). The second molecularly based classification hypothesis included all 10 possible PCs as predictors (Tables \ref{tab:mod_sel_4}).
 The \(\Delta\)AICc values between the optimal and second best model range from 1.18 for the first morphological based classification hypothesis to 26.51 for the second molecular based classification hypothesis (Tables \ref{tab:mod_sel_1}, \ref{tab:mod_sel_2}, \ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}). The first 9 PCs describe 83.23\% of total variation in plastral shape, while the first 10 PCs describe 86.54\% of the variation.
@@ -311,12 +321,12 @@ The selected number of features in the final random forest model for each classi
 %   generalize densities
 %     facet: multinomial, rf (see talk)
 
-In the case of all models, there is a substantial increase in model performance as measured by AICc for the multinomial logistic models (Tables \ref{tab:mod_sel_1}, \ref{tab:mod_sel_2}, \ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}) or in AUC for the random forest models and illustrated for the multinomial logistic regression models as the number of features increases (Fig. \ref{fig:roc}). 
+In the case of all models, there is a substantial increase in model performance as measured by AICc for the multinomial logistic models (Tables \ref{tab:mod_sel_1}, \ref{tab:mod_sel_2}, \ref{tab:mod_sel_3}, and \ref{tab:mod_sel_4}) or in AUC for the LDA-based predictions and random forest models and illustrated for the multinomial logistic regression models as the number of features increases (Fig. \ref{fig:roc}). 
 
-The results from the generalization of the selected supervised learning models, measured by the distributions of the bootstrapped AUC values of the testing dataset, show that a molecular classification hypotheses was the best overall classification scheme (Fig. \ref{fig:gen_res}). Remarkably, the best classification hypothesis was the second molecular classification hypothesis based on both the multinomial logistic regression and random forest models. For both methods, the distribution of bootstrapped AUC for the molecular hypothesis was significantly greater than all of the other classification schemes (Tables \ref{tab:mm_test} and \ref{tab:rf_test}). 
+The results from the generalization of the selected supervised learning models, measured by the distributions of the bootstrapped AUC values of the testing dataset, show that a molecular classification hypotheses was the best overall classification scheme (Fig. \ref{fig:gen_res}). Remarkably, the best classification hypothesis was the second molecular classification hypothesis based on the LDA-based predictions, the multinomial logistic regression and random forest models. For both methods, the distribution of bootstrapped AUC for the molecular hypothesis was significantly greater than all of the other classification schemes (Tables \ref{tab:lda_test}, \ref{tab:mm_test} and \ref{tab:rf_test}). 
 
 
-When the classification results of the training set for the best classification scheme based on the generalization results are compared with the references classes, the higher AUC value of the best multinomial logistic regression model compared to the best random forest model can be observed as the classifications are much closer to the reference classes (Fig. \ref{fig:gen_map}). The best random forest model misclassified many of the observations as the northern clade instead of the correct class. This pattern of misclassification is observable but not as exaggerated in the classifications of the multinomial logistic regression model.
+When the classification results of the training set for the best classification scheme based on the generalization results are compared with the references classes, the higher AUC value of the best results from LDA and the best multinomial logistic regression model compared to the best random forest model can be observed as the classifications are much closer to the reference classes (Fig. \ref{fig:gen_map}). The best random forest model misclassified many of the observations as the northern clade instead of the correct class. This pattern of misclassification is observable but not as exaggerated in the classifications of the multinomial logistic regression model.
 
 This pattern of misclassification may have been caused by the subtle differences in mean shape between each of the different classes (Fig. \ref{fig:mean_shape}). The mean shape of the northern clade is the most similar to the mean shape of the entire dataset (Fig. \ref{fig:mean_shape1}), which may indicate that specimens that are closer to the mean shape will be systematically misclassified as the northern clade.
 
@@ -329,6 +339,8 @@ The results of fitting the final random forest model also include the variable i
 The first two most important features describe different aspects of variation (Fig. \ref{fig:imp_var}). The third and most important PC describes variation roundedness of the medial portion of the plastron, both the anterior and posterior portions of the plastron. Additionally, the relative position of the landmarks along the midline varies greatly along PC3 (Fig. \ref{fig:imp_var}). This PC represents 12.19\% of total variation. The second and second most important PC is described above and principally described variation in landmarks along the lateral and anterior margin of the plastron. This PC represents 12.78\% of total variation. The major variations along these axes correspond well to the differences between the mean shape of each class (Fig. \ref{fig:mean_shape}) where major class differences seem based on the relative ballooning or shrinking of the anterior and posterior portions of the plastron together along with differential ``pinching'' of the midline landmarks.
 
 The relative risk values for classification from the multinomial logistic regression model, based on the three most important PCs, demonstrate that individual axes contribute to classification differently and that given multiple features the odds of determining the correct classification increase (Fig. \ref{fig:rel_risk}). The first most important axis contributes strongly to classifying both the western and southern groups while changes along the second most important axes contribute very little to increasing the odds of classification for all but the eastern group. This is observable from the class histograms of PC 3 and 2 (Fig. \ref{fig:imp_var}). Changes along the first and third most important axes contribute more obviously to increasing the odds of correctly identifying the class of an observation, a result that is observable in both the relative risk (Fig. \ref{fig:rel_risk}) and the different class histograms of the PCs (Fig. \ref{fig:imp_var}).
+
+The graphical results from the LDA of the training dataset for models of the second molecular classification scheme agree with the subtle distinctions between the different classes (Fig. \ref{fig:lda}). There is no clear distinction in terms of multivariate space between the four different classes. Instead, across all three axes there is substantial overlap as indicated by both the scatter of the points in space and the distribution of observations along each axis.
 
 \section{Discussion}
 % discussion of results
@@ -471,6 +483,14 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
   \label{fig:rel_risk}
 \end{figure}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/lda}
+  \caption{Pairs plots of the three discriminate axes from the linear discriminate analysis of the eigenscores from the first 10 PCs of plastral shape. The observations figured are from from the training data set used for all models for the second molecular classification hypothesis based on \citet{Spinks2005} and \citet{Spinks2010}. Observations are colored as in Fig. \ref{fig:gen_map}.}
+  \label{fig:lda}
+\end{figure}
+
+
 \pagebreak
 % tables
 \begin{table}
@@ -491,7 +511,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 16:21:02 2013
+% Fri Aug  9 17:34:31 2013
 \begin{tabular}{r|cc|c}
   & F & M & tot \\ 
   \hline
@@ -509,7 +529,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 16:21:02 2013
+% Fri Aug  9 17:34:31 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -537,7 +557,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 16:21:02 2013
+% Fri Aug  9 17:34:31 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -565,7 +585,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 16:21:02 2013
+% Fri Aug  9 17:34:31 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -593,7 +613,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 16:21:02 2013
+% Fri Aug  9 17:34:31 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -621,7 +641,7 @@ tot & 200 & 199 & 399 \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 16:21:02 2013
+% Fri Aug  9 17:34:31 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
@@ -640,7 +660,7 @@ morph 1 &  &  &  &  \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Thu Aug  8 16:21:02 2013
+% Fri Aug  9 17:34:31 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
@@ -655,5 +675,25 @@ morph 1 &  &  &  &  \\
   \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the random forest models. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method \citep{Holm1979}.}
   \label{tab:rf_test}
 \end{table}
+
+\begin{table}
+  \centering
+% latex table generated in R 3.0.1 by xtable 1.7-1 package
+% Fri Aug  9 17:34:32 2013
+\begin{tabular}{r|rrrr}
+  & morph 1 & morph 2 & molec 1 & molec 2 \\ 
+  \hline
+morph 1 &  &  &  &  \\ 
+  morph 2 & 0.00 &  &  &  \\ 
+  molec 1 & 0.00 & 0.00 &  &  \\ 
+  molec 2 & 0.00 & 0.00 & 0.00 &  \\ 
+   \hline
+\end{tabular}
+
+
+  \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the LDA-based classification from the first 10 PCs of plastral shape. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method \citep{Holm1979}.}
+  \label{tab:lda_test}
+\end{table}
+
 
 \end{document}

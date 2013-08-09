@@ -157,9 +157,9 @@ roc.mod$.id[roc.mod$.id == 'spinks'] <- 'molec 2'
 ggroc <- ggplot(roc.mod, aes(x = variable, y = value, lty = mod.names))
 ggroc <- ggroc + geom_line()
 ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
-ggroc <- ggroc + scale_linetype_manual(labels = c('multinomial', 
-                                                  'random forest',
-                                                  'lda'),
+ggroc <- ggroc + scale_linetype_manual(labels = c('linear discriminate analysis',
+                                                  'mulitnomial logistic regression',
+                                                  'random forest'),
                                       values = c(1,2,3))
 ggroc <- ggroc + theme(legend.title = element_blank(),
                        #legend.position = 'bottom',
@@ -247,37 +247,37 @@ ggsave(file = '../documents/figure/gen_map.png', plot = gg)
 # 3 most important variables
 most.imp <- trf.a$spinks$optVariables
 ww <- 'spinks'
-turtle.adult$label[turtle.adult[, ww] == 1] = 'Northern'
-turtle.adult$label[turtle.adult[, ww] == 2] = 'Eastern'
-turtle.adult$label[turtle.adult[, ww] == 3] = 'Western'
-turtle.adult$label[turtle.adult[, ww] == 4] = 'Southern'
-turtle.adult$label <- factor(turtle.adult$label, 
+turtle.adult$class[turtle.adult[, ww] == 1] = 'Northern'
+turtle.adult$class[turtle.adult[, ww] == 2] = 'Eastern'
+turtle.adult$class[turtle.adult[, ww] == 3] = 'Western'
+turtle.adult$class[turtle.adult[, ww] == 4] = 'Southern'
+turtle.adult$class <- factor(turtle.adult$class, 
                              levels = c('Northern', 
                                         'Eastern', 
                                         'Western', 
                                         'Southern'))
 
 ggimp <- ggpairs(turtle.adult,
-                 columns = c(most.imp[1:3], 'label'), 
-                 colour = 'label',
+                 columns = c(most.imp[1:3], 'class'), 
+                 colour = 'class',
                  upper = 'blank',
                  lower = 'blank',
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
-pc1 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC2, colour = label))
+pc1 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC2, colour = class))
 pc1 <- pc1 + geom_point() + scale_color_manual(values = cbp)
-pc2 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC1, colour = label))
+pc2 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC1, colour = class))
 pc2 <- pc2 + geom_point() + scale_color_manual(values = cbp)
-pc3 <- ggplot(turtle.adult, mapping = aes(x = PC2, y = PC1, colour = label))
+pc3 <- ggplot(turtle.adult, mapping = aes(x = PC2, y = PC1, colour = class))
 pc3 <- pc3 + geom_point() + scale_color_manual(values = cbp)
-hist1 <- ggplot(turtle.adult, mapping = aes(x = PC3, fill = label))
+hist1 <- ggplot(turtle.adult, mapping = aes(x = PC3, fill = class))
 hist1 <- hist1 + geom_histogram()
-hist1 <- hist1 + facet_grid(label ~ .) + scale_fill_manual(values = cbp)
-hist2 <- ggplot(turtle.adult, mapping = aes(x = PC2, fill = label))
+hist1 <- hist1 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
+hist2 <- ggplot(turtle.adult, mapping = aes(x = PC2, fill = class))
 hist2 <- hist2 + geom_histogram()
-hist2 <- hist2 + facet_grid(label ~ .) + scale_fill_manual(values = cbp)
-hist3 <- ggplot(turtle.adult, mapping = aes(x = PC1, fill = label))
+hist2 <- hist2 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
+hist3 <- ggplot(turtle.adult, mapping = aes(x = PC1, fill = class))
 hist3 <- hist3 + geom_histogram()
-hist3 <- hist3 + facet_grid(label ~ .) + scale_fill_manual(values = cbp)
+hist3 <- hist3 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
 
 ggimp <- putPlot(ggimp, pc1, 2, 1)
 ggimp <- putPlot(ggimp, pc2, 3, 1)
