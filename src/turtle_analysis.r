@@ -24,6 +24,7 @@ load('../data/supervised_misc.RData')
 load('../data/multi_boot_mod.RData')
 #load('../src/nnet_boot_mod.RData')
 load('../data/rf_boot_mod.RData')
+load('../data/lda_boot_mod.RData')
 
 clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
   if (!is.null(dim(models))) {
@@ -51,6 +52,7 @@ tm.a <- clean.mods(tmulti.a)
 #tnn.a <- clean.mods(tnnet.a)
 trf.a <- clean.mods(trf.a)
 #trf.a.s <- clean.mods(trf.a.s)
+tl.a <- clean.mods(tlda.a)
 
 multi.analysis <- function(model, class, test) {
   out <- list()
@@ -84,6 +86,22 @@ rf.analysis <- function(model, class, test) {
   out
 }
 
+lda.analysis <- function(model, test) {
+  out <- list()
+  out$best <- Map(function(x) {
+                  rr <- lapply(x, function(a) a$results$ROC)
+                  sel <- which.max(unlist(rr))
+                  x[[sel]]},
+                  x = model)
+
+  out$class <- Map(function(mm, tt) {
+                   nn <- predict(mm$finalModel, 
+                                 tt[, seq(length(mm$finalModel$xNames))])
+                   oo <- cbind(pred = nn$class, as.data.frame(nn$posterior))
+                   oo}, mm = out$best, tt = test)
+  out
+}
+
 # multinomial logistic regression
 #tm.analysis <- multi.analysis(tm, classes, turtle.test)
 #tm.s.analysis <- multi.analysis(tm.s, classes, turtle.test)
@@ -98,6 +116,8 @@ tm.a.analysis <- multi.analysis(tm.a, ad.class, adult.test)
 
 trf.a.analysis <- rf.analysis(trf.a, ad.class, adult.test)
 #trf.a.s.analysis <- rf.analysis(trf.a.s, ad.class, adult.test)
+
+tl.a.analysis <- lda.analysis(tl.a, adult.test)
 
 
 # best models compared
@@ -121,7 +141,8 @@ a.mod <- list()
 for(jj in seq(length(groups))) {
   a.mod[[jj]] <- list(multi = tm.a.analysis$best[[jj]],
 #                      nnet = tnn.a[[jj]],
-                      rf = trf.a.analysis[[jj]]$best)
+                      rf = trf.a.analysis[[jj]]$best,
+                      lda = tl.a.analysis$best[[jj]])
 }
 names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
 

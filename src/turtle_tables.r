@@ -1,4 +1,5 @@
 require(xtable)
+require(reshape2)
 
 load('../data/turtle_analysis.RData')
 load('../data/turtle_gen.RData')
@@ -58,3 +59,16 @@ colnames(rf.tab) <- coln
 rownames(rf.tab) <- rown
 rf.tabx <- xtable(as.table(rf.tab))
 align(rf.tabx) <- 'r|rrrr'
+
+lda.comp <- cbind(sh1 = ll[[1]]$t, sh2 = ll[[2]]$t, 
+                  sh3 = ll[[3]]$t, spinks = ll[[4]]$t)
+lda.c <- melt(lda.comp)
+lda.res <- with(lda.c, {
+                pairwise.wilcox.test(value, X2)})
+lda.tab <- lda.res$p.value
+lda.tab <- rbind('1' = rep(NA, 3), lda.tab)
+lda.tab <- cbind(lda.tab, '4' = rep(NA, 4))
+colnames(lda.tab) <- coln
+rownames(lda.tab) <- rown
+lda.tabx <- xtable(as.table(lda.tab))
+align(lda.tabx) <- 'r|rrrr'

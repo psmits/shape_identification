@@ -16,6 +16,7 @@ require(e1071)
 require(pROC)
 require(MuMIn)
 require(boot)
+require(MASS)
 
 source('../src/support_functions.r')
 
@@ -48,4 +49,12 @@ for (ii in seq(length(groups))) {
 }
 names(mm) <- groups
 
-save(rr, mm, file = '../data/turtle_gen.RData')
+ll <- list()
+for (ii in seq(length(groups))){
+  oo <- cbind(tl.a.analysis$class[[ii]],
+              test = adult.test[[ii]][, groups[[ii]]])
+
+  ll[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
+}
+
+save(rr, mm, ll, file = '../data/turtle_gen.RData')

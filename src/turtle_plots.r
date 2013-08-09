@@ -135,10 +135,16 @@ multi.rocs <- lapply(tm.a, function(x) {
                             rr <- max(y$results$ROC)
                             rr})})
 multi.rocs <- ldply(lapply(lapply(multi.rocs, ldply), t))
+lda.rocs <- lapply(tl.a, function(x) {
+                   lapply(x, function(y) {
+                          y$results$ROC})})
+lda.rocs <- ldply(lapply(lapply(lda.rocs, ldply), t))
 
 names(rf.rocs) <- names(multi.rocs) 
-roc.mod <- rbind(rf.rocs, multi.rocs)
-mod.names <- c(rep('rf', nrow(rf.rocs)), rep('multi', nrow(multi.rocs)))
+roc.mod <- rbind(rf.rocs, multi.rocs, lda.rocs)
+mod.names <- c(rep('rf', nrow(rf.rocs)), 
+               rep('multi', nrow(multi.rocs)),
+               rep('lda', nrow(lda.rocs)))
 roc.mod <- cbind(mod.names, roc.mod)
 roc.mod <- melt(roc.mod)
 roc.mod$variable <- as.numeric(roc.mod$variable)
@@ -152,8 +158,9 @@ ggroc <- ggplot(roc.mod, aes(x = variable, y = value, lty = mod.names))
 ggroc <- ggroc + geom_line()
 ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
 ggroc <- ggroc + scale_linetype_manual(labels = c('multinomial', 
-                                                  'random forest'),
-                                      values = c(1,2))
+                                                  'random forest',
+                                                  'lda'),
+                                      values = c(1,2,3))
 ggroc <- ggroc + theme(legend.title = element_blank(),
                        #legend.position = 'bottom',
                        legend.margin = unit(0, 'cm'),
@@ -172,6 +179,7 @@ gen.name <- function(var, value) {
   if(var == 'L1') {
     value[value == 'mn'] <- 'multinomial logistic regression'
     value[value == 'rf'] <- 'random forest'
+    value[value == 'lda'] <- 'linear discriminate analysis'
   }
   return(value)
 }
@@ -180,7 +188,9 @@ oo <- Reduce(cbind, Map(function(x) x$t, rr))
 colnames(oo) <- groups
 uu <- Reduce(cbind, Map(function(x) x$t, mm))
 colnames(uu) <- groups
-zz <- list(rf = oo, mn = uu)
+vv <- Reduce(cbind, Map(function(x) x$t, ll))
+colnames(vv) <- groups
+zz <- list(rf = oo, mn = uu, lda = vv)
 dd <- melt(zz)
 gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.5,
                                                               size = 0.1)
@@ -211,11 +221,12 @@ tr <- cbind(long = adult.test$spinks$long,
 tr <- cbind(data.frame(tr), type = rep('training', nrow(tr)))
 te <- cbind(long = adult.test$spinks$long,
             lat = adult.test$spinks$lat)
-mty <- c(rep('multi', nrow(te)), rep('rf', nrow(te)))
-te <- rbind(te, te)
+mty <- c(rep('multi', nrow(te)), rep('rf', nrow(te)), rep('lda', nrow(te)))
+te <- rbind(te, te, te)
 te <- cbind(data.frame(te),
             label = c(tm.a.analysis$class$spinks$pred,
-                      trf.a.analysis$class$spinks$pred),
+                      trf.a.analysis$class$spinks$pred,
+                      tl.a.analysis$class$spinks$pred),
             type = mty)
 turts <- rbind(tr, te)
 
@@ -372,3 +383,50 @@ ggrel <- ggrel + labs(y = 'relative risk')
 ggrel <- ggrel + theme(axis.text = element_text(size = 9)) 
 
 ggsave(file = '../documents/figure/rel_risk.png', plot = ggrel)
+
+
+# plot of the linear discriminate analysis
+lda.scal <- tl.a.analysis$best$spinks$finalModel$scaling
+lda.points <- as.data.frame(as.matrix(adult.train$spinks[, 1:10]) %*% lda.scal)
+lda.points <- cbind(lda.points,
+                    class = adult.train$spinks$spinks)
+lda.points$class <- as.character(lda.points$class)
+lda.points$class[lda.points$class == 1] = 'Northern'
+lda.points$class[lda.points$class == 2] = 'Eastern'
+lda.points$class[lda.points$class == 3] = 'Western'
+lda.points$class[lda.points$class == 4] = 'Southern'
+lda.points$class <- factor(lda.points$class,
+                           levels = c('Northern',
+                                      'Eastern',
+                                      'Western',
+                                      'Southern'))
+
+gglda <- ggpairs(lda.points, 
+                 colour = 'class',
+                 upper = 'blank',
+                 lower = 'blank',
+                 params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
+ld1 <- ggplot(lda.points, mapping = aes(x = LD1, y = LD2, colour = class))
+ld1 <- ld1 + geom_point() + scale_color_manual(values = cbp)
+ld2 <- ggplot(lda.points, mapping = aes(x = LD1, y = LD3, colour = class))
+ld2 <- ld2 + geom_point() + scale_color_manual(values = cbp)
+ld3 <- ggplot(lda.points, mapping = aes(x = LD2, y = LD3, colour = class))
+ld3 <- ld3 + geom_point() + scale_color_manual(values = cbp)
+lh1 <- ggplot(lda.points, mapping = aes(x = LD1, fill = class))
+lh1 <- lh1 + geom_histogram()
+lh1 <- lh1 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
+lh2 <- ggplot(lda.points, mapping = aes(x = LD2, fill = class))
+lh2 <- lh2 + geom_histogram()
+lh2 <- lh2 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
+lh3 <- ggplot(lda.points, mapping = aes(x = LD3, fill = class))
+lh3 <- lh3 + geom_histogram()
+lh3 <- lh3 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
+gglda <- putPlot(gglda, ld1, 2, 1)
+gglda <- putPlot(gglda, ld2, 3, 1)
+gglda <- putPlot(gglda, ld3, 3, 2)
+gglda <- putPlot(gglda, lh1, 4, 1)
+gglda <- putPlot(gglda, lh2, 4, 2)
+gglda <- putPlot(gglda, lh3, 4, 3)
+pdf(file = '../documents/figure/lda.pdf')
+print(gglda)
+dev.off()
