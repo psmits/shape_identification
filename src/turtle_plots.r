@@ -49,7 +49,8 @@ morph <- ggpairs(turtle.adult, columns = c(1:3),
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
 fits <- procGPA(turtle.land.adult)
 links <- c(1:7, 13:8)
-land <- mshape.plot(fits, links = links)
+snd.links <- c(2, 8, 3, 9, 4, 10, 5, 11, 6, 12)
+land <- mshape.plot(fits, links = links, snd.links = snd.links)
 land <- land + coord_equal()
 morph <- putPlot(morph, land, 1, 3)
 pdf(file = '../documents/figure/pca_res.pdf')
@@ -78,7 +79,7 @@ inits <- list(turtle.land.adult[, , pc1.min], turtle.land.adult[, , pc1.max],
               mt,
               turtle.land.adult[, , pc2.min], turtle.land.adult[, , pc2.max], 
               mt)
-inits <- lapply(inits, as.data.frame)
+secs <- inits <- lapply(inits, as.data.frame)
 inits <- lapply(inits, function(x) x[links, ])
 inits <- lapply(inits, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
 inits <- lapply(inits, function(x) {
@@ -91,9 +92,34 @@ pc.mm <- rep('mean', nrow(mt))
 pc.typ <- c(pc.typ, pc.mm, pc.typ, pc.mm)
 pcvar <- cbind(inits, pcl, pc.typ)
 
+# create the coordinates for the second set of links
+secs.l <- lapply(secs, function(x) x[snd.links, ])
+ss <- seq(from = 1, to = length(snd.links), by = 2)
+secs.l <- lapply(secs.l, function(x) cbind(x[ss, ], x[ss + 1, ]))
+secs.l <- lapply(secs.l, function(x) {
+                 names(x) <- c('V1', 'V2', 'V3', 'V4')
+                 x})
+secs.l <- Reduce(rbind, secs.l)
+pcl <- unlist(lapply(c('PC1', 'PC2'), 
+                        function(x) rep(x, 3 * length(snd.links) / 2)))
+pc.typ <- c(rep('min', length(snd.links) / 2),
+             rep('max', length(snd.links) / 2))
+pc.mm <- rep('mean', length(snd.links) / 2)
+pc.typ <- c(pc.typ, pc.mm, pc.typ, pc.mm)
+secs.l <- cbind(secs.l, pcl, pc.typ)
+
+
 gpc <- ggplot(pcvar, aes(x = V2, y = -V1)) + geom_point()
 gpc <- gpc + geom_segment(mapping = aes(x = V2, xend = V4,
                                         y = -V1, yend = -V3))
+# add in the secondary links
+for(ii in seq(from = 1, to = nrow(secs.l), by = 2)) {
+  gpc <- gpc + geom_segment(data = secs.l[c(ii, ii + 1), ],
+                            mapping = aes(x = V2,
+                                          xend = V4,
+                                          y = -V1,
+                                          yend = -V3))
+}
 gpc <- gpc + facet_grid(pcl ~ pc.typ)
 gpc <- gpc + theme(axis.title = element_blank(),
                    axis.text = element_blank())
@@ -302,6 +328,7 @@ mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
 mins <- lapply(mspi, function(x) min(x[, 2]))
 mins <- min(unlist(mins))
 lmat <- cbind(links, c(links[-1], links[1]))
+lmat <- rbind(lmat, matrix(snd.links, nrow = 5, byrow = TRUE))
 mspi <- lapply(mspi, function(x) x[, 2:1])
 mspi <- lapply(mspi, function(x) {
                x[, 2] <- -1 * x[, 2]
@@ -333,7 +360,7 @@ comps <- list(turtle.land.adult[, , fst.min], turtle.land.adult[, , fst.max],
               mt,
               turtle.land.adult[, , snd.min], turtle.land.adult[, , snd.max], 
               mt)
-comps <- lapply(comps, as.data.frame)
+snd.com <- comps <- lapply(comps, as.data.frame)
 comps <- lapply(comps, function(x) x[links, ])
 comps <- lapply(comps, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
 comps <- lapply(comps, function(x) {
@@ -347,9 +374,32 @@ mm <- rep('mean', nrow(mt))
 typ <- c(typ, mm, typ, mm)
 varshape <- cbind(comps, shl, typ)
 
+# second links
+scl <- lapply(snd.com, function(x) x[snd.links, ])
+scl <- lapply(scl, function(x) cbind(x[ss, ], x[ss + 1, ]))
+scl <- lapply(scl, function(x) {
+              names(x) <- c('V1', 'V2', 'V3', 'V4')
+              x})
+scl <- Reduce(rbind, scl)
+shl <- unlist(lapply(most.imp[1:2], 
+                     function(x) rep(x, 3 * length(snd.links) / 2)))
+shl <- factor(shl, levels = c('PC3', 'PC2'))
+typ <- c(rep('min', length(snd.links) / 2), 
+         rep('max', length(snd.links) / 2))
+mm <- rep('mean', length(snd.links) / 2)
+typ <- c(typ, mm, typ, mm)
+scl <- cbind(scl, shl, typ)
+
 gsh <- ggplot(varshape, aes(x = V2, y = -V1)) + geom_point()
 gsh <- gsh + geom_segment(mapping = aes(x = V2, xend = V4,
                                         y = -V1, yend = -V3))
+for(ii in seq(from = 1, to = nrow(scl), by = 2)) {
+  gsh <- gsh + geom_segment(data = scl[c(ii, ii + 1), ],
+                            mapping = aes(x = V2,
+                                          xend = V4,
+                                          y = -V1,
+                                          yend = -V3))
+}
 gsh <- gsh + facet_grid(shl ~ typ)
 gsh <- gsh + theme(axis.title = element_blank(),
                    axis.text = element_blank())

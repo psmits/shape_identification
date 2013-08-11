@@ -37,9 +37,9 @@ gap.plot <- function(gap) {
   gg
 }
 
-mshape.plot <- function(fits, links) {
-  shape <- as.data.frame(fits$mshape)
-  shape <- shape[links, ]
+mshape.plot <- function(fits, links, snd.links) {
+  shape1 <- as.data.frame(fits$mshape)
+  shape <- shape1[links, ]
   shape <- cbind(shape, rbind(shape[-1, ], shape[1, ]))
   names(shape) <- c('V1', 'V2', 'V3', 'V4')
 
@@ -51,6 +51,19 @@ mshape.plot <- function(fits, links) {
                                                       y = -V1,
                                                       yend = -V3),
                           alpha = 0.5)
+
+  snd.shape <- shape1[snd.links, ]
+  ss <- seq(from = 1, to = nrow(snd.shape), by = 2)
+  snd.shape <- cbind(snd.shape[ss, ], snd.shape[ss + 1, ])
+  names(snd.shape) <- names(shape)
+  for(ii in seq(from = 1, to = length(snd.links), by = 2)) {
+    gg <- gg + geom_segment(data = snd.shape[c(ii, ii + 1), ], 
+                            mapping = aes(x = V2,
+                                          xend = V4,
+                                          y = -V1,
+                                          yend = -V3))
+  }
+                                                          
   gg <- gg + geom_point(data = shape, mapping = aes(x = V2,
                                                     y = -V1,
                                                     colour = 'red'),
