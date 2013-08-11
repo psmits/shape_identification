@@ -218,7 +218,7 @@ gg <- gg + xlim(longmi, longma) + ylim(latmi, latma)
 tr <- cbind(long = adult.test$spinks$long, 
             lat = adult.test$spinks$lat, 
             label = adult.test$spinks$spinks)
-tr <- cbind(data.frame(tr), type = rep('training', nrow(tr)))
+tr <- cbind(data.frame(tr), type = rep('testing', nrow(tr)))
 te <- cbind(long = adult.test$spinks$long,
             lat = adult.test$spinks$lat)
 mty <- c(rep('multi', nrow(te)), rep('rf', nrow(te)), rep('lda', nrow(te)))

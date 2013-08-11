@@ -12,6 +12,8 @@ ipc <- turtle.adult[, 1:2]
 
 scor <- apply(ipc, 2, function(x) cor.test(cs, x))
 
+
+# sexual dimorphism in the clustering solution
 set.seed(1)
 gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
 tclus <- gap.second$clustering
