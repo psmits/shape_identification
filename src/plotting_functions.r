@@ -121,7 +121,7 @@ map.plot <- function(data, label, map) {
   gg <- gg + geom_point(data = data,
                         mapping = aes(x = long, y = lat,
                                       group = NULL,
-                                      colour = factor(lab)))
+                                      shape = factor(lab)))
   gg
 }
 

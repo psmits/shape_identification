@@ -9,9 +9,12 @@ require(GGally)
 require(scales)
 require(shapes)
 require(geomorph)
+require(devtools)
 
 source('../src/support_functions.r') 
 source('../src/plotting_functions.r')
+
+source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
 
 load('../data/turtle_analysis.RData')
 load('../data/turtle_gen.RData')
@@ -142,8 +145,15 @@ gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
 gap.map <- map.plot(data = turtle.adult,
                     label = gap.second$clustering,
                     map = goog.map)
-gap.map <- gap.map + xlim(longmi, longma) + ylim(latmi, latma)
-gap.map <- gap.map + scale_colour_manual(values = cbp)
+gap.map <- gap.map + xlim(longmi - 1, longma) + ylim(latmi, latma)
+gap.map <- gap.map + scale_shape_manual(values = c(1,2))
+gap.map <- gap.map + stat_ellipse(geom = 'polygon',
+                                  data = turtle.adult,
+                                  mapping = aes(x = long,
+                                                y = lat,
+                                                fill = spinks),
+                                  alpha = 0.35)
+gap.map <- gap.map + scale_fill_manual(values = cbp)
 gap.map <- gap.map + theme(legend.position = 'none',
                            legend.text = element_text(size = 7),
                            axis.title = element_text(size = 10),
@@ -236,7 +246,7 @@ ggsave(file = '../documents/figure/gen_res.png', plot = gdist)
 
 # best model map
 gg <- ggmap(goog.map)
-gg <- gg + xlim(longmi, longma) + ylim(latmi, latma)
+gg <- gg + xlim(longmi - 1, longma) + ylim(latmi, latma)
 #gg <- ggplot(map, aes(x = long, y = lat, group = group))
 #gg <- gg + geom_polygon(fill = 'white', colour = 'black')
 #gg <- gg + coord_map('gilbert')
@@ -260,10 +270,21 @@ gg <- gg + geom_point(data = turts,
                       mapping = aes(x = long, y = lat,
                                     group = NULL,
                                     colour = factor(label)))
+gg <- gg + stat_ellipse(geom = 'polygon',
+                        data = turtle.adult,
+                        mapping = aes(x = long,
+                                      y = lat,
+                                      fill = spinks),
+                        alpha = 0.35)
 gg <- gg + facet_wrap(~ type)
-gg <- gg + scale_colour_manual(name = '', values = cbp)
-gg <- gg + theme(legend.position = 'none',
-                 legend.margin = unit(0, 'cm'),
+gg <- gg + scale_colour_manual(name = '', values = cbp,
+                               labels = c('Northern', 'Eastern', 
+                                          'Western', 'Southern'))
+gg <- gg + scale_fill_manual(name = '', values = cbp,
+                             labels = c('Northern', 'Eastern', 
+                                        'Western', 'Southern'))
+gg <- gg + theme(#legend.position = 'none',
+                 #legend.margin = unit(0, 'cm'),
                  legend.text = element_text(size = 6),
                  axis.title = element_text(size = 10),
                  axis.text = element_text(size = 7))
@@ -334,7 +355,8 @@ mspi <- lapply(mspi, function(x) {
                x[, 2] <- -1 * x[, 2]
                x})
 for(ii in seq(length(mspi))) {
-  pdf(file = paste0('../documents/figure/mshape_', ii, '.pdf'))
+  pdf(file = paste0('../documents/figure/mshape_', ii, '.pdf'), width = 3.4)
+  par(mar = c(0, 0, 0, 0), xaxs = 'i')
   plotRefToTarget(M1 = mts, M2 = mspi[[ii]], mag = 2, links = lmat)
   dev.off()
 }
