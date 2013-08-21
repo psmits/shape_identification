@@ -18,6 +18,7 @@ source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
 
 load('../data/turtle_analysis.RData')
 load('../data/turtle_gen.RData')
+load('../data/turtle_shape.RData')
 
 theme_set(theme_bw())
 

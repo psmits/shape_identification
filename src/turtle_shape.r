@@ -11,7 +11,7 @@ load('../data/cluster_res.RData')
 cs <- rawturt[, ncol(rawturt)]
 ipc <- turtle.adult[, 1:2]
 
-scor <- apply(ipc, 2, function(x) cor.test(cs, x))
+scor <- apply(ipc, 2, function(x) cor.test(cs, x, method = 'spearman'))
 
 
 # sexual dimorphism in the clustering solution
@@ -34,5 +34,5 @@ tsex.s <- tsex[-sexrm]
 csex.tab <- table(tclus.s, tsex.s)
 csex.chi <- chisq.test(csex.tab)
 
-save(scor, tsex, tclus.s, tsex.s, csex.tab, csex.chi,
+save(cs, scor, tsex, tclus.s, tsex.s, csex.tab, csex.chi,
      file = '../data/turtle_shape.RData')

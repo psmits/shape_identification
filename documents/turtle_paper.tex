@@ -274,6 +274,8 @@ The first two PCs appear to describe principally variation in the lateral margin
 Lateral landmark variation along the first PC seemed concentrated in the posterior portion of the plastra with additional variance observed in midline landmarks (Fig. \ref{fig:pc_var}). This variance in midline landmarks was most likely caused by the fact that plastral scutes frequently do not line up perfectly. Along PC 2, lateral variation appeared to be concentrated in the anterior portion o the plastra (Fig. \ref{fig:pc_var}).
 
 % size correlation with either of the first two PCs?
+When the eigenscores of the first two PCs are compared to the centroid sizes of the observations, a significant correlation is observed between centroid size and the first PC (Spearman's \(\rho\): -0.56, \textit{p}-value: ~\ensuremath{7.51\times 10^{-44}}) but not between centroid size and the second PC (Spearman's \(\rho\): 0.03, \textit{p}-value: ~0.55). This difference is clearly observable in in plots of the data (Fig. \ref{fig:cent}).
+
 
 
 \subsection{Machine learning analyses}
@@ -333,8 +335,7 @@ This pattern of misclassification may have been caused by the subtle differences
 
 The results of fitting the final random forest model also include the variable importance for best separating the different classes. The selected random forest model for the best classification scheme had 9 PCs as features. The PCs included as features in the final random forest model, in descending order of importance, were PCs 3, 2, 1, 6, 5, 10, 9, 8 and 4. Of these 9 features, the first three are illustrated here (Fig. \ref{fig:imp_pc}) in descending order of importance. 
 
-
-The first two most important features describe different aspects of variation (Fig. \ref{fig:imp_var}). The third and most important PC describes variation roundedness of the medial portion of the plastron, both the anterior and posterior portions of the plastron. Additionally, the relative position of the landmarks along the midline varies greatly along PC3 (Fig. \ref{fig:imp_var}). This PC represents 12.19\% of total variation. The second and second most important PC is described above and principally described variation in landmarks along the lateral and anterior margin of the plastron. This PC represents 12.78\% of total variation. The major variations along these axes correspond well to the differences between the mean shape of each class (Fig. \ref{fig:mean_shape}) where major class differences seem based on the relative ballooning or shrinking of the anterior and posterior portions of the plastron together along with differential ``pinching'' of the midline landmarks.
+The first two most important features describe different aspects of variation (Fig. \ref{fig:imp_var}). The third and most important PC describes variation roundedness of the medial portion of the plastron, both the anterior and posterior portions of the plastron. Additionally, the relative position of the landmarks along the midline varies greatly along PC3 (Fig. \ref{fig:imp_var}). This PC represents 12.19\% of total variation. The second and second most important PC is described above and principally described variation in landmarks along the lateral and anterior margin of the plastron. This PC represents 12.78\% of total variation. The major variations along these axes correspond well to the differences between the mean shape of each class (Fig. \ref{fig:mean_shape}) where major class differences seem based on the relative ballooning or shrinking of the anterior and posterior portions of the plastron together along with differential ``pinching'' of the midline landmarks. It is important to note that the first two most important axes, according to the random forest model, were not correlated with size. This can be interpreted to mean that class membership is principally not related to turtle size. This interpretation makes sense in light of previous work showing that body size in \textit{E. marmorata} can vary widely across the entire species range \citep{Holland1992,Lubcke2007,Germano2009}.
 
 The relative risk values for classification from the multinomial logistic regression model, based on the three most important PCs, demonstrate that individual axes contribute to classification differently and that given multiple features the odds of determining the correct classification increase (Fig. \ref{fig:rel_risk}). The first most important axis contributes strongly to classifying both the western and southern groups while changes along the second most important axes contribute very little to increasing the odds of classification for all but the eastern group. This is observable from the class histograms of PC 3 and 2 (Fig. \ref{fig:imp_var}). Changes along the first and third most important axes contribute more obviously to increasing the odds of correctly identifying the class of an observation, a result that is observable in both the relative risk (Fig. \ref{fig:rel_risk}) and the different class histograms of the PCs (Fig. \ref{fig:imp_var}).
 
@@ -353,7 +354,7 @@ The lack of coherent geographical subclass assignment from PAM clustering (Fig. 
 % methodological concerns
 %   compromise in the supervised learning models
 %     fair because as much variation as ``necessary'' is used
-The approaches presented here for supervised learning analysis of the landmark variation represent a compromise between explicitly modeling all shape variation and preventing models from being overfit and ungeneralizable. While all aspects of shape may be evolving simultaneously, and not along individual PCs, including all shape variation in each model might increase model complexity beyond a reasonable level for the sample size and possibly the necessary complexity to accurately model the response. Additionally, because only individual PCs are used as features in the models, this does not accurately represent shape evolution and how exactly different classes might be evolving in relation to each other. However, this compromise is not without its advantages. Because both AICc and AUC values improved rapidly with increased model complexity (Fig. \ref{fig:roc}), this helped demonstrate how fine scale the actual variation between classes was. The variable importance information from the random forest models was extremely useful for understanding what aspects shape variance contributed most to differentiating the classes and in what order as opposed purely in the order of largest variance (Fig. \ref{fig:imp_pc} and \ref{fig:imp_var}). Additionally, the relative risk values from the mulitinomial logistic regression models demonstrate that a single PC is probably not sufficient for estimating the class of an observation, but that given a set of PCs this classification would be more accurate (Fig. \ref{fig:rel_risk}).
+The approaches presented here for supervised learning analysis of the landmark variation represent a compromise between explicitly modeling all shape variation and preventing models from being overfit and ungeneralizable. While all aspects of shape may be evolving simultaneously, and not along individual PCs, including all shape variation in each model might increase model complexity beyond a reasonable level for the sample size and possibly the necessary complexity to accurately model the response. Additionally, because only individual PCs are used as features in the models, this does not accurately represent shape evolution and how exactly different classes might be evolving in relation to each other. However, this compromise is not without its advantages. Because both AICc and AUC values improved rapidly with increased model complexity (Fig. \ref{fig:roc}), this helped demonstrate how fine scale the actual variation between classes was. The variable importance information from the random forest models was extremely useful for understanding what aspects shape variance contributed most to differentiating the classes and in what order as opposed purely in the order of largest variance (Fig. \ref{fig:imp_pc} and \ref{fig:imp_var}). Importantly, the order of variable importance demonstrated that the two most important axes (PC 2 and PC 3) for determining class membership were not correlated with size, unlike the third most important axis (PC 1), indicating that class membership is not strongly related to size as opposed to being related to actual shape differences. Additionally, the relative risk values from the mulitinomial logistic regression models demonstrate that a single PC is probably not sufficient for estimating the class of an observation, but that given a set of PCs this classification would be more accurate (Fig. \ref{fig:rel_risk}).
 
 %   unsupervised learning
 Ultimately, it would be useful to not require such explicit classification hypotheses, especially when concerned about possible cryptic variation in extinct taxa. The only unsupervised method employed in this study, PAM, is rather simple and not model based. A more useful approach would be to employ various model based clustering approaches \citep{Fraley2002,Zhong2003,VanBocxlaer2013}. In this manner, a series of candidate models can be compared via model comparison methods, such as AIC or Bayes factors \citep{Fraley2002}, in order to asses the best clustering solution. % beat complaints from reviewers
@@ -390,6 +391,13 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
   \includegraphics[width = \textwidth]{figure/pc_var}
   \caption{Landmark variation along the first two PCs of the Procrustes superimposed ``half'' plastral landmarks. The first row corresponds to variation along the first PC, while the second row corresponds to the second PC. The left most column represents the observation with the highest eigenscore along that PC, while the right most column represents the observation with the lowest eigenscore. The middle column, for both rows, is the mean plastral shape for all observations. The first PC represents 20.32\% of the total variation in plastral shape while PC represents 12.78\% of the variance.}
   \label{fig:pc_var}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width = \textwidth]{figure/cent_size}
+  \caption{Comparison of the centroid size of each observation to the eigenscore of that obsrevation from the PCA of plastral shape. The first two PCs are illustrated from right to left. The regression line is fit via ordinary least squares and is presented to illustrate the difference in correlation between the first two axes. The shaded regions represent 95\% confidence intervals on the parameters of the regression line. Centroid size is significantly correlated with the first PC but not the second.}
+  \label{fig:cent}
 \end{figure}
 
 \begin{figure}[ht]
@@ -509,7 +517,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Mon Aug 12 15:26:33 2013
+% Wed Aug 21 14:14:34 2013
 \begin{tabular}{r|cc|c}
   & F & M & tot \\ 
   \hline
@@ -527,7 +535,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Mon Aug 12 15:26:33 2013
+% Wed Aug 21 14:14:34 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -555,7 +563,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Mon Aug 12 15:26:33 2013
+% Wed Aug 21 14:14:34 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -583,7 +591,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Mon Aug 12 15:26:33 2013
+% Wed Aug 21 14:14:34 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -611,7 +619,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Mon Aug 12 15:26:33 2013
+% Wed Aug 21 14:14:34 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -639,7 +647,7 @@ tot & 200 & 199 & 399 \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Mon Aug 12 15:26:33 2013
+% Wed Aug 21 14:14:34 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
@@ -658,7 +666,7 @@ morph 1 &  &  &  &  \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Mon Aug 12 15:26:33 2013
+% Wed Aug 21 14:14:34 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
@@ -677,7 +685,7 @@ morph 1 &  &  &  &  \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Mon Aug 12 15:26:33 2013
+% Wed Aug 21 14:14:34 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
