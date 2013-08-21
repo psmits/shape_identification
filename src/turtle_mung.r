@@ -18,6 +18,7 @@ source('../src/support_functions.r')
 # landmarks
 n.land <- 26
 n.dim <- 2
+rawturt <- read.table('../data/raw_marmorata.txt')
 turtle.land <- read.table('../data/marmorata_land.txt', sep = ' ')
 turtle.land <- as.list(as.data.frame(t(turtle.land)))
 turtle.cent <- lapply(turtle.land, 
@@ -45,6 +46,7 @@ no.info <- no.geo | no.assign
 # remove
 turtle.land.info <- turtle.land[, , !no.info]
 turtle.meta.info <- turtle.meta[!no.info, ]
+rawturt <- rawturt[!no.info, ]
 
 turtle.geo <- cbind(lat = as.numeric(as.character(turtle.meta.info$lat)),
                     long = (as.numeric(as.character(turtle.meta.info$long)) * -1))
@@ -52,6 +54,7 @@ outlier <- which(turtle.geo[, 'long'] > 0)
 turtle.land.info <- turtle.land.info[, , -outlier]
 turtle.meta.info <- turtle.meta.info[-outlier, ]
 turtle.geo <- turtle.geo[-outlier, ]
+rawturt <- rawturt[-outlier, ]
 
 turtle.meta.info$lat <- turtle.geo[, 'lat']
 turtle.meta.info$long <- turtle.geo[, 'long']
@@ -60,6 +63,7 @@ no.class <- which(turtle.meta.info$sh3 == '')
 turtle.land.info <- turtle.land.info[, , -no.class]
 turtle.meta.info <- turtle.meta.info[-no.class, ]
 turtle.geo <- turtle.geo[-no.class, ]
+rawturt <- rawturt[-no.class, ]
 
 turtle.meta.info$sh1 <- as.factor(as.character(turtle.meta.info$sh1))
 turtle.meta.info$sh2 <- as.factor(as.character(turtle.meta.info$sh2))
@@ -80,9 +84,11 @@ b.juv <- grep(pattern = '[jhJ]',
 turtle.land.adult <- turtle.land.info[, , -p.juv]
 turtle.meta.adult <- turtle.meta.info[-p.juv, ]
 turtle.geo.adult <- turtle.geo[-p.juv, ]
+rawturt <- rawturt[-p.juv, ]
 
 turtle.fit <- procGPA(turtle.land.adult)
 turtle.adult.dist <- riem.matrix(turtle.land.adult)
 
 turtle.adult <- cbind(data.frame(turtle.fit$stdscores),
                       turtle.meta.adult)
+

@@ -6,8 +6,9 @@ source('../src/turtle_mung.r')
 
 load('../data/cluster_res.RData')
 
+
 # correlation between size and the first couple PCs
-cs <- centroid.size(turtle.land.adult)
+cs <- rawturt[, ncol(rawturt)]
 ipc <- turtle.adult[, 1:2]
 
 scor <- apply(ipc, 2, function(x) cor.test(cs, x))
@@ -33,5 +34,5 @@ tsex.s <- tsex[-sexrm]
 csex.tab <- table(tclus.s, tsex.s)
 csex.chi <- chisq.test(csex.tab)
 
-save(tsex, tclus.s, tsex.s, csex.tab, csex.chi,
+save(scor, tsex, tclus.s, tsex.s, csex.tab, csex.chi,
      file = '../data/turtle_shape.RData')

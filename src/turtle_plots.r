@@ -129,6 +129,19 @@ gpc <- gpc + theme(axis.title = element_blank(),
 ggsave(file = '../documents/figure/pc_var.png', plot = gpc)
 
 
+# correlation between the first two axes and centroid size
+bcs <- c(cs, cs)
+cent <- cbind(cs = bcs, pc = c(turtle.adult$PC1, turtle.adult$PC2))
+cent <- cbind(as.data.frame(cent),
+              lab = c(rep('PC1', length(turtle.adult$PC1)),
+                      rep('PC2', length(turtle.adult$PC2))))
+gcs <- ggplot(cent, aes(x = cs, y = pc)) 
+gcs <- gcs + geom_point() + stat_smooth(method = 'lm')
+gcs <- gcs + facet_wrap(~lab)
+gcs <- gcs + labs(x = 'centroid size', y = 'eigenscore')
+ggsave(file = '../documents/figure/cent_size.png', plot = gcs)
+
+
 # gap statistic plot
 gap <- gap.plot(tadult.gap)
 gap <- gap + theme(axis.title = element_text(size = 9.5),
