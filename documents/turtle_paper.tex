@@ -6,7 +6,7 @@
 %   American Naturalist (21 pages)
 %   Journal of Evolutionary Biology
 
-\documentclass[12pt,letterpaper]{article}\usepackage{graphicx, color}
+\documentclass[12pt,letterpaper]{article}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
 %% otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
@@ -19,21 +19,16 @@
 }
 \makeatother
 
-\definecolor{fgcolor}{rgb}{0.2, 0.2, 0.2}
-\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{0.501960784313725,0,0.329411764705882}{\textbf{#1}}}%
-\newcommand{\hlstring}[1]{\textcolor[rgb]{0.6,0.6,1}{#1}}%
-\newcommand{\hlkeyword}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
-\newcommand{\hlargument}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hlcomment}[1]{\textcolor[rgb]{0.180392156862745,0.6,0.341176470588235}{#1}}%
-\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{0.43921568627451,0.47843137254902,0.701960784313725}{#1}}%
-\newcommand{\hlformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hleqformalargs}[1]{\textcolor[rgb]{0.690196078431373,0.250980392156863,0.0196078431372549}{#1}}%
-\newcommand{\hlassignement}[1]{\textcolor[rgb]{0,0,0}{\textbf{#1}}}%
-\newcommand{\hlpackage}[1]{\textcolor[rgb]{0.588235294117647,0.709803921568627,0.145098039215686}{#1}}%
-\newcommand{\hlslot}[1]{\textit{#1}}%
-\newcommand{\hlsymbol}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlprompt}[1]{\textcolor[rgb]{0.2,0.2,0.2}{#1}}%
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
 
 \usepackage{framed}
 \makeatletter
@@ -141,7 +136,7 @@
 
 % cryptic diversity
 %   most species are still deliminated solely based on morphology
-Cryptic diversity is the phenomenon that not all taxa can be recognized from morphology and can only be delimited using molecular information \citep{Stuart2006,Pfenninger2007,Funk2012,Clare2011}. Concerningly, most extant taxa, and nearly all extinct taxa, are delimited based solely via morphology. This phenomenon is of great concern when studying variation and diversity dynamics over long periods of time, where apparent morphological stasis may not actually reflect true diversity \citep{Hunt2008,Eldredge1972,Gould1977a,VanBocxlaer2013}. In the case of endangered or conserved taxa, morphometric approaches for classifying and identifying taxa and populations of importance would greatly improve the ability to maintain these high risk groups. Additionally, this could lead to better classification of extinct taxa.
+Cryptic diversity is the phenomenon that not all taxa can be recognized from morphology and can only be delimited using molecular information \citep{Bickford2007,SchlickSteiner2007,Stuart2006,Pfenninger2007,Funk2012,Clare2011}. Concerningly, most extant taxa, and nearly all extinct taxa, are delimited based solely via morphology. This phenomenon is of great concern when studying variation and diversity dynamics over long periods of time, where apparent morphological stasis may not actually reflect true diversity \citep{Hunt2008,Eldredge1972,Gould1977a,VanBocxlaer2013}. In the case of endangered or conserved taxa, morphometric approaches for classifying and identifying taxa and populations of importance would greatly improve the ability to maintain these high risk groups. Additionally, this could lead to better classification of extinct taxa.
 
 Much work has been devoted to species delimitation via sequence difference \citep{Fujita2012,Yang2010b} while comparatively little has been devoted to introducing new methodology for case of purely morphological data \citep{Mitteroecker2011,Zelditch2004}. The majority of this effort has focused on identifying differences between already identified taxa \citep{Polly2007a,Demandt2009,Gaubert2005b,Gunduz2007,Polly2003,Zelditch2004} and automated taxon identification \citep{MacLeod2007}.
 % all the work done on species delimitation strictly from molecular data
@@ -517,7 +512,7 @@ PDS would like to thank David Bapst, Michael Foote, Benjamin Frable, and Dallas 
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug 21 14:14:34 2013
+% Wed Sep  4 10:03:26 2013
 \begin{tabular}{r|cc|c}
   & F & M & tot \\ 
   \hline
@@ -535,7 +530,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug 21 14:14:34 2013
+% Wed Sep  4 10:03:26 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -563,7 +558,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug 21 14:14:34 2013
+% Wed Sep  4 10:03:26 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -591,7 +586,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug 21 14:14:34 2013
+% Wed Sep  4 10:03:26 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -619,7 +614,7 @@ tot & 200 & 199 & 399 \\
 \begin{sidewaystable}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug 21 14:14:34 2013
+% Wed Sep  4 10:03:26 2013
 {\small
 \begin{tabular}{lllllllllllrrrrr}
   \hline
@@ -647,7 +642,7 @@ tot & 200 & 199 & 399 \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug 21 14:14:34 2013
+% Wed Sep  4 10:03:26 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
@@ -666,7 +661,7 @@ morph 1 &  &  &  &  \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug 21 14:14:34 2013
+% Wed Sep  4 10:03:26 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
@@ -685,7 +680,7 @@ morph 1 &  &  &  &  \\
 \begin{table}
   \centering
 % latex table generated in R 3.0.1 by xtable 1.7-1 package
-% Wed Aug 21 14:14:34 2013
+% Wed Sep  4 10:03:26 2013
 \begin{tabular}{r|rrrr}
   & morph 1 & morph 2 & molec 1 & molec 2 \\ 
   \hline
