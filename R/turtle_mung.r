@@ -10,7 +10,6 @@
 # packages
 require(shapes)
 require(geomorph)
-#require(abind)
 
 # source files
 source('../src/support_functions.r')
@@ -69,8 +68,6 @@ turtle.meta.info$sh1 <- as.factor(as.character(turtle.meta.info$sh1))
 turtle.meta.info$sh2 <- as.factor(as.character(turtle.meta.info$sh2))
 turtle.meta.info$sh3 <- as.factor(as.character(turtle.meta.info$sh3))
 turtle.meta.info$spinks <- as.factor(as.character(turtle.meta.info$spinks))
-
-
 
 
 # remove juvies
