@@ -48,6 +48,11 @@ colnames(mm.tab) <- coln
 rownames(mm.tab) <- rown
 mm.tabx <- xtable(as.table(mm.tab))
 align(mm.tabx) <- 'r|rrrr'
+print.xtable(mm.tabx, 
+             file = '../doc/mm_tabx.tex',
+             hline.after = c(0, nrow(mm.tabx)),
+             include.rownames = TRUE,
+             floating = FALSE)
 
 # random forests
 rf.comp <- cbind(sh1 = rr$sh1$t, sh2 = rr$sh2$t, sh3 = rr$sh3$t, spinks = rr$spinks$t)
@@ -61,6 +66,11 @@ colnames(rf.tab) <- coln
 rownames(rf.tab) <- rown
 rf.tabx <- xtable(as.table(rf.tab))
 align(rf.tabx) <- 'r|rrrr'
+print.xtable(rf.tabx, 
+             file = '../doc/rf_tabx.tex',
+             hline.after = c(0, nrow(mm.tabx)),
+             include.rownames = TRUE,
+             floating = FALSE)
 
 # linear discriminate analysis
 lda.comp <- cbind(sh1 = ll[[1]]$t, sh2 = ll[[2]]$t, 
@@ -75,3 +85,8 @@ colnames(lda.tab) <- coln
 rownames(lda.tab) <- rown
 lda.tabx <- xtable(as.table(lda.tab))
 align(lda.tabx) <- 'r|rrrr'
+print.xtable(lda.tabx, 
+             file = '../doc/lda_tabx.tex',
+             hline.after = c(0, nrow(mm.tabx)),
+             include.rownames = TRUE,
+             floating = FALSE)

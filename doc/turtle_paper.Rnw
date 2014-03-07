@@ -541,36 +541,21 @@ print.xtable(tmx.4,
 
 \begin{table}
   \centering
-<<results = 'asis'>>=
-print.xtable(lda.tabx,
-             hline.after = c(0, nrow(rf.tabx)),
-             includ.rownames = TRUE,
-             floating = FALSE)
-@
+  \include{lda_tabx}
   \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the LDA-based classification from the first 10 PCs of plastral shape. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method \citep{Holm1979}.}
   \label{tab:lda_test}
 \end{table}
 
 \begin{table}
   \centering
-<<results = 'asis'>>=
-print.xtable(mm.tabx,
-             hline.after = c(0, nrow(mm.tabx)),
-             includ.rownames = TRUE,
-             floating = FALSE)
-@
+  \include{mm_tabx}
   \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the multinomial logistic regression models. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method \citep{Holm1979}.}
   \label{tab:mm_test}
 \end{table}
 
 \begin{table}
   \centering
-<<results = 'asis'>>=
-print.xtable(rf.tabx,
-             hline.after = c(0, nrow(rf.tabx)),
-             includ.rownames = TRUE,
-             floating = FALSE)
-@
+  \include{rf_tabx}
   \caption{Results from pairwise Mann-Whitney U test between the AUC distributions of the generalizations of the random forest models. Labels correspond to those in Figure \ref{fig:gen_res}. Values of 0 correspond to p-values lower than 0.01. P-values were corrected for multiple comparison using the Holm method \citep{Holm1979}.}
   \label{tab:rf_test}
 \end{table}
