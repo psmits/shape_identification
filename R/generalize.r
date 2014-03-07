@@ -9,21 +9,17 @@
 ###############################################################################
 require(plyr)
 require(cluster)
-require(nnet)
 require(randomForest)
 require(caret)
-require(e1071)
 require(pROC)
 require(MuMIn)
 require(boot)
 require(MASS)
 
-source('../src/support_functions.r')
-
-load('../data/turtle_analysis.RData')
+source('../R/support_functions.r')
+source('../R/model_comparison.r')
 
 # boot strap the generalization
-
 boot.roc <- function(data, indicies) {
   data <- data[indicies, ]
   pp <- data[, seq(ncol(data) - 1)]
@@ -57,4 +53,4 @@ for (ii in seq(length(groups))){
   ll[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
 }
 
-save(rr, mm, ll, file = '../data/turtle_gen.RData')
+save(rr, mm, ll, file = '../data/gen.RData')

@@ -11,14 +11,13 @@ require(shapes)
 require(geomorph)
 require(devtools)
 
-source('../src/support_functions.r') 
 source('../src/plotting_functions.r')
 
 source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
 
-load('../data/turtle_analysis.RData')
-load('../data/turtle_gen.RData')
-load('../data/turtle_shape.RData')
+source('../R/model_comparison.r')
+load('../data/gen.RData')
+load('../data/shape.RData')
 
 theme_set(theme_bw())
 
@@ -28,15 +27,15 @@ cbp <- c(#'#999999',
 
 
 # map details
-turtle.adult$long[which(turtle.adult$long > -100)] <- turtle.adult$long[which(turtle.adult$long > -100)] - 100
+adult$long[which(adult$long > -100)] <- adult$long[which(adult$long > -100)] - 100
 
 adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
 
 
-longma <- max(turtle.adult$long)
-longmi <- min(turtle.adult$long)
-latma <- max(turtle.adult$lat)
-latmi <- min(turtle.adult$lat)
+longma <- max(adult$long)
+longmi <- min(adult$long)
+latma <- max(adult$lat)
+latmi <- min(adult$lat)
 
 goog.map <- get_map(location = c(longmi,
                                  latmi, 
@@ -47,11 +46,12 @@ goog.map <- get_map(location = c(longmi,
                     color = 'bw')
 ggmap(goog.map)
 
+
 # PCA results
-morph <- ggpairs(turtle.adult, columns = c(1:3),
+morph <- ggpairs(adult, columns = c(1:3),
                  upper = 'blank',
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
-fits <- procGPA(turtle.land.adult)
+fits <- procGPA(land.adult)
 links <- c(1:7, 13:8)
 snd.links <- c(2, 8, 3, 9, 4, 10, 5, 11, 6, 12)
 land <- mshape.plot(fits, links = links, snd.links = snd.links)
@@ -63,11 +63,11 @@ dev.off()
 
 
 # variation along first two PCs
-mt <- mshape(turtle.land.adult)
-pc1.max <- which.max(turtle.adult$PC1)
-pc1.min <- which.min(turtle.adult$PC1)
-pc2.max <- which.max(turtle.adult$PC2)
-pc2.min <- which.min(turtle.adult$PC2)
+mt <- mshape(land.adult)
+pc1.max <- which.max(adult$PC1)
+pc1.min <- which.min(adult$PC1)
+pc2.max <- which.max(adult$PC2)
+pc2.min <- which.min(adult$PC2)
 
 ex.lab <- function(var, value) {
   value <- as.character(value)
@@ -79,9 +79,9 @@ ex.lab <- function(var, value) {
   return(value)
 }
 
-inits <- list(turtle.land.adult[, , pc1.min], turtle.land.adult[, , pc1.max],
+inits <- list(land.adult[, , pc1.min], land.adult[, , pc1.max],
               mt,
-              turtle.land.adult[, , pc2.min], turtle.land.adult[, , pc2.max], 
+              land.adult[, , pc2.min], land.adult[, , pc2.max], 
               mt)
 secs <- inits <- lapply(inits, as.data.frame)
 inits <- lapply(inits, function(x) x[links, ])
@@ -132,10 +132,10 @@ ggsave(file = '../documents/figure/pc_var.png', plot = gpc)
 
 # correlation between the first two axes and centroid size
 bcs <- c(cs, cs)
-cent <- cbind(cs = bcs, pc = c(turtle.adult$PC1, turtle.adult$PC2))
+cent <- cbind(cs = bcs, pc = c(adult$PC1, adult$PC2))
 cent <- cbind(as.data.frame(cent),
-              lab = c(rep('PC1', length(turtle.adult$PC1)),
-                      rep('PC2', length(turtle.adult$PC2))))
+              lab = c(rep('PC1', length(adult$PC1)),
+                      rep('PC2', length(adult$PC2))))
 gcs <- ggplot(cent, aes(x = cs, y = pc)) 
 gcs <- gcs + geom_point() + stat_smooth(method = 'lm')
 gcs <- gcs + facet_wrap(~lab)
@@ -151,18 +151,18 @@ ggsave(file = '../documents/figure/gap_res.png', plot = gap)
 
 
 #classes of the gap statistic plot for 2 clust
-turtle.adult$long[which(turtle.adult$long > -100)] <- turtle.adult$long[which(turtle.adult$long > -100)] - 100
+adult$long[which(adult$long > -100)] <- adult$long[which(adult$long > -100)] - 100
 adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
 
 set.seed(1)
-gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
-gap.map <- map.plot(data = turtle.adult,
+gap.second <- pam(as.dist(adult.dist), k = 2)
+gap.map <- map.plot(data = adult,
                     label = gap.second$clustering,
                     map = goog.map)
 gap.map <- gap.map + xlim(longmi - 1, longma) + ylim(latmi, latma)
 gap.map <- gap.map + scale_shape_manual(values = c(1,2))
 gap.map <- gap.map + stat_ellipse(geom = 'polygon',
-                                  data = turtle.adult,
+                                  data = adult,
                                   mapping = aes(x = long,
                                                 y = lat,
                                                 fill = spinks),
@@ -285,7 +285,7 @@ gg <- gg + geom_point(data = turts,
                                     group = NULL,
                                     colour = factor(label)))
 gg <- gg + stat_ellipse(geom = 'polygon',
-                        data = turtle.adult,
+                        data = adult,
                         mapping = aes(x = long,
                                       y = lat,
                                       fill = spinks),
@@ -308,35 +308,35 @@ ggsave(file = '../documents/figure/gen_map.png', plot = gg)
 # 3 most important variables
 most.imp <- trf.a$spinks$optVariables
 ww <- 'spinks'
-turtle.adult$class[turtle.adult[, ww] == 1] = 'Northern'
-turtle.adult$class[turtle.adult[, ww] == 2] = 'Eastern'
-turtle.adult$class[turtle.adult[, ww] == 3] = 'Western'
-turtle.adult$class[turtle.adult[, ww] == 4] = 'Southern'
-turtle.adult$class <- factor(turtle.adult$class, 
+adult$class[adult[, ww] == 1] = 'Northern'
+adult$class[adult[, ww] == 2] = 'Eastern'
+adult$class[adult[, ww] == 3] = 'Western'
+adult$class[adult[, ww] == 4] = 'Southern'
+adult$class <- factor(adult$class, 
                              levels = c('Northern', 
                                         'Eastern', 
                                         'Western', 
                                         'Southern'))
 
-ggimp <- ggpairs(turtle.adult,
+ggimp <- ggpairs(adult,
                  columns = c(most.imp[1:3], 'class'), 
                  colour = 'class',
                  upper = 'blank',
                  lower = 'blank',
                  params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
-pc1 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC2, colour = class))
+pc1 <- ggplot(adult, mapping = aes(x = PC3, y = PC2, colour = class))
 pc1 <- pc1 + geom_point() + scale_color_manual(values = cbp)
-pc2 <- ggplot(turtle.adult, mapping = aes(x = PC3, y = PC1, colour = class))
+pc2 <- ggplot(adult, mapping = aes(x = PC3, y = PC1, colour = class))
 pc2 <- pc2 + geom_point() + scale_color_manual(values = cbp)
-pc3 <- ggplot(turtle.adult, mapping = aes(x = PC2, y = PC1, colour = class))
+pc3 <- ggplot(adult, mapping = aes(x = PC2, y = PC1, colour = class))
 pc3 <- pc3 + geom_point() + scale_color_manual(values = cbp)
-hist1 <- ggplot(turtle.adult, mapping = aes(x = PC3, fill = class))
+hist1 <- ggplot(adult, mapping = aes(x = PC3, fill = class))
 hist1 <- hist1 + geom_histogram()
 hist1 <- hist1 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
-hist2 <- ggplot(turtle.adult, mapping = aes(x = PC2, fill = class))
+hist2 <- ggplot(adult, mapping = aes(x = PC2, fill = class))
 hist2 <- hist2 + geom_histogram()
 hist2 <- hist2 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
-hist3 <- ggplot(turtle.adult, mapping = aes(x = PC1, fill = class))
+hist3 <- ggplot(adult, mapping = aes(x = PC1, fill = class))
 hist3 <- hist3 + geom_histogram()
 hist3 <- hist3 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
 
@@ -354,12 +354,12 @@ dev.off()
 
 # mean of the different classes
 # these are going to be combined into a single plot using latex
-mt <- mshape(turtle.land.adult)
+mt <- mshape(land.adult)
 mts <- mt[, 2:1]
 mts[, 2] <- -1 * mts[, 2]
-spi <- turtle.adult$spinks
+spi <- adult$spinks
 wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
-mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = turtle.land.adult)
+mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = land.adult)
 mins <- lapply(mspi, function(x) min(x[, 2]))
 mins <- min(unlist(mins))
 lmat <- cbind(links, c(links[-1], links[1]))
@@ -377,10 +377,10 @@ for(ii in seq(length(mspi))) {
 
 
 # variation along most important axes
-fst.max <- which.max(turtle.adult[, most.imp[1]])
-fst.min <- which.min(turtle.adult[, most.imp[1]])
-snd.max <- which.max(turtle.adult[, most.imp[2]])
-snd.min <- which.min(turtle.adult[, most.imp[2]])
+fst.max <- which.max(adult[, most.imp[1]])
+fst.min <- which.min(adult[, most.imp[1]])
+snd.max <- which.max(adult[, most.imp[2]])
+snd.min <- which.min(adult[, most.imp[2]])
 
 ex.lab <- function(var, value) {
   value <- as.character(value)
@@ -392,9 +392,9 @@ ex.lab <- function(var, value) {
   return(value)
 }
 
-comps <- list(turtle.land.adult[, , fst.min], turtle.land.adult[, , fst.max],
+comps <- list(land.adult[, , fst.min], land.adult[, , fst.max],
               mt,
-              turtle.land.adult[, , snd.min], turtle.land.adult[, , snd.max], 
+              land.adult[, , snd.min], land.adult[, , snd.max], 
               mt)
 snd.com <- comps <- lapply(comps, as.data.frame)
 comps <- lapply(comps, function(x) x[links, ])

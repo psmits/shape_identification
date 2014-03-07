@@ -1,8 +1,10 @@
+# various tables necessary for the paper
+
 require(xtable)
 require(reshape2)
 
-load('../data/turtle_analysis.RData')
-load('../data/turtle_gen.RData')
+load('../data/gen.RData') 
+load('../data/shape.RData')
 
 # 2 x 2 table of sex - cluster assignment
 csex.tab <- rbind(csex.tab, tot = colSums(csex.tab))
@@ -13,7 +15,6 @@ digits(xsex.tab) <- c(0, 0, 0, 0)
 
 
 # multinomial logistic regression model selection tables
-
 cln <- colnames(tm.a.analysis$sel$spinks)
 #cln[which(cln == 'delta')] <- "$\\delta AICc"
 #cln[which(cln == 'weight')] <- "AICc weights"
@@ -27,8 +28,6 @@ tmtabs <- lapply(tmcl, function(x) {
                  x})
 tmx <- lapply(tmtabs, xtable)
 tmx.1 <- tmx[[1]]
-
-
 tmx.2 <- tmx[[2]]
 tmx.3 <- tmx[[3]]
 tmx.4 <- tmx[[4]]
@@ -39,7 +38,9 @@ mm.comp <- cbind(sh1 = mm$sh1$t, sh2 = mm$sh2$t, sh3 = mm$sh3$t, spinks = mm$spi
 mm.c <- melt(mm.comp)
 mm.res <- with(mm.c, {
                pairwise.wilcox.test(value, X2)})
+
 # convert to table by adding a row and a column
+# multinomial logistic regression
 mm.tab <- mm.res$p.value
 mm.tab <- rbind('1' = rep(NA, 3), mm.tab)
 mm.tab <- cbind(mm.tab, '4' = rep(NA, 4))
@@ -48,6 +49,7 @@ rownames(mm.tab) <- rown
 mm.tabx <- xtable(as.table(mm.tab))
 align(mm.tabx) <- 'r|rrrr'
 
+# random forests
 rf.comp <- cbind(sh1 = rr$sh1$t, sh2 = rr$sh2$t, sh3 = rr$sh3$t, spinks = rr$spinks$t)
 rf.c <- melt(rf.comp)
 rf.res <- with(rf.c, {
@@ -60,6 +62,7 @@ rownames(rf.tab) <- rown
 rf.tabx <- xtable(as.table(rf.tab))
 align(rf.tabx) <- 'r|rrrr'
 
+# linear discriminate analysis
 lda.comp <- cbind(sh1 = ll[[1]]$t, sh2 = ll[[2]]$t, 
                   sh3 = ll[[3]]$t, spinks = ll[[4]]$t)
 lda.c <- melt(lda.comp)

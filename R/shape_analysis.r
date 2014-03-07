@@ -2,24 +2,24 @@ library(shapes)
 library(geomorph)
 library(cluster)
 
-source('../src/turtle_mung.r')
+source('../R/mung.r')
 
-load('../data/cluster_res.RData')
+#load('../data/cluster_res.RData')
 
 
 # correlation between size and the first couple PCs
 cs <- rawturt[, ncol(rawturt)]
-ipc <- turtle.adult[, 1:2]
+ipc <- adult[, 1:2]
 
 scor <- apply(ipc, 2, function(x) cor.test(cs, x, method = 'spearman'))
 
 
 # sexual dimorphism in the clustering solution
 set.seed(1)
-gap.second <- pam(as.dist(turtle.adult.dist), k = 2)
+gap.second <- pam(as.dist(adult.dist), k = 2)
 tclus <- gap.second$clustering
 
-tsex <- as.character(turtle.adult$p.sex)  # lots of regex to get this sexy
+tsex <- as.character(adult$p.sex)  # lots of regex to get this sexy
 fe <- grep(pattern = '[fF]', tsex, perl = TRUE)
 ma <- grep(pattern = '[mM]', tsex, perl = TRUE)
 na <- grep(pattern = '[nN]', tsex, perl = TRUE)
@@ -35,4 +35,4 @@ csex.tab <- table(tclus.s, tsex.s)
 csex.chi <- chisq.test(csex.tab)
 
 save(cs, scor, tsex, tclus.s, tsex.s, csex.tab, csex.chi,
-     file = '../data/turtle_shape.RData')
+     file = '../data/shape.RData')

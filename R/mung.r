@@ -6,13 +6,12 @@
 
 # packages
 require(shapes)
-#require(geomorph)
+require(geomorph)
 
 # source files
 source('../R/array2df.r')
 source('../R/df2array.r')
 source('../R/shape_distance.r')
-source('../R/support_functions.r')
 
 # landmarks
 n.land <- 26
@@ -83,4 +82,3 @@ adult.dist <- riem.matrix(land.adult)
 
 adult <- cbind(data.frame(fit$stdscores),
                meta.adult)
-

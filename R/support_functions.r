@@ -1,57 +1,9 @@
-##############################################################################
-##
-##  support functions for turtles
-##
-##  peter d smits
-##
+# various utility functions
+#
+# peter d smits
+# psmits@uchicago.edu
 ###############################################################################
-
-## libraries
-require(MASS)
-require(utils)
-require(shapes)
-require(nnet)
 require(caret)
-require(e1071)
-require(pROC)
-source('../R/multiclass_roc.r')
-
-## functions
-clu <- function(x) {
-# convenience clustering
-#
-#  Args:
-#    x: square, symmetric distance matrix
-#
-#  Returns:
-#    list with results from agnes and diana
-
-  out <- list()
-  out$agglo <- agnes(x)
-  out$div <- diana(x)
-  out
-} 
-
-
-multi.mod <- function(data, formula, preProc) {
-  ## fit multinomial logistic regression to data
-  ## this is so i can map over a list
-  ##
-  ##  Args:
-  ##    data: object of class data.frame, probably the training set
-  ##    formula: the formula for the multinomial logistic regression
-  ##    trControl: input for trControl in train
-  ##    preProc: input for preProc in train
-  ##
-  ##  Returns:
-  ##    object of class train with all the correct attributes
-
-  mod <- train(formula, data = data, 
-               method = 'multinom', 
-               preProc = preProc)
-
-  mod
-}
 
 data.maker <- function(gr, data, p = 0.75) {
   nd <- data[, colnames(data) %in% gr]
@@ -59,50 +11,6 @@ data.maker <- function(gr, data, p = 0.75) {
                p = p, list = FALSE)
   out
 } 
-
-require(caret)
-ctrl <- trainControl(#method = 'LOOCV',
-                     method = 'repeatedcv',
-                     classProbs = TRUE,
-                     summaryFunction = multiClassSummary,
-                     number = 10,
-                     repeats = 10,
-                     returnResamp = 'all')
-multiFuncs <- caretFuncs
-multiFuncs$fit <- function(x, y, first, last, ...) {
-  multinom(y ~ x, ...)
-}
-multiFuncs$summary <- multiClassSummary
-multi.ctrl <- rfeControl(functions = multiFuncs,
-                         method = 'repeatedcv',
-                         repeats = 10,
-                         number = 10,
-                         verbose = FALSE,
-                         returnResamp = 'final',
-                         allowParallel = FALSE)
-
-nnetFuncs <- caretFuncs
-nnetFuncs$fit <- function(x, y, first, last, ...) {
-  #train(x, y, method = 'nnet', ...)
-  nnet(x, y, ...)
-}
-nnetFuncs$summary <- multiClassSummary
-nnet.ctrl <- rfeControl(functions = nnetFuncs,
-                        method = 'repeatedcv',
-                        repeats = 10,
-                        number = 10,
-                        verbose = FALSE,
-                        returnResamp = 'final',
-                        allowParallel = FALSE)
-
-rfFuncs$summary <- multiClassSummary
-rf.ctrl <- rfeControl(functions = rfFuncs,
-                      method = 'repeatedcv',
-                      repeats = 10,
-                      number = 10,
-                      verbose = FALSE, 
-                      returnResamp = 'final'
-                      )
 
 make.form <- function(vari, resp) {
   form <- vector(mode = 'list', length = length(vari))
@@ -112,13 +20,6 @@ make.form <- function(vari, resp) {
                                          collapse = '+')))
   }
   form
-}
-
-data.maker <- function(gr, data, p = 0.75) {
-  nd <- data[, colnames(data) %in% gr]
-  out <- apply(nd, 2, createDataPartition,
-               p = p, list = FALSE)
-  out
 }
 
 multi.train <- function(form, data, seed = 1, ...) {
@@ -136,6 +37,7 @@ multi.train <- function(form, data, seed = 1, ...) {
   rr <- lapply(form, train.formula, data = data, ...)
   rr
 }
+
 
 flatten.next <- function(xx) {
   ll <- Filter(function(x) 'list' %in% class(x), xx)
