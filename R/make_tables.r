@@ -1,5 +1,4 @@
 # various tables necessary for the paper
-
 require(xtable)
 require(reshape2)
 
@@ -12,6 +11,10 @@ csex.tab <- cbind(csex.tab, tot = rowSums(csex.tab))
 xsex.tab <- xtable(csex.tab)
 align(xsex.tab) <- 'r|cc|c'
 digits(xsex.tab) <- c(0, 0, 0, 0)
+print.xtable(xsex.tab,
+             file = '../doc/xsex_tab.tex',
+             floating = FALSE,
+             hline.after = c(0, nrow(csex.tab) - 1))
 
 
 # multinomial logistic regression model selection tables
@@ -31,6 +34,31 @@ tmx.1 <- tmx[[1]]
 tmx.2 <- tmx[[2]]
 tmx.3 <- tmx[[3]]
 tmx.4 <- tmx[[4]]
+print.xtable(tmx.1, 
+             file = '../doc/tmx_1.tex',
+             include.rownames = FALSE,
+             floating = FALSE,
+             size = '\\small',
+             sanitize.colnames.function = identity)
+print.xtable(tmx.2, 
+             file = '../doc/tmx_2.tex',
+             include.rownames = FALSE,
+             floating = FALSE,
+             size = '\\small',
+             sanitize.colnames.function = identity)
+print.xtable(tmx.3, 
+             file = '../doc/tmx_3.tex',
+             include.rownames = FALSE,
+             floating = FALSE,
+             size = '\\small',
+             sanitize.colnames.function = identity)
+print.xtable(tmx.4, 
+             file = '../doc/tmx_4.tex',
+             include.rownames = FALSE,
+             floating = FALSE,
+             size = '\\small',
+             sanitize.colnames.function = identity)
+
 
 #generalize comparisons
 coln <- rown <- c('morph 1', 'morph 2', 'molec 1', 'molec 2')
