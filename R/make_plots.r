@@ -15,7 +15,6 @@ source('../src/plotting_functions.r')
 
 source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
 
-source('../R/model_comparison.r')
 load('../data/gen.RData')
 load('../data/shape.RData')
 

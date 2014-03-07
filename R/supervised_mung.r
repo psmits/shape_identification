@@ -32,5 +32,3 @@ adult.design <- Map(function(x, y) {
                           x[, 1:max.ad],
                           cate = x[, y])},
                     x = adult.train, y = groups)
-
-#save.image('../data/supervised_misc.RData')

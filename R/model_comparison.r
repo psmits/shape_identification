@@ -17,8 +17,6 @@ source('../R/multi_funcs.r')
 source('../R/multiclass_roc.r')
 source('../R/supervised_analysis.r')
 
-#load('../data/cluster_res.RData')
-
 # covenience function to make the models play nice
 clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
   if (!is.null(dim(models))) {
@@ -57,10 +55,8 @@ for(jj in seq(length(groups))) {
 names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
 tmod.a <- a.mod
 
-## relative risk and class specific accuracy
+# relative risk and class specific accuracy
 t.a.rr <- lapply(tm.a.analysis$best, function(x) {
                  exp(coef(x$finalModel))})
 t.a.rr.ci <- lapply(tm.a.analysis$best, function(x) {
                     exp(confint(x$finalModel))})
-
-#save.image(file = '../data/analysis.RData')

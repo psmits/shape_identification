@@ -2,10 +2,7 @@ library(shapes)
 library(geomorph)
 library(cluster)
 
-source('../R/mung.r')
-
-#load('../data/cluster_res.RData')
-
+load('../data/cluster_res.RData')
 
 # correlation between size and the first couple PCs
 cs <- rawturt[, ncol(rawturt)]

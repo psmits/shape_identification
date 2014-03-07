@@ -29,9 +29,6 @@ tlda.a <- Map(function(x, g) {
               out},
               x = adult.train, g = groups)
 
-#save(tlda.a, 
-#     file = '../data/lda_boot_mod.RData')
-
 
 # multinomial logistic regression
 set.seed(1)
@@ -42,9 +39,6 @@ tmulti.a <- mapply(multi.train,
                                    , trControl = ctrl
                                    , maxit = 1000),
                    SIMPLIFY = FALSE)
-
-#save(tmulti.a,
-#     file = '../data/multi_boot_mod.RData')
 
 
 # random forests
@@ -58,6 +52,3 @@ trf.a <- Map(function(x, y) {
                  , metric = 'ROC'
                  , trControl = ctrl)},
              x = adult.train, y = groups)
-
-#save(trf.a, 
-#     file = '../data/rf_boot_mod.RData')

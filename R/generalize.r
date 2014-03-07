@@ -1,22 +1,18 @@
-##############################################################################
-##
-##  analysis of turtlee plastron data
-##  analysis of machine learning results
-##
-##  peter d smits
-##  psmits@uchicago.edu
-##
+# bootstrap distributions of AUC ROC values from turtle supervised models
+#
+# peter d smits
+# psmits@uchicago.edu
 ###############################################################################
-require(plyr)
-require(cluster)
-require(randomForest)
-require(caret)
-require(pROC)
-require(MuMIn)
-require(boot)
-require(MASS)
+library(plyr)
+library(cluster)
+library(randomForest)
+library(caret)
+library(pROC)
+library(MuMIn)
+library(boot)
+library(MASS)
 
-source('../R/support_functions.r')
+source('../R/multiclass_roc.r')
 source('../R/model_comparison.r')
 
 # boot strap the generalization
@@ -27,6 +23,7 @@ boot.roc <- function(data, indicies) {
   return(allvone(pp, tt))
 }
 
+# random forests
 rr <- list()
 for (ii in seq(length(groups))) {
   oo <- cbind(trf.a.analysis$class[[ii]],
@@ -36,6 +33,7 @@ for (ii in seq(length(groups))) {
 }
 names(rr) <- groups
 
+# multinomial logistic regression
 mm <- list()
 for (ii in seq(length(groups))) {
   oo <- cbind(tm.a.analysis$class[[ii]],
@@ -45,6 +43,7 @@ for (ii in seq(length(groups))) {
 }
 names(mm) <- groups
 
+# linear discriminate analysis
 ll <- list()
 for (ii in seq(length(groups))){
   oo <- cbind(tl.a.analysis$class[[ii]],
@@ -53,4 +52,4 @@ for (ii in seq(length(groups))){
   ll[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
 }
 
-save(rr, mm, ll, file = '../data/gen.RData')
+save.image(file = '../data/gen.RData')

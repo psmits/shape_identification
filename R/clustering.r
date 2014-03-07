@@ -28,6 +28,4 @@ set.seed(1)
 tmorph.dac <- dac(info.dist, krange = c(1, 50 * n.groups), iter = 10000)
 tadult.dac <- dac(adult.dist, krange = c(1, 50 * n.groups), iter = 10000)
 
-save(tmorph.gap, tmorph.km, tmorph.dac, 
-     tadult.gap, tadult.km, tadult.dac, 
-     file = 'cluster_res.RData')
+save.image(file = 'cluster_res.RData')
