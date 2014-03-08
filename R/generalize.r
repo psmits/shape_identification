@@ -11,6 +11,7 @@ library(pROC)
 library(MuMIn)
 library(boot)
 library(MASS)
+library(nnet)
 
 source('../R/multiclass_roc.r')
 source('../R/model_comparison.r')

@@ -3,20 +3,20 @@
 # peter d smits
 # psmits@uchicago.edu
 ###############################################################################
-
 library(MASS)
+library(nnet)
 library(randomForest)
 library(caret)
 library(parallel)
 library(doParallel)
 
+source('../R/support_functions.r')
 source('../R/caret_funcs.r')  # helper functions for train
 source('../R/supervised_mung.r')  # training and testing data
 
 RNGkind(kind = "L'Ecuyer-CMRG")
-set.seed(1)
-
 registerDoParallel(cores = detectCores())
+set.seed(1)
 
 # linear discriminate 
 set.seed(1)

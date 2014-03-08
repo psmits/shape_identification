@@ -5,6 +5,7 @@
 ###############################################################################
 
 library(MASS)
+library(nnet)
 library(plyr)
 library(cluster)
 library(randomForest)
@@ -18,7 +19,8 @@ source('../R/multiclass_roc.r')
 source('../R/supervised_analysis.r')
 
 # covenience function to make the models play nice
-clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 'spinks')) {
+clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3', 
+                                       'sh4', 'sh5', 'spinks')) {
   if (!is.null(dim(models))) {
     mm <- alply(models, 2)
     names(mm) <- lab
@@ -52,7 +54,7 @@ for(jj in seq(length(groups))) {
                       rf = trf.a.analysis[[jj]]$best,
                       lda = tl.a.analysis$best[[jj]])
 }
-names(a.mod) <- c('sh1', 'sh2', 'sh3', 'spinks')
+names(a.mod) <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
 tmod.a <- a.mod
 
 # relative risk and class specific accuracy

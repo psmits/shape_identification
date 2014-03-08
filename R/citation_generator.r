@@ -7,4 +7,4 @@ libs <- list('RCore' = citation(),
              'Liaw2002' = citation('randomForest'),
              'Maechler2013' = citation('cluster'))
 
-write.bibtex(libs, file = '../documents/packages.bib')
+write.bibtex(libs, file = '../doc/packages.bib')

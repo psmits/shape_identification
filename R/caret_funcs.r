@@ -1,7 +1,9 @@
 # various functions involved with supervised learning via caret
 library(MASS)
+library(nnet)
 library(randomForest)
 library(caret)
+source('../R/multiclass_roc.r')
 
 ctrl <- trainControl(#method = 'LOOCV',
                      method = 'repeatedcv',
@@ -10,6 +12,7 @@ ctrl <- trainControl(#method = 'LOOCV',
                      number = 10,
                      repeats = 10,
                      returnResamp = 'all')
+
 multiFuncs <- caretFuncs
 multiFuncs$fit <- function(x, y, first, last, ...) {
   multinom(y ~ x, ...)
@@ -23,20 +26,6 @@ multi.ctrl <- rfeControl(functions = multiFuncs,
                          verbose = FALSE,
                          returnResamp = 'final',
                          allowParallel = FALSE)
-
-nnetFuncs <- caretFuncs
-nnetFuncs$fit <- function(x, y, first, last, ...) {
-  #train(x, y, method = 'nnet', ...)
-  nnet(x, y, ...)
-}
-nnetFuncs$summary <- multiClassSummary
-nnet.ctrl <- rfeControl(functions = nnetFuncs,
-                        method = 'repeatedcv',
-                        repeats = 10,
-                        number = 10,
-                        verbose = FALSE,
-                        returnResamp = 'final',
-                        allowParallel = FALSE)
 
 rfFuncs$summary <- multiClassSummary
 rf.ctrl <- rfeControl(functions = rfFuncs,

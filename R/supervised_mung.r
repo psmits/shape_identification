@@ -1,9 +1,8 @@
-# prepare testing and training datasets for supervised analysis
+# prepare testing, training datasets and formulas for supervised analysis
 #
 # peter d smits
 # psmits@uchicago.edu
 ###############################################################################
-
 source('../R/support_functions.r')
 source('../R/mung.r')
 
@@ -12,10 +11,8 @@ set.seed(1)
 # formulas
 max.ad <- nrow(adult) / 50
 tvar.a <- paste('PC', 1:max.ad, sep = '')
-tvar.a.s <- c('lat', 'long', tvar.a)
-groups <- list('sh1', 'sh2', 'sh3', 'spinks')
+groups <- list('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
 tform.a <- lapply(groups, function(x, y) make.form(y, x), y = tvar.a)
-tform.a.s <- lapply(groups, function(x, y) make.form(y, x), y = tvar.a.s)
 
 # training and testing data sets
 set.seed(1)
