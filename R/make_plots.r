@@ -16,7 +16,6 @@ source('../R/plotting_functions.r')
 source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
 
 load('../data/gen.RData')
-load('../data/shape.RData')
 
 theme_set(theme_bw())
 
@@ -53,7 +52,7 @@ snd.links <- c(2, 8, 3, 9, 4, 10, 5, 11, 6, 12)
 land <- mshape.plot(fits, links = links, snd.links = snd.links)
 land <- land + coord_equal()
 morph <- putPlot(morph, land, 1, 3)
-pdf(file = '../documents/figure/pca_res.pdf')
+pdf(file = '../doc/figure/pca_res.pdf')
 print(morph)
 dev.off()
 
@@ -123,52 +122,7 @@ for(ii in seq(from = 1, to = nrow(secs.l), by = 2)) {
 gpc <- gpc + facet_grid(pcl ~ pc.typ)
 gpc <- gpc + theme(axis.title = element_blank(),
                    axis.text = element_blank())
-ggsave(file = '../documents/figure/pc_var.png', plot = gpc)
-
-
-# correlation between the first two axes and centroid size
-bcs <- c(cs, cs)
-cent <- cbind(cs = bcs, pc = c(adult$PC1, adult$PC2))
-cent <- cbind(as.data.frame(cent),
-              lab = c(rep('PC1', length(adult$PC1)),
-                      rep('PC2', length(adult$PC2))))
-gcs <- ggplot(cent, aes(x = cs, y = pc)) 
-gcs <- gcs + geom_point() + stat_smooth(method = 'lm')
-gcs <- gcs + facet_wrap(~lab)
-gcs <- gcs + labs(x = 'centroid size', y = 'eigenscore')
-ggsave(file = '../documents/figure/cent_size.png', plot = gcs)
-
-
-# gap statistic plot
-gap <- gap.plot(tadult.gap)
-gap <- gap + theme(axis.title = element_text(size = 9.5),
-                   axis.text = element_text(size = 8))
-ggsave(file = '../documents/figure/gap_res.png', plot = gap)
-
-
-#classes of the gap statistic plot for 2 clust
-adult$long[which(adult$long > -100)] <- adult$long[which(adult$long > -100)] - 100
-adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
-
-set.seed(1)
-gap.second <- pam(as.dist(adult.dist), k = 2)
-gap.map <- map.plot(data = adult,
-                    label = gap.second$clustering,
-                    map = goog.map)
-gap.map <- gap.map + xlim(longmi - 1, longma) + ylim(latmi, latma)
-gap.map <- gap.map + scale_shape_manual(values = c(1,2))
-gap.map <- gap.map + stat_ellipse(geom = 'polygon',
-                                  data = adult,
-                                  mapping = aes(x = long,
-                                                y = lat,
-                                                fill = spinks),
-                                  alpha = 0.35)
-gap.map <- gap.map + scale_fill_manual(values = cbp)
-gap.map <- gap.map + theme(legend.position = 'none',
-                           legend.text = element_text(size = 7),
-                           axis.title = element_text(size = 10),
-                           axis.text = element_text(size = 7))
-ggsave(file = '../documents/figure/gap_map.png', plot = gap.map)
+ggsave(file = '../doc/figure/pc_var.png', plot = gpc)
 
 
 # model selection plots
@@ -217,7 +171,7 @@ ggroc <- ggroc + theme(legend.title = element_blank(),
                        strip.text = element_text(size = 7))
 ggroc <- ggroc + labs(x = '# of features (PCs)', y = 'AUC')
 ggroc <- ggroc + facet_wrap(~.id)
-ggsave(file = '../documents/figure/roc_sel.png', plot = ggroc)
+ggsave(file = '../doc/figure/roc_sel.png', plot = ggroc)
 
 
 # generalize plot
@@ -253,11 +207,10 @@ gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                               '2014', 'molec 2'))
 gdist <- gdist + facet_grid(L1 ~ ., labeller = gen.name)
 gdist <- gdist + labs(x = 'AUC')
-ggsave(file = '../documents/figure/gen_res.png', plot = gdist)
+ggsave(file = '../doc/figure/gen_res.png', plot = gdist)
 
 
-
-# this needs to be updated dramatically
+# plot the results of the generalizations on a map
 gen.maps <- lapply(groups, function(x) {
                    pred.map(map = ggmap(goog.map), 
                             xl = c(longmi, longma), yl = c(latmi, latma),
