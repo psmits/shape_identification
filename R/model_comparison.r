@@ -48,14 +48,14 @@ tl.a <- clean.mods(tlda.a)
 tl.a.analysis <- lda.analysis(tl.a, adult.test)
 
 # best models
-a.mod <- list()
-for(jj in seq(length(groups))) {
-  a.mod[[jj]] <- list(multi = tm.a.analysis$best[[jj]],
-                      rf = trf.a.analysis[[jj]]$best,
-                      lda = tl.a.analysis$best[[jj]])
-}
-names(a.mod) <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
-tmod.a <- a.mod
+#a.mod <- list()
+#for(jj in seq(length(groups))) {
+#  a.mod[[jj]] <- list(multi = tm.a.analysis$best[[jj]],
+#                      rf = trf.a.analysis$best[[jj]],
+#                      lda = tl.a.analysis$best[[jj]])
+#}
+#names(a.mod) <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
+#tmod.a <- a.mod
 
 # relative risk and class specific accuracy
 t.a.rr <- lapply(tm.a.analysis$best, function(x) {

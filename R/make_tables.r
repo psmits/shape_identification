@@ -2,6 +2,8 @@
 require(xtable)
 require(reshape2)
 
+source('../R/plotting_functions.r')
+
 load('../data/gen.RData') 
 load('../data/shape.RData')
 

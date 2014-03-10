@@ -39,8 +39,20 @@ mm <- list()
 for (ii in seq(length(groups))) {
   oo <- cbind(tm.a.analysis$class[[ii]],
               test = adult.test[[ii]][, groups[[ii]]])
+  if(length(levels(oo$test)) == 2) {
 
-  mm[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
+    bin.boot <- function(data, indicies) {
+      data <- data[indicies, ]
+      res <- ifelse(data[, 1] == 'marm', 1, 0)
+      ob <- ifelse(data[, 3] == 'marm', 1, 0)
+      pp <- data[, 2]
+      return(roc(ob, pp)$auc)
+    }
+
+    mm[[ii]] <- boot(data = oo, statistic = bin.boot, R = 1000)
+  } else {
+    mm[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
+  }
 }
 names(mm) <- groups
 
@@ -52,5 +64,6 @@ for (ii in seq(length(groups))){
 
   ll[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
 }
+names(ll) <- groups
 
 save.image(file = '../data/gen.RData')

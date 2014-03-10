@@ -1,17 +1,17 @@
-require(ggplot2)
-require(mapproj) 
-require(maps)
-require(ggmap)
-require(reshape2)
-require(xtable)
-require(grid)
-require(GGally)
-require(scales)
-require(shapes)
-require(geomorph)
-require(devtools)
+library(ggplot2)
+library(mapproj) 
+library(maps)
+library(ggmap)
+library(reshape2)
+library(xtable)
+library(grid)
+library(GGally)
+library(scales)
+library(shapes)
+library(geomorph)
+library(devtools)
 
-source('../src/plotting_functions.r')
+source('../R/plotting_functions.r')
 
 source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
 
@@ -24,12 +24,9 @@ cbp <- c(#'#999999',
          '#E69F00', '#56B4E9', '#009E73', 
          '#F0E442', '#0072B2', '#D55E00', '#CC79A7')
 
-
 # map details
 adult$long[which(adult$long > -100)] <- adult$long[which(adult$long > -100)] - 100
-
 adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
-
 
 longma <- max(adult$long)
 longmi <- min(adult$long)
@@ -197,10 +194,11 @@ mod.names <- c(rep('rf', nrow(rf.rocs)),
 roc.mod <- cbind(mod.names, roc.mod)
 roc.mod <- melt(roc.mod)
 roc.mod$variable <- as.numeric(roc.mod$variable)
-
 roc.mod$.id[roc.mod$.id == 'sh1'] <- 'morph 1'
 roc.mod$.id[roc.mod$.id == 'sh2'] <- 'morph 2'
 roc.mod$.id[roc.mod$.id == 'sh3'] <- 'molec 1'
+roc.mod$.id[roc.mod$.id == 'sh4'] <- 'two species'
+roc.mod$.id[roc.mod$.id == 'sh5'] <- '2014'
 roc.mod$.id[roc.mod$.id == 'spinks'] <- 'molec 2'
 
 ggroc <- ggplot(roc.mod, aes(x = variable, y = value, lty = mod.names))
@@ -251,61 +249,33 @@ gdist <- gdist + theme(#legend.position = 'bottom',
                        axis.text = element_text(size = 7))
 gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                    labels = c('morph 1', 'morph 2',
-                                              'molec 1', 'molec 2'))
+                                              'molec 1', 'two species',
+                                              '2014', 'molec 2'))
 gdist <- gdist + facet_grid(L1 ~ ., labeller = gen.name)
 gdist <- gdist + labs(x = 'AUC')
 ggsave(file = '../documents/figure/gen_res.png', plot = gdist)
 
 
-# best model map
-gg <- ggmap(goog.map)
-gg <- gg + xlim(longmi - 1, longma) + ylim(latmi, latma)
-#gg <- ggplot(map, aes(x = long, y = lat, group = group))
-#gg <- gg + geom_polygon(fill = 'white', colour = 'black')
-#gg <- gg + coord_map('gilbert')
 
-tr <- cbind(long = adult.test$spinks$long, 
-            lat = adult.test$spinks$lat, 
-            label = adult.test$spinks$spinks)
-tr <- cbind(data.frame(tr), type = rep('testing', nrow(tr)))
-te <- cbind(long = adult.test$spinks$long,
-            lat = adult.test$spinks$lat)
-mty <- c(rep('multi', nrow(te)), rep('rf', nrow(te)), rep('lda', nrow(te)))
-te <- rbind(te, te, te)
-te <- cbind(data.frame(te),
-            label = c(tm.a.analysis$class$spinks$pred,
-                      trf.a.analysis$class$spinks$pred,
-                      tl.a.analysis$class$spinks$pred),
-            type = mty)
-turts <- rbind(tr, te)
-
-gg <- gg + geom_point(data = turts,
-                      mapping = aes(x = long, y = lat,
-                                    group = NULL,
-                                    colour = factor(label)))
-gg <- gg + stat_ellipse(geom = 'polygon',
-                        data = adult,
-                        mapping = aes(x = long,
-                                      y = lat,
-                                      fill = spinks),
-                        alpha = 0.35)
-gg <- gg + facet_wrap(~ type)
-gg <- gg + scale_colour_manual(name = '', values = cbp,
-                               labels = c('Northern', 'Eastern', 
-                                          'Western', 'Southern'))
-gg <- gg + scale_fill_manual(name = '', values = cbp,
-                             labels = c('Northern', 'Eastern', 
-                                        'Western', 'Southern'))
-gg <- gg + theme(#legend.position = 'none',
-                 #legend.margin = unit(0, 'cm'),
-                 legend.text = element_text(size = 6),
-                 axis.title = element_text(size = 10),
-                 axis.text = element_text(size = 7))
-ggsave(file = '../documents/figure/gen_map.png', plot = gg)
+# this needs to be updated dramatically
+gen.maps <- lapply(groups, function(x) {
+                   pred.map(map = ggmap(goog.map), 
+                            xl = c(longmi, longma), yl = c(latmi, latma),
+                            test = adult.test, name = x,
+                            mods = list(tm.a.analysis, 
+                                        trf.a.analysis, 
+                                        tl.a.analysis),
+                            types = c('multi', 'rf', 'lda'), data = adult)})
+names(gen.maps) <- groups
+for(ii in seq(length(gen.maps))) {
+  ggsave(file = paste('../doc/figure/gen_map', ii, '.png', sep = ''),
+         plot = gen.maps[[ii]],
+         height = 11, width = 8.5)
+}
 
 
 # 3 most important variables
-most.imp <- trf.a$spinks$optVariables
+# this needs to be updated to reflect most important
 ww <- 'spinks'
 adult$class[adult[, ww] == 1] = 'Northern'
 adult$class[adult[, ww] == 2] = 'Eastern'
@@ -317,160 +287,62 @@ adult$class <- factor(adult$class,
                                         'Western', 
                                         'Southern'))
 
-ggimp <- ggpairs(adult,
-                 columns = c(most.imp[1:3], 'class'), 
-                 colour = 'class',
-                 upper = 'blank',
-                 lower = 'blank',
-                 params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
-pc1 <- ggplot(adult, mapping = aes(x = PC3, y = PC2, colour = class))
-pc1 <- pc1 + geom_point() + scale_color_manual(values = cbp)
-pc2 <- ggplot(adult, mapping = aes(x = PC3, y = PC1, colour = class))
-pc2 <- pc2 + geom_point() + scale_color_manual(values = cbp)
-pc3 <- ggplot(adult, mapping = aes(x = PC2, y = PC1, colour = class))
-pc3 <- pc3 + geom_point() + scale_color_manual(values = cbp)
-hist1 <- ggplot(adult, mapping = aes(x = PC3, fill = class))
-hist1 <- hist1 + geom_histogram()
-hist1 <- hist1 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
-hist2 <- ggplot(adult, mapping = aes(x = PC2, fill = class))
-hist2 <- hist2 + geom_histogram()
-hist2 <- hist2 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
-hist3 <- ggplot(adult, mapping = aes(x = PC1, fill = class))
-hist3 <- hist3 + geom_histogram()
-hist3 <- hist3 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
-
-ggimp <- putPlot(ggimp, pc1, 2, 1)
-ggimp <- putPlot(ggimp, pc2, 3, 1)
-ggimp <- putPlot(ggimp, pc3, 3, 2)
-ggimp <- putPlot(ggimp, hist1, 4, 1)
-ggimp <- putPlot(ggimp, hist2, 4, 2)
-ggimp <- putPlot(ggimp, hist3, 4, 3)
-pdf(file = '../documents/figure/pca_imp.pdf')
-print(ggimp)
-dev.off()
-#ggsave(plot = ggimp)
-
-
-# mean of the different classes
-# these are going to be combined into a single plot using latex
-mt <- mshape(land.adult)
-mts <- mt[, 2:1]
-mts[, 2] <- -1 * mts[, 2]
-spi <- adult$spinks
-wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
-mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = land.adult)
-mins <- lapply(mspi, function(x) min(x[, 2]))
-mins <- min(unlist(mins))
-lmat <- cbind(links, c(links[-1], links[1]))
-lmat <- rbind(lmat, matrix(snd.links, nrow = 5, byrow = TRUE))
-mspi <- lapply(mspi, function(x) x[, 2:1])
-mspi <- lapply(mspi, function(x) {
-               x[, 2] <- -1 * x[, 2]
-               x})
-for(ii in seq(length(mspi))) {
-  pdf(file = paste0('../documents/figure/mshape_', ii, '.pdf'), width = 3.4)
-  par(mar = c(0, 0, 0, 0), xaxs = 'i')
-  plotRefToTarget(M1 = mts, M2 = mspi[[ii]], mag = 2, links = lmat)
+pp <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
+most.imp <- lapply(trf.a, function(x) x$optVariables)
+imp.plots <- list()
+for(ii in seq(length(pp))) {
+  if(length(most.imp[[ii]]) < 2) {
+    many <- 3
+  } else {
+    many <- 2
+  }
+  imp.plots[[ii]] <- imp.pairs(most.imp[[ii]], many, pp[ii], adult, cbp)
+}
+for(ii in seq(length(imp.plots))) {
+  pdf(file = paste('../doc/figure/pca_imp', ii, '.pdf', sep = ''))
+  print(imp.plots[[ii]])
   dev.off()
 }
 
 
-# variation along most important axes
-fst.max <- which.max(adult[, most.imp[1]])
-fst.min <- which.min(adult[, most.imp[1]])
-snd.max <- which.max(adult[, most.imp[2]])
-snd.min <- which.min(adult[, most.imp[2]])
-
-ex.lab <- function(var, value) {
-  value <- as.character(value)
-  if(var == 'lab') {
-    value[value == '1'] <- 'min'
-    value[value == '2'] <- 'mean'
-    value[value == '3'] <- 'max'
+# mean of the different classes
+# these are going to be combined into a single plot using latex
+mspi <- lapply(pp, function(x) {
+               class.mean(x, land.adult, adult)})
+mt <- mshape(land.adult)
+mts <- mt[, 2:1]
+mts[, 2] <- -1 * mts[, 2]
+for(jj in seq(length(mspi))) {
+  for(ii in seq(length(mspi[[jj]]))) {
+    pdf(file = paste0('../doc/figure/mshape_', pp[jj], '_', ii, '.pdf'), 
+        width = 3.4)
+    par(mar = c(0, 0, 0, 0), xaxs = 'i')
+    plotRefToTarget(M1 = mts, M2 = mspi[[jj]][[ii]], mag = 2, links = lmat)
+    dev.off()
   }
-  return(value)
 }
 
-comps <- list(land.adult[, , fst.min], land.adult[, , fst.max],
-              mt,
-              land.adult[, , snd.min], land.adult[, , snd.max], 
-              mt)
-snd.com <- comps <- lapply(comps, as.data.frame)
-comps <- lapply(comps, function(x) x[links, ])
-comps <- lapply(comps, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
-comps <- lapply(comps, function(x) {
-                names(x) <- c('V1', 'V2', 'V3', 'V4')
-                x})
-comps <- Reduce(rbind, comps)
-shl <- unlist(lapply(most.imp[1:2], function(x) rep(x, 3 * nrow(mt))))
-shl <- factor(shl, levels = c('PC3', 'PC2'))
-typ <- c(rep('min', nrow(mt)), rep('max', nrow(mt)))
-mm <- rep('mean', nrow(mt))
-typ <- c(typ, mm, typ, mm)
-varshape <- cbind(comps, shl, typ)
 
-# second links
-scl <- lapply(snd.com, function(x) x[snd.links, ])
-scl <- lapply(scl, function(x) cbind(x[ss, ], x[ss + 1, ]))
-scl <- lapply(scl, function(x) {
-              names(x) <- c('V1', 'V2', 'V3', 'V4')
-              x})
-scl <- Reduce(rbind, scl)
-shl <- unlist(lapply(most.imp[1:2], 
-                     function(x) rep(x, 3 * length(snd.links) / 2)))
-shl <- factor(shl, levels = c('PC3', 'PC2'))
-typ <- c(rep('min', length(snd.links) / 2), 
-         rep('max', length(snd.links) / 2))
-mm <- rep('mean', length(snd.links) / 2)
-typ <- c(typ, mm, typ, mm)
-scl <- cbind(scl, shl, typ)
 
-gsh <- ggplot(varshape, aes(x = V2, y = -V1)) + geom_point()
-gsh <- gsh + geom_segment(mapping = aes(x = V2, xend = V4,
-                                        y = -V1, yend = -V3))
-for(ii in seq(from = 1, to = nrow(scl), by = 2)) {
-  gsh <- gsh + geom_segment(data = scl[c(ii, ii + 1), ],
-                            mapping = aes(x = V2,
-                                          xend = V4,
-                                          y = -V1,
-                                          yend = -V3))
+# variation along most important axes
+gsh <- lapply(most.imp, function(x) shape.imp(x, adult, land.adult, links))
+for(ii in seq(length(gsh))) {
+  ggsave(file = paste0('../doc/figure/imp_var_', groups[[ii]], '.png'), 
+         plot = gsh[[ii]], height = 15, width = 10)
 }
-gsh <- gsh + facet_grid(shl ~ typ)
-gsh <- gsh + theme(axis.title = element_blank(),
-                   axis.text = element_blank())
-ggsave(file = '../documents/figure/imp_var.png', plot = gsh)
 
 
 # relative risk of the multinomial logistic regression model
+
 relrisk <- t.a.rr$spinks
 relci <- t.a.rr.ci$spinks
 op <- trf.a$spinks$optVariables
-rel <- list()
-for(ii in seq(nrow(relrisk))) {
-  rel[[ii]] <- as.data.frame(cbind(relrisk[ii, op], relci[op, , ii]))
-  colnames(rel[[ii]]) <- c('rr', 'bot', 'up')
-}
-names(rel) <- c('eastern', 'western', 'southern')
-rel <- lapply(rel, function(x) cbind(x, pc = rownames(x)))
-rel <- mapply(function(x, y) cbind(x, class = rep(y, nrow(x))), 
-              x = rel, y = names(rel),
-              SIMPLIFY = FALSE)
-rel <- Reduce(rbind, rel)
-
-rel$pc <- factor(rel$pc, levels = trf.a$spinks$optVariables)
-rel <- rel[rel$pc %in% op[1:3], ]
-
-ggrel <- ggplot(rel, aes(x = class, y = rr, ymax = up, ymin = bot)) 
-ggrel <- ggrel + geom_pointrange()
-ggrel <- ggrel + geom_hline(aes(yintercept = 0), lty = 2)
-ggrel <- ggrel + facet_wrap(~ pc)
-ggrel <- ggrel + labs(y = 'relative risk')
-ggrel <- ggrel + theme(axis.text = element_text(size = 9)) 
-
-ggsave(file = '../documents/figure/rel_risk.png', plot = ggrel)
+#relrisk.plot(relrisk, relci, op, 2)
+#ggsave(file = '../documents/figure/rel_risk.png', plot = ggrel)
 
 
 # plot of the linear discriminate analysis
+# this needs to be generalized
 lda.scal <- tl.a.analysis$best$spinks$finalModel$scaling
 lda.points <- as.data.frame(as.matrix(adult.train$spinks[, 1:10]) %*% lda.scal)
 lda.points <- cbind(lda.points,

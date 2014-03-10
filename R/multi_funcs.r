@@ -49,7 +49,12 @@ multi.analysis <- function(model, class, test) {
 rf.analysis <- function(model, class, test) {
   out <- list()
   out$varimp <- lapply(model, varImp)
-  out$re <- resamples(model)
+  out$best <- Map(function(x) {
+                  rr <- x$results$ROC
+                  sel <- which.max(unlist(rr))
+                  sel},
+                  x = model)
+#  out$re <- resamples(model)
   out$class <- mapply(predict, model, test,
                       SIMPLIFY = FALSE)
   out$conf <- Map(function(x, y) confusionMatrix(x$pred, y),
