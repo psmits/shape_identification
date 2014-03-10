@@ -278,7 +278,7 @@ for(jj in seq(length(mspi))) {
 
 
 # variation along most important axes
-gsh <- lapply(most.imp, function(x) shape.imp(x, adult, land.adult, links))
+gsh <- lapply(most.imp, function(x) shape.imp(x, adult, land.adult, links, snd.links))
 for(ii in seq(length(gsh))) {
   ggsave(file = paste0('../doc/figure/imp_var_', groups[[ii]], '.png'), 
          plot = gsh[[ii]], height = 15, width = 10)

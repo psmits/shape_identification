@@ -236,7 +236,8 @@ class.mean <- function(scheme, shapes, data) {
 #' @param data df; data to plot
 #' @param shape 3-way array; shape data
 #' @param links order of links between points
-shape.imp <- function(imp, data, shape, links) {
+#' @param snd.links 
+shape.imp <- function(imp, data, shape, links, snd.links) {
   fst.max <- which.max(data[, imp[1]])
   fst.min <- which.min(data[, imp[1]])
   snd.max <- which.max(data[, imp[2]])
@@ -273,15 +274,17 @@ shape.imp <- function(imp, data, shape, links) {
   varshape <- cbind(comps, shl, typ)
 
   # second links
+  ss <- seq(from = 1, to = length(snd.links), by = 2)
   scl <- lapply(snd.com, function(x) x[snd.links, ])
   scl <- lapply(scl, function(x) cbind(x[ss, ], x[ss + 1, ]))
   scl <- lapply(scl, function(x) {
                 names(x) <- c('V1', 'V2', 'V3', 'V4')
                 x})
   scl <- Reduce(rbind, scl)
-  shl <- unlist(lapply(most.imp[1:2], 
+  shl <- unlist(lapply(imp[1:2], 
                        function(x) rep(x, 3 * length(snd.links) / 2)))
   shl <- factor(shl, levels = imp[1:2])
+  names(shl) <- NULL
   typ <- c(rep('min', length(snd.links) / 2), 
            rep('max', length(snd.links) / 2))
   mm <- rep('mean', length(snd.links) / 2)
