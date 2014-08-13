@@ -5,9 +5,9 @@
 ###############################################################################
 
 # packages
-require(shapes)
-require(geomorph)
-require(plyr)
+library(shapes)
+library(geomorph)
+library(plyr)
 
 # source files
 source('../R/array2df.r')

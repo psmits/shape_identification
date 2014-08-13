@@ -23,8 +23,7 @@ set.seed(1)
 tlda.a <- Map(function(x, g) {
               out <- list()
               for(ii in seq(max.ad)) {
-                out[[ii]] <- train(x[seq(ii)], x[, g], method = 'lda',
-                                   metric = 'ROC', trControl = ctrl)
+                out[[ii]] <- lda(x[seq(ii)], x[, g])
               }
               out},
               x = adult.train, g = groups)
@@ -32,15 +31,14 @@ tlda.a <- Map(function(x, g) {
 
 # multinomial logistic regression
 set.seed(1)
-tmulti.a <- mapply(multi.train,
-                   form = tform.a, data = adult.train,
-                   MoreArgs = list(method = 'multinom'
-                                   , metric = 'ROC'
-                                   , trControl = ctrl
-                                   , maxit = 1000),
-                   SIMPLIFY = FALSE)
-
-
+tmulti.a <- Map(function(x, g) {
+              out <- list()
+              for(ii in seq(length(g))) {
+                out[[ii]] <- multinom(g[[ii]], data = x)
+              }
+              out},
+              x = adult.train, g = tform.a)
+  
 # random forests
 set.seed(1)
 trf.a <- Map(function(x, y) {
@@ -48,7 +46,6 @@ trf.a <- Map(function(x, y) {
                  , y = x[, y]
                  , sizes = 1:floor(max.ad)
                  , rfeControl = rf.ctrl
-                 , ntree = 1000
-                 , metric = 'ROC'
-                 , trControl = ctrl)},
+                 , ntree = 100
+                 , metric = 'ROC')},
              x = adult.train, y = groups)

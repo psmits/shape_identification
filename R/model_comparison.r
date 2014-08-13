@@ -45,20 +45,12 @@ trf.a.analysis <- rf.analysis(trf.a, ad.class, adult.test)
 
 # linear discriminate analysis
 tl.a <- clean.mods(tlda.a)
-tl.a.analysis <- lda.analysis(tl.a, adult.test)
+tl.a <- lapply(tl.a, function(x) x[-1])
+tl.a.analysis <- lda.analysis(tl.a, adult.train, adult.test, ad.class)
 
-# best models
-#a.mod <- list()
-#for(jj in seq(length(groups))) {
-#  a.mod[[jj]] <- list(multi = tm.a.analysis$best[[jj]],
-#                      rf = trf.a.analysis$best[[jj]],
-#                      lda = tl.a.analysis$best[[jj]])
-#}
-#names(a.mod) <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
-#tmod.a <- a.mod
 
 # relative risk and class specific accuracy
-t.a.rr <- lapply(tm.a.analysis$best, function(x) {
-                 exp(coef(x$finalModel))})
-t.a.rr.ci <- lapply(tm.a.analysis$best, function(x) {
-                    exp(confint(x$finalModel))})
+#t.a.rr <- lapply(tm.a.analysis$best, function(x) {
+#                 exp(coef(x))})
+#t.a.rr.ci <- lapply(tm.a.analysis$best, function(x) {
+#                    exp(confint(x))})

@@ -26,22 +26,18 @@ multi.mod <- function(data, formula, preProc) {
 #' @return list of important model values
 multi.analysis <- function(model, class, test) {
   out <- list()
-  out$sel <- lapply(model, function(mod) model.sel(lapply(mod, function(x) x$finalModel)))
-  out$best <- mapply(function(sel, mod) mod[[as.numeric(rownames(sel)[1])]],
-                     sel = out$sel, mod = model,
-                     SIMPLIFY = FALSE)
+  out$aic <- lapply(model, function(mod) unlist(lapply(mod, AICc)))
+  out$best <- Map(function(x, y) {
+                  mm <- which.min(x)
+                  y[[mm]] }, x = out$aic, y = model)
   pc <- mapply(predict, out$best, test,
-               MoreArgs = list(type = 'raw'), SIMPLIFY = FALSE)
+               MoreArgs = list(type = 'class'), SIMPLIFY = FALSE)
   pp <- vector(mode = 'list', length = length(out$best))
   for(ii in seq(length(out$best))) {
-    pp[[ii]] <- predict(out$best[[ii]]$finalModel, test[[ii]], type = 'probs')
+    pp[[ii]] <- predict(out$best[[ii]], test[[ii]], type = 'probs')
   }
   out$class <- mapply(function(x, y) cbind(pred = x, as.data.frame(y)), 
                       x = pc, y = pp, SIMPLIFY = FALSE)
-    
-  #out$conf <- Map(confusionMatrix,
-  #                out$class$class, class)
-
   out
 }
 
@@ -63,18 +59,48 @@ rf.analysis <- function(model, class, test) {
 }
 
 # take out important values from linear discriminate analysis results
-lda.analysis <- function(model, test) {
+lda.analysis <- function(model, train, test, class) {
   out <- list()
-  out$best <- Map(function(x) {
-                  rr <- lapply(x, function(a) a$results$ROC)
-                  sel <- which.max(unlist(rr))
-                  x[[sel]]},
-                  x = model)
 
-  out$class <- Map(function(mm, tt) {
-                   nn <- predict(mm$finalModel, 
-                                 tt[, seq(length(mm$finalModel$xNames))])
-                   oo <- cbind(pred = nn$class, as.data.frame(nn$posterior))
-                   oo}, mm = out$best, tt = test)
+  # need to choose a best model
+  # do this based on within test auc
+  pr <- list()
+  for(ii in seq(length(model))) {
+    p <- list()
+    for(jj in seq(length(model[[ii]]))) {
+      guess <- predict(model[[ii]][[jj]], 
+                       train[[ii]][, colnames(model[[ii]][[jj]]$means)])
+      p[[jj]] <- guess
+    }
+    pr[[ii]] <- p
+  }
+
+  tauc <- function(pred, obs, pred.res) {
+    prob <- lapply(levels(pred), function(class) {
+                   pp <- ifelse(pred == class, 1, 0)
+                   oo <- ifelse(obs == class, 1, 0)
+                   prob <- pred.res[, class]
+
+                   ps <- auc(oo, prob)
+                   ps})
+    mauc <- colMeans(do.call(rbind, prob))
+    mauc
+  }
+  aucs <- Map(function(predic, cla) {
+              unlist(lapply(predic, function(x) tauc(x$class, cla, 
+                                                     pred.res = x$posterior)))},
+              predic = pr, cla = class)
+
+  out$best <- Map(function(x, y) x[[y]], model, lapply(aucs, which.max))
+
+  gr <- list()
+  for(ii in seq(length(out$best))) {
+    guess <- predict(out$best[[ii]],
+                       test[[ii]][, colnames(out$best[[ii]]$means)])
+    gr[[ii]] <- cbind(guess$class, guess$posterior)
+  }
+  out$class <- gr
+
   out
 }
+
