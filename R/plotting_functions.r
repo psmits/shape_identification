@@ -7,14 +7,6 @@
 ##
 ###############################################################################
 
-require(ggplot2)
-require(reshape2)
-require(plyr)
-require(GGally)
-require(maps)
-require(mapproj) 
-require(ggmap)
-
 source('../R/support_functions.r')
 
 gap.plot <- function(gap) {

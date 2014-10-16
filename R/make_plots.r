@@ -10,6 +10,7 @@ library(scales)
 library(shapes)
 library(geomorph)
 library(devtools)
+library(plyr)
 
 source('../R/plotting_functions.r')
 
@@ -18,10 +19,15 @@ source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
 load('../data/gen.RData')
 
 theme_set(theme_bw())
-
-cbp <- c(#'#999999', 
-         '#E69F00', '#56B4E9', '#009E73', 
-         '#F0E442', '#0072B2', '#D55E00', '#CC79A7')
+cbp <- c('#E69F00', '#56B4E9', '#009E73', '#F0E442', 
+         '#0072B2', '#D55E00', '#CC79A7')
+theme_update(axis.text = element_text(size = 20),
+             axis.title = element_text(size = 30),
+             axis.title.y = element_text(hjust = 0.1),
+             legend.text = element_text(size = 25),
+             legend.title = element_text(size = 26),
+             legend.key.size = unit(2, 'cm'),
+             strip.text = element_text(size = 25))
 
 # map details
 adult$long[which(adult$long > -100)] <- adult$long[which(adult$long > -100)] - 100
@@ -122,56 +128,57 @@ for(ii in seq(from = 1, to = nrow(secs.l), by = 2)) {
 gpc <- gpc + facet_grid(pcl ~ pc.typ)
 gpc <- gpc + theme(axis.title = element_blank(),
                    axis.text = element_blank())
-ggsave(file = '../doc/figure/pc_var.png', plot = gpc)
+ggsave(file = '../doc/figure/pc_var.png', plot = gpc,
+       width = 15, height = 10)
 
 
-# model selection plots
-rf.rocs <- lapply(trf.a, function(x) {
-                  rr <- x$results$ROC
-                  rr})
-rf.rocs <- ldply(rf.rocs)
-multi.rocs <- lapply(tm.a, function(x) {
-                     lapply(x, function(y) {
-                            rr <- max(y$results$ROC)
-                            rr})})
-multi.rocs <- ldply(lapply(lapply(multi.rocs, ldply), t))
-lda.rocs <- lapply(tl.a, function(x) {
-                   lapply(x, function(y) {
-                          y$results$ROC})})
-lda.rocs <- ldply(lapply(lapply(lda.rocs, ldply), t))
-
-names(rf.rocs) <- names(multi.rocs) 
-roc.mod <- rbind(rf.rocs, multi.rocs, lda.rocs)
-mod.names <- c(rep('rf', nrow(rf.rocs)), 
-               rep('multi', nrow(multi.rocs)),
-               rep('lda', nrow(lda.rocs)))
-roc.mod <- cbind(mod.names, roc.mod)
-roc.mod <- melt(roc.mod)
-roc.mod$variable <- as.numeric(roc.mod$variable)
-roc.mod$.id[roc.mod$.id == 'sh1'] <- 'morph 1'
-roc.mod$.id[roc.mod$.id == 'sh2'] <- 'morph 2'
-roc.mod$.id[roc.mod$.id == 'sh3'] <- 'molec 1'
-roc.mod$.id[roc.mod$.id == 'sh4'] <- 'two species'
-roc.mod$.id[roc.mod$.id == 'sh5'] <- '2014'
-roc.mod$.id[roc.mod$.id == 'spinks'] <- 'molec 2'
-
-ggroc <- ggplot(roc.mod, aes(x = variable, y = value, lty = mod.names))
-ggroc <- ggroc + geom_line()
-ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
-ggroc <- ggroc + scale_linetype_manual(labels = c('linear discriminate analysis',
-                                                  'mulitnomial logistic regression',
-                                                  'random forest'),
-                                      values = c(1,2,3))
-ggroc <- ggroc + theme(legend.title = element_blank(),
-                       #legend.position = 'bottom',
-                       legend.margin = unit(0, 'cm'),
-                       legend.text = element_text(size = 6),
-                       axis.title = element_text(size = 10),
-                       axis.text = element_text(size = 7),
-                       strip.text = element_text(size = 7))
-ggroc <- ggroc + labs(x = '# of features (PCs)', y = 'AUC')
-ggroc <- ggroc + facet_wrap(~.id)
-ggsave(file = '../doc/figure/roc_sel.png', plot = ggroc)
+## model selection plots
+#rf.rocs <- lapply(trf.a, function(x) {
+#                  rr <- x$results$ROC
+#                  rr})
+#rf.rocs <- ldply(rf.rocs)
+#multi.rocs <- lapply(tm.a, function(x) {
+#                     lapply(x, function(y) {
+#                            rr <- max(y$results$ROC)
+#                            rr})})
+##multi.rocs <- ldply(lapply(lapply(multi.rocs, ldply), t))
+#lda.rocs <- lapply(tl.a, function(x) {
+#                   lapply(x, function(y) {
+#                          y$results$ROC})})
+#lda.rocs <- ldply(lapply(lapply(lda.rocs, ldply), t))
+#
+#names(rf.rocs) <- names(multi.rocs) 
+#roc.mod <- rbind(rf.rocs, multi.rocs, lda.rocs)
+#mod.names <- c(rep('rf', nrow(rf.rocs)), 
+#               rep('multi', nrow(multi.rocs)),
+#               rep('lda', nrow(lda.rocs)))
+#roc.mod <- cbind(mod.names, roc.mod)
+#roc.mod <- melt(roc.mod)
+#roc.mod$variable <- as.numeric(roc.mod$variable)
+#roc.mod$.id[roc.mod$.id == 'sh1'] <- 'morph 1'
+#roc.mod$.id[roc.mod$.id == 'sh2'] <- 'morph 2'
+#roc.mod$.id[roc.mod$.id == 'sh3'] <- 'molec 1'
+#roc.mod$.id[roc.mod$.id == 'sh4'] <- 'two species'
+#roc.mod$.id[roc.mod$.id == 'sh5'] <- '2014'
+#roc.mod$.id[roc.mod$.id == 'spinks'] <- 'molec 2'
+#
+#ggroc <- ggplot(roc.mod, aes(x = variable, y = value, lty = mod.names))
+#ggroc <- ggroc + geom_line()
+#ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
+#ggroc <- ggroc + scale_linetype_manual(labels = c('linear discriminate analysis',
+#                                                  'mulitnomial logistic regression',
+#                                                  'random forest'),
+#                                       values = c(1,2,3))
+#ggroc <- ggroc + theme(legend.title = element_blank(),
+#                       #legend.position = 'bottom',
+#                       legend.margin = unit(0, 'cm'),
+#                       legend.text = element_text(size = 6),
+#                       axis.title = element_text(size = 10),
+#                       axis.text = element_text(size = 7),
+#                       strip.text = element_text(size = 7))
+#ggroc <- ggroc + labs(x = '# of features (PCs)', y = 'AUC')
+#ggroc <- ggroc + facet_wrap(~.id)
+#ggsave(file = '../doc/figure/roc_sel.png', plot = ggroc)
 
 
 # generalize plot
@@ -193,38 +200,39 @@ vv <- Reduce(cbind, Map(function(x) x$t, ll))
 colnames(vv) <- groups
 zz <- list(rf = oo, mn = uu, lda = vv)
 dd <- melt(zz)
-gdist <- ggplot(dd, aes(x = value, fill = X2)) + geom_density(alpha = 0.5,
-                                                              size = 0.1)
-gdist <- gdist + theme(#legend.position = 'bottom',
-                       legend.title = element_blank(),
-                       legend.margin = unit(0, 'cm'),
-                       legend.text = element_text(size = 6),
-                       axis.title = element_text(size = 10),
-                       axis.text = element_text(size = 7))
+gdist <- ggplot(dd, aes(x = value, fill = Var2))
+gdist <- gdist + geom_histogram(alpha = 0.3,
+                                size = 0.1,
+                                position = 'identity',
+                                colour = 'darkgrey')
 gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                    labels = c('morph 1', 'morph 2',
                                               'molec 1', 'two species',
                                               '2014', 'molec 2'))
 gdist <- gdist + facet_grid(L1 ~ ., labeller = gen.name)
 gdist <- gdist + labs(x = 'AUC')
-ggsave(file = '../doc/figure/gen_res.png', plot = gdist)
+gdist <- gdist + theme(legend.title = element_blank(),
+                       legend.margin = unit(0, 'cm'),
+                       legend.text = element_text(size = 6))
+ggsave(file = '../doc/figure/gen_res.png', plot = gdist,
+       width = 15, height = 10)
 
 
-# plot the results of the generalizations on a map
-gen.maps <- lapply(groups, function(x) {
-                   pred.map(map = ggmap(goog.map), 
-                            xl = c(longmi, longma), yl = c(latmi, latma),
-                            test = adult.test, name = x,
-                            mods = list(tm.a.analysis, 
-                                        trf.a.analysis, 
-                                        tl.a.analysis),
-                            types = c('multi', 'rf', 'lda'), data = adult)})
-names(gen.maps) <- groups
-for(ii in seq(length(gen.maps))) {
-  ggsave(file = paste('../doc/figure/gen_map', ii, '.png', sep = ''),
-         plot = gen.maps[[ii]],
-         height = 11, width = 8.5)
-}
+## plot the results of the generalizations on a map
+#gen.maps <- lapply(groups, function(x) {
+#                   pred.map(map = ggmap(goog.map), 
+#                            xl = c(longmi, longma), yl = c(latmi, latma),
+#                            test = adult.test, name = x,
+#                            mods = list(tm.a.analysis, 
+#                                        trf.a.analysis, 
+#                                        tl.a.analysis),
+#                            types = c('multi', 'rf', 'lda'), data = adult)})
+#names(gen.maps) <- groups
+#for(ii in seq(length(gen.maps))) {
+#  ggsave(file = paste('../doc/figure/gen_map', ii, '.png', sep = ''),
+#         plot = gen.maps[[ii]],
+#         height = 11, width = 8.5)
+#}
 
 
 # 3 most important variables
@@ -235,10 +243,10 @@ adult$class[adult[, ww] == 2] = 'Eastern'
 adult$class[adult[, ww] == 3] = 'Western'
 adult$class[adult[, ww] == 4] = 'Southern'
 adult$class <- factor(adult$class, 
-                             levels = c('Northern', 
-                                        'Eastern', 
-                                        'Western', 
-                                        'Southern'))
+                      levels = c('Northern', 
+                                 'Eastern', 
+                                 'Western', 
+                                 'Southern'))
 
 pp <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
 most.imp <- lapply(trf.a, function(x) x$optVariables)
@@ -258,23 +266,22 @@ for(ii in seq(length(imp.plots))) {
 }
 
 
-# mean of the different classes
-# these are going to be combined into a single plot using latex
-mspi <- lapply(pp, function(x) {
-               class.mean(x, land.adult, adult)})
-mt <- mshape(land.adult)
-mts <- mt[, 2:1]
-mts[, 2] <- -1 * mts[, 2]
-for(jj in seq(length(mspi))) {
-  for(ii in seq(length(mspi[[jj]]))) {
-    pdf(file = paste0('../doc/figure/mshape_', pp[jj], '_', ii, '.pdf'), 
-        width = 3.4)
-    par(mar = c(0, 0, 0, 0), xaxs = 'i')
-    plotRefToTarget(M1 = mts, M2 = mspi[[jj]][[ii]], mag = 2, links = lmat)
-    dev.off()
-  }
-}
-
+## mean of the different classes
+## these are going to be combined into a single plot using latex
+#mspi <- lapply(pp, function(x) {
+#               class.mean(x, land.adult, adult)})
+#mt <- mshape(land.adult)
+#mts <- mt[, 2:1]
+#mts[, 2] <- -1 * mts[, 2]
+#for(jj in seq(length(mspi))) {
+#  for(ii in seq(length(mspi[[jj]]))) {
+#    pdf(file = paste0('../doc/figure/mshape_', pp[jj], '_', ii, '.pdf'), 
+#        width = 3.4)
+#    par(mar = c(0, 0, 0, 0), xaxs = 'i')
+#    plotRefToTarget(M1 = mts, M2 = mspi[[jj]][[ii]], mag = 2, links = lmat)
+#    dev.off()
+#  }
+#}
 
 
 # variation along most important axes
@@ -286,7 +293,6 @@ for(ii in seq(length(gsh))) {
 
 
 # relative risk of the multinomial logistic regression model
-
 relrisk <- t.a.rr$spinks
 relci <- t.a.rr.ci$spinks
 op <- trf.a$spinks$optVariables
@@ -296,8 +302,8 @@ op <- trf.a$spinks$optVariables
 
 # plot of the linear discriminate analysis
 # this needs to be generalized
-lda.scal <- tl.a.analysis$best$spinks$finalModel$scaling
-lda.points <- as.data.frame(as.matrix(adult.train$spinks[, 1:10]) %*% lda.scal)
+lda.scal <- tl.a.analysis$best$spinks$scaling
+lda.points <- as.data.frame(as.matrix(adult.train$spinks[, 1:4]) %*% lda.scal)
 lda.points <- cbind(lda.points,
                     class = adult.train$spinks$spinks)
 lda.points$class <- as.character(lda.points$class)
@@ -337,6 +343,6 @@ gglda <- putPlot(gglda, ld3, 3, 2)
 gglda <- putPlot(gglda, lh1, 4, 1)
 gglda <- putPlot(gglda, lh2, 4, 2)
 gglda <- putPlot(gglda, lh3, 4, 3)
-pdf(file = '../documents/figure/lda.pdf')
+pdf(file = '../docs/figure/lda.pdf')
 print(gglda)
 dev.off()
