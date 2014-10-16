@@ -61,6 +61,7 @@ ll <- list()
 for (ii in seq(length(groups))){
   oo <- cbind(tl.a.analysis$class[[ii]],
               test = adult.test[[ii]][, groups[[ii]]])
+  names(oo)[1] <- 'pred'
 
   ll[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
 }

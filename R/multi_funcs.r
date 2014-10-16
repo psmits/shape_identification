@@ -100,6 +100,20 @@ lda.analysis <- function(model, train, test, class) {
     gr[[ii]] <- cbind(guess$class, guess$posterior)
   }
   out$class <- gr
+  out$class <- lapply(out$class, data.frame)
+
+  fix.names <- function(cc) {
+    ff <- apply(cc, 1, function(x) {
+                nn <- names(x[-1])
+                nn[x[1]]})
+    if(all(grepl('X', ff))) {
+      ff <- gsub('X', '', ff)
+    }
+    cc[, 1] <- ff
+    names(cc)[-1] <- gsub('X', '', names(cc)[-1])
+    cc
+  }
+  out$class <- lapply(out$class, fix.names)
 
   out
 }

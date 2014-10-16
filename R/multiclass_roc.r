@@ -53,7 +53,7 @@ multiClassSummary <- function(data, lev = NULL, model = NULL) {
 
 # multiclass roc
 allvone <- function(pred.res, obs) {
-  pred <- pred.res$pred
+  pred <- factor(pred.res$pred)
   prob <- lapply(levels(pred), function(class) {
                  pp <- ifelse(pred == class, 1, 0)
                  oo <- ifelse(obs == class, 1, 0)
