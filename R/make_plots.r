@@ -218,21 +218,25 @@ ggsave(file = '../doc/figure/gen_res.png', plot = gdist,
        width = 15, height = 10)
 
 
-## plot the results of the generalizations on a map
-#gen.maps <- lapply(groups, function(x) {
-#                   pred.map(map = ggmap(goog.map), 
-#                            xl = c(longmi, longma), yl = c(latmi, latma),
-#                            test = adult.test, name = x,
-#                            mods = list(tm.a.analysis, 
-#                                        trf.a.analysis, 
-#                                        tl.a.analysis),
-#                            types = c('multi', 'rf', 'lda'), data = adult)})
-#names(gen.maps) <- groups
-#for(ii in seq(length(gen.maps))) {
-#  ggsave(file = paste('../doc/figure/gen_map', ii, '.png', sep = ''),
-#         plot = gen.maps[[ii]],
-#         height = 11, width = 8.5)
-#}
+# plot the results of the generalizations on a map
+names(tl.a.analysis$class) <- groups
+gen.maps <- lapply(groups, function(x) {
+                   pred.map(map = ggmap(goog.map), 
+                            xl = c(longmi, longma+1), yl = c(latmi-2, latma),
+                            test = adult.test, name = x,
+                            mods = list(tm.a.analysis, 
+                                        trf.a.analysis, 
+                                        tl.a.analysis),
+                            types = c('multi', 'rf', 'lda'), data = adult)})
+names(gen.maps) <- groups
+gen.maps <- lapply(gen.maps, function(x) {
+                   x + scale_colour_manual(name = '', values = cbp) + 
+                   scale_fill_manual(name = '', values = cbp)})
+for(ii in seq(length(gen.maps))) {
+  ggsave(file = paste('../doc/figure/gen_map', ii, '.png', sep = ''),
+         plot = gen.maps[[ii]],
+         height = 11, width = 8.5)
+}
 
 
 # 3 most important variables
@@ -266,22 +270,24 @@ for(ii in seq(length(imp.plots))) {
 }
 
 
-## mean of the different classes
-## these are going to be combined into a single plot using latex
-#mspi <- lapply(pp, function(x) {
-#               class.mean(x, land.adult, adult)})
-#mt <- mshape(land.adult)
-#mts <- mt[, 2:1]
-#mts[, 2] <- -1 * mts[, 2]
-#for(jj in seq(length(mspi))) {
-#  for(ii in seq(length(mspi[[jj]]))) {
-#    pdf(file = paste0('../doc/figure/mshape_', pp[jj], '_', ii, '.pdf'), 
-#        width = 3.4)
-#    par(mar = c(0, 0, 0, 0), xaxs = 'i')
-#    plotRefToTarget(M1 = mts, M2 = mspi[[jj]][[ii]], mag = 2, links = lmat)
-#    dev.off()
-#  }
-#}
+# mean of the different classes
+# these are going to be combined into a single plot using latex
+mspi <- lapply(pp, function(x) {
+               class.mean(x, land.adult, adult)})
+mt <- mshape(land.adult)
+mts <- mt[, 2:1]
+mts[, 2] <- -1 * mts[, 2]
+lmat <- cbind(links, c(links[-1], links[1]))
+lmat <- rbind(lmat, matrix(snd.links, nrow = 5, byrow = TRUE))
+for(jj in seq(length(mspi))) {
+  for(ii in seq(length(mspi[[jj]]))) {
+    pdf(file = paste0('../doc/figure/mshape_', pp[jj], '_', ii, '.pdf'), 
+        width = 3.4)
+    par(mar = c(0, 0, 0, 0), xaxs = 'i')
+    plotRefToTarget(M1 = mts, M2 = mspi[[jj]][[ii]], mag = 2, links = lmat)
+    dev.off()
+  }
+}
 
 
 # variation along most important axes
@@ -290,14 +296,6 @@ for(ii in seq(length(gsh))) {
   ggsave(file = paste0('../doc/figure/imp_var_', groups[[ii]], '.png'), 
          plot = gsh[[ii]], height = 15, width = 10)
 }
-
-
-# relative risk of the multinomial logistic regression model
-relrisk <- t.a.rr$spinks
-relci <- t.a.rr.ci$spinks
-op <- trf.a$spinks$optVariables
-#relrisk.plot(relrisk, relci, op, 2)
-#ggsave(file = '../documents/figure/rel_risk.png', plot = ggrel)
 
 
 # plot of the linear discriminate analysis
@@ -343,6 +341,6 @@ gglda <- putPlot(gglda, ld3, 3, 2)
 gglda <- putPlot(gglda, lh1, 4, 1)
 gglda <- putPlot(gglda, lh2, 4, 2)
 gglda <- putPlot(gglda, lh3, 4, 3)
-pdf(file = '../docs/figure/lda.pdf')
+pdf(file = '../doc/figure/lda.pdf')
 print(gglda)
 dev.off()

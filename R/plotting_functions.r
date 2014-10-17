@@ -124,7 +124,8 @@ pred.map <- function(map, xl, yl, test, name, mods, types, data, cbp = cbp) {
   te <- do.call('rbind', replicate(length(types), te, simplify = FALSE))
 
   # extract the predicted classes
-  label <- unlist(lapply(mods, function(x) x$class[[name]]$pred))
+  
+  label <- unlist(lapply(mods, function(x) as.character(x$class[[name]][, 1])))
   te <- cbind(te,
               label = as.character(label),
               type = mty)
@@ -143,17 +144,6 @@ pred.map <- function(map, xl, yl, test, name, mods, types, data, cbp = cbp) {
                                         fill = happy),
                           alpha = 0.35)
   gg <- gg + facet_wrap(~ type)
-  gg <- gg + scale_colour_manual(name = '', values = cbp)#,
-  #labels = c('Northern', 'Eastern', 
-  #           'Western', 'Southern'))
-  gg <- gg + scale_fill_manual(name = '', values = cbp)#,
-  #labels = c('Northern', 'Eastern', 
-  #           'Western', 'Southern'))
-  gg <- gg + theme(#legend.position = 'none',
-                   #legend.margin = unit(0, 'cm'),
-                   legend.text = element_text(size = 6),
-                   axis.title = element_text(size = 10),
-                   axis.text = element_text(size = 7))
   gg
 }
 
@@ -209,7 +199,7 @@ imp.pairs <- function(imp, many, what, data, cbp = cbp) {
 class.mean <- function(scheme, shapes, data) {
   spi <- data[, scheme]
   wspi <- lapply(levels(spi), function(x, y) which(y == x), y = spi)
-  mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = shape)
+  mspi <- lapply(wspi, function(x, y) mshape(y[, , x]), y = shapes)
   mins <- lapply(mspi, function(x) min(x[, 2]))
   mins <- min(unlist(mins))
   lmat <- cbind(links, c(links[-1], links[1]))
