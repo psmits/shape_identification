@@ -67,4 +67,15 @@ for (ii in seq(length(groups))){
 }
 names(ll) <- groups
 
+
+# lda with rf variables
+lrf <- list()
+for (ii in seq(length(groups))) {
+  oo <- cbind(gr[[ii]], test = adult.test[[ii]][, groups[[ii]]])
+  names(oo)[1] <- 'pred'
+
+  lrf[[ii]] <- boot(data = oo, statistic = boot.roc, R = 1000)
+}
+names(lrf) <- groups
+
 save.image(file = '../data/gen.RData')

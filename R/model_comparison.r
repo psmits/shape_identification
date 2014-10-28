@@ -48,9 +48,27 @@ tl.a <- clean.mods(tlda.a)
 tl.a <- lapply(tl.a, function(x) x[-1])
 tl.a.analysis <- lda.analysis(tl.a, adult.train, adult.test, ad.class)
 
+# use the random forest importance for the LDA
+rf.best <- lapply(trf.a, function(x) x$optVariables)
+rf.lda <- Map(function(x, y, z) lda(x[, z], x[, y]), 
+              x = adult.train, y = groups, z = rf.best)
 
-# relative risk and class specific accuracy
-#t.a.rr <- lapply(tm.a.analysis$best, function(x) {
-#                 exp(coef(x))})
-#t.a.rr.ci <- lapply(tm.a.analysis$best, function(x) {
-#                    exp(confint(x))})
+gr <- list()
+for(ii in seq(length(rf.lda))) {
+  guess <- predict(rf.lda[[ii]], adult.test[[ii]][, rf.best[[ii]]])
+  gr[[ii]] <- data.frame(cbind(guess$class, guess$posterior))
+}
+names(gr) <- groups
+
+fix.names <- function(cc) {
+  ff <- apply(cc, 1, function(x) {
+              nn <- names(x[-1])
+              nn[x[1]]})
+  if(all(grepl('X', ff))) {
+    ff <- gsub('X', '', ff)
+  }
+  cc[, 1] <- ff
+  names(cc)[-1] <- gsub('X', '', names(cc)[-1])
+  cc
+}
+gr <- lapply(gr, fix.names)

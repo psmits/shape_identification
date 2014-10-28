@@ -188,6 +188,7 @@ gen.name <- function(var, value) {
     value[value == 'mn'] <- 'multinomial logistic regression'
     value[value == 'rf'] <- 'random forest'
     value[value == 'lda'] <- 'linear discriminate analysis'
+    value[value == 'lrf'] <- 'selected LDA'
   }
   return(value)
 }
@@ -198,7 +199,9 @@ uu <- Reduce(cbind, Map(function(x) x$t, mm))
 colnames(uu) <- groups
 vv <- Reduce(cbind, Map(function(x) x$t, ll))
 colnames(vv) <- groups
-zz <- list(rf = oo, mn = uu, lda = vv)
+lr <- Reduce(cbind, Map(function(x) x$t, lrf))
+colnames(lr) <- groups
+zz <- list(rf = oo, mn = uu, lda = vv, lrf = lr)
 dd <- melt(zz)
 gdist <- ggplot(dd, aes(x = value, fill = Var2))
 gdist <- gdist + geom_histogram(alpha = 0.3,
@@ -222,12 +225,16 @@ ggsave(file = '../doc/figure/gen_res.png', plot = gdist,
 names(tl.a.analysis$class) <- groups
 gen.maps <- lapply(groups, function(x) {
                    pred.map(map = ggmap(goog.map), 
-                            xl = c(longmi, longma+1), yl = c(latmi-2, latma),
-                            test = adult.test, name = x,
+                            xl = c(longmi, longma+1),
+                            yl = c(latmi-2, latma),
+                            test = adult.test,
+                            name = x,
                             mods = list(tm.a.analysis, 
                                         trf.a.analysis, 
-                                        tl.a.analysis),
-                            types = c('multi', 'rf', 'lda'), data = adult)})
+                                        tl.a.analysis,
+                                        gr),
+                            types = c('multi', 'rf', 'lda', 'lrf'),
+                            data = adult)})
 names(gen.maps) <- groups
 gen.maps <- lapply(gen.maps, function(x) {
                    x + scale_colour_manual(name = '', values = cbp) + 
@@ -300,47 +307,47 @@ for(ii in seq(length(gsh))) {
 
 # plot of the linear discriminate analysis
 # this needs to be generalized
-lda.scal <- tl.a.analysis$best$spinks$scaling
-lda.points <- as.data.frame(as.matrix(adult.train$spinks[, 1:4]) %*% lda.scal)
-lda.points <- cbind(lda.points,
-                    class = adult.train$spinks$spinks)
-lda.points$class <- as.character(lda.points$class)
-lda.points$class[lda.points$class == 1] = 'Northern'
-lda.points$class[lda.points$class == 2] = 'Eastern'
-lda.points$class[lda.points$class == 3] = 'Western'
-lda.points$class[lda.points$class == 4] = 'Southern'
-lda.points$class <- factor(lda.points$class,
-                           levels = c('Northern',
-                                      'Eastern',
-                                      'Western',
-                                      'Southern'))
-
-gglda <- ggpairs(lda.points, 
-                 colour = 'class',
-                 upper = 'blank',
-                 lower = 'blank',
-                 params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
-ld1 <- ggplot(lda.points, mapping = aes(x = LD1, y = LD2, colour = class))
-ld1 <- ld1 + geom_point() + scale_color_manual(values = cbp)
-ld2 <- ggplot(lda.points, mapping = aes(x = LD1, y = LD3, colour = class))
-ld2 <- ld2 + geom_point() + scale_color_manual(values = cbp)
-ld3 <- ggplot(lda.points, mapping = aes(x = LD2, y = LD3, colour = class))
-ld3 <- ld3 + geom_point() + scale_color_manual(values = cbp)
-lh1 <- ggplot(lda.points, mapping = aes(x = LD1, fill = class))
-lh1 <- lh1 + geom_histogram()
-lh1 <- lh1 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
-lh2 <- ggplot(lda.points, mapping = aes(x = LD2, fill = class))
-lh2 <- lh2 + geom_histogram()
-lh2 <- lh2 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
-lh3 <- ggplot(lda.points, mapping = aes(x = LD3, fill = class))
-lh3 <- lh3 + geom_histogram()
-lh3 <- lh3 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
-gglda <- putPlot(gglda, ld1, 2, 1)
-gglda <- putPlot(gglda, ld2, 3, 1)
-gglda <- putPlot(gglda, ld3, 3, 2)
-gglda <- putPlot(gglda, lh1, 4, 1)
-gglda <- putPlot(gglda, lh2, 4, 2)
-gglda <- putPlot(gglda, lh3, 4, 3)
-pdf(file = '../doc/figure/lda.pdf')
-print(gglda)
-dev.off()
+#lda.scal <- tl.a.analysis$best$spinks$scaling
+#lda.points <- as.data.frame(as.matrix(adult.train$spinks[, 1:7]) %*% lda.scal)
+#lda.points <- cbind(lda.points,
+#                    class = adult.train$spinks$spinks)
+#lda.points$class <- as.character(lda.points$class)
+#lda.points$class[lda.points$class == 1] = 'Northern'
+#lda.points$class[lda.points$class == 2] = 'Eastern'
+#lda.points$class[lda.points$class == 3] = 'Western'
+#lda.points$class[lda.points$class == 4] = 'Southern'
+#lda.points$class <- factor(lda.points$class,
+#                           levels = c('Northern',
+#                                      'Eastern',
+#                                      'Western',
+#                                      'Southern'))
+#
+#gglda <- ggpairs(lda.points, 
+#                 colour = 'class',
+#                 upper = 'blank',
+#                 lower = 'blank',
+#                 params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
+#ld1 <- ggplot(lda.points, mapping = aes(x = LD1, y = LD2, colour = class))
+#ld1 <- ld1 + geom_point() + scale_color_manual(values = cbp)
+#ld2 <- ggplot(lda.points, mapping = aes(x = LD1, y = LD3, colour = class))
+#ld2 <- ld2 + geom_point() + scale_color_manual(values = cbp)
+#ld3 <- ggplot(lda.points, mapping = aes(x = LD2, y = LD3, colour = class))
+#ld3 <- ld3 + geom_point() + scale_color_manual(values = cbp)
+#lh1 <- ggplot(lda.points, mapping = aes(x = LD1, fill = class))
+#lh1 <- lh1 + geom_histogram()
+#lh1 <- lh1 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
+#lh2 <- ggplot(lda.points, mapping = aes(x = LD2, fill = class))
+#lh2 <- lh2 + geom_histogram()
+#lh2 <- lh2 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
+#lh3 <- ggplot(lda.points, mapping = aes(x = LD3, fill = class))
+#lh3 <- lh3 + geom_histogram()
+#lh3 <- lh3 + facet_grid(class ~ .) + scale_fill_manual(values = cbp)
+#gglda <- putPlot(gglda, ld1, 2, 1)
+#gglda <- putPlot(gglda, ld2, 3, 1)
+#gglda <- putPlot(gglda, ld3, 3, 2)
+#gglda <- putPlot(gglda, lh1, 4, 1)
+#gglda <- putPlot(gglda, lh2, 4, 2)
+#gglda <- putPlot(gglda, lh3, 4, 3)
+#pdf(file = '../doc/figure/lda.pdf')
+#print(gglda)
+#dev.off()

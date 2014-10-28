@@ -125,7 +125,11 @@ pred.map <- function(map, xl, yl, test, name, mods, types, data, cbp = cbp) {
 
   # extract the predicted classes
   
-  label <- unlist(lapply(mods, function(x) as.character(x$class[[name]][, 1])))
+  label <- unlist(lapply(mods, function(x) {
+                         if(is.null(x$class)) {
+                           label <- x[[name]][, 1]
+                         } else {
+                           as.character(x$class[[name]][, 1])}}))
   te <- cbind(te,
               label = as.character(label),
               type = mty)
