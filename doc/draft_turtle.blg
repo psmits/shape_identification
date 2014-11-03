@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: draft_turtle.aux
+The style file: sysbio.bst
+Database file #1: turtle.bib
+Database file #2: packages.bib
+Repeated entry---line 18 of file packages.bib
+ : @manual{Kuhn2013
+ :                 ,
+I'm skipping whatever remains of this entry
+You've used 22 entries,
+            2858 wiz_defined-function locations,
+            748 strings with 8324 characters,
+and the built_in function-call counts, 11995 in all, are:
+= -- 1039
+> -- 528
+< -- 14
++ -- 172
+- -- 150
+* -- 879
+:= -- 1892
+add.period$ -- 87
+call.type$ -- 22
+change.case$ -- 154
+chr.to.int$ -- 22
+cite$ -- 44
+duplicate$ -- 878
+empty$ -- 881
+format.name$ -- 224
+if$ -- 2423
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 199
+newline$ -- 99
+num.names$ -- 88
+pop$ -- 346
+preamble$ -- 1
+purify$ -- 138
+quote$ -- 0
+skip$ -- 307
+stack$ -- 0
+substring$ -- 512
+swap$ -- 364
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 177
+warning$ -- 0
+while$ -- 88
+width$ -- 0
+write$ -- 265
+(There was 1 error message)
