@@ -41,18 +41,35 @@ centroid.perm <- function(label, axes, n = 1000) {
   out <- list()
   out$empircal <- emp
   out$distibution <- dd
-  out$sig <- sum((emp - dd) > 0) / n
+  out$sig <- sum(emp > dd) / n
   out
 }
 
-miss.match <- which.right(trf.a.analysis$class[[1]]$pred, 
-                          adult.test[[1]][, groups[[1]]])
+# are all elements identical?
+zero.range <- function(x, tol = .Machine$double.eps ^ 0.5) {
+  if (length(x) == 1) return(TRUE)
+  x <- range(x) / mean(x)
+  isTRUE(all.equal(x[1], x[2], tolerance = tol))
+}
 
-test <- centroid.perm(miss.match, adult.test[[1]][, 1:26])
+test.all <- function(analysis, test, group){
+  tests <- list()
+  for(ii in seq(length(group))) {
+    config <- split(test[[ii]][,1:26], test[[ii]][, group[[ii]]])
+    mis.mat <- Map(which.right,
+                   split(analysis$class[[ii]][, 1], test[[ii]][, group[[ii]]]),
+                   split(test[[ii]][, group[[ii]]], test[[ii]][, group[[ii]]]))
 
+    bad <- laply(mis.mat, function(x) length(x) < 10 | zero.range(x))
+    config <- config[!bad]
+    mis.mat <- mis.mat[!bad]
 
-#trf.a.analysis
+    tests[[ii]] <- Map(function(x, y) centroid.perm(x, y), mis.mat, config)
+    tests[[ii]]$rm <- which(bad)
+  }
+  tests
+}
 
-#tm.a.analysis
-
-#tl.a.analysis
+rf.test <- test.all(trf.a.analysis, adult.test, groups)
+mm.test <- test.all(tm.a.analysis, adult.test, groups)
+ll.test <- test.all(tl.a.analysis, adult.test, groups)
