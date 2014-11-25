@@ -204,10 +204,12 @@ colnames(lr) <- groups
 zz <- list(rf = oo, mn = uu, lda = vv, lrf = lr)
 dd <- melt(zz)
 gdist <- ggplot(dd, aes(x = value, fill = Var2))
-gdist <- gdist + geom_histogram(alpha = 0.3,
+gdist <- gdist + geom_histogram(aes(y = ..density..),
+                                alpha = 0.3,
                                 size = 0.1,
                                 position = 'identity',
-                                colour = 'darkgrey')
+                                colour = 'darkgrey',
+                                binwidth = 1/100)
 gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                    labels = c('morph 1', 'morph 2',
                                               'molec 1', 'two species',

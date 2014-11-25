@@ -21,6 +21,7 @@ load('../data/gen.RData')
 
 
 # multinomial logistic regression
+
 against.best <- function(wb, mods) {
   best <- mods[[wb]]$t
   nm <- seq(length(mods))
