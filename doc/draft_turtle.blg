@@ -8,45 +8,45 @@ Repeated entry---line 18 of file packages.bib
  : @manual{Kuhn2013
  :                 ,
 I'm skipping whatever remains of this entry
-You've used 22 entries,
+You've used 27 entries,
             2858 wiz_defined-function locations,
-            748 strings with 8324 characters,
-and the built_in function-call counts, 11995 in all, are:
-= -- 1039
-> -- 528
-< -- 14
-+ -- 172
-- -- 150
-* -- 879
-:= -- 1892
-add.period$ -- 87
-call.type$ -- 22
-change.case$ -- 154
-chr.to.int$ -- 22
-cite$ -- 44
-duplicate$ -- 878
-empty$ -- 881
-format.name$ -- 224
-if$ -- 2423
+            782 strings with 9320 characters,
+and the built_in function-call counts, 14564 in all, are:
+= -- 1276
+> -- 616
+< -- 19
++ -- 201
+- -- 174
+* -- 1055
+:= -- 2299
+add.period$ -- 107
+call.type$ -- 27
+change.case$ -- 186
+chr.to.int$ -- 27
+cite$ -- 54
+duplicate$ -- 1068
+empty$ -- 1079
+format.name$ -- 265
+if$ -- 2948
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 199
-newline$ -- 99
-num.names$ -- 88
-pop$ -- 346
+missing$ -- 241
+newline$ -- 119
+num.names$ -- 108
+pop$ -- 414
 preamble$ -- 1
-purify$ -- 138
+purify$ -- 166
 quote$ -- 0
-skip$ -- 307
+skip$ -- 378
 stack$ -- 0
-substring$ -- 512
-swap$ -- 364
+substring$ -- 639
+swap$ -- 442
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 177
+type$ -- 219
 warning$ -- 0
-while$ -- 88
+while$ -- 109
 width$ -- 0
-write$ -- 265
+write$ -- 325
 (There was 1 error message)

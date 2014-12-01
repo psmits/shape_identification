@@ -50,6 +50,7 @@ rf.analysis <- function(model, class, test) {
                   sel <- which.max(unlist(rr))
                   sel},
                   x = model)
+  out$auc <- lapply(model, function(x) x$results$ROC)
 #  out$re <- resamples(model)
   out$class <- mapply(predict, model, test,
                       SIMPLIFY = FALSE)
@@ -91,6 +92,7 @@ lda.analysis <- function(model, train, test, class) {
                                                      pred.res = x$posterior)))},
               predic = pr, cla = class)
 
+  out$auc <- aucs
   out$best <- Map(function(x, y) x[[y]], model, lapply(aucs, which.max))
 
   gr <- list()

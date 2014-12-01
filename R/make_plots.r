@@ -216,6 +216,7 @@ gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                               '2014', 'molec 2'))
 gdist <- gdist + facet_grid(L1 ~ ., labeller = gen.name)
 gdist <- gdist + labs(x = 'AUC')
+gdist <- gdist + coord_cartesian(xlim = c(0, 1))
 gdist <- gdist + theme(legend.title = element_blank(),
                        legend.margin = unit(0, 'cm'),
                        legend.text = element_text(size = 6))

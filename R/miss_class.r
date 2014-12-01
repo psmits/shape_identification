@@ -71,5 +71,8 @@ test.all <- function(analysis, test, group){
 }
 
 rf.test <- test.all(trf.a.analysis, adult.test, groups)
+sig.rf <- lapply(rf.test, function(x) x[[2]][[3]])
 mm.test <- test.all(tm.a.analysis, adult.test, groups)
+sig.mm <- lapply(mm.test, function(x) x[[2]][[3]])
 ll.test <- test.all(tl.a.analysis, adult.test, groups)
+sig.ll <- lapply(ll.test, function(x) x[[2]][[3]])
