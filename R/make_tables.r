@@ -8,19 +8,6 @@ source('../R/plotting_functions.r')
 load('../data/gen.RData') 
 #load('../data/shape.RData')
 
-# 2 x 2 table of sex - cluster assignment
-#csex.tab <- rbind(csex.tab, tot = colSums(csex.tab))
-#csex.tab <- cbind(csex.tab, tot = rowSums(csex.tab))
-#xsex.tab <- xtable(csex.tab)
-#align(xsex.tab) <- 'r|cc|c'
-#digits(xsex.tab) <- c(0, 0, 0, 0)
-#print.xtable(xsex.tab,
-#             file = '../doc/xsex_tab.tex',
-#             floating = FALSE,
-#             hline.after = c(0, nrow(csex.tab) - 1))
-
-
-# multinomial logistic regression
 
 against.best <- function(wb, mods) {
   best <- mods[[wb]]$t

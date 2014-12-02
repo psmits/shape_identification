@@ -49,3 +49,9 @@ trf.a <- Map(function(x, y) {
                  , ntree = 100
                  , metric = 'ROC')},
              x = adult.train, y = groups)
+for.imp <- Map(function(x, y) {
+               randomForest(x = x[, 1:floor(max.ad)]
+                            , y = x[, y]
+                            , ntree = 100
+                            , importance = TRUE)},
+               x = adult.train, y = groups)

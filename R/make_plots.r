@@ -23,7 +23,6 @@ cbp <- c('#E69F00', '#56B4E9', '#009E73', '#F0E442',
          '#0072B2', '#D55E00', '#CC79A7')
 theme_update(axis.text = element_text(size = 20),
              axis.title = element_text(size = 30),
-             axis.title.y = element_text(hjust = 0.1),
              legend.text = element_text(size = 25),
              legend.title = element_text(size = 26),
              legend.key.size = unit(2, 'cm'),
@@ -132,53 +131,70 @@ ggsave(file = '../doc/figure/pc_var.png', plot = gpc,
        width = 15, height = 10)
 
 
-## model selection plots
-#rf.rocs <- lapply(trf.a, function(x) {
-#                  rr <- x$results$ROC
-#                  rr})
-#rf.rocs <- ldply(rf.rocs)
-#multi.rocs <- lapply(tm.a, function(x) {
-#                     lapply(x, function(y) {
-#                            rr <- max(y$results$ROC)
-#                            rr})})
-##multi.rocs <- ldply(lapply(lapply(multi.rocs, ldply), t))
-#lda.rocs <- lapply(tl.a, function(x) {
-#                   lapply(x, function(y) {
-#                          y$results$ROC})})
-#lda.rocs <- ldply(lapply(lapply(lda.rocs, ldply), t))
-#
-#names(rf.rocs) <- names(multi.rocs) 
-#roc.mod <- rbind(rf.rocs, multi.rocs, lda.rocs)
-#mod.names <- c(rep('rf', nrow(rf.rocs)), 
-#               rep('multi', nrow(multi.rocs)),
-#               rep('lda', nrow(lda.rocs)))
-#roc.mod <- cbind(mod.names, roc.mod)
-#roc.mod <- melt(roc.mod)
-#roc.mod$variable <- as.numeric(roc.mod$variable)
-#roc.mod$.id[roc.mod$.id == 'sh1'] <- 'morph 1'
-#roc.mod$.id[roc.mod$.id == 'sh2'] <- 'morph 2'
-#roc.mod$.id[roc.mod$.id == 'sh3'] <- 'molec 1'
-#roc.mod$.id[roc.mod$.id == 'sh4'] <- 'two species'
-#roc.mod$.id[roc.mod$.id == 'sh5'] <- '2014'
-#roc.mod$.id[roc.mod$.id == 'spinks'] <- 'molec 2'
-#
-#ggroc <- ggplot(roc.mod, aes(x = variable, y = value, lty = mod.names))
-#ggroc <- ggroc + geom_line()
-#ggroc <- ggroc + scale_x_continuous(breaks = seq(max(roc.mod$variable)))
-#ggroc <- ggroc + scale_linetype_manual(labels = c('linear discriminate analysis',
-#                                                  'mulitnomial logistic regression',
-#                                                  'random forest'),
-#                                       values = c(1,2,3))
-#ggroc <- ggroc + theme(legend.title = element_blank(),
-#                       #legend.position = 'bottom',
-#                       legend.margin = unit(0, 'cm'),
-#                       legend.text = element_text(size = 6),
-#                       axis.title = element_text(size = 10),
-#                       axis.text = element_text(size = 7),
-#                       strip.text = element_text(size = 7))
-#ggroc <- ggroc + labs(x = '# of features (PCs)', y = 'AUC')
-#ggroc <- ggroc + facet_wrap(~.id)
-#ggsave(file = '../doc/figure/roc_sel.png', plot = ggroc)
+# rf variable importance
+rf.imp <- llply(for.imp, function(x) x$importance)
+rf.imp <- Map(function(x, y) data.frame(cbind(x[, (ncol(x) - 1):(ncol(x))], 
+                                              gr = rep(y, nrow(x)))), 
+                                        x = rf.imp, 
+                                        y = seq(length(rf.imp)))
+rf.imp <- llply(rf.imp, function(x) {
+                x$pc <- rownames(x)
+                x})
+rf.imp <- data.frame(Reduce(rbind, rf.imp))
+colnames(rf.imp)[1:2] <- c('acc', 'gini')
+rf.imp$pc <- factor(rf.imp$pc, levels = rev(unique(rf.imp$pc)))
+grf <- ggplot(rf.imp, aes(x = gini, y = pc))
+grf <- grf + geom_point(size = 5)
+#grf <- grf + geom_bar(stat = 'identity', width = 0.5)
+grf <- grf + facet_grid(. ~ gr)
+grf <- grf + labs(x = 'Mean decrease\nin Gini Index', 
+                  y = 'Principal Component')
+grf <- grf + theme(axis.title = element_text(size = 20),
+                   axis.title.y = element_text())
+ggsave(file = '../doc/figure/var_imp.png', plot = grf,
+       width = 15, height = 5)
+
+# selection accumulation curves
+m.aic <- llply(tm.a.analysis$aic, function(x) {
+               x <- data.frame(cbind(x, n = seq(length(x))))
+               x})
+min.m <- cbind(x = laply(m.aic, function(x) min(x$x)), y = groups)
+min.m <- cbind(min.m, n = laply(m.aic, function(x) which.min(x$x)))
+m.aic <- Map(function(x, y) cbind(x, gr = rep(y, nrow(x))),
+             x = m.aic, y = groups)
+m.aic <- Reduce(rbind, m.aic)
+m.aic <- cbind(m.aic, ty = rep('aic', nrow(m.aic)))
+
+l.auc <- llply(tl.a.analysis$auc, function(x) {
+               x <- data.frame(cbind(x, n = seq(length(x))))
+               x})
+max.l <- cbind(x = laply(l.auc, function(x) max(x)), y = groups)
+max.l <- cbind(max.l, n = laply(l.auc, function(x) which.max(x$x)))
+l.auc <- Map(function(x, y) cbind(x, gr = rep(y, nrow(x))),
+             x = l.auc, y = groups)
+l.auc <- Reduce(rbind, l.auc)
+l.auc <- cbind(l.auc, ty = rep('auc', nrow(l.auc)))
+
+maxes <- data.frame(rbind(cbind(min.m, ty = rep('aic', nrow(min.m))), 
+                          cbind(max.l, ty = rep('auc', nrow(max.l)))))
+names(maxes)[2] <- 'gr'
+maxes <- data.frame(apply(maxes, 2, unlist))
+maxes$x <- as.numeric(as.character(maxes$x))
+maxes$n <- as.numeric(as.character(maxes$n))
+
+sel <- rbind(m.aic, l.auc)
+
+gsel <- ggplot(sel, aes(x = n, y = x))
+gsel <- gsel + geom_line(size = 1.5) + geom_point(size = 3)
+gsel <- gsel + facet_grid(ty ~ gr, scales = 'free')
+gsel <- gsel + geom_point(data = maxes, 
+                          mapping = aes(x = n, y = x), colour = 'red',
+                          size = 5)
+gsel <- gsel + labs(x = 'Cummulative number of\nprincipal components', 
+                    y = 'Value')
+ggsave(file = '../doc/figure/sel_val.png', plot = gsel,
+       width = 15, height = 10)
+
 
 
 # generalize plot
