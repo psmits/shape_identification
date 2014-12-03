@@ -144,13 +144,22 @@ AUC values from model generalization, or estimating testing data set membership,
 Mean AUC values for all model generalizations are, as expected, less than from the training set. This is expected because the low initial AUC values indicate little classification ability compared random, and the generalization to new data would only lead to loss in accuracy.
 
 
-
 % misfits
 % need to make a table/graph to demonstrate this
 Differences in mean shape between correctly and incorrectly classified observations from test set were frequently statistically significant, though there are exceptions. The frequency of these results, however, is important because this means that the different models are poor predictors of class membership. This may be because differences in plastron shape do not align with the any of the hypothesized classification schemes.
 
-
-
+ % i have three tables for this. need to find a nice way of displaying these. also they require large amounts of edits
+\begin{table}
+  \begin{scriptsize}
+    \include{rf_miss}
+    
+    \include{mm_miss}
+    
+    \include{ll_miss}
+  \end{scriptsize}
+  \caption{Results of comparisons between correctly and incorrectly classified observations from the testing data set. For each scheme, the classifications with at least 10 observations were tested. This was done for each of the three modeling techniques included in this study.}
+  \label{tab:miss_tests}
+\end{table}
 
 \section{Discussion}
 
@@ -175,7 +184,7 @@ Plastron shape indicates no optimal classification scheme. A possible explanatio
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/sel_val}
-  \caption{CAPTION}
+  \caption{Graphical representation of the AICc and AUC values from model selection for multinomial logigistic regression and linear discriminate analysis, respecitively. AICc model selection is based on lowest AICc value while AUC model selection is based on greatest AUC value. The horizontal axis corresponds to the cummulative number of axes included in the model of interest. A red dot corresponds to the AICc or AUC best model for that classification scheme.}
   \label{fig:sel}
 \end{figure}
 
