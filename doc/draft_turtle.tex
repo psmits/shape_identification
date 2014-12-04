@@ -139,7 +139,17 @@ The observed AUC values for all of the optimal models are very low, values near 
 
 
 % generalization
-AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). While the scheme with two species has the greatest AUC point estimate for each modeling approach, this scheme is not significantly greater from any other except in some limited cases (e.g. LDA). 
+AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). While the scheme with two species has the greatest AUC point estimate for each modeling approach, this scheme is not significantly greater from any other except in some limited cases (e.g. LDA, Table \ref{tab:gen_tests}). 
+
+\begin{table}
+  \include{rf_dif}
+    %
+  \include{mm_dif}
+    %
+  \include{ll_dif}
+  \caption{Results of bootstrap comparisons between the scheme with the highest mean AUC value and all other schemes. An asterix indicates the best scheme. This was done for each of the three modeling techniques included in this study. Probabilities are the percent of comparisons that are greater than the observed difference in means.}
+  \label{tab:gen_tests}
+\end{table}
 
 Mean AUC values for all model generalizations are, as expected, less than from the training set. This is expected because the low initial AUC values indicate little classification ability compared random, and the generalization to new data would only lead to loss in accuracy.
 
@@ -152,9 +162,9 @@ Differences in mean shape between correctly and incorrectly classified observati
 \begin{table}
   \begin{scriptsize}
     \include{rf_miss}
-    
+
     \include{mm_miss}
-    
+
     \include{ll_miss}
   \end{scriptsize}
   \caption{Results of comparisons between correctly and incorrectly classified observations from the testing data set. For each scheme, the classifications with at least 10 observations were tested. This was done for each of the three modeling techniques included in this study.}

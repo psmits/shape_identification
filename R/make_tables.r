@@ -2,6 +2,7 @@
 library(xtable)
 library(reshape2)
 library(plyr)
+library(boot)
 
 source('../R/plotting_functions.r')
 source('../R/miss_class.r')
@@ -26,6 +27,31 @@ best.ll <- which.max(laply(ll, function(x) mean(x$t)))
 mm.dif <- against.best(best.mm, mm)
 rr.dif <- against.best(best.rr, rr)
 ll.dif <- against.best(best.ll, ll)
+# is there a significant difference between the "best" scheme and the others?
+
+diff.table <- function(boot.mod, best, dif) {
+  comp <- names(boot.mod)[best]
+  means <- llply(boot.mod, function(x) as.numeric(x$t0))
+  wbest <- names(means) == comp
+  ccoo <- wbest
+  ccoo[!wbest] <- dif
+  ccoo[wbest] <- NA
+  out <- cbind(scheme = names(means), compare = unlist(ccoo))
+  xtable(out)
+}
+
+mmdif.tab <- diff.table(mm, best.mm, mm.dif)
+label(mmdif.tab) <- 'mmdif'
+print.xtable(x = mmdif.tab,
+             file = '../doc/mm_dif_raw.tex')
+rfdif.tab <- diff.table(rr, best.rr, rr.dif)
+label(mmdif.tab) <- 'rfdif'
+print.xtable(x = rfdif.tab,
+             file = '../doc/rf_dif_raw.tex')
+lldif.tab <- diff.table(ll, best.ll, ll.dif)
+label(lldif.tab) <- 'lldif'
+print.xtable(x = lldif.tab,
+             file = '../doc/ll_dif_raw.tex')
 
 
 # miss matches
