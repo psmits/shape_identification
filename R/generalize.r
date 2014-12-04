@@ -20,6 +20,7 @@ source('../R/model_comparison.r')
 boot.roc <- function(data, indicies) {
   data <- data[indicies, ]
   pp <- data[, seq(ncol(data) - 1)]
+  names(pp) <- gsub('X', '', names(pp))
   tt <- data[, ncol(data)]
   return(allvone(pp, tt))
 }

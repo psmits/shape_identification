@@ -155,34 +155,38 @@ ggsave(file = '../doc/figure/var_imp.png', plot = grf,
        width = 15, height = 5)
 
 # selection accumulation curves
-m.aic <- llply(tm.a.analysis$aic, function(x) {
+m.auc <- llply(tm.a.analysis$auc, function(x) {
                x <- data.frame(cbind(x, n = seq(length(x))))
                x})
-min.m <- cbind(x = laply(m.aic, function(x) min(x$x)), y = groups)
-min.m <- cbind(min.m, n = laply(m.aic, function(x) which.min(x$x)))
-m.aic <- Map(function(x, y) cbind(x, gr = rep(y, nrow(x))),
-             x = m.aic, y = groups)
-m.aic <- Reduce(rbind, m.aic)
-m.aic <- cbind(m.aic, ty = rep('aic', nrow(m.aic)))
+max.m <- cbind(x = laply(m.auc, function(x) max(x$x)), y = groups)
+max.m <- cbind(max.m, n = laply(m.auc, function(x) which.max(x$x)))
+m.auc <- Map(function(x, y) cbind(x, gr = rep(y, nrow(x))),
+             x = m.auc, y = groups)
+m.auc <- Reduce(rbind, m.auc)
+m.auc <- cbind(m.auc, ty = rep('multinomial logistic regression', nrow(m.auc)))
 
 l.auc <- llply(tl.a.analysis$auc, function(x) {
                x <- data.frame(cbind(x, n = seq(length(x))))
                x})
-max.l <- cbind(x = laply(l.auc, function(x) max(x)), y = groups)
+max.l <- cbind(x = laply(l.auc, function(x) max(x[, 1])), y = groups)
 max.l <- cbind(max.l, n = laply(l.auc, function(x) which.max(x$x)))
 l.auc <- Map(function(x, y) cbind(x, gr = rep(y, nrow(x))),
              x = l.auc, y = groups)
 l.auc <- Reduce(rbind, l.auc)
-l.auc <- cbind(l.auc, ty = rep('auc', nrow(l.auc)))
+l.auc <- cbind(l.auc, ty = rep('linear discriminiate analysis', nrow(l.auc)))
 
-maxes <- data.frame(rbind(cbind(min.m, ty = rep('aic', nrow(min.m))), 
-                          cbind(max.l, ty = rep('auc', nrow(max.l)))))
+maxes <- data.frame(rbind(cbind(max.m, 
+                                ty = rep('multinomial logistic regression', 
+                                         nrow(max.m))), 
+                          cbind(max.l, 
+                                ty = rep('linear discriminiate analysis', 
+                                         nrow(max.l)))))
 names(maxes)[2] <- 'gr'
 maxes <- data.frame(apply(maxes, 2, unlist))
 maxes$x <- as.numeric(as.character(maxes$x))
 maxes$n <- as.numeric(as.character(maxes$n))
 
-sel <- rbind(m.aic, l.auc)
+sel <- rbind(m.auc, l.auc)
 
 gsel <- ggplot(sel, aes(x = n, y = x))
 gsel <- gsel + geom_line(size = 1.5) + geom_point(size = 3)
@@ -192,6 +196,7 @@ gsel <- gsel + geom_point(data = maxes,
                           size = 5)
 gsel <- gsel + labs(x = 'Cummulative number of\nprincipal components', 
                     y = 'Value')
+gsel <- gsel + coord_cartesian(ylim = c(0.5, 1))
 ggsave(file = '../doc/figure/sel_val.png', plot = gsel,
        width = 15, height = 10)
 

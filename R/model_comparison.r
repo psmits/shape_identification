@@ -37,7 +37,8 @@ clean.mods <- function(models, lab = c('sh1', 'sh2', 'sh3',
 
 # multinomial logicistic regression
 tm.a <- clean.mods(tmulti.a)
-tm.a.analysis <- multi.analysis(tm.a, ad.class, adult.test)
+tm.a.analysis <- multi.analysis(tm.a, class = groups, 
+                                test = adult.test, train = adult.train)
 
 # random forests
 trf.a <- clean.mods(trf.a)
@@ -46,7 +47,8 @@ trf.a.analysis <- rf.analysis(trf.a, ad.class, adult.test)
 # linear discriminate analysis
 tl.a <- clean.mods(tlda.a)
 tl.a <- lapply(tl.a, function(x) x[-1])
-tl.a.analysis <- lda.analysis(tl.a, adult.train, adult.test, ad.class)
+tl.a.analysis <- lda.analysis(tl.a, adult.train, adult.test, groups)
+
 
 # use the random forest importance for the LDA
 rf.best <- lapply(trf.a, function(x) x$optVariables)

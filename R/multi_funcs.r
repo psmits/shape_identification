@@ -24,12 +24,56 @@ multi.mod <- function(data, formula, preProc) {
 #' @param class vector; observed classes
 #' @param test df; testing data frame
 #' @return list of important model values
-multi.analysis <- function(model, class, test) {
+multi.analysis <- function(model, class, test, train) {
   out <- list()
   out$aic <- lapply(model, function(mod) unlist(lapply(mod, AICc)))
-  out$best <- Map(function(x, y) {
-                  mm <- which.min(x)
-                  y[[mm]] }, x = out$aic, y = model)
+  
+  # need to choose a best model
+  # do this based on within test auc
+  pr <- list()
+  for(ii in seq(length(model))) {
+    p <- list()
+    for(jj in seq(from = 2, to = length(model[[ii]]))) {
+      guess <- predict(model[[ii]][[jj]], 
+                       newdata = train[[ii]][, model[[ii]][[jj]]$coefnames[-1]])
+      guess <- data.frame(guess)
+      guess <- cbind(guess, 
+                     predict(model[[ii]][[jj]], 
+                             newdata = train[[ii]][, model[[ii]][[jj]]$coefnames[-1]], 
+                             type = 'probs'))
+      p[[jj - 1]] <- guess
+    }
+    pr[[ii]] <- p
+  }
+
+  aucs <- list()
+  for(ii in seq(length(pr))) {
+    oo <- list()
+    for(jj in seq(length(pr[[ii]]))) {
+      pred <- pr[[ii]][[jj]][, 1]
+      obs <- train[[ii]][, groups[[ii]]]
+      pred.res <- pr[[ii]][[jj]][, -1]
+      if(length(levels(pred)) == 2) {
+        mauc <- roc(obs, pred.res)$auc
+      } else {
+        prob <- lapply(levels(pred), function(cl) {
+                       pp <- ifelse(pred == cl, 1, 0)
+                       oo <- ifelse(obs == cl, 1, 0)
+                       prob <- pred.res[, cl]
+
+                       ps <- Metrics::auc(oo, prob)
+                       ps})
+
+        mauc <- colMeans(do.call(rbind, prob))
+      }
+      oo[[jj]] <- mauc
+    }
+    aucs[[ii]] <- unlist(oo)
+  }
+  out$auc <- aucs
+
+  out$best <- Map(function(x, y) x[y], x = model, y = llply(aucs, which.max))
+
   pc <- mapply(predict, out$best, test,
                MoreArgs = list(type = 'class'), SIMPLIFY = FALSE)
   pp <- vector(mode = 'list', length = length(out$best))
@@ -51,7 +95,7 @@ rf.analysis <- function(model, class, test) {
                   sel},
                   x = model)
   out$auc <- lapply(model, function(x) x$results$ROC)
-#  out$re <- resamples(model)
+  #  out$re <- resamples(model)
   out$class <- mapply(predict, model, test,
                       SIMPLIFY = FALSE)
   out$conf <- Map(function(x, y) confusionMatrix(x$pred, y),
@@ -77,20 +121,20 @@ lda.analysis <- function(model, train, test, class) {
   }
 
   tauc <- function(pred, obs, pred.res) {
-    prob <- lapply(levels(pred), function(class) {
-                   pp <- ifelse(pred == class, 1, 0)
-                   oo <- ifelse(obs == class, 1, 0)
-                   prob <- pred.res[, class]
+    prob <- lapply(levels(pred), function(cl) {
+                   pp <- ifelse(pred == cl, 1, 0)
+                   oo <- ifelse(obs == cl, 1, 0)
+                   prob <- pred.res[, cl]
 
-                   ps <- auc(oo, prob)
+                   ps <- Metrics::auc(oo, prob)
                    ps})
     mauc <- colMeans(do.call(rbind, prob))
     mauc
   }
-  aucs <- Map(function(predic, cla) {
-              unlist(lapply(predic, function(x) tauc(x$class, cla, 
+  aucs <- Map(function(predic, cla, gr) {
+              unlist(lapply(predic, function(x) tauc(x$class, cla[, gr], 
                                                      pred.res = x$posterior)))},
-              predic = pr, cla = class)
+              predic = pr, cla = train, gr = class)
 
   out$auc <- aucs
   out$best <- Map(function(x, y) x[[y]], model, lapply(aucs, which.max))
@@ -98,7 +142,7 @@ lda.analysis <- function(model, train, test, class) {
   gr <- list()
   for(ii in seq(length(out$best))) {
     guess <- predict(out$best[[ii]],
-                       test[[ii]][, colnames(out$best[[ii]]$means)])
+                     test[[ii]][, colnames(out$best[[ii]]$means)])
     gr[[ii]] <- cbind(guess$class, guess$posterior)
   }
   out$class <- gr

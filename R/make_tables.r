@@ -7,6 +7,9 @@ library(boot)
 source('../R/plotting_functions.r')
 source('../R/miss_class.r')
 
+# observed AUC values of best models
+
+
 against.best <- function(wb, mods) {
   best <- mods[[wb]]$t
   nm <- seq(length(mods))
