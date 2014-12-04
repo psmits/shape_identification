@@ -104,7 +104,7 @@ In a random forest model, many CARTs are built from a random subsample of both t
 
 In this analysis, random forest model parameters were estimated from 1000 subtrees. The best set of predictors necessary for each classification scheme was estimated using a recursive feature selection algorithm was used to choose the optimal number of PCs to include based on the AUC of the model. Following the backwards selection algorithm implemented in \texttt{caret} \citep{Kuhn2013}, the maximum number of features were included in the initial model, their importance ranked, and the AUC of the model calculated. The lowest ranked feature was then removed, and the AUC of the model recalculated. This was repeated until only one feature, remained. Because PCs were kept in order of importance and not in relation to the amount of variance each PC described, these means that the PCs are not included in assending eigenvalue.
 
-In classification studies, like this one, a common metric of performance is area under the receiver operating characteristic curve (AUC). AUC is an estimate of the relationship between the false positive and true positive rates, as opposed to just the true positive rate (accuracy). This relationship is especially useful in cases where misclassification needs to be minimized just as much as accurate classification, as in this study. AUC ranges between 0.5 and 1, with 0.5 indicating classification no better than random and 1 indicating perfect classification \citep{Hastie2009}. AUC was used for both LDA and random forest models while multinomail logistic model selection was done using the likelihood based AICc \citep{Burnham2002a}.
+In classification studies, like this one, a common metric of performance is area under the receiver operating characteristic curve (AUC). AUC is an estimate of the relationship between the false positive and true positive rates, as opposed to just the true positive rate (accuracy). This relationship is especially useful in cases where misclassification needs to be minimized just as much as accurate classification, as in this study. AUC ranges between 0.5 and 1, with 0.5 indicating classification no better than random and 1 indicating perfect classification \citep{Hastie2009}.
 
 The standard AUC calculation is defined for of binary classification, however in this application there are multiple categories. The alternative calculation used here follows an all-against-one strategy where the individual AUC values for each class versus all others are averaged to produce a multiclass AUC \citep{Hand2001}.
 
@@ -127,15 +127,12 @@ Comparison of gap statistic values from PAM clustering show that the best number
 
 \subsection{Supervised learning}
 % model selection/fit
-For multinomial logistic regression, the best number of predictors was always the first four PCs. This was not the case for either of the LDA or random forest approaches which varied from two to six different PCs. Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained.
-
-
-For both the LDA and multinomial logistic regression models, increasing model complexity increased cumulative percent variation necessary to best model the differing classification schemes (Fig. \ref{fig:sel}). The high variance in optimal number of PCs used as predictors between schemes may represent either ease of fitting that particular model or that the data was too noising to accurately fit any model beyond the simplest. 
+Generally, as many PCs were included as predictors as possible for the best models of each of the classification schemes (Fig. \ref{fig:sel}). Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained. For both the LDA and multinomial logistic regression models, increasing model complexity increased cumulative percent variation necessary to best model the differing classification schemes (Fig. \ref{fig:sel}). The high variance in optimal number of PCs used as predictors between schemes may represent either ease of fitting that particular model or that the data was too noising to accurately fit any model beyond the simplest. 
 
 As part of fitting a random forest model, a ranking of variable importance is also determined. Interestingly, the the order of variable importance is not the same as the order of principal components (Fig. \ref{fig:var_imp}). This means that the principal components that best describe the differences between the various classes are not aligned with the principal components which describe the largest amount of variance. This result would be the case if variation between classes was extremely fine grained and not a part of the principal function or form of the plastron, which makes sense given that the plastron is involved in both protection and aquadynamics and not mate choice \citep{Germano2009,Holland1992,Lubcke2007,Rivera2008}.
 
 
-The observed AUC values for all of the optimal models are very low, values near 0.5 indicate that a model is no better than completely random assigment (Fig. \ref{fig:sel}) TABLE OR FIGURE. This means that in very few cases are any of the proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set.
+The observed AUC values for all of the optimal models are low, as values near 0.5 indicate that a model is no better than completely random assigment (Fig. \ref{fig:sel}). This means that in very few cases are any of the proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set.
 
 
 % generalization
@@ -151,7 +148,14 @@ AUC values from model generalization, or estimating testing data set membership,
   \label{tab:gen_tests}
 \end{table}
 
-Mean AUC values for all model generalizations are, as expected, less than from the training set. This is expected because the low initial AUC values indicate little classification ability compared random, and the generalization to new data would only lead to loss in accuracy.
+Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). In cases were the AUC from the  genearlizations is less than the observed, this points too poor model fit and a poor classification scheme.
+
+\begin{table}[ht]
+  \centering
+  \include{comp_tab}
+  \caption{CAPTION}
+  \label{tab:comp}
+\end{table}
 
 
 % misfits
@@ -194,7 +198,7 @@ Plastron shape indicates no optimal classification scheme. A possible explanatio
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/sel_val}
-  \caption{Graphical representation of the AICc and AUC values from model selection for multinomial logigistic regression and linear discriminate analysis, respecitively. AICc model selection is based on lowest AICc value while AUC model selection is based on greatest AUC value. The horizontal axis corresponds to the cummulative number of axes included in the model of interest. A red dot corresponds to the AICc or AUC best model for that classification scheme.}
+  \caption{Graphical representation of the AUC values from model selection for multinomial logigistic regression and linear discriminate analysis, respecitively. AUC model selection is based on greatest AUC value. The horizontal axis corresponds to the cummulative number of axes included in the model of interest. A red dot corresponds to the AUC best model for that classification scheme.}
   \label{fig:sel}
 \end{figure}
 

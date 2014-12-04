@@ -3,11 +3,11 @@ library(xtable)
 library(reshape2)
 library(plyr)
 library(boot)
+library(pROC)
+library(Metrics)
 
 source('../R/plotting_functions.r')
 source('../R/miss_class.r')
-
-# observed AUC values of best models
 
 
 against.best <- function(wb, mods) {
@@ -21,6 +21,28 @@ against.best <- function(wb, mods) {
              x = sets, n = nana)
   dif
 }
+
+# observed AUC values of best models
+# compared to AUC for generalization
+mm.mean <- llply(mm, function(x) as.numeric(x$t0))
+mm.comp <- data.frame(cbind(sch = names(mm.mean), 
+                            obs = laply(tm.a.analysis$auc, max)),
+                            gen = unlist(mm.mean))
+
+rf.mean <- llply(rr, function(x) as.numeric(x$t0))
+rf.comp <- data.frame(cbind(sch = names(rf.mean), 
+                            obs = laply(trf.a.analysis$auc, max)),
+                            gen = unlist(rf.mean))
+ll.mean <- llply(ll, function(x) as.numeric(x$t0))
+ll.comp <- data.frame(cbind(sch = names(ll.mean), 
+                            obs = laply(tl.a.analysis$auc, max)),
+                            gen = unlist(ll.mean))
+comp.tab <- cbind(rf.comp, mm.comp[, -1], ll.comp[, -1])
+comp.tab <- xtable(comp.tab)
+label(comp.tab) <- 'comp_tab'
+print.xtable(x = comp.tab, 
+             file = '../doc/comp_tab_raw.tex')
+
 
 #generalize comparisons
 best.mm <- which.max(laply(mm, function(x) mean(x$t)))
