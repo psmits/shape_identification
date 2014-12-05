@@ -127,16 +127,37 @@ Comparison of gap statistic values from PAM clustering show that the best number
 
 \subsection{Supervised learning}
 % model selection/fit
-Generally, as many PCs were included as predictors as possible for the best models of each of the classification schemes (Fig. \ref{fig:sel}). Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained. For both the LDA and multinomial logistic regression models, increasing model complexity increased cumulative percent variation necessary to best model the differing classification schemes (Fig. \ref{fig:sel}). The high variance in optimal number of PCs used as predictors between schemes may represent either ease of fitting that particular model or that the data was too noising to accurately fit any model beyond the simplest. 
+AUC based model selection revealed some important patterns of variation and congruence between a given classification scheme and the actual data. Generally, as many PCs were included as predictors as possible for the best models of each of the classification schemes (Fig. \ref{fig:sel}). Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained. For both the LDA and multinomial logistic regression models, increasing model complexity increased cumulative percent variation necessary to best model the differing classification schemes (Fig. \ref{fig:sel}). That almost all models were as complex as possible indicates that the differences between the different groups within each classification scheme are very small.
 
-As part of fitting a random forest model, a ranking of variable importance is also determined. Interestingly, the the order of variable importance is not the same as the order of principal components (Fig. \ref{fig:var_imp}). This means that the principal components that best describe the differences between the various classes are not aligned with the principal components which describe the largest amount of variance. This result would be the case if variation between classes was extremely fine grained and not a part of the principal function or form of the plastron, which makes sense given that the plastron is involved in both protection and aquadynamics and not mate choice \citep{Germano2009,Holland1992,Lubcke2007,Rivera2008}.
-
+As part of fitting a random forest model, a ranking of variable importance is also determined. Interestingly, the order of variable importance is not the same as the order of decreasing explained variance per principal component (Fig. \ref{fig:var_imp}). This means that the principal components that best describe the differences between the various classes are not aligned with the principal components which describe the largest amount of variance. This result would be the case if variation between classes was extremely fine grained and not a part of the principal function or form of the plastron, which makes sense given that the plastron is involved in both protection and aquadynamics and not mate choice \citep{Germano2009,Holland1992,Lubcke2007,Rivera2008}. This is congruous with the results of the AUC based model selection for the multinomial logistic regression and LDA models.
 
 The observed AUC values for all of the optimal models are low, as values near 0.5 indicate that a model is no better than completely random assigment (Fig. \ref{fig:sel}). This means that in very few cases are any of the proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set.
 
-
 % generalization
 AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). While the scheme with two species has the greatest AUC point estimate for each modeling approach, this scheme is not significantly greater from any other except in some limited cases (e.g. LDA, Table \ref{tab:gen_tests}). 
+
+Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). In cases were the AUC from the  genearlizations is less than the observed, this points too poor model fit and a poor classification scheme.
+
+% misfits
+Differences in mean shape between correctly and incorrectly classified observations from test set were frequently statistically significant, though there are exceptions. The frequency of these results, however, is important because this means that the different models are poor predictors of class membership. This may be because differences in plastron shape do not align with the any of the hypothesized classification schemes.
+
+
+\section{Discussion}
+
+The results of this study indicate that there is no clear grouping of plastra shapes in \textit{E. marmorata}.
+
+The unsupervised learning results which indicate only a single group of observations being optimal is congruous with the results from the generalizations of the supervised learning models. The classification schemes used in the supervised learning models correspond, loosely, to unsupervised learning solutions with multiple groups. Because unsupervised learning solutions with multiple groups are poor descriptors of the observed variation, it is important to see this reinforced by the supervised learning results.
+
+The results from fitting the various supervised learning models for each of the classification scheme generally shows that no one scheme is ``best.'' A possible explanation for this that the genetic divergence associated with (sub)speciation is either not based on plastron morphology or local selective pressures due to hydrological regime overwhelming any possible morphological divergence.
+
+Both the low AUC values (\(< 0.9\)) and the significant difference between the correctly and incorrectly classified observations support the conclusion that none of the hypothesized classification schemes are good descriptors of the observed plastral variation.
+
+
+\clearpage
+\bibliographystyle{sysbio}
+\bibliography{turtle,packages}
+
+\clearpage
 
 \begin{table}
   \include{rf_dif}
@@ -148,21 +169,13 @@ AUC values from model generalization, or estimating testing data set membership,
   \label{tab:gen_tests}
 \end{table}
 
-Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). In cases were the AUC from the  genearlizations is less than the observed, this points too poor model fit and a poor classification scheme.
-
 \begin{table}[ht]
   \centering
   \include{comp_tab}
-  \caption{CAPTION}
+  \caption{AUC values for the best model of each classification scheme for both the observed (training) data and the generalized (testing) data. Results from all three different supervised learning approaches are shown here. AUC values range between 0.5 and 1. }
   \label{tab:comp}
 \end{table}
 
-
-% misfits
-% need to make a table/graph to demonstrate this
-Differences in mean shape between correctly and incorrectly classified observations from test set were frequently statistically significant, though there are exceptions. The frequency of these results, however, is important because this means that the different models are poor predictors of class membership. This may be because differences in plastron shape do not align with the any of the hypothesized classification schemes.
-
- % i have three tables for this. need to find a nice way of displaying these. also they require large amounts of edits
 \begin{table}
   \begin{scriptsize}
     \include{rf_miss}
@@ -174,19 +187,6 @@ Differences in mean shape between correctly and incorrectly classified observati
   \caption{Results of comparisons between correctly and incorrectly classified observations from the testing data set. For each scheme, the classifications with at least 10 observations were tested. This was done for each of the three modeling techniques included in this study.}
   \label{tab:miss_tests}
 \end{table}
-
-\section{Discussion}
-
-Generalization and the unsupervised learning results are surprisingly congruous.
-
-Plastron shape indicates no optimal classification scheme. A possible explanation for this that the genetic divergence associated with (sub)speciation is either not based on plastron morphology or local selective pressures due to hydrological regime overwhelming any possible morphological divergence.
-
-
-\clearpage
-\bibliographystyle{sysbio}
-\bibliography{turtle,packages}
-
-\clearpage
 
 \begin{figure}[ht]
   \centering
