@@ -79,7 +79,7 @@ Following previous work on plastral variation \citep{Angielczyk2007,Angielczyk20
 \subsubsection{Unsupervised learning}
 In order to preserve the relationship between all landmark configurations in shape space, the dissimilarity between observations was measured using Kendall's Riemanninan shape distance or \(\rho\) \citep{Kendall1984a,Dryden1998a}. This metric was chosen because shape space, or the set of all possible shape configurations following Procrustes superimposition, is a Riemannian manifold and thus non-Euclidean \citep{Dryden1998a}. \(\rho\) varies between 0 and \(\pi / 2\) when there is no reflection invariance, which should not be a concern in the case of the half plastral landmark configurations used in the study.
 
-The \(\rho\) dissimilarity matrix was divisively clustered using partitioning around mediods clustering (PAM), a method similar to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized \citep{Kaufman1990}. Because the optimal number of clusters of shape configurations in the study was unknown, being possibly three, four, or some other value, clustering solutions were estimated with the number of clusters varied between one and NUMBER. Clustering solutions were compared using the gap statistic, which is a measure of goodness of clustering \citep{Tibshirani2001a}. The gap statistic is defined
+The \(\rho\) dissimilarity matrix was divisively clustered using partitioning around mediods clustering (PAM), a method similar to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized \citep{Kaufman1990}. Because the optimal number of clusters of shape configurations in the study was unknown, being possibly three, four, or some other value, clustering solutions were estimated with the number of clusters varied between one and eight. Clustering solutions were compared using the gap statistic, which is a measure of goodness of clustering \citep{Tibshirani2001a}. The gap statistic is defined
 
 \[Gap_{n}(k) = E^{*}_{n}[\log(W_{k})] - \log(W_{k})\] 
 
@@ -87,7 +87,7 @@ where \(W_{k}\) is
 
 \[W_{k} = \sum^{k}_{r = 1}{\frac{1}{2n_{r}} (\sum_{i,i' \in C_{r}} d_{ii'})}\].
 
-\(d_{ii'}\) is the dispersion of the clustering solution or the sum of the pairwise dissimilarities between observations in each cluster and their respective mediods (\(C\)) for all clusters \(r\). This value is averaged and compared to the expected dispersion (\(E^{*}_{n}\)) of a sample \(n\) from a reference distribution. In this case, the reference distribution was estimated from NUMBER resamples.
+\(d_{ii'}\) is the dispersion of the clustering solution or the sum of the pairwise dissimilarities between observations in each cluster and their respective mediods (\(C\)) for all clusters \(r\). This value is averaged and compared to the expected dispersion (\(E^{*}_{n}\)) of a sample \(n\) from a reference distribution. In this case, the reference distribution was estimated from 500 resamples.
 
 This analysis was conducted using the \texttt{cluster} package for R \citep{Maechler2013}.
 
@@ -121,7 +121,7 @@ To determine if there were systematic differences between the correctly and inco
 \section{Results}
 
 \subsection{Unsupervised learning}
-Comparison of gap statistic values from PAM clustering show that the best number of clusters is 1. This means that there is no means of naturally partitioning plastron shape into distinct subgroups.
+Comparison of gap statistic values from PAM clustering show that the best number of clusters is most likely 1 (Fig. \ref{fig:gap}). There is some ambiguity in choice because, although it is not statistically different from a solution with only one group, the solution with 2 groupings does have the greatest mean gap statistic. However, there is no geographical signal to the results of this clustering solution (Fig. \ref{fig:gap_map}). Because of this, we assert that this means that there is no means of naturally partitioning plastron shape into distinct subgroups.
 % PAM stuff
 % figure
 
@@ -193,6 +193,20 @@ Both the low AUC values (\(< 0.9\)) and the significant difference between the c
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/plastra}
   \caption{Depiction of general plastral shape of \textit{E. marmorata} and position of the 19 landmark used in this study. Anterior is towards the top of the figure.}
   \label{fig:plastra}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/gap_res}
+  \caption{CAPTION}
+  \label{fig:gap}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/gap_map}
+  \caption{CAPTION}
+  \label{fig:gap_map}
 \end{figure}
 
 \begin{figure}[ht]

@@ -16,16 +16,8 @@ n.groups = 4
 
 set.seed(1)
 tpam <- function(x, k) pam(as.dist(x), k)
-tmorph.gap <- clusGap(info.dist, FUNcluster = tpam, 
-                      K.max = 10 * n.groups, B = 500)
 tadult.gap <- clusGap(adult.dist, FUNcluster = tpam,
-                      K.max = 10 * n.groups, B = 500)
-tmorph.km <- pam(as.dist(info.dist), k = which.max(tmorph.gap$Tab[, 3]))
+                      K.max = 2 * n.groups, B = 500)
 tadult.km <- pam(as.dist(adult.dist), k = which.max(tadult.gap$Tab[, 3]))
 
-# dissimilarity based evidence accumulation clustering
-set.seed(1)
-tmorph.dac <- dac(info.dist, krange = c(1, 50 * n.groups), iter = 10000)
-tadult.dac <- dac(adult.dist, krange = c(1, 50 * n.groups), iter = 10000)
-
-save.image(file = 'cluster_res.RData')
+save(tadult.gap, tadult.km, file = '../data/cluster_res.RData')

@@ -81,7 +81,9 @@ map.plot <- function(data, label, map) {
   gg <- gg + geom_point(data = data,
                         mapping = aes(x = long, y = lat,
                                       group = NULL,
-                                      shape = factor(lab)))
+                                      colour = lab,
+                                      shape = factor(lab),
+                                      size = 4))
   gg
 }
 
