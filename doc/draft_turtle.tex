@@ -65,29 +65,23 @@
 \section{Introduction}
 
 \section{Materials and Methods}
-\subsection{Specimens and sampling}
-We collected landmark-based morphometric data from SAMPLE adult \textit{E. marmorata} museum specimens. These specimens include both newly sampled individuals and those sampled in previous studies of plastral shape variation \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}. 
+\subsection{Specimens, sampling, morphometrics}
+We collected landmark-based morphometric data from 354 adult \textit{E. marmorata} museum specimens. These specimens include both newly sampled and previously sampled individuals \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}. Specimens were assigned a classification for each of the different schemes was based on known geographic information recorded from museum collection information. When precise latitude and longitude information was not available it was estimated from whatever locality information was present. Because the specimens used to define the subclades in \citet{Spinks2005} and \citet{Spinks2010} were not available for study, all specimen classifications were based solely on this geographic information and not from explicit assignment in previous studies. Because the exact barriers between different biogeographic regions are unknown and unclear, each hypothesis was represented by two different schemes; in total six different schemes were compared. % need more information from ken
 
-Specimen classification was based on known specimen geographic information which was recorded from museum collection information. When precise latitude and longitude information was not available it was estimated from whatever locality information was present. Because the specimens used to define the subclades in \citet{Spinks2005} and \citet{Spinks2010} were not available for study, all specimen classifications were based solely on this geographic information and not from explicit assignment in previous studies. Instead, classification was based on matching museum locality data with the geographic boundaries of the molecularly-defined clades of \citet{Spinks2005} and \citet{Spinks2010}. Because the exact barriers between different biogeographic regions are unknown and unclear, two assignments for both the morphologically and molecularly based hypotheses were used. Each morphologically based hypothesis had three classes, while each molecular-based had four classes. In total, each specimen was given four different classifications. 
-
-
-\subsection{Geometric morphometrics}
 Following previous work on plastral variation \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, 19 landmarks were digitized using TpsDig 2.04 \citep{Rohlf2005}. These landmarks were chosen to maximize the description of general plastral variation(Fig. \ref{fig:plastra}). 17 of these landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. 12 of these landmarks were chosen to be symmetrical across the axis of symmetry and, in order to prevent degrees of freedom and other concerns \citep{Klingenberg2002}, prior to analysis these landmarks were reflected across the axis of symmetry (i.e. midline) and the average position of each symmetrical pair was used. In cases where damage or incompleteness prevented symmetric landmarks from being determined, only the single member of the pair was used. Analysis was conducted on the resulting ``half'' plastra. Plastral landmark configurations were superimposed using generalized Procrustes analysis \citep{Dryden1998a} after which, the principal components (PC) of shape were calculated. This was done using the \texttt{shapes} package for R \citep{2013,Dryden2013}.
 
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
-In order to preserve the relationship between all landmark configurations in shape space, the dissimilarity between observations was measured using Kendall's Riemanninan shape distance or \(\rho\) \citep{Kendall1984a,Dryden1998a}. This metric was chosen because shape space, or the set of all possible shape configurations following Procrustes superimposition, is a Riemannian manifold and thus non-Euclidean \citep{Dryden1998a}. \(\rho\) varies between 0 and \(\pi / 2\) when there is no reflection invariance, which should not be a concern in the case of the half plastral landmark configurations used in the study.
+In order to preserve the relationship between all landmark configurations in shape space, the dissimilarity between observations was measured using Kendall's Riemannian shape distance or \(\rho\) \citep{Kendall1984a,Dryden1998a}. This metric was chosen because shape space, or the set of all possible shape configurations following Procrustes superimposition, is a Riemannian manifold and thus non-Euclidean \citep{Dryden1998a}. \(\rho\) varies between 0 and \(\pi / 2\) when there is no reflection invariance, which should not be a concern in the case of the half plastral landmark configurations used in the study.
 
-The \(\rho\) dissimilarity matrix was divisively clustered using partitioning around mediods clustering (PAM), a method similar to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized \citep{Kaufman1990}. Because the optimal number of clusters of shape configurations in the study was unknown, being possibly three, four, or some other value, clustering solutions were estimated with the number of clusters varied between one and eight. Clustering solutions were compared using the gap statistic, which is a measure of goodness of clustering \citep{Tibshirani2001a}. The gap statistic is defined
+The \(\rho\) dissimilarity matrix was divisively clustered using partitioning around mediods clustering (PAM), a method similar to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized \citep{Kaufman1990}. Because the optimal number of clusters of shape configurations in the study was unknown, being possibly three, four, or some other value, clustering solutions were estimated with the number of clusters varied between one and eight. Clustering solutions were compared using the gap statistic, which is a measure of goodness of clustering \citep{Tibshirani2001a}.
 
-\[Gap_{n}(k) = E^{*}_{n}[\log(W_{k})] - \log(W_{k})\] 
-
-where \(W_{k}\) is
-
-\[W_{k} = \sum^{k}_{r = 1}{\frac{1}{2n_{r}} (\sum_{i,i' \in C_{r}} d_{ii'})}\].
-
-\(d_{ii'}\) is the dispersion of the clustering solution or the sum of the pairwise dissimilarities between observations in each cluster and their respective mediods (\(C\)) for all clusters \(r\). This value is averaged and compared to the expected dispersion (\(E^{*}_{n}\)) of a sample \(n\) from a reference distribution. In this case, the reference distribution was estimated from 500 resamples.
+%The gap statistic is defined
+%\[Gap_{n}(k) = E^{*}_{n}[\log(W_{k})] - \log(W_{k})\] 
+%where \(W_{k}\) is
+%\[W_{k} = \sum^{k}_{r = 1}{\frac{1}{2n_{r}} (\sum_{i,i' \in C_{r}} d_{ii'})}\].
+%\(d_{ii'}\) is the dispersion of the clustering solution or the sum of the pairwise dissimilarities between observations in each cluster and their respective mediods (\(C\)) for all clusters \(r\). This value is averaged and compared to the expected dispersion (\(E^{*}_{n}\)) of a sample \(n\) from a reference distribution. In this case, the reference distribution was estimated from 500 resamples.
 
 This analysis was conducted using the \texttt{cluster} package for R \citep{Maechler2013}.
 
@@ -131,13 +125,10 @@ AUC based model selection revealed some important patterns of variation and cong
 
 As part of fitting a random forest model, a ranking of variable importance is also determined. Interestingly, the order of variable importance is not the same as the order of decreasing explained variance per principal component (Fig. \ref{fig:var_imp}). This means that the principal components that best describe the differences between the various classes are not aligned with the principal components which describe the largest amount of variance. This result would be the case if variation between classes was extremely fine grained and not a part of the principal function or form of the plastron, which makes sense given that the plastron is involved in both protection and aquadynamics and not mate choice \citep{Germano2009,Holland1992,Lubcke2007,Rivera2008}. This is congruous with the results of the AUC based model selection for the multinomial logistic regression and LDA models.
 
-The observed AUC values for all of the optimal models are low, as values near 0.5 indicate that a model is no better than completely random assigment (Fig. \ref{fig:sel}). This means that in very few cases are any of the proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set.
+Observed AUC values for all of the optimal models are not exceptionally high, as values near 0.5 indicate that a model is no better than completely random assigment (Fig. \ref{fig:sel}). This means that in all but a few cases the different proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set.
 
 % generalization
-AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). While the scheme with two species has the greatest AUC point estimate for each modeling approach, this scheme is not significantly greater from any other except in some limited cases (e.g. LDA, Table \ref{tab:gen_tests}). 
-
-Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). In cases were the AUC from the  genearlizations is less than the observed, this points too poor model fit and a poor classification scheme.
-
+Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). In cases were the AUC from the  genearlizations is less than the observed, this points too poor model fit and a poor classification scheme. AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). While the scheme with two species has the greatest AUC point estimate for each modeling approach, this scheme is not significantly greater from any other except in some limited cases (e.g. LDA, Table \ref{tab:gen_tests}). 
 % misfits
 Differences in mean shape between correctly and incorrectly classified observations from test set were frequently statistically significant, though there are exceptions. The frequency of these results, however, is important because this means that the different models are poor predictors of class membership. This may be because differences in plastron shape do not align with the any of the hypothesized classification schemes.
 
@@ -159,6 +150,13 @@ Both the low AUC values (\(< 0.9\)) and the significant difference between the c
 
 \clearpage
 
+\begin{table}[ht]
+  \centering
+  \include{comp_tab}
+  \caption{AUC values for the best model of each classification scheme for both the observed (training) data and the generalized (testing) data. Results from all three different supervised learning approaches are shown here. AUC values range between 0.5 and 1. }
+  \label{tab:comp}
+\end{table}
+
 \begin{table}
   \include{rf_dif}
     %
@@ -167,13 +165,6 @@ Both the low AUC values (\(< 0.9\)) and the significant difference between the c
   \include{ll_dif}
   \caption{Results of bootstrap comparisons between the scheme with the highest mean AUC value and all other schemes. An asterix indicates the best scheme. This was done for each of the three modeling techniques included in this study. Probabilities are the percent of comparisons that are greater than the observed difference in means.}
   \label{tab:gen_tests}
-\end{table}
-
-\begin{table}[ht]
-  \centering
-  \include{comp_tab}
-  \caption{AUC values for the best model of each classification scheme for both the observed (training) data and the generalized (testing) data. Results from all three different supervised learning approaches are shown here. AUC values range between 0.5 and 1. }
-  \label{tab:comp}
 \end{table}
 
 \begin{table}
@@ -198,14 +189,14 @@ Both the low AUC values (\(< 0.9\)) and the significant difference between the c
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/gap_res}
-  \caption{CAPTION}
+  \caption{Results from PAM clustering of the Riemannian shape distance for 8 different number of clusters. Vertical lines are 1 standard deviation of the mean determined from 500 resamples.}
   \label{fig:gap}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/gap_map}
-  \caption{CAPTION}
+  \caption{Comparison of geographic distribution of clustered observations from the 2 clustering PAM solution. Colour and shape correspond to each of the groups. There is clearly no geographic signal in the data.}
   \label{fig:gap_map}
 \end{figure}
 
