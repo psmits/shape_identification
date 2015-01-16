@@ -2,51 +2,58 @@ This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: draft_turtle.aux
 The style file: sysbio.bst
+A level-1 auxiliary file: comp_tab.aux
+A level-1 auxiliary file: rf_dif.aux
+A level-1 auxiliary file: mm_dif.aux
+A level-1 auxiliary file: ll_dif.aux
+A level-1 auxiliary file: rf_miss.aux
+A level-1 auxiliary file: mm_miss.aux
+A level-1 auxiliary file: ll_miss.aux
 Database file #1: turtle.bib
 Database file #2: packages.bib
 Repeated entry---line 18 of file packages.bib
  : @manual{Kuhn2013
  :                 ,
 I'm skipping whatever remains of this entry
-You've used 27 entries,
+You've used 58 entries,
             2858 wiz_defined-function locations,
-            782 strings with 9320 characters,
-and the built_in function-call counts, 14564 in all, are:
-= -- 1276
-> -- 616
-< -- 19
-+ -- 201
-- -- 174
-* -- 1055
-:= -- 2299
-add.period$ -- 107
-call.type$ -- 27
-change.case$ -- 186
-chr.to.int$ -- 27
-cite$ -- 54
-duplicate$ -- 1068
-empty$ -- 1079
-format.name$ -- 265
-if$ -- 2948
+            994 strings with 15994 characters,
+and the built_in function-call counts, 34423 in all, are:
+= -- 3012
+> -- 1603
+< -- 35
++ -- 524
+- -- 466
+* -- 2566
+:= -- 5392
+add.period$ -- 232
+call.type$ -- 58
+change.case$ -- 437
+chr.to.int$ -- 58
+cite$ -- 116
+duplicate$ -- 2472
+empty$ -- 2469
+format.name$ -- 654
+if$ -- 6965
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 241
-newline$ -- 119
-num.names$ -- 108
-pop$ -- 414
+missing$ -- 551
+newline$ -- 243
+num.names$ -- 234
+pop$ -- 912
 preamble$ -- 1
-purify$ -- 166
+purify$ -- 387
 quote$ -- 0
-skip$ -- 378
+skip$ -- 830
 stack$ -- 0
-substring$ -- 639
-swap$ -- 442
+substring$ -- 1674
+swap$ -- 1073
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 219
+type$ -- 498
 warning$ -- 0
-while$ -- 109
+while$ -- 263
 width$ -- 0
-write$ -- 325
+write$ -- 696
 (There was 1 error message)
