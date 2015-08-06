@@ -28,6 +28,7 @@ theme_update(axis.text = element_text(size = 20),
              legend.key.size = unit(2, 'cm'),
              strip.text = element_text(size = 25))
 
+
 # map details
 adult$long[which(adult$long > -100)] <- adult$long[which(adult$long > -100)] - 100
 adult.train$spinks$long[which(adult.train$spinks$long > -100)] <- adult.train$spinks$long[which(adult.train$spinks$long > -100)] - 100
@@ -105,9 +106,9 @@ secs.l <- lapply(secs.l, function(x) {
                  x})
 secs.l <- Reduce(rbind, secs.l)
 pcl <- unlist(lapply(c('PC1', 'PC2'), 
-                        function(x) rep(x, 3 * length(snd.links) / 2)))
+                     function(x) rep(x, 3 * length(snd.links) / 2)))
 pc.typ <- c(rep('min', length(snd.links) / 2),
-             rep('max', length(snd.links) / 2))
+            rep('max', length(snd.links) / 2))
 pc.mm <- rep('mean', length(snd.links) / 2)
 pc.typ <- c(pc.typ, pc.mm, pc.typ, pc.mm)
 secs.l <- cbind(secs.l, pcl, pc.typ)
@@ -135,14 +136,18 @@ ggsave(file = '../doc/figure/pc_var.png', plot = gpc,
 rf.imp <- llply(for.imp, function(x) x$importance)
 rf.imp <- Map(function(x, y) data.frame(cbind(x[, (ncol(x) - 1):(ncol(x))], 
                                               gr = rep(y, nrow(x)))), 
-                                        x = rf.imp, 
-                                        y = seq(length(rf.imp)))
+              x = rf.imp, 
+              y = seq(length(rf.imp)))
 rf.imp <- llply(rf.imp, function(x) {
                 x$pc <- rownames(x)
                 x})
 rf.imp <- data.frame(Reduce(rbind, rf.imp))
 colnames(rf.imp)[1:2] <- c('acc', 'gini')
 rf.imp$pc <- factor(rf.imp$pc, levels = rev(unique(rf.imp$pc)))
+rf.imp$gr <- mapvalues(rf.imp$gr, unique(rf.imp$gr), 
+                       c('Morph 1', 'Morph 2', 'Mito 1', 
+                         'Nuclear', 'Mito 2', 'Mito 3'))
+
 grf <- ggplot(rf.imp, aes(x = gini, y = pc))
 grf <- grf + geom_point(size = 5)
 #grf <- grf + geom_bar(stat = 'identity', width = 0.5)
@@ -187,6 +192,15 @@ maxes$x <- as.numeric(as.character(maxes$x))
 maxes$n <- as.numeric(as.character(maxes$n))
 
 sel <- rbind(m.auc, l.auc)
+sel$gr <- as.character(sel$gr)
+sel$gr <- mapvalues(sel$gr, unique(sel$gr), 
+                    c('Morph 1', 'Morph 2', 'Mito 1', 
+                      'Nuclear', 'Mito 2', 'Mito 3'))
+maxes$gr <- as.character(maxes$gr)
+maxes$gr <- mapvalues(maxes$gr, unique(maxes$gr), 
+                      c('Morph 1', 'Morph 2', 'Mito 1', 
+                        'Nuclear', 'Mito 2', 'Mito 3'))
+
 
 gsel <- ggplot(sel, aes(x = n, y = x))
 gsel <- gsel + geom_line(size = 1.5) + geom_point(size = 3)
@@ -232,9 +246,9 @@ gdist <- gdist + geom_histogram(aes(y = ..density..),
                                 colour = 'darkgrey',
                                 binwidth = 1/100)
 gdist <- gdist + scale_fill_manual(name = '', values = cbp,
-                                   labels = c('morph 1', 'morph 2',
-                                              'molec 1', 'two species',
-                                              '2014', 'molec 2'))
+                                   labels = c('Morph 1', 'Morph 2',
+                                              'Mito 1', 'Nuclear',
+                                              'Mito 2', 'Mito 3'))
 gdist <- gdist + facet_grid(L1 ~ ., labeller = gen.name)
 gdist <- gdist + labs(x = 'AUC')
 gdist <- gdist + coord_cartesian(xlim = c(0, 1))
@@ -270,60 +284,60 @@ for(ii in seq(length(gen.maps))) {
 }
 
 
-# 3 most important variables
-# this needs to be updated to reflect most important
-ww <- 'spinks'
-adult$class[adult[, ww] == 1] = 'Northern'
-adult$class[adult[, ww] == 2] = 'Eastern'
-adult$class[adult[, ww] == 3] = 'Western'
-adult$class[adult[, ww] == 4] = 'Southern'
-adult$class <- factor(adult$class, 
-                      levels = c('Northern', 
-                                 'Eastern', 
-                                 'Western', 
-                                 'Southern'))
-
-pp <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
-most.imp <- lapply(trf.a, function(x) x$optVariables)
-imp.plots <- list()
-for(ii in seq(length(pp))) {
-  if(length(most.imp[[ii]]) < 2) {
-    many <- 3
-  } else {
-    many <- 2
-  }
-  imp.plots[[ii]] <- imp.pairs(most.imp[[ii]], many, pp[ii], adult, cbp)
-}
-for(ii in seq(length(imp.plots))) {
-  pdf(file = paste('../doc/figure/pca_imp', ii, '.pdf', sep = ''))
-  print(imp.plots[[ii]])
-  dev.off()
-}
-
-
-# mean of the different classes
-# these are going to be combined into a single plot using latex
-mspi <- lapply(pp, function(x) {
-               class.mean(x, land.adult, adult)})
-mt <- mshape(land.adult)
-mts <- mt[, 2:1]
-mts[, 2] <- -1 * mts[, 2]
-lmat <- cbind(links, c(links[-1], links[1]))
-lmat <- rbind(lmat, matrix(snd.links, nrow = 5, byrow = TRUE))
-for(jj in seq(length(mspi))) {
-  for(ii in seq(length(mspi[[jj]]))) {
-    pdf(file = paste0('../doc/figure/mshape_', pp[jj], '_', ii, '.pdf'), 
-        width = 3.4)
-    par(mar = c(0, 0, 0, 0), xaxs = 'i')
-    plotRefToTarget(M1 = mts, M2 = mspi[[jj]][[ii]], mag = 2, links = lmat)
-    dev.off()
-  }
-}
-
-
-# variation along most important axes
-gsh <- lapply(most.imp, function(x) shape.imp(x, adult, land.adult, links, snd.links))
-for(ii in seq(length(gsh))) {
-  ggsave(file = paste0('../doc/figure/imp_var_', groups[[ii]], '.png'), 
-         plot = gsh[[ii]], height = 15, width = 10)
-}
+## 3 most important variables
+## this needs to be updated to reflect most important
+#ww <- 'spinks'
+#adult$class[adult[, ww] == 1] = 'Northern'
+#adult$class[adult[, ww] == 2] = 'Eastern'
+#adult$class[adult[, ww] == 3] = 'Western'
+#adult$class[adult[, ww] == 4] = 'Southern'
+#adult$class <- factor(adult$class, 
+#                      levels = c('Northern', 
+#                                 'Eastern', 
+#                                 'Western', 
+#                                 'Southern'))
+#
+#pp <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
+#most.imp <- lapply(trf.a, function(x) x$optVariables)
+#imp.plots <- list()
+#for(ii in seq(length(pp))) {
+#  if(length(most.imp[[ii]]) < 2) {
+#    many <- 3
+#  } else {
+#    many <- 2
+#  }
+#  imp.plots[[ii]] <- imp.pairs(most.imp[[ii]], many, pp[ii], adult, cbp)
+#}
+#for(ii in seq(length(imp.plots))) {
+#  pdf(file = paste('../doc/figure/pca_imp', ii, '.pdf', sep = ''))
+#  print(imp.plots[[ii]])
+#  dev.off()
+#}
+#
+#
+## mean of the different classes
+## these are going to be combined into a single plot using latex
+#mspi <- lapply(pp, function(x) {
+#               class.mean(x, land.adult, adult)})
+#mt <- mshape(land.adult)
+#mts <- mt[, 2:1]
+#mts[, 2] <- -1 * mts[, 2]
+#lmat <- cbind(links, c(links[-1], links[1]))
+#lmat <- rbind(lmat, matrix(snd.links, nrow = 5, byrow = TRUE))
+#for(jj in seq(length(mspi))) {
+#  for(ii in seq(length(mspi[[jj]]))) {
+#    pdf(file = paste0('../doc/figure/mshape_', pp[jj], '_', ii, '.pdf'), 
+#        width = 3.4)
+#    par(mar = c(0, 0, 0, 0), xaxs = 'i')
+#    plotRefToTarget(M1 = mts, M2 = mspi[[jj]][[ii]], mag = 2, links = lmat)
+#    dev.off()
+#  }
+#}
+#
+#
+## variation along most important axes
+#gsh <- lapply(most.imp, function(x) shape.imp(x, adult, land.adult, links, snd.links))
+#for(ii in seq(length(gsh))) {
+#  ggsave(file = paste0('../doc/figure/imp_var_', groups[[ii]], '.png'), 
+#         plot = gsh[[ii]], height = 15, width = 10)
+#}

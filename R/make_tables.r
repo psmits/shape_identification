@@ -64,7 +64,9 @@ diff.table <- function(boot.mod, best, dif) {
   out <- cbind(scheme = names(means), compare = unlist(ccoo))
   xtable(out)
 }
-
+names(mm) <- c('Morph 1', 'Morph 2', 'Mito 1', 'Nuclear', 'Mito 2', 'Mito 3')
+names(rr) <- c('Morph 1', 'Morph 2', 'Mito 1', 'Nuclear', 'Mito 2', 'Mito 3')
+names(ll) <- c('Morph 1', 'Morph 2', 'Mito 1', 'Nuclear', 'Mito 2', 'Mito 3')
 mmdif.tab <- diff.table(mm, best.mm, mm.dif)
 label(mmdif.tab) <- 'mmdif'
 print.xtable(x = mmdif.tab,
@@ -97,6 +99,8 @@ sig.table <- function(test, groups) {
   sig.tab <- sig.tab[, c(4, 3, 1, 2)]
   sig.tab <- xtable(sig.tab)
 }
+groups <- list('Morph 1', 'Morph 2', 'Molec 1', 
+               'Nuclear', 'Molec 2', 'Molec 3')
 rfmiss.tab <- sig.table(rf.test, groups)
 label(rfmiss.tab) <- 'rfmiss'
 print.xtable(x = rfmiss.tab,
