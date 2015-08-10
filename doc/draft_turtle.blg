@@ -11,49 +11,44 @@ A level-1 auxiliary file: mm_miss.aux
 A level-1 auxiliary file: ll_miss.aux
 Database file #1: turtle.bib
 Database file #2: packages.bib
-Repeated entry---line 18 of file packages.bib
- : @manual{Kuhn2013
- :                 ,
-I'm skipping whatever remains of this entry
-You've used 58 entries,
+You've used 66 entries,
             2858 wiz_defined-function locations,
-            994 strings with 15994 characters,
-and the built_in function-call counts, 34423 in all, are:
-= -- 3012
-> -- 1603
-< -- 35
-+ -- 524
-- -- 466
-* -- 2566
-:= -- 5392
-add.period$ -- 232
-call.type$ -- 58
-change.case$ -- 437
-chr.to.int$ -- 58
-cite$ -- 116
-duplicate$ -- 2472
-empty$ -- 2469
-format.name$ -- 654
-if$ -- 6965
+            1044 strings with 17642 characters,
+and the built_in function-call counts, 39657 in all, are:
+= -- 3452
+> -- 1899
+< -- 40
++ -- 622
+- -- 556
+* -- 2965
+:= -- 6218
+add.period$ -- 264
+call.type$ -- 66
+change.case$ -- 507
+chr.to.int$ -- 66
+cite$ -- 132
+duplicate$ -- 2840
+empty$ -- 2815
+format.name$ -- 766
+if$ -- 8009
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 551
-newline$ -- 243
-num.names$ -- 234
-pop$ -- 912
+missing$ -- 636
+newline$ -- 275
+num.names$ -- 266
+pop$ -- 1050
 preamble$ -- 1
-purify$ -- 387
+purify$ -- 449
 quote$ -- 0
-skip$ -- 830
+skip$ -- 941
 stack$ -- 0
-substring$ -- 1674
-swap$ -- 1073
+substring$ -- 1921
+swap$ -- 1237
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 498
+type$ -- 570
 warning$ -- 0
-while$ -- 263
+while$ -- 301
 width$ -- 0
-write$ -- 696
-(There was 1 error message)
+write$ -- 791
