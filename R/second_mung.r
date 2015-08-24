@@ -98,6 +98,8 @@ for(ii in seq(length(lda.fit))) {
                  ps})
   lda.auc[ii] <- colMeans(do.call(rbind, prob))
 }
+# TODO out of sample AUC for best model
+
 
 # process multinomial
 # in sample auc for chosing best model
@@ -116,3 +118,4 @@ for(ii in seq(length(mnom.fit))) {
                  ps})
   mnom.auc[ii] <- colMeans(do.call(rbind, prob))
 }
+# TODO out of sample AUC for best model
