@@ -60,8 +60,9 @@ for(ii in seq(from = 2, to = max.ad)) {
 
 mnom.fit <- list()
 for(ii in seq(from = 2, to = max.ad)) {
-  mnom.fit[[ii - 1]] <- multinom(train[, 1] ~ 
-                                 as.matrix(train[, seq(from = 2, to = ii + 1)]))
+  dat <- as.matrix(train[, seq(from = 2, to = ii + 1)])
+  colnames(dat) <- NULL
+  mnom.fit[[ii - 1]] <- multinom(train[, 1] ~ dat)
 }
 
 # analysis of the supervised fits
@@ -98,6 +99,19 @@ for(ii in seq(length(lda.fit))) {
                  ps})
   lda.auc[ii] <- colMeans(do.call(rbind, prob))
 }
+lda.best <- lda.fit[[which.max(lda.auc)]]
+lda.bp <- predict(lda.best, 
+                  newdata = test[, seq(from = 2, to = which.max(lda.auc) + 2)])
+pred <- lda.bp$class
+obs <- test[, 1]
+prob <- lapply(unique(test[, 1]), function(cl) {
+               pp <- ifelse(pred == cl, 1, 0)
+               oo <- ifelse(obs == cl, 1, 0)
+               prob <- lda.bp$posterior[, as.character(cl)]
+
+               ps <- Metrics::auc(oo, prob)
+               ps})
+lda.oo.auc <- colMeans(do.call(rbind, prob))
 # TODO out of sample AUC for best model
 
 
@@ -118,4 +132,18 @@ for(ii in seq(length(mnom.fit))) {
                  ps})
   mnom.auc[ii] <- colMeans(do.call(rbind, prob))
 }
-# TODO out of sample AUC for best model
+mnom.best <- mnom.fit[[which.max(mnom.auc)]]
+dat <- as.matrix(test[, seq(from = 2, to = which.max(mnom.auc) + 2)])
+colnames(dat) <- NULL
+mnom.oo.c <- predict(mnom.best, dat)
+mnom.oo.p <- predict(mnom.best, dat, 'probs')
+pred <- mnom.oo.c
+obs <- test[, 1]
+prob <- lapply(unique(test[, 1]), function(cl) {
+               pp <- ifelse(pred == cl, 1, 0)
+               oo <- ifelse(obs == cl, 1, 0)
+               prob <- mnom.oo.p[, as.character(cl)]
+
+               ps <- Metrics::auc(oo, prob)
+               ps})
+mnom.oo.auc <- colMeans(do.call(rbind, prob))
