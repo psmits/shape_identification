@@ -102,7 +102,7 @@ Because of unclear geographic boundaries between subgroups of \textit{E. marmora
 \subsection{Specimens, sampling, morphometrics}
 We collected landmark-based morphometric data from 354 adult \textit{E. marmorata} museum specimens. These specimens are a subset of those included in \citet{Angielczyk2007}, \citet{Angielczyk2011}, and \citet{Angielczyk2013a}, essentially representing the adult individuals included in those papers. We chose to focus on adults because significant changes in plastron shape occur over the course of ontogeny in \textit{E. mamorata} and other emydines \citep{Angielczyk2013a}. \uppercase{Peter note -- how was something classified as an adult?}
 
-We assigned a classification to each specimen for the different binning schemes based on geographic occurrence data recorded in museum collection archives. When precise latitude and longitude information were not available we estimated them from locality information. Because \citet{Spinks2005}, \citet{Spinks2010}, and \citet{Spinks20140} did not use vouchered specimens we were not able to example the sample individuals. Therefore our specimen classifications were based solely on the geographic information, not explicit assignment in previous studies. Because the exact barriers between different biogeographic regions are unknown and unclear, we represented each hypothesis with two schemes for a total of six different schemes. The schemes differed based on where geographic boundaries were assigned. This changes the classification of certain individuals near the boundaries between groups, providing a test of the robustness of the classification schemes.
+We assigned a classification to each specimen for the different binning schemes based on geographic occurrence data recorded in museum collection archives. When precise latitude and longitude information were not available we estimated them from locality information. Because \citet{Spinks2005}, \citet{Spinks2010}, and \citet{Spinks2014} did not use vouchered specimens we were not able to example the sample individuals. Therefore our specimen classifications were based solely on the geographic information, not explicit assignment in previous studies. Because the exact barriers between different biogeographic regions are unknown and unclear, we represented each hypothesis with two schemes for a total of six different schemes. The schemes differed based on where geographic boundaries were assigned. This changes the classification of certain individuals near the boundaries between groups, providing a test of the robustness of the classification schemes.
 
 Following previous work on plastron variation \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, we used TpsDig 2.04 \citep{Rohlf2005} to digitize 19 landmarks (Fig. \ref{fig:plastra}). Seventeen of the landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. Twelve of the landmarks were symmetrical across the axis of symmetry and, in order to prevent issues related to degrees of freedom and other similar concerns \citep{Klingenberg2002}, we reflected these landmarks across the axis of symmetry (i.e. midline) prior to analysis and used the average position of each symmetrical pair. In cases where damage or incompleteness prevented symmetric landmarks from being determined, we used only the single member of the pair. We conducted all subsequent analyses on the resulting ``half'' plastra. We superimposed the plastral landmark configurations using generalized Procrustes analysis \citep{Dryden1998a}, after which, we calculated the principal components (PC) of shape using the \texttt{shapes} package for R \citep{2013,Dryden2013}.
 
@@ -144,6 +144,8 @@ It is common for some out of sample observations to be misclassified. This miscl
 
 To determine if there were systematic differences in plastron shape between the correctly and incorrectly classified samples, we used a permutation test to estimate if the dissimilarity between the correctly and incorrectly classified individuals was significantly greater than random. The group labels were permuted 1000 times and the distance between the new centroids was calculated. The number of permutations less than the empirical difference divided by 1000 gives a \textit{p}-value for the test. Significant results indicate that correctly and incorrectly classified specimens are systematically different. This was done only for classes where there were 10 or more observations.
 
+\subsection{Comparison with clear-cut example}
+In addition to the \textit{E. marmorata/pallida} case, we also analyzed a set of seven morphologically distinct species in order to test if the approaches used here actually work. The seven species analyzed were \textit{Emys blandigii}, \textit{Terrapene coahuila}, \textit{Clemmys guttata}, \textit{Glyptemys insculpta}, \textit{Glyptemys muhlenbergii}, \textit{Emys orbicularis}, and \textit{Terrapene ornata} with a total of XXX specimens analyzed in total. Just as in the \textit{E. marmorata/pallida} example, we analyzed plastron shape variation. The support for a classification scheme with seven categories was evaluated using random forest, linear discriminate analysis, and multinomial logistic regression where the number of PCs used as predictors ranged from 2 to 11. Data was split into training and testing sets and model performance for both sets was evaluated using the AUC metric, just as above.
 
 
 \section{Results}
@@ -165,6 +167,9 @@ Observed AUC values for all of the optimal models are not exceptionally high (\r
 Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). The  cases in which the AUC from the  generalizations is less than the observed, indicate poor model fit and a poor classification scheme. AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). Although the scheme with two species has the greatest AUC point estimate for each modeling approach, this scheme is not significantly greater than any other except in some limited cases (e.g. LDA, Table \ref{tab:gen_tests}). 
 % misfits
 Differences in mean shape between correctly and incorrectly classified observations from test set frequently were statistically significant, though there are exceptions. Again, this test was to determine if the mean shapes were statistically different or not. The frequency of these results, however, is important because it means that the different models are poor predictors of class membership. This may be because differences in plastron shape do not align with the any of the hypothesized classification schemes.
+
+\section{Comparison with clear-cut example}
+In contrast with the above results, the analysis of the clearly distinct species SUPPLEMENT demonstrates almost perfect classification of the both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). These results demonstrate that if there were strong distinctions between the states of the classification schemes, the methods used here would be able to recover this.
 
 
 \section{Discussion}
@@ -270,5 +275,20 @@ Data collection for this project was supported in part by NSF DBI-0306158 (to KD
   \caption{Bootstrap distributions for genearlized AUC values for each of the classification schemes. Each row corresponds to a different modeling approach: LDA, LDA using best variables from random forest, multinomial logistic regression, and random forest. Each distribution corresponds to 1000 bootstrap replicates.}
   \label{fig:gen_hist}
 \end{figure}
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{ l r r r }
+    \hline
+    & \# predictors & In-sample AUC & Out-of-sample AUC \\ 
+    \hline
+    random forest &   11 & 1.000 & 0.999 \\ 
+    linear discriminate analysis &   10 & 1.000 & 1.000 \\ 
+    multinomial logistic regression &    6 & 1.000 & 0.998 \\ 
+    \hline
+  \end{tabular}
+  \caption{Results from classification model estimates of the secondary, multi-species dataset. Comparison of in-sample and out-of-sample AUC of the best performing model, along with the number of predictors. AUC values range between 0.5 (no better than random) and 1 (perfect classification).}
+  \label{tab:second_res}
+\end{table}
 
 \end{document}

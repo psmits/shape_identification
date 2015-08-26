@@ -11,6 +11,7 @@ library(randomForest)
 library(caret)
 library(parallel)
 library(doParallel)
+library(xtable)
 # source files
 source('../R/array2df.r')
 source('../R/df2array.r')
@@ -147,3 +148,16 @@ prob <- lapply(unique(test[, 1]), function(cl) {
                ps <- Metrics::auc(oo, prob)
                ps})
 mnom.oo.auc <- colMeans(do.call(rbind, prob))
+
+
+# make some results tables
+results <- data.frame(npred = c(which.max(fort.auc), 
+                                which.max(lda.auc), 
+                                which.max(mnom.auc)), 
+                      ii.auc = c(fort.auc[which.max(fort.auc)], 
+                                 lda.auc[which.max(lda.auc)], 
+                                 mnom.auc[which.max(mnom.auc)]), 
+                      oo.auc = c(rf.oo.auc, lda.oo.auc, mnom.oo.auc))
+rownames(results) <- c('RF', 'LDA', 'MnL')
+res.tab <- xtable(results, label = 'tab:second_res', digits = 3)
+print.xtable(res.tab, file = '../doc/second_tab.tex')
