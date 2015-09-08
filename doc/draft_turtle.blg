@@ -3,52 +3,48 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: draft_turtle.aux
 The style file: sysbio.bst
 A level-1 auxiliary file: comp_tab.aux
-A level-1 auxiliary file: rf_dif.aux
-A level-1 auxiliary file: mm_dif.aux
-A level-1 auxiliary file: ll_dif.aux
-A level-1 auxiliary file: rf_miss.aux
-A level-1 auxiliary file: mm_miss.aux
-A level-1 auxiliary file: ll_miss.aux
 Database file #1: turtle.bib
 Database file #2: packages.bib
-You've used 66 entries,
+Warning--empty year in Pollyb; set to ????
+You've used 77 entries,
             2858 wiz_defined-function locations,
-            1044 strings with 17642 characters,
-and the built_in function-call counts, 39657 in all, are:
-= -- 3452
-> -- 1899
-< -- 40
-+ -- 622
-- -- 556
-* -- 2965
-:= -- 6218
-add.period$ -- 264
-call.type$ -- 66
-change.case$ -- 507
-chr.to.int$ -- 66
-cite$ -- 132
-duplicate$ -- 2840
-empty$ -- 2815
-format.name$ -- 766
-if$ -- 8009
+            1105 strings with 19824 characters,
+and the built_in function-call counts, 46698 in all, are:
+= -- 4066
+> -- 2263
+< -- 46
++ -- 741
+- -- 664
+* -- 3503
+:= -- 7318
+add.period$ -- 308
+call.type$ -- 77
+change.case$ -- 598
+chr.to.int$ -- 77
+cite$ -- 155
+duplicate$ -- 3336
+empty$ -- 3294
+format.name$ -- 911
+if$ -- 9429
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 636
-newline$ -- 275
-num.names$ -- 266
-pop$ -- 1050
+missing$ -- 745
+newline$ -- 319
+num.names$ -- 310
+pop$ -- 1234
 preamble$ -- 1
-purify$ -- 449
+purify$ -- 529
 quote$ -- 0
-skip$ -- 941
+skip$ -- 1101
 stack$ -- 0
-substring$ -- 1921
-swap$ -- 1237
+substring$ -- 2267
+swap$ -- 1457
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 570
-warning$ -- 0
-while$ -- 301
+type$ -- 669
+warning$ -- 1
+while$ -- 355
 width$ -- 0
-write$ -- 791
+write$ -- 922
+(There was 1 warning)
