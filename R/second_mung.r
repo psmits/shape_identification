@@ -201,7 +201,7 @@ lda.boot <- boot(data = tester, statistic = boot.roc, R = 1000)
 
 
 # make some output graphs
-test.gen <- melt(data.frame(rf = rf.boot$t, mnl = mnl.boot$t, lda = lda.boot$t))
+test.gen <- melt(data.frame(RF = rf.boot$t, MLR = mnl.boot$t, LDA = lda.boot$t))
 gen.gg <- ggplot(test.gen, aes(x = value))
 gen.gg <- gen.gg + geom_histogram(aes(y = ..density..), 
                                   position = 'identity')

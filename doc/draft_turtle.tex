@@ -171,7 +171,7 @@ Mean AUC values for the model generalizations, in most cases, are approximately 
 Differences in mean shape between correctly and incorrectly classified observations from test set frequently were statistically significant, though there are exceptions. Again, this test was to determine if the mean shapes were statistically different or not. The frequency of these results, however, is important because it means that the different models are poor predictors of class membership. This may be because differences in plastron shape do not align with the any of the hypothesized classification schemes.
 
 \subsection{Comparison with clear-cut example}
-In contrast with the above results, the analysis of the seven morphologically-distinct species demonstrates near perfect classification of the both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). These results demonstrate that when there are strong distinctions between the states of the classification schemes, the methods used here can recover them.
+In contrast with the above results, the analysis of the seven morphologically-distinct species demonstrates near perfect classification of the both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). Additionally, the distribution of ROC scores from 1000 bootstrap replicates are tightly clustered near ROC = 1 (Fig. \ref{fig:seven_boot}), which is contrast to the results from the \textit{E. marmorata} case (Fig. \ref{fig:gen_hist}). These results demonstrate that when there are strong distinctions between the states of the classification schemes, the methods used here can recover them.
 
 
 \section{Discussion}
@@ -320,5 +320,12 @@ Data collection for this project was supported in part by NSF DBI-0306158 (to KD
   \caption{Results from classification model estimates of the secondary, multi-species dataset. Models are random forest (RF), linear discriminate analysis (LDA), and multinomial logistic regression (MLR). Comparison of in-sample and out-of-sample AUC of the best performing model, along with the number of predictors. AUC values range between 0.5 (no better than random) and 1 (perfect classification).}
   \label{tab:second_res}
 \end{table}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/seven_boot}
+  \caption{Distribution of 1000 bootstrap replicates of the out-of-sample AUC values from the secondary, multi-species dataset. The AUC values are from the random forest (RF), linear discriminate analysis (LDA), and multinomial logistic regression (MLR). AUC values range between 0.5 (no better than random) and 1 (perfect classification).}
+  \label{fig:seven_boot}
+\end{figure}
 
 \end{document}
