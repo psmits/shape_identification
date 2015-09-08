@@ -12,6 +12,11 @@ library(caret)
 library(parallel)
 library(doParallel)
 library(xtable)
+library(boot)
+library(pROC)
+library(ggplot2)
+library(grid)
+library(scales)
 # source files
 source('../R/array2df.r')
 source('../R/df2array.r')
@@ -21,6 +26,18 @@ source('../R/support_functions.r')
 source('../R/multi_funcs.r')
 source('../R/multiclass_roc.r')
 
+# plot settings
+theme_set(theme_bw())
+cbp <- c('#E69F00', '#56B4E9', '#009E73', '#F0E442', 
+         '#0072B2', '#D55E00', '#CC79A7')
+theme_update(axis.text = element_text(size = 20),
+             axis.title = element_text(size = 30),
+             legend.text = element_text(size = 25),
+             legend.title = element_text(size = 26),
+             legend.key.size = unit(2, 'cm'),
+             strip.text = element_text(size = 20))
+
+# actually start doing analysis...
 newturt <- list.files('../data/new_turtle', full.names = TRUE)
 turt <- llply(newturt, function(x) read.csv(x, header = FALSE))
 centroids <- llply(turt, function(x) x[, ncol(x)])
@@ -161,3 +178,40 @@ results <- data.frame(npred = c(which.max(fort.auc),
 rownames(results) <- c('RF', 'LDA', 'MnL')
 res.tab <- xtable(results, label = 'tab:second_res', digits = 3)
 print.xtable(res.tab, file = '../doc/second_tab.tex')
+
+
+# boot strap the generalization
+boot.roc <- function(data, indicies) {
+  data <- data[indicies, ]
+  pp <- data[, seq(ncol(data) - 1)]
+  names(pp) <- gsub('X', '', names(pp))
+  tt <- data[, ncol(data)]
+  return(allvone(pp, tt))
+}
+
+# rf
+tester <- cbind(fort.pred, test[, 1])
+rf.boot <- boot(data = tester, statistic = boot.roc, R = 1000)
+# mnl
+tester <- cbind(mnom.oo.c, data.frame(mnom.oo.p), test[, 1])
+mnl.boot <- boot(data = tester, statistic = boot.roc, R = 1000)
+# lda
+tester <- cbind(lda.bp$class, data.frame(lda.bp$posterior), test[, 1])
+lda.boot <- boot(data = tester, statistic = boot.roc, R = 1000)
+
+
+# make some output graphs
+test.gen <- melt(data.frame(rf = rf.boot$t, mnl = mnl.boot$t, lda = lda.boot$t))
+gen.gg <- ggplot(test.gen, aes(x = value))
+gen.gg <- gen.gg + geom_histogram(aes(y = ..density..), 
+                                  position = 'identity')
+gen.gg <- gen.gg + facet_grid(variable ~ .)
+ggsave(file = '../doc/figure/seven_boot.png', plot = gen.gg, 
+       width = 15, height = 10)
+
+pc.gg <- ggplot(turt.scores, aes(x = PC1, y = PC2, colour = name))
+pc.gg <- pc.gg + geom_point()
+pc.gg <- pc.gg + labs(x = paste0('PC 1 ', turt.proc$percent[1]),
+                      y = paste0('PC 2 ', turt.proc$percent[2]))
+ggsave(file = '../doc/figure/seven_plot.png', plot = pc.gg, 
+       width = 15, height = 10)

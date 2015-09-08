@@ -26,7 +26,7 @@ theme_update(axis.text = element_text(size = 20),
              legend.text = element_text(size = 25),
              legend.title = element_text(size = 26),
              legend.key.size = unit(2, 'cm'),
-             strip.text = element_text(size = 25))
+             strip.text = element_text(size = 20))
 
 
 # map details
@@ -48,88 +48,88 @@ goog.map <- get_map(location = c(longmi,
 ggmap(goog.map)
 
 
-# PCA results
-morph <- ggpairs(adult, columns = c(1:3),
-                 upper = 'blank',
-                 params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
-fits <- procGPA(land.adult)
-links <- c(1:7, 13:8)
-snd.links <- c(2, 8, 3, 9, 4, 10, 5, 11, 6, 12)
-land <- mshape.plot(fits, links = links, snd.links = snd.links)
-land <- land + coord_equal()
-morph <- putPlot(morph, land, 1, 3)
-pdf(file = '../doc/figure/pca_res.pdf')
-print(morph)
-dev.off()
-
-
-# variation along first two PCs
-mt <- mshape(land.adult)
-pc1.max <- which.max(adult$PC1)
-pc1.min <- which.min(adult$PC1)
-pc2.max <- which.max(adult$PC2)
-pc2.min <- which.min(adult$PC2)
-
-ex.lab <- function(var, value) {
-  value <- as.character(value)
-  if(var == 'lab') {
-    value[value == '1'] <- 'min'
-    value[value == '2'] <- 'mean'
-    value[value == '3'] <- 'max'
-  }
-  return(value)
-}
-
-inits <- list(land.adult[, , pc1.min], land.adult[, , pc1.max],
-              mt,
-              land.adult[, , pc2.min], land.adult[, , pc2.max], 
-              mt)
-secs <- inits <- lapply(inits, as.data.frame)
-inits <- lapply(inits, function(x) x[links, ])
-inits <- lapply(inits, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
-inits <- lapply(inits, function(x) {
-                names(x) <- c('V1', 'V2', 'V3', 'V4')
-                x})
-inits <- Reduce(rbind, inits)
-pcl <- unlist(lapply(c('PC1', 'PC2'), function(x) rep(x, 3 * nrow(mt))))
-pc.typ <- c(rep('min', nrow(mt)), rep('max', nrow(mt)))
-pc.mm <- rep('mean', nrow(mt))
-pc.typ <- c(pc.typ, pc.mm, pc.typ, pc.mm)
-pcvar <- cbind(inits, pcl, pc.typ)
-
-# create the coordinates for the second set of links
-secs.l <- lapply(secs, function(x) x[snd.links, ])
-ss <- seq(from = 1, to = length(snd.links), by = 2)
-secs.l <- lapply(secs.l, function(x) cbind(x[ss, ], x[ss + 1, ]))
-secs.l <- lapply(secs.l, function(x) {
-                 names(x) <- c('V1', 'V2', 'V3', 'V4')
-                 x})
-secs.l <- Reduce(rbind, secs.l)
-pcl <- unlist(lapply(c('PC1', 'PC2'), 
-                     function(x) rep(x, 3 * length(snd.links) / 2)))
-pc.typ <- c(rep('min', length(snd.links) / 2),
-            rep('max', length(snd.links) / 2))
-pc.mm <- rep('mean', length(snd.links) / 2)
-pc.typ <- c(pc.typ, pc.mm, pc.typ, pc.mm)
-secs.l <- cbind(secs.l, pcl, pc.typ)
-
-
-gpc <- ggplot(pcvar, aes(x = V2, y = -V1)) + geom_point()
-gpc <- gpc + geom_segment(mapping = aes(x = V2, xend = V4,
-                                        y = -V1, yend = -V3))
-# add in the secondary links
-for(ii in seq(from = 1, to = nrow(secs.l), by = 2)) {
-  gpc <- gpc + geom_segment(data = secs.l[c(ii, ii + 1), ],
-                            mapping = aes(x = V2,
-                                          xend = V4,
-                                          y = -V1,
-                                          yend = -V3))
-}
-gpc <- gpc + facet_grid(pcl ~ pc.typ)
-gpc <- gpc + theme(axis.title = element_blank(),
-                   axis.text = element_blank())
-ggsave(file = '../doc/figure/pc_var.png', plot = gpc,
-       width = 15, height = 10)
+## PCA results
+#morph <- ggpairs(adult, columns = c(1:3),
+#                 upper = 'blank',
+#                 params = c(LabelSize = 2, gridLabelSize = 2, size = 1))
+#fits <- procGPA(land.adult)
+#links <- c(1:7, 13:8)
+#snd.links <- c(2, 8, 3, 9, 4, 10, 5, 11, 6, 12)
+#land <- mshape.plot(fits, links = links, snd.links = snd.links)
+#land <- land + coord_equal()
+#morph <- putPlot(morph, land, 1, 3)
+#pdf(file = '../doc/figure/pca_res.pdf')
+#print(morph)
+#dev.off()
+#
+#
+## variation along first two PCs
+#mt <- mshape(land.adult)
+#pc1.max <- which.max(adult$PC1)
+#pc1.min <- which.min(adult$PC1)
+#pc2.max <- which.max(adult$PC2)
+#pc2.min <- which.min(adult$PC2)
+#
+#ex.lab <- function(var, value) {
+#  value <- as.character(value)
+#  if(var == 'lab') {
+#    value[value == '1'] <- 'min'
+#    value[value == '2'] <- 'mean'
+#    value[value == '3'] <- 'max'
+#  }
+#  return(value)
+#}
+#
+#inits <- list(land.adult[, , pc1.min], land.adult[, , pc1.max],
+#              mt,
+#              land.adult[, , pc2.min], land.adult[, , pc2.max], 
+#              mt)
+#secs <- inits <- lapply(inits, as.data.frame)
+#inits <- lapply(inits, function(x) x[links, ])
+#inits <- lapply(inits, function(x) cbind(x, rbind(x[-1, ], x[1, ])))
+#inits <- lapply(inits, function(x) {
+#                names(x) <- c('V1', 'V2', 'V3', 'V4')
+#                x})
+#inits <- Reduce(rbind, inits)
+#pcl <- unlist(lapply(c('PC1', 'PC2'), function(x) rep(x, 3 * nrow(mt))))
+#pc.typ <- c(rep('min', nrow(mt)), rep('max', nrow(mt)))
+#pc.mm <- rep('mean', nrow(mt))
+#pc.typ <- c(pc.typ, pc.mm, pc.typ, pc.mm)
+#pcvar <- cbind(inits, pcl, pc.typ)
+#
+## create the coordinates for the second set of links
+#secs.l <- lapply(secs, function(x) x[snd.links, ])
+#ss <- seq(from = 1, to = length(snd.links), by = 2)
+#secs.l <- lapply(secs.l, function(x) cbind(x[ss, ], x[ss + 1, ]))
+#secs.l <- lapply(secs.l, function(x) {
+#                 names(x) <- c('V1', 'V2', 'V3', 'V4')
+#                 x})
+#secs.l <- Reduce(rbind, secs.l)
+#pcl <- unlist(lapply(c('PC1', 'PC2'), 
+#                     function(x) rep(x, 3 * length(snd.links) / 2)))
+#pc.typ <- c(rep('min', length(snd.links) / 2),
+#            rep('max', length(snd.links) / 2))
+#pc.mm <- rep('mean', length(snd.links) / 2)
+#pc.typ <- c(pc.typ, pc.mm, pc.typ, pc.mm)
+#secs.l <- cbind(secs.l, pcl, pc.typ)
+#
+#
+#gpc <- ggplot(pcvar, aes(x = V2, y = -V1)) + geom_point()
+#gpc <- gpc + geom_segment(mapping = aes(x = V2, xend = V4,
+#                                        y = -V1, yend = -V3))
+## add in the secondary links
+#for(ii in seq(from = 1, to = nrow(secs.l), by = 2)) {
+#  gpc <- gpc + geom_segment(data = secs.l[c(ii, ii + 1), ],
+#                            mapping = aes(x = V2,
+#                                          xend = V4,
+#                                          y = -V1,
+#                                          yend = -V3))
+#}
+#gpc <- gpc + facet_grid(pcl ~ pc.typ)
+#gpc <- gpc + theme(axis.title = element_blank(),
+#                   axis.text = element_blank())
+#ggsave(file = '../doc/figure/pc_var.png', plot = gpc,
+#       width = 15, height = 10)
 
 
 # rf variable importance
@@ -220,9 +220,9 @@ ggsave(file = '../doc/figure/sel_val.png', plot = gsel,
 gen.name <- function(var, value) {
   value <- as.character(value)
   if(var == 'L1') {
-    value[value == 'mn'] <- 'multinomial logistic regression'
-    value[value == 'rf'] <- 'random forest'
-    value[value == 'lda'] <- 'linear discriminate analysis'
+    value[value == 'mn'] <- 'MLR'
+    value[value == 'rf'] <- 'RF'
+    value[value == 'lda'] <- 'LDA'
     value[value == 'lrf'] <- 'selected LDA'
   }
   return(value)
@@ -259,31 +259,31 @@ ggsave(file = '../doc/figure/gen_res.png', plot = gdist,
        width = 15, height = 10)
 
 
-# plot the results of the generalizations on a map
-names(tl.a.analysis$class) <- groups
-gen.maps <- lapply(groups, function(x) {
-                   pred.map(map = ggmap(goog.map), 
-                            xl = c(longmi, longma+1),
-                            yl = c(latmi-2, latma),
-                            test = adult.test,
-                            name = x,
-                            mods = list(tm.a.analysis, 
-                                        trf.a.analysis, 
-                                        tl.a.analysis,
-                                        gr),
-                            types = c('multi', 'rf', 'lda', 'lrf'),
-                            data = adult)})
-names(gen.maps) <- groups
-gen.maps <- lapply(gen.maps, function(x) {
-                   x + scale_colour_manual(name = '', values = cbp) + 
-                   scale_fill_manual(name = '', values = cbp)})
-for(ii in seq(length(gen.maps))) {
-  ggsave(file = paste('../doc/figure/gen_map', ii, '.png', sep = ''),
-         plot = gen.maps[[ii]],
-         height = 11, width = 8.5)
-}
-
-
+## plot the results of the generalizations on a map
+#names(tl.a.analysis$class) <- groups
+#gen.maps <- lapply(groups, function(x) {
+#                   pred.map(map = ggmap(goog.map), 
+#                            xl = c(longmi, longma+1),
+#                            yl = c(latmi-2, latma),
+#                            test = adult.test,
+#                            name = x,
+#                            mods = list(tm.a.analysis, 
+#                                        trf.a.analysis, 
+#                                        tl.a.analysis,
+#                                        gr),
+#                            types = c('multi', 'rf', 'lda', 'lrf'),
+#                            data = adult)})
+#names(gen.maps) <- groups
+#gen.maps <- lapply(gen.maps, function(x) {
+#                   x + scale_colour_manual(name = '', values = cbp) + 
+#                   scale_fill_manual(name = '', values = cbp)})
+#for(ii in seq(length(gen.maps))) {
+#  ggsave(file = paste('../doc/figure/gen_map', ii, '.png', sep = ''),
+#         plot = gen.maps[[ii]],
+#         height = 11, width = 8.5)
+#}
+#
+#
 ## 3 most important variables
 ## this needs to be updated to reflect most important
 #ww <- 'spinks'
