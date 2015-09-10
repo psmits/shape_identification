@@ -206,8 +206,8 @@ gsel <- ggplot(sel, aes(x = n, y = x))
 gsel <- gsel + geom_line(size = 1.5) + geom_point(size = 3)
 gsel <- gsel + facet_grid(ty ~ gr, scales = 'free')
 gsel <- gsel + geom_point(data = maxes, 
-                          mapping = aes(x = n, y = x), colour = 'red',
-                          size = 5)
+                          mapping = aes(x = n, y = x), shape = 1,
+                          size = 8)
 gsel <- gsel + labs(x = 'Cummulative number of\nprincipal components', 
                     y = 'Value')
 gsel <- gsel + coord_cartesian(ylim = c(0.5, 1))

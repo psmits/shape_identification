@@ -1,0 +1,43 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx,hyperref}
+\usepackage{microtype, parskip}
+\usepackage{natbib}
+\usepackage{lineno}
+\usepackage[font=small]{caption}
+\usepackage{subcaption, multirow, morefloats}
+\usepackage{subcaption, wrapfig}
+\usepackage{titlesec}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{authblk, attrib, fullpage}
+\usepackage{lineno}
+
+\frenchspacing
+
+
+\begin{document}
+
+\begin{table}[ht]
+  \centering
+  \caption{AUC values for the best model of each classification scheme for both the observed (training) data and the generalized (testing) data. Results from all three different supervised learning approaches are shown here. AUC values range between 0.5 and 1. }
+  \begin{tabular}{ l | c c | c c | c c }
+    \hline
+    & \multicolumn{2}{| l |}{random forest} & 
+    \multicolumn{2}{| l |}{multinomial logistic regression} & 
+    \multicolumn{2}{| l}{linear discriminate analysis} \\
+    Scheme & Observed & Generalized & Observed & Generalized & Observed & Geneeralized \\ 
+    \hline
+    \hline
+    Morph 1 & 0.63 & 0.73 & 0.75 & 0.79 & 0.75 & 0.80 \\ 
+    Morph 2 & 0.61 & 0.58 & 0.76 & 0.77 & 0.76 & 0.77 \\ 
+    Mito 1& 0.63 & 0.62 & 0.75 & 0.63 & 0.75 & 0.63 \\ 
+    Mito 2 & 0.77 & 0.67 & 0.80 & 0.64 & 0.80 & 0.63 \\ 
+    Mito 3 & 0.56 & 0.64 & 0.71 & 0.74 & 0.71 & 0.73 \\ 
+    Nuclear & 0.56 & 0.67 & 0.74 & 0.62 & 0.74 & 0.77 \\ 
+    \hline
+  \end{tabular}
+  \label{tab:comp}
+\end{table}
+
+\end{document}

@@ -205,6 +205,7 @@ test.gen <- melt(data.frame(RF = rf.boot$t, MLR = mnl.boot$t, LDA = lda.boot$t))
 gen.gg <- ggplot(test.gen, aes(x = value))
 gen.gg <- gen.gg + geom_histogram(aes(y = ..density..), 
                                   position = 'identity')
+gen.gg <- gen.gg + labs(x = 'AUC')
 gen.gg <- gen.gg + facet_grid(variable ~ .)
 ggsave(file = '../doc/figure/seven_boot.png', plot = gen.gg, 
        width = 15, height = 10)

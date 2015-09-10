@@ -1,0 +1,39 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx,hyperref}
+\usepackage{microtype, parskip}
+\usepackage{natbib}
+\usepackage{lineno}
+\usepackage[font=small]{caption}
+\usepackage{subcaption, multirow, morefloats}
+\usepackage{subcaption, wrapfig}
+\usepackage{titlesec}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{authblk, attrib, fullpage}
+\usepackage{lineno}
+
+\frenchspacing
+
+\setcounter{table}{3}
+
+\begin{document}
+
+\begin{table}[ht]
+  \centering
+  \caption{Results from classification model estimates of the secondary, multi-species dataset. Models are random forest (RF), linear discriminate analysis (LDA), and multinomial logistic regression (MLR). Comparison of in-sample and out-of-sample AUC of the best performing model, along with the number of predictors. AUC values range between 0.5 (no better than random) and 1 (perfect classification).}
+  \begin{tabular}{ l r r r }
+    \hline
+    & \# predictors & In-sample AUC & Out-of-sample AUC \\ 
+    \hline
+    \hline
+    RF &   11 & 1.000 & 0.999 \\ 
+    MLR &    6 & 1.000 & 0.998 \\ 
+    LDA &   10 & 1.000 & 1.000 \\ 
+    \hline
+  \end{tabular}
+  \label{tab:second_res}
+\end{table}
+
+\end{document}
+

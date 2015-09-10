@@ -1,0 +1,41 @@
+\documentclass{article}
+
+\usepackage{amsmath, amsthm}
+\usepackage{graphicx,hyperref}
+\usepackage{microtype, parskip}
+\usepackage{natbib}
+\usepackage{lineno}
+\usepackage[font=small]{caption}
+\usepackage{subcaption, multirow, morefloats}
+\usepackage{subcaption, wrapfig}
+\usepackage{titlesec}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{authblk, attrib, fullpage}
+\usepackage{lineno}
+
+\frenchspacing
+
+\setcounter{table}{1}
+
+\begin{document}
+
+\begin{table}
+  \centering
+  \caption{Results of bootstrap comparisons between the scheme with the highest mean AUC value and all other schemes, defined P(best - other \(>\) 0). An asterix indicates the best scheme. This was done for each of the three modeling techniques included in this study: random forest (RF), multinomial logistic regression (MLR), and linear discriminate analysis (LDA). Probabilities are the percent of comparisons that are greater than the observed difference in means.}
+  \begin{tabular}{ l r r r }
+    \hline
+    Scheme & RF & MLR & LDA \\
+    \hline
+    \hline
+    Morph 1 & \(\ast\) & \(\ast\) & 1 \\
+    Morph 2 & 0.79 & 0.55 & 1 \\
+    Mito 1 & 0.89 & 0.94 & 1 \\ 
+    Mito 2 & 0.82 & 0.57 & \(\ast\) \\ 
+    Mito 3 & 0.79 & 0.69 & 0.73 \\ 
+    Nuclear & 0.79 & 0.96 & 0.96 \\ 
+    \hline
+  \end{tabular}
+  \label{tab:gen_tests}
+\end{table}
+
+\end{document}
