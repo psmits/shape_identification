@@ -38,7 +38,9 @@ theme_update(axis.text = element_text(size = 20),
              strip.text = element_text(size = 20))
 
 # actually start doing analysis...
-newturt <- list.files('../data/new_turtle', full.names = TRUE)
+newturt <- list.files('../data/new_turtle', 
+                      pattern = 'adult', 
+                      full.names = TRUE)
 turt <- llply(newturt, function(x) read.csv(x, header = FALSE))
 centroids <- llply(turt, function(x) x[, ncol(x)])
 numbers <- llply(turt, function(x) x[, 1:2])
