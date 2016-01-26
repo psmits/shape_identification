@@ -10,6 +10,7 @@ set.seed(1)
 
 # formulas
 max.ad <- nrow(adult) / 10
+max.ad <- min(c(max.ad, 26 - 3))
 tvar.a <- paste('PC', 1:max.ad, sep = '')
 groups <- list('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
 tform.a <- lapply(groups, function(x, y) make.form(y, x), y = tvar.a)

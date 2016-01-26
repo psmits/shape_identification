@@ -59,6 +59,7 @@ turt.scores <- data.frame(name = rep(turt.name, times = laply(numbers, nrow)),
 
 # supervised learning
 max.ad <- nrow(turt.scores) / 10
+max.ad <- min(c(max.ad, 26 - 3))
 part <- createDataPartition(turt.scores[, 1], p = 0.75)[[1]]
 train <- turt.scores[part, ]
 test <- turt.scores[-part, ]

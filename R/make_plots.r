@@ -14,7 +14,7 @@ library(plyr)
 
 source('../R/plotting_functions.r')
 
-source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
+#source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R') # 
 
 load('../data/gen.RData')
 
@@ -135,14 +135,12 @@ ggsave(file = '../doc/figure/sel_val.png', plot = gsel,
 
 
 # generalize plot
-gen.name <- function(var, value) {
+gen.name <- function(value) {
   value <- as.character(value)
-  if(var == 'L1') {
-    value[value == 'mn'] <- 'MLR'
-    value[value == 'rf'] <- 'RF'
-    value[value == 'lda'] <- 'LDA'
-    value[value == 'lrf'] <- 'selected LDA'
-  }
+  value[value == 'mn'] <- 'MLR'
+  value[value == 'rf'] <- 'RF'
+  value[value == 'lda'] <- 'LDA'
+  value[value == 'lrf'] <- 'selected LDA'
   return(value)
 }
 
@@ -156,7 +154,8 @@ lr <- Reduce(cbind, Map(function(x) x$t, lrf))
 colnames(lr) <- groups
 zz <- list(rf = oo, mn = uu, lda = vv, lrf = lr)
 dd <- melt(zz)
-gdist <- ggplot(dd, aes(x = value, fill = Var2))
+names(dd)[3] <- 'val'
+gdist <- ggplot(dd, aes(x = val, fill = Var2))
 gdist <- gdist + geom_histogram(aes(y = ..density..),
                                 alpha = 0.3,
                                 size = 0.1,
@@ -167,7 +166,7 @@ gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                    labels = c('Morph 1', 'Morph 2',
                                               'Mito 1', 'Nuclear',
                                               'Mito 2', 'Mito 3'))
-gdist <- gdist + facet_grid(L1 ~ ., labeller = gen.name)
+gdist <- gdist + facet_grid(L1 ~ ., labeller = labeller(L1 = gen.name))
 gdist <- gdist + labs(x = 'AUC')
 gdist <- gdist + coord_cartesian(xlim = c(0, 1))
 gdist <- gdist + theme(legend.title = element_blank(),
