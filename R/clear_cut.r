@@ -56,14 +56,9 @@ turt.name <- str_trim(str_extract(turt.name, '\\s(.*?)\\s'))
 turt.scores <- data.frame(name = rep(turt.name, times = laply(numbers, nrow)), 
                           turt.scores)
 
-# clustering/unsupervised learning
-turt.align <- df2array(turt.scores[, -1], n.land = 26, n.dim = 2)
-turt.dist <- riem.matrix(turt.align)
-tpam <- function(x, k) pam(as.dist(x), k)
-#turt.cluster <- clusGap(turt.dist, FUNcluster = tpam, K.max = 10, B = 100)
 
 # supervised learning
-max.ad <- nrow(turt.scores) / 50
+max.ad <- nrow(turt.scores) / 10
 part <- createDataPartition(turt.scores[, 1], p = 0.75)[[1]]
 train <- turt.scores[part, ]
 test <- turt.scores[-part, ]
