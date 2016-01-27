@@ -52,11 +52,12 @@ turt.align <- df2array(turt, n.land = 26, n.dim = 2)
 turt.proc <- procGPA(turt.align)
 turt.scores <- turt.proc$scores
 
-turt.scores <- data.frame(ids, turt.scores)
+turt.scores <- data.frame(ids, turt.scores)  # TODO include size as predictor
 
 
 # supervised learning
-max.ad <- nrow(turt.scores) / 50
+max.ad <- nrow(turt.scores) / 10
+max.ad <- min(c(max.ad, 26 - 3))
 part <- createDataPartition(turt.scores[, 1], p = 0.75)[[1]]
 train <- turt.scores[part, ]
 test <- turt.scores[-part, ]
