@@ -21,7 +21,7 @@ n.dim <- 2
 rawturt <- read.table('../data/raw_marmorata.txt')
 land <- read.table('../data/marmorata_land.txt', sep = ' ')
 land <- df2array(land, n.land, n.dim)
-#cent <- lapply(land, function(x) x[seq(from = n.land + 1, to = length(x))])
+centroid <- rawturt[, n.land + 1]  # size of each observation
 
 # meta data
 #meta <- read.csv('../data/marmorata_meta2.csv')
@@ -65,7 +65,7 @@ rawturt <- rawturt[!jv, ]
 geo <- cbind(lat = meta.adult$lat, long = meta.adult$long)
 
 fit <- procGPA(land.adult)
-adult.dist <- riem.matrix(land.adult)
+#adult.dist <- riem.matrix(land.adult)
 
 adult <- cbind(data.frame(fit$stdscores),
                meta.adult)
