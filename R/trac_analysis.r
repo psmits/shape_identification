@@ -42,7 +42,7 @@ trac <- list.files('../data/trach', pattern = 'txt', full.names = TRUE)
 turt <- llply(trac, function(x) 
               read.table(x, header = FALSE, stringsAsFactors = FALSE))
 # lands...., centroid
-centroids <- llply(turt, function(x) x[, ncol(x)])
+centroids <- unlist(llply(turt, function(x) x[, ncol(x)]))
 ids <- Reduce(c, Map(function(x, y) 
                      rep(y, times = nrow(x)), 
                      x = turt, y = c('a', 'b')))
@@ -52,7 +52,7 @@ turt.align <- df2array(turt, n.land = 26, n.dim = 2)
 turt.proc <- procGPA(turt.align)
 turt.scores <- turt.proc$scores
 
-turt.scores <- data.frame(ids, turt.scores)  # TODO include size as predictor
+turt.scores <- data.frame(ids, centroids, turt.scores)
 
 
 # supervised learning
@@ -63,18 +63,18 @@ train <- turt.scores[part, ]
 test <- turt.scores[-part, ]
 
 # go over all theoretical fits based on max pred
-fort.fit <- rfe(x = train[, seq(from = 2, to = max.ad + 1)], 
+fort.fit <- rfe(x = train[, seq(from = 2, to = max.ad + 2)], 
                  y = train[, 1], 
                  rfeControl = rf.ctrl, ntree = 100, metric = 'ROC', 
                  sizes = 1:max.ad)
 lda.fit <- list()
 for(ii in seq(from = 2, to = max.ad)) {
-  lda.fit[[ii - 1]] <- lda(train[, seq(from = 2, to = ii + 1)], train[, 1])
+  lda.fit[[ii - 1]] <- lda(train[, seq(from = 2, to = ii + 2)], train[, 1])
 }
 
 mnom.fit <- list()
 for(ii in seq(from = 2, to = max.ad)) {
-  dat <- as.matrix(train[, seq(from = 2, to = ii + 1)])
+  dat <- as.matrix(train[, seq(from = 2, to = ii + 2)])
   colnames(dat) <- NULL
   mnom.fit[[ii - 1]] <- multinom(train[, 1] ~ dat)
 }
@@ -101,7 +101,7 @@ rf.oo.auc <- colMeans(do.call(rbind, prob))
 lda.auc <- c()
 for(ii in seq(length(lda.fit))) {
   lda.pred <- predict(lda.fit[[ii]], 
-                      newdata = train[, seq(from = 2, to = ii + 2)])
+                      newdata = train[, seq(from = 2, to = ii + 3)])
   pred <- lda.pred$class
   obs <- train[, 1]
   prob <- lapply(unique(train[, 1]), function(cl) {
@@ -115,7 +115,7 @@ for(ii in seq(length(lda.fit))) {
 }
 lda.best <- lda.fit[[which.max(lda.auc)]]
 lda.bp <- predict(lda.best, 
-                  newdata = test[, seq(from = 2, to = which.max(lda.auc) + 2)])
+                  newdata = test[, seq(from = 2, to = which.max(lda.auc) + 3)])
 pred <- lda.bp$class
 obs <- test[, 1]
 prob <- lapply(unique(test[, 1]), function(cl) {
@@ -142,14 +142,14 @@ for(ii in seq(length(mnom.fit))) {
 }
 mnom.best <- mnom.fit[[which.max(mnom.auc)]]
 
-dat <- as.matrix(test[, seq(from = 2, to = which.max(mnom.auc) + 2)])
+dat <- as.matrix(test[, seq(from = 2, to = which.max(mnom.auc) + 3)])
 colnames(dat) <- NULL
 mnom.oo.c <- predict(mnom.best, dat)
 mnom.oo.p <- predict(mnom.best, dat, 'probs')
 pred <- mnom.oo.c
 obs <- test[, 1]
 oo <- ifelse(obs == 'b', 1, 0)
-mnom.oo.auc <- auc(oo, mnom.pred.p)
+mnom.oo.auc <- auc(oo, mnom.oo.p)
 
 
 # make some results tables

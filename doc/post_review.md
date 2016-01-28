@@ -13,10 +13,10 @@ analysis
 - random forest
 - multinomial logistic regression
 - linear discriminate analysis
-- DROPPED unsupervised analysis
+- dropped unsupervised analysis
 - increased number of PCs as predictors
   - partially done as response to reviewers
-- TODO include size as predictor of category
+- include size as predictor of category
 
 
 
@@ -34,7 +34,6 @@ everyone really wants me to make sure i include something about sexual
 dimorphism.
 
 include size as a predictor of category (actually a piece of good advice) 
-
 
 slow the manuscript down a lot. while it is generally straight forward, it is
 a bit slap-dash.

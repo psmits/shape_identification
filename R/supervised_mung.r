@@ -21,7 +21,7 @@ n.dim <- 2
 rawturt <- read.table('../data/raw_marmorata.txt')
 land <- read.table('../data/marmorata_land.txt', sep = ' ')
 land <- df2array(land, n.land, n.dim)
-centroid <- rawturt[, n.land + 1]  # size of each observation
+#centroid <- rawturt[, n.land + 1]  # size of each observation
 
 # meta data
 #meta <- read.csv('../data/marmorata_meta2.csv')
@@ -61,20 +61,21 @@ jv <- grepl(pattern = '[jJh]', meta$p.sex)
 land.adult <- land[, , !jv]
 meta.adult <- meta[!jv, ]
 rawturt <- rawturt[!jv, ]
+centroid <- rawturt[, n.land + 1]  # size of each observation
 
 geo <- cbind(lat = meta.adult$lat, long = meta.adult$long)
 
 fit <- procGPA(land.adult)
 #adult.dist <- riem.matrix(land.adult)
 
-adult <- cbind(data.frame(fit$stdscores),
+adult <- cbind(data.frame(size = centroid, fit$stdscores),
                meta.adult)
 
 # ok, now make the formulas
 # formulas
 max.ad <- nrow(adult) / 10
 max.ad <- min(c(max.ad, 26 - 3))
-tvar.a <- paste('PC', 1:max.ad, sep = '')
+tvar.a <- c('size', paste('PC', 1:max.ad, sep = ''))
 groups <- list('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
 tform.a <- lapply(groups, function(x, y) make.form(y, x), y = tvar.a)
 
@@ -90,6 +91,6 @@ ad.class <- Map(function(x, y) x[, y], adult.test, ad.class)
 # design matrix
 adult.design <- Map(function(x, y) {
                     cbind(lat = x$lat, long = x$long,
-                          x[, 1:max.ad],
+                          x[, 1:(max.ad + 1)],
                           cate = x[, y])},
                     x = adult.train, y = groups)
