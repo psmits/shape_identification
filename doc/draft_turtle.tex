@@ -97,80 +97,77 @@ In this study, we attempt to estimate the best classification scheme of \textit{
 
 Because of unclear geographic boundaries between subgroups of \textit{E. marmorata}, we compare multiple hypotheses of morphologically-- and molecularly--based classification. We hypothesize that if morphological variation corresponds to class assignment, it should be possible to determine the best classification hypothesis of \textit{E. marmorata} from amongst multiple candidate hypotheses. However, if morphological variation does not correspond to any of the standing hypothesis, then supervised learning model generalization performance will be poor.
 
+% additionally
+% comparison with two groups
 
 \section{Materials and Methods}
 \subsection{Specimens, sampling, morphometrics}
-We collected landmark-based morphometric data from 354 adult \textit{E. marmorata} museum specimens. These specimens are a subset of those included in \citet{Angielczyk2007}, \citet{Angielczyk2011}, and \citet{Angielczyk2013a}, essentially representing the adult individuals included in those papers. We chose to focus on adults because significant changes in plastron shape occur over the course of ontogeny in \textit{E. marmorata} and other emydines \citep{Angielczyk2013a}.
+Three different landmark-based morphometric datasets describing plastron variation were assembled for this analysis: \textit{E. marmorata} specimens from across its geographic range, \textit{Trachemys} specimens from both subspecies, and specimens from seven distinct species from the Emydidae family. We chose to focus on adults because significant changes in plastron shape occur over the course of ontogeny in \textit{E. marmorata} and other emydines \citep{Angielczyk2013a}.
 
-We assigned a classification to each specimen for the different binning schemes based on geographic occurrence data recorded in museum collection archives. When precise latitude and longitude information were not available we estimated them from locality information. Because \citet{Spinks2005}, \citet{Spinks2010}, and \citet{Spinks2014} did not use vouchered specimens we were not able to directly sample individuals in their studies. Therefore our specimen classifications were based solely on the geographic information, not explicit assignment using molecular data. Because the exact barriers between different biogeographic regions are unknown and unclear, we represented each hypothesis with two schemes for a total of six different schemes. The schemes differed based on where geographic boundaries were assigned. This changes the classification of certain individuals near the boundaries between groups, providing a test of the robustness of the classification schemes.
+The first dataset included 354 adult \textit{E. marmorata} museum specimens; a subset of those included in \citet{Angielczyk2007}, \citet{Angielczyk2011}, and \citet{Angielczyk2013a}. We assigned a classification to each specimen for the different binning schemes based on geographic occurrence data recorded in museum collection archives. When precise latitude and longitude information were not available we estimated them from locality information. Because \citet{Spinks2005}, \citet{Spinks2010}, and \citet{Spinks2014} did not use vouchered specimens we were not able to directly sample individuals in their studies. Therefore our specimen classifications were based solely on the geographic information, not explicit assignment using molecular data. Because the exact barriers between different biogeographic regions are unknown and unclear, we represented each hypothesis with two schemes for a total of six different schemes. The schemes differed based on where geographic boundaries were assigned. This changes the classification of certain individuals near the boundaries between groups, providing a test of the robustness of the classification schemes.
 
-\begin{figure}[ht]
+% trachemys
+%   how many
+%   where are they from?
+%   these are new
+
+For the third dataset, we analyzed 578 total specimens from the following species: \textit{Emys blandigii}, \textit{Terrapene coahuila}, \textit{Clemmys guttata}, \textit{Glyptemys insculpta}, \textit{Glyptemys muhlenbergii}, \textit{Emys orbicularis}, and \textit{Terrapene ornata}. Like the first data set, these specimens are a subset of those used in \citet{Angielczyk2011} and \citet{Angielczyk2013a}.
+
+
+\begin{figure}[h]
   \centering
   \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/plastra}
   \caption{Depiction of general plastral shape of \textit{E. marmorata} and position of the 19 landmark used in this study. Anterior is towards the top of the figure.}
   \label{fig:plastra}
 \end{figure}
 
-Following previous work on plastron variation \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, we used TpsDig 2.04 \citep{Rohlf2005} to digitize 19 landmarks (Fig. \ref{fig:plastra}). Seventeen of the landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. Twelve of the landmarks were symmetrical across the axis of symmetry and, in order to prevent issues related to degrees of freedom and other similar concerns \citep{Klingenberg2002}, we reflected these landmarks across the axis of symmetry (i.e. midline) prior to analysis and used the average position of each symmetrical pair. In cases where damage or incompleteness prevented symmetric landmarks from being determined, we used only the single member of the pair. We conducted all subsequent analyses on the resulting ``half'' plastra. We superimposed the plastral landmark configurations using generalized Procrustes analysis \citep{Dryden1998a}, after which, we calculated the principal components (PC) of shape using the \texttt{shapes} package for R \citep{2013,Dryden2013}.
+
+Following previous work on plastron variation \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, we used TpsDig 2.04 \citep{Rohlf2005} to digitize 19 landmarks (Fig. \ref{fig:plastra}). Seventeen of the landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the platron. Twelve of the landmarks were symmetrical across the axis of symmetry and, in order to limit issues surrounding asymmetry and incomplete specimens \citep{Klingenberg2002}, we reflected these landmarks across the axis of symmetry (i.e. midline) prior to analysis and used the average position of each symmetrical pair. In cases where damage or incompleteness prevented symmetric landmarks from being determined, we used only the single member of the pair. We conducted all subsequent analyses on the resulting ``half'' plastra. We superimposed the plastral landmark configurations using generalized Procrustes analysis \citep{Dryden1998a}, after which, we calculated the principal components (PC) of shape using the \texttt{shapes} package for R \citep{2013,Dryden2013}.
 
 
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
 In order to preserve the relationship between all landmark configurations in shape space, we measured the dissimilarity between observations using Kendall's Riemannian shape distance or \(\rho\) \citep{Kendall1984a,Dryden1998a}. We chose this metric because shape space, or the set of all possible shape configurations following Procrustes superimposition, is a Riemannian manifold and thus non-Euclidean \citep{Dryden1998a}. \(\rho\) varies between 0 and \(\pi / 2\) when there is no reflection invariance, which should not be a concern in the case of the half plastral landmark configurations used in the study.
 
-We divisively clustered the shape dissimilarity matrix using partitioning around mediods clustering (PAM), a method similar to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized \citep{Kaufman1990}. Because the optimal number of clusters of shape configurations in the study was unknown, being possibly three, four, or some other value, we estimated clustering solutions in which the number of clusters varied between one and eight. We compared clustering solutions using the gap statistic, which is a measure of goodness of clustering \citep{Tibshirani2001a}.
-
-%The gap statistic is defined
-%\[Gap_{n}(k) = E^{*}_{n}[\log(W_{k})] - \log(W_{k})\] 
-%where \(W_{k}\) is
-%\[W_{k} = \sum^{k}_{r = 1}{\frac{1}{2n_{r}} (\sum_{i,i' \in C_{r}} d_{ii'})}\].
-%\(d_{ii'}\) is the dispersion of the clustering solution or the sum of the pairwise dissimilarities between observations in each cluster and their respective mediods (\(C\)) for all clusters \(r\). This value is averaged and compared to the expected dispersion (\(E^{*}_{n}\)) of a sample \(n\) from a reference distribution. In this case, the reference distribution was estimated from 500 resamples.
+We divisively clustered the shape dissimilarity matrix using partitioning around mediods clustering (PAM), a method similar to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized \citep{Kaufman1990}. Because the optimal number of clusters of shape configurations in the study was unknown, being possibly three, four, or some other value, we estimated clustering solutions in which the number of clusters varied between one and eight. We compared clustering solutions using the gap statistic, which is a measure of goodness of clustering \citep{Tibshirani2001a}. This method has been applied to morphometric data before and represents a comparatively simple approach for estimating latent classification CITATION.
 
 We conducted this analysis using the \texttt{cluster} package for R \citep{Maechler2013}.
 
 \subsubsection{Supervised learning}
-We used three different supervised learning, or classification, approaches: linear discriminate analysis, multinomial logistic regression, and random forests. Linear discriminate analysis, also known as canonical variate analysis, is commonly used in studies of geometric morphometric data \citep{Zelditch2004,Mitteroecker2011}. The other two methods, however, are not. In all cases, the optimal number of PCs used as predictors was chosen via maximum within-sample AUC value, explained below.
+We used three different supervised learning, or classification, approaches: linear discriminate analysis, multinomial logistic regression, and random forests. Linear discriminate analysis, also known as canonical variate analysis, is commonly used in studies of geometric morphometric data \citep{Zelditch2004,Mitteroecker2011}. The other two methods, however, are not. In all cases, the optimal number of PCs used as predictors was chosen via maximum within-sample receiver operating characteristic values, explained below.
+
+In classification studies, such as this one, a common metric of performance is area under the receiver operating characteristic curve (AUC). AUC is an estimate of the relationship between the false positive and true positive rates, as opposed to just the true positive rate (accuracy). This relationship is especially useful in cases such as this study where misclassification needs to be minimized just as much as an accurate classification must be obtained. AUC ranges between 0.5 and 1, with 0.5 indicating classification no better than random and 1 indicating perfect classification \citep{Hastie2009}.
+
+The standard AUC calculation is defined for binary classifications, however in our application there are multiple categories. The alternative calculation that we used follows an all-against-one strategy where the individual AUC values for each class versus all others are averaged to produce a multiclass AUC \citep{Hand2001}. To estimate confidence intervals on the out-of-sample AUC values, we performed a nonparametric bootstrap in which the true and estimated classifications were resampled with replacement 1000 times.
 
 Linear discriminate analysis (LDA) attempts to find a linear combination of predictors that best model two or more classes. LDA is very similar to PCA except that instead of finding the linear combination of features that maximize the amount of explained variance in the data, LDA maximizes the differences between classes. The results of this analysis produces a transformation matrix by which the original features can be transformed to reflect the best discrimination between the classes. In this study, we applied LDA to the eigenscores from a subset of the total number of PCs, ranging from two to six in increasing order of complexity. In total, this produced nine different LDA scaling matrices. 
 
 Multinomial logistic regression is an extension of logistic regression, where instead of a binary response there are three or more response classes \citep{Venables2002a}. Similar to the odds ratios calculated from the coefficients of a logistic regression, the relative risk of a classification can be determined from the coefficients of the model.
 
-Random forest models are an extension of classification and regression trees (CART) \citep{Breiman1984,Breiman2001}. The goal of CARTs is to use a series of different features (i.e. predictors) to estimate the class of an observation. In top-down induction of decision trees for each member of a given set of predictor variables, attribute value tests are used to estimate the differences between classes. This process, called recursive partitioning, is then repeated on each subset. The recursion continues until the resulting observations all share the same class or no more meaningful partitions are possible. The resulting model is a tree structure by which observations are classified at each intersection via the estimated cutoff points from the attribute tests made during model fitting. % figure to help explain the ``tests''
+Random forest models are an extension of classification and regression trees (CART) \citep{Breiman1984,Breiman2001}. In a random forest model, many CARTs are built from a random subsample of both the features and the observations (specimens). This process is then repeated many times and the parameters of the final model are chosen as the mode of estimates from the distribution of CARTs \citep{Breiman2001}. In addition to classifying the observations, this procedure allows for the features to be ranked in order of importance. This is a generally useful property for studies in which the goal is to describe and model the differences between classes and the relative importance of different predictors. Random forest models were fit using the ``randomForest'' R package CITATION. In this analysis, we used 1000 subtrees to estimate the random forest model parameters. 
 
-In a random forest model, many CARTs are built from a random subsample of both the features and the observations (specimens). This process is then repeated many times and the parameters of the final model are chosen as the mode of estimates from the distribution of CARTs \citep{Breiman2001}. In addition to classifying the observations, this procedure allows for the features to be ranked in order of importance. This is a generally useful property for studies in which the goal is to describe and model the differences between classes and the relative importance of different predictors. 
-
-In this analysis, we used 1000 subtrees to estimate the random forest model parameters. We estimated the best set of predictors necessary for each classification scheme using a recursive feature selection algorithm, and we chose the optimal number of PCs to include based on the AUC of the model. Following the backwards selection algorithm implemented in \texttt{caret} \citep{KuhnMAN2013}, the maximum number of features were included in the initial model, their importance ranked, and the AUC of the model calculated. The lowest ranked feature was then removed, and the AUC of the model recalculated. This was repeated until only one feature, remained. Because PCs were kept in order of importance and not in relation to the amount of variance each PC described, the PCs are not included in the order of ascending eigenvalue.
-
-In classification studies, such as this one, a common metric of performance is area under the receiver operating characteristic curve (AUC). AUC is an estimate of the relationship between the false positive and true positive rates, as opposed to just the true positive rate (accuracy). This relationship is especially useful in cases such as this study where misclassification needs to be minimized just as much as an accurate classification must be obtained. AUC ranges between 0.5 and 1, with 0.5 indicating classification no better than random and 1 indicating perfect classification \citep{Hastie2009}.
-
-The standard AUC calculation is defined for binary classifications, however in our application there are multiple categories. The alternative calculation that we used follows an all-against-one strategy where the individual AUC values for each class versus all others are averaged to produce a multiclass AUC \citep{Hand2001}. To estimate confidence intervals on the out-of-sample AUC values, we performed a nonparametric bootstrap in which the true and estimated classifications were resampled with replacement. This was done 1000 times.
+We estimated the best set of predictors in the random forest model using a recursive feature selection algorithm, with AUC as our optimality criterion. Following the iterative backwards selection algorithm implemented in \texttt{caret} \citep{KuhnMAN2013}, the maximum number of features were included in the initial model, their importance ranked, and the AUC of the model calculated. The lowest ranked feature was then removed, and the AUC of the model recalculated. Because PCs were kept in order of importance and not in relation to the amount of variance each PC described, the PCs are not included in the order of ascending eigenvalue.
 
 The ultimate measure of model fit is accurately predicting the values of unobserved samples \citep{Hastie2009,Kuhn2013}. Within-sample performance is inherently biased upwards, so model evaluation requires overcoming this bias. With very large sample sizes, as in this study, part of the sample can be used as the ``training set'' and the remainder acts as the ``testing set.'' The former is used for fitting the model where as the later is used for measuring model performance, a process called model generalization. In this analysis, we used 75\% of samples as the training set while the remaining 25\% were used as the testing set.
 
 It is common for some out of sample observations to be misclassified. This misclassification may be due to the model not accurately representing shape variance, systematic differences between the training and test sets, or systematic differences between the accurately and inaccurately classified samples. Testing and training sets are determined completely at random within each class and with respect to shape. Results were not effected by the individual specimen class assignments to the testing or training sets.
 
-To determine if there were systematic differences in plastron shape between the correctly and incorrectly classified samples, we used a permutation test to estimate if the dissimilarity between the correctly and incorrectly classified individuals was significantly greater than random. The group labels were permuted 1000 times and the distance between the new centroids was calculated. The number of permutations less than the empirical difference divided by 1000 gives a \textit{p}-value for the test. Significant results indicate that correctly and incorrectly classified specimens are systematically different. This was done only for classes where there were 10 or more observations.
-
-\subsection{Comparison with clear-cut example}
-In addition to the above analysis of classification schemes of \textit{E. marmorata/pallida}, we applied the above approach to a selection of seven morphologically distinct emydine species. This additional analysis was done in order to confirm the efficacy of our supervised learning approach. The seven species analyzed were \textit{Emys blandigii}, \textit{Terrapene coahuila}, \textit{Clemmys guttata}, \textit{Glyptemys insculpta}, \textit{Glyptemys muhlenbergii}, \textit{Emys orbicularis}, and \textit{Terrapene ornata} with a total of 578 specimens analyzed in total. Again, these data were a subset of those used in \citet{Angielczyk2011} and \citet{Angielczyk2013a}.
-
-As with the \textit{E. marmorata/pallida} analysis, we analyzed plastron shape variation. The support for a seven category classification scheme was evaluated using random forest, linear discriminate analysis, and multinomial logistic regression where the number of PCs used as predictors ranged from two to 11. Data were split into training and testing sets and model performance for both sets was evaluated using the AUC metric.
 
 
 \section{Results}
 
 \subsection{Unsupervised learning}
 
-\begin{figure}[ht]
+Gap statistic values from the PAM clustering are mostly equivalent for all potential clusters, indicating that none of the proposed clusters are statistically different from each other (Fig. \ref{fig:gap}). No clustering result is statistically greater than that with only a single cluster, because of this we favor the interpretation that there is no latent structure in the data detected in this analysis. While the solution with two groupings does have the greatest mean gap statistic, there is no geographical signal in the results of this clustering solution (Fig. \ref{fig:gap_map}). Additionally, there is no correspondence between these two clusters and the sex of the specimens INSERT STATS. Because of this, we assert that there is no means of naturally partitioning \textit{E. marmorata} plastron shape into distinct subgroups with out reference to external information.
+
+\begin{figure}[h]
   \centering
   \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/gap_res}
   \caption{Results from PAM clustering of the Riemannian shape distance for 8 different number of clusters. Vertical lines are 1 standard deviation of the mean determined from 500 resamples.}
   \label{fig:gap}
 \end{figure}
 
-Comparison of gap statistic values from PAM clustering show that the optimal, minimal number of clusters is most likely one (Fig. \ref{fig:gap}). There is some ambiguity in choice because, although it is not statistically different from a solution with only one group, the solution with two groupings does have the greatest mean gap statistic. However, there is no geographical signal in the results of this clustering solution (Fig. \ref{fig:gap_map}). Because of this, we assert that there is no means of naturally partitioning plastron shape into distinct subgroups with out reference to external information.
-
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/gap_map}
   \caption{Comparison of geographic distribution of clustered observations from the 2 clustering PAM solution. Colour and shape correspond to each of the groups. There is clearly no geographic signal in the data.}
@@ -182,7 +179,7 @@ Comparison of gap statistic values from PAM clustering show that the optimal, mi
 % model selection/fit
 AUC--based model selection revealed some important patterns of variation and congruence between the classification schemes and the actual data. Generally, the best performing models tended to include as many PCs as possible \ref{fig:sel}). Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained. That almost all LDA and multinomial logistic regression models were as complex as possible indicates that the differences between the different groups within each classification scheme are very small.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/var_imp}
   \caption{Variable importance from the random forest models for each of the six classification schemes. Importance is measured as the mean decrease in Gini Index, which is a measure of the strength by which that variable determines CART structure. Indices that are farther to the right indicate greater variable importance.}
@@ -203,7 +200,7 @@ Observed AUC values for all of the optimal models are not exceptionally high (\r
 \begin{figure}[ht]
   \centering
   \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/sel_val}
-  \caption{Graphical representation of the AUC values from model selection for multinomial logistic regression and linear discriminate analysis, respecitively. AUC model selection is based on greatest AUC value. The horizontal axis corresponds to the cummulative number of axes included in the model of interest. A highlighted point corresponds to the AUC best model for that classification scheme.}
+  \caption{Graphical representation of the AUC values from model selection for multinomial logistic regression and linear discriminate analysis, respectively. AUC model selection is based on greatest AUC value. The horizontal axis corresponds to the cummulative number of axes included in the model of interest. A highlighted point corresponds to the AUC best model for that classification scheme.}
   \label{fig:sel}
 \end{figure}
 
@@ -215,7 +212,7 @@ Observed AUC values for all of the optimal models are not exceptionally high (\r
     & \multicolumn{2}{| l |}{random forest} & 
     \multicolumn{2}{| l |}{multinomial logistic regression} & 
     \multicolumn{2}{| l}{linear discriminate analysis} \\
-    Scheme & Observed & Generalized & Observed & Generalized & Observed & Geneeralized \\ 
+    Scheme & Observed & Generalized & Observed & Generalized & Observed & Generalized \\ 
     \hline
     \hline
     Morph 1 & 0.63 & 0.73 & 0.75 & 0.79 & 0.75 & 0.80 \\ 
@@ -229,31 +226,18 @@ Observed AUC values for all of the optimal models are not exceptionally high (\r
   \label{tab:comp}
 \end{table}
 
-Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). The  cases in which the AUC from the  generalizations is less than the observed, indicate poor model fit and a poor classification scheme. AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). Although the scheme with two species has the greatest AUC point estimate for each modeling approach, this scheme is not significantly greater than any other except in some limited cases (e.g. LDA, Table \ref{tab:gen_tests}). 
+Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). The  cases in which the AUC from the  generalizations is less than the observed, indicate poor model fit and a poor classification scheme. AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). 
 
-\begin{table}[ht]
-  \centering
-  \caption{Results of bootstrap comparisons between the scheme with the highest mean AUC value and all other schemes, defined P(best - other \(>\) 0). An asterix indicates the best scheme. This was done for each of the three modeling techniques included in this study: random forest (RF), multinomial logistic regression (MLR), and linear discriminate analysis (LDA). Probabilities are the percent of comparisons that are greater than the observed difference in means.}
-  \begin{tabular}{ l r r r }
-    \hline
-    Scheme & RF & MLR & LDA \\
-    \hline
-    \hline
-    Morph 1 & \(\ast\) & \(\ast\) & 1 \\
-    Morph 2 & 0.79 & 0.55 & 1 \\
-    Mito 1 & 0.89 & 0.94 & 1 \\ 
-    Mito 2 & 0.82 & 0.57 & \(\ast\) \\ 
-    Mito 3 & 0.79 & 0.69 & 0.73 \\ 
-    Nuclear & 0.79 & 0.96 & 0.96 \\ 
-    \hline
-  \end{tabular}
-  \label{tab:gen_tests}
-\end{table}
 
-Differences in mean shape between correctly and incorrectly classified observations from test set frequently were statistically significant, though there are exceptions. Again, this test was to determine if the mean shapes were statistically different or not. The frequency of these results, however, is important because it means that the different models are poor predictors of class membership. This may be because differences in plastron shape do not align with the any of the hypothesized classification schemes.
+\subsection{Results from other datasets}
+% trachemys
+% The analysis of the two subspecies of \uppercase{Trachemys}
+%   clearly identifiable
+%   in-sample is near perfect
+%   generalization is near perfect
 
-\subsection{Comparison with clear-cut example}
-In contrast with the above results, the analysis of the seven morphologically-distinct species demonstrates near perfect classification of the both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). Additionally, the distribution of ROC scores from 1000 bootstrap replicates are tightly clustered near ROC = 1 (Fig. \ref{fig:seven_boot}), which is contrast to the results from the \textit{E. marmorata} case (Fig. \ref{fig:gen_hist}). These results demonstrate that when there are strong distinctions between the states of the classification schemes, the methods used here can recover them.
+% seven species
+In contrast with the analysis of \textit{E. marmorata}, the analysis of the seven morphologically-distinct species demonstrates near perfect classification of the both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). Additionally, the distribution of ROC scores from 1000 bootstrap replicates are tightly clustered near ROC = 1 (Fig. \ref{fig:seven_boot}), which is contrast to the results from the \textit{E. marmorata} case (Fig. \ref{fig:gen_hist}). These results demonstrate that when there are strong distinctions between the states of the classification schemes, the methods used here can recover them.
 
 \begin{table}[ht]
   \centering
@@ -283,7 +267,7 @@ In contrast with the above results, the analysis of the seven morphologically-di
 
 The results of this study indicate that there is no clear grouping of \textit{E. marmorata} based on plastron shape.
 
-The unsupervised learning results indicate only a single group of observations being optimal, which is consistent with the results from the generalizations of the supervised learning models. The classification schemes used in the supervised learning models correspond, loosely, to unsupervised learning solutions with multiple groups. Because unsupervised learning solutions with multiple groups are poor descriptors of the observed variation, it is important to see this generally supported by the supervised learning results.
+The unsupervised learning results indicate no grouping is optimal or particularly better than a single grouping, which is consistent with the results from the generalizations of the supervised learning models. The classification schemes used in the supervised learning models correspond, loosely, to unsupervised learning solutions with multiple groups. Because unsupervised learning solutions with multiple groups are poor descriptors of the observed variation, it is important to see this generally supported by the supervised learning results.
 
 The results from fitting the various supervised learning models to each of the classification schemes generally shows that no one scheme is ``best.'' Possible explanations include that the genetic differentiation is not associated with plastron shape variation and/or that local selective pressures (e.g. from hydrological regime) overwhelm morphological differentiation. This makes sense given that the plastron is involved in both protection and hydrodynamics, and not necessary mate choice \citep{Rivera2008,Rivera2011,Stayton2011,Rivera2014} and that shell shape in \textit{E. marmorata} is known to vary among populations inhabiting water bodies with different flow regimes \citep{Holland1992,Lubcke2007,Germano2009}. Plastron shape does not seem to preserve a strong phylogenetic signal at the interspecific level in emydine turtles \citep{Angielczyk2011}, and our current results suggest that this may be the case for phylogeographic signal within emydine species as well. A final possibility (explored below) is that the proposed classification schemes themselves do not represent significant evolutionary lineages.
 

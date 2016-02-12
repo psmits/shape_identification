@@ -8,15 +8,21 @@ three datasets
 - seven clear cut species
 
 
-analysis
+changes to analysis
 
-- random forest
-- multinomial logistic regression
-- linear discriminate analysis
 - dropped unsupervised analysis
 - increased number of PCs as predictors
-  - partially done as response to reviewers
+  - done as response to reviewers
 - include size as predictor of category
+  - done as response to reviewers
+
+
+new results
+
+- everything is the same
+- more and more proof method works 
+- marmorata still has no great classification method
+
 
 
 
@@ -37,3 +43,4 @@ include size as a predictor of category (actually a piece of good advice)
 
 slow the manuscript down a lot. while it is generally straight forward, it is
 a bit slap-dash.
+
