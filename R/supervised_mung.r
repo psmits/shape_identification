@@ -66,7 +66,7 @@ centroid <- rawturt[, n.land + 1]  # size of each observation
 geo <- cbind(lat = meta.adult$lat, long = meta.adult$long)
 
 fit <- procGPA(land.adult)
-#adult.dist <- riem.matrix(land.adult)
+adult.dist <- riem.matrix(land.adult)
 
 adult <- cbind(data.frame(size = centroid, fit$stdscores),
                meta.adult)

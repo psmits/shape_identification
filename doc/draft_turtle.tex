@@ -60,7 +60,7 @@
 \modulolinenumbers[2]
 
 \begin{abstract}
-  We investigate the morphometric identification of cryptic species using machine learning approaches by examining their implications for a recently proposed cryptic turtle species (\textit{Emys pallida}). We collected landmark-based morphometric data from 354 adult \textit{E. marmorata/``pallida''} museum specimens. We assigned a classification to each specimen for six different binning schemes based on geographic occurrence data recorded in museum collection archives. We used multiple machine learning methods, both unsupervised and supervised, to compare different classification hypotheses and asked whether it is possible to determine which amongst a set of classification hypotheses is best. In addition, we applied the above approach to a “clear-cut” example of seven unambiguously distinct species closely related to \textit{E. marmorata}. The results of this study indicate that there is no clear grouping of \textit{E. marmorata/``pallida''} based on plastron shape. In contrast, the analysis of the ``clear-cut'' example demonstrates a near perfect classification, which demonstrates that the methods can recover correct results when an appropriate signal exists. Explanations for the lack of grouping in \textit{E. marmorata} include that possibility that genetic differentiation is not associated with plastron shape variation below the species level and/or that local selective pressures (e.g., from hydrological regime) overwhelm morphological differentiation. A reconsideration of the methods used to delimit \textit{E. ``pallida,''} the lack of barriers to gene flow, the strong evidence for widespread admixture between lineages, and the fact that plastron shape can be used to differentiate other emydine species suggest that its lack of diagnosability most likely reflects the non-distinctiveness of this proposed taxon.
+  We investigate the morphometric identification of cryptic species using machine learning approaches by examining their implications for a recently proposed cryptic turtle species (\textit{Emys pallida}). We collected landmark-based morphometric data from 354 adult \textit{E. marmorata/``pallida''} museum specimens. We assigned a classification to each specimen for six different binning schemes based on geographic occurrence data recorded in museum collection archives. We used multiple machine learning methods, both unsupervised and supervised, to compare different classification hypotheses and asked whether it is possible to determine which amongst a set of classification hypotheses is best. In addition, we applied the above approach to a “clear-cut” example of seven unambiguously distinct species closely related to \textit{E. marmorata}. The results of this study indicate that there is no clear grouping of \textit{E. marmorata/``pallida''} based on plastron shape. In contrast, the analysis of the ``clear-cut'' example demonstrates a near perfect classification, which demonstrates that the methods can recover correct results when a signal exists. Explanations for the lack of grouping in \textit{E. marmorata} include that possibility that genetic differentiation is not associated with plastron shape variation below the species level and/or that local selective pressures (e.g., from hydrological regime) overwhelm morphological differentiation. A reconsideration of the methods used to delimit \textit{E. ``pallida,''} the lack of barriers to gene flow, the strong evidence for widespread admixture between lineages, and the fact that plastron shape can be used to differentiate other emydine species suggest that its lack of diagnosability most likely reflects the non-distinctiveness of this proposed taxon.
 \end{abstract}
 
 \section{Introduction}
@@ -71,16 +71,16 @@ Molecular systematics has repeatedly demonstrated the existence of cryptic speci
 
 The majority of extant taxa, and almost all extinct taxa, are delimited by morphology alone. This disjunction complicates interpretations of variation and diversity in deep time, as apparent morphological stasis may not reflect the true underlying diversity \citep{Eldredge1972,Gould1977a,Hunt2008,VanBocxlaer2013}. Similarly, for many museum specimens of extant taxa (e.g. those preserved in formalin), it is difficult to acquire the genetic data needed for non-morphological species delimitation methods.
 
-These considerations have sparked interest in whether geometric morphometric analyses can capture fine-scale variation that can be used for identifying cryptic species. This would make the task of idetifying and maintaining endagered or conserved groups much easier and could contribute to improved classifications of extinct taxa and populations. Most such studies focus on using morphometrics to discover differences between taxa that were identified by other means \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Demandt2009}. Additionally, there has been work on automated taxon identification and classification of taxa into groups \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011}. 
+These considerations have sparked interest in whether geometric morphometric analyses can capture fine-scale variation that can be used for identifying cryptic species. This would make the task of identifying and maintaining endangered or conserved groups much easier and could contribute to improved classifications of extinct taxa and populations. Most such studies focus on using morphometrics to discover differences between taxa that were identified by other means \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Demandt2009}. Additionally, there has been work on automated taxon identification and classification of taxa into groups \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011}. 
 
 Here, we investigate the morphometric identification of cryptic species using machine learning approaches. In particular, we ask whether it is possible to determine which amongst a set of classification hypotheses is best and examine the implications of the results for a recently proposed set of cryptic turtle species.
 
 % past work on automatic taxon identification and older approaches to classifying taxa
 % why use machine learning methods
 \subsection{Background and study system}
-Machine learning is an extension of known statistical methodology \citep{Hastie2009} that emphasizes high predictive accuracy and generality at the expense of the interpretability of individual parameters. The basic statistical mechanics are supplemented by randomization, sorting, and partitioning algorithms, along with the maximization or minimization of summary statistics, in order to best estimate a general model for all data, both sampled and unsampled \citep{Hastie2009}. Machine learning approaches have found use in medical research, epidemiology, economics and automated image identification such as handwritten zip codes \citep{Hastie2009}. The two major classes of machine learning methods are unsupervised and supervised learning. Unsupervised learning methods are used with unlabeled data where the underlying structure is estimated, and they are analogous to clustering and density estimation methods \citep{Kaufman1990}. Supervised learning methods are used with labeled data where the final output of data is known and the rules for going from input to output are inferred. These are analogous to classification and regression models \citep{Breiman1984}. Our application of the approaches used in this study illustrates only a sampling of the various methods available for clustering observations and fitting classification models. 
+Machine learning is an extension of known statistical methodology \citep{Hastie2009} that emphasizes high predictive accuracy and generality at the expense of the interpretability of individual parameters. The basic statistical mechanics are supplemented by randomization, sorting, and partitioning algorithms, along with the maximization or minimization of summary statistics, in order to best estimate a general model for all data, both sampled and unsampled \citep{Hastie2009}. Machine learning approaches have found use in medical research, epidemiology, economics and automated identification of images such as handwritten zip codes \citep{Hastie2009}. The two major classes of machine learning methods are unsupervised and supervised learning. Unsupervised learning methods are used with unlabeled data where the underlying structure is estimated; they are analogous to clustering and density estimation methods \citep{Kaufman1990}. Supervised learning methods are used with labeled data where the final output of data is known and the rules for going from input to output are inferred. These are analogous to classification and regression models \citep{Breiman1984}. Our application of the approaches used in this study illustrates only a sampling of the various methods available for clustering observations and fitting classification models. 
 
-Geometric morphometric approaches to identifying differences in morphological variation between different classes, including cryptic species, mostly have used methods like linear discriminate analysis and canonical variates analysis \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Francoy2009,Sztencel-Jabonka2009,MitrovskiBogdanovic2013}. Because of their similarity to multivariate approaches like principle components analysis (PCA), these methods are comparatively straightforward ways of understanding the differences in morphology between classes. They also benefit from producing results that can be easily visualized, which aids in the interpretation and presentation of data and results. Most previous morphometric studies did not assess which amongst a set of alternative classification hypotheses was optimal. For example, studies such as those of \citet{Caumul2005a} and \citet{Polly2007a} focused on comparing different aspects of morphology and their fidelity to a classification scheme instead of comparing the fidelity of one aspect of morphology to multiple classification schemes. In this context, the study of \citet{Cardini2009a} is noteworthy because they compared morphological variation in marmots at the population, regional, and species level and determined the fidelity of shape to divisions at each of these levels.
+Geometric morphometric approaches to identifying differences in morphological variation between different classes, including cryptic species, mostly have used methods like linear discriminate analysis and canonical variates analysis \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Francoy2009,Sztencel-Jabonka2009,MitrovskiBogdanovic2013}. Because of their similarity to multivariate approaches like principal components analysis (PCA), these methods are comparatively straightforward ways of understanding the differences in morphology between classes. They also benefit from producing results that can be easily visualized, which aids in the interpretation and presentation of data and results. Most previous morphometric studies did not assess which amongst a set of alternative classification hypotheses was optimal. For example, studies such as those of \citet{Caumul2005a} and \citet{Polly2007a} focused on comparing different aspects of morphology and their fidelity to a classification scheme instead of comparing the fidelity of one aspect of morphology to multiple classification schemes. In this context, the study of \citet{Cardini2009a} is noteworthy because they compared morphological variation in marmots at the population, regional, and species level and determined the fidelity of shape to divisions at each of these levels.
 
 Here, we used multiple machine learning methods, both unsupervised and supervised, to compare different classification hypotheses. These methods provide different advantages for understanding how to classify taxa, as well as the accuracy of the resulting classifications. Although machine learning methods such as neural networks have been applied to studying shape variation \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011}, including in the context of automated taxon identification and classification of groups, the number of cases remains limited. In the current study, we not only consider pure classification accuracy but also use a statistic of classification strength that reflects the rate at which taxa are both accurately and inaccurately classified. 
 
@@ -89,7 +89,7 @@ We analyzed the problem of whether there are distinct subspecies or cryptic spec
 
 Previous work on morphological variation in \textit{E. marmorata} has focused primarily on differentiation between populations over a portion of the species' total range \citep{Lubcke2007,Germano2008,Germano2009,Bury2010}; comparatively few studies have included specimens from across the entire range \citep{Holland1992}. Most of these studies considered how local biotic and abiotic factors may contribute to differences in carapace length and found that size can vary greatly between different populations \citep{Lubcke2007,Germano2008,Germano2009}. There also has been interest in size-based sexual dimorphism in \textit{E. marmorata} \citep{Holland1992,Lubcke2007,Germano2009}, with males being on average larger than females based on total carapace length and other linear measurements. However, the quality of size as a classifier of sex can vary greatly between populations \citep{Holland1992} because of the magnitude of size differences among populations \citep{Lubcke2007,Germano2009}. However, the effect of sexual dimorphism on shape, \textit{sensu} \citet{Kendall1977a}, has not been assessed \citep{Holland1992,Lubcke2007,Germano2008}.
 
-Of particular importance in the context of cryptic diversity in \textit{E. marmorata} is the morphometric analysis of carapace shape carried out by \citet{Holland1992}, who compared populations of \textit{E. marmorata} from three areas of its range. This study concluded that geographic distance was a poor indicator of mophological differentiation, and instead hypothesized that geographic features such as breaks between different drainage basis are probably more important barriers to dispersal and interbreeding. Additionally, \citep{Holland1992} suggested that morphological differences were more pronounced as the magnitude of barriers and distance increased, but this variation required many variables to adequately capture, implying only very subtle morphological differentiation between putatively distinct populations. Finally, Holland concluded that \textit{E. marmorata} is best classified as three distinct species: a northern species, souther species, and a Columbia Basin species. This classification is similar to that of \citet{Seeliger1945}, except elevated to the species level and without recognition of a distinct Baja species. 
+Of particular relevance in the context of cryptic diversity in \textit{E. marmorata} is the morphometric analysis of carapace shape carried out by \citet{Holland1992}, who compared populations of \textit{E. marmorata} from three areas of its range. This study concluded that geographic distance was a poor indicator of morphological differentiation, and instead hypothesized that geographic features such as breaks between different drainage basis are probably more important barriers to dispersal and interbreeding. Additionally, \citet{Holland1992} suggested that morphological differences were more pronounced as the magnitude of barriers and distance increased, but this variation required many variables to adequately capture, implying only very subtle morphological differentiation between putatively distinct populations. Finally, Holland concluded that \textit{E. marmorata} is best classified as three distinct species: a northern species, southern species, and a Columbia Basin species. This classification is similar to that of \citet{Seeliger1945}, except elevated to the species level and without recognition of a distinct Baja species. 
 
 More recently, the phylogeography of \textit{E. marmorata} and the possibility of cryptic diversity was investigated using molecular data \citep{Spinks2005,Spinks2010,Spinks2014}. Based on mitochondrial DNA, \citet{Spinks2005} recognized four subclades within \textit{E. marmorata}, a northern clade, a San Joaquin Valley clade, a Santa Barbara clade, and a southern clade. Analyses with nuclear DNA \citep{Spinks2010} and single-nucleotide polymorphism (SNP) data suggest a primarily north--south division in \textit{E. marmorata}, although the dataset differed from that of \citet{Spinks2005} in the location of this break point. These studies discussed the potential taxonomic implications of their results, with \citet{Spinks2014} going so far as to strongly advocate for the recognition of at least two species (\emph{E. marmorata} and \emph{E. pallida}), and a possible third based on populations in Baja California. However, they did not discuss in detail the morphological characters that would help to diagnose these species beyond those specified by \citet{Seeliger1945}. Given that these characters are somewhat variable within the proposed species, and that \citet{Holland1992} described shell shape variation that might be consistent with this taxonomy, a geometric morphometric analysis of shell shape might provide a reliable way to diagnose groups (whether species or subspecies) within \textit{E. marmorata}.
 
@@ -97,19 +97,19 @@ In this study, we attempt to estimate the best classification scheme of \textit{
 
 Because of unclear geographic boundaries between subgroups of \textit{E. marmorata}, we compare multiple hypotheses of morphologically-- and molecularly--based classification. We hypothesize that if morphological variation corresponds to class assignment, it should be possible to determine the best classification hypothesis of \textit{E. marmorata} from amongst multiple candidate hypotheses. However, if morphological variation does not correspond to any of the standing hypothesis, then supervised learning model generalization performance will be poor.
 
+
+In order to test the efficacy of our approach, we analyzed two additional datasets: the two subspecies of \textit{Trachemys scripta scripta} and \textit{Trachemys scripta elgans}, and seven distinct species from the Emydidae family. The former dataset represents a situation similar to the \textit{E. marmorata} scenario except there are two valid subspecies CITATIONS. The latter dataset represents a set of morphologically distinct species. Both of these datasets help constrain the effectiveness of the methods used here and can help in interpreting the \textit{E. marmorata} scenario.
+
 % additionally
 % comparison with two groups
 
 \section{Materials and Methods}
 \subsection{Specimens, sampling, morphometrics}
-Three different landmark-based morphometric datasets describing plastron variation were assembled for this analysis: \textit{E. marmorata} specimens from across its geographic range, \textit{Trachemys} specimens from both subspecies, and specimens from seven distinct species from the Emydidae family. We chose to focus on adults because significant changes in plastron shape occur over the course of ontogeny in \textit{E. marmorata} and other emydines \citep{Angielczyk2013a}.
+Three different landmark-based morphometric datasets describing plastron variation were assembled for this analysis: \textit{E. marmorata} specimens from across its geographic range, \textit{T. scripta} specimens from both subspecies, and specimens from seven distinct species from the Emydidae family. We chose to focus on adults because significant changes in plastron shape occur over the course of ontogeny in \textit{E. marmorata} and other emydines \citep{Angielczyk2013a}.
 
 The first dataset included 354 adult \textit{E. marmorata} museum specimens; a subset of those included in \citet{Angielczyk2007}, \citet{Angielczyk2011}, and \citet{Angielczyk2013a}. We assigned a classification to each specimen for the different binning schemes based on geographic occurrence data recorded in museum collection archives. When precise latitude and longitude information were not available we estimated them from locality information. Because \citet{Spinks2005}, \citet{Spinks2010}, and \citet{Spinks2014} did not use vouchered specimens we were not able to directly sample individuals in their studies. Therefore our specimen classifications were based solely on the geographic information, not explicit assignment using molecular data. Because the exact barriers between different biogeographic regions are unknown and unclear, we represented each hypothesis with two schemes for a total of six different schemes. The schemes differed based on where geographic boundaries were assigned. This changes the classification of certain individuals near the boundaries between groups, providing a test of the robustness of the classification schemes.
 
-% trachemys
-%   how many
-%   where are they from?
-%   these are new
+The second dataset is a compilation of XXX specimens of \textit{T. scripta} with approximatly equal representation of both the \textit{T. scripta scripta} and \textit{T. scripta elegans} subspecies. This landmark data was collected specifically for this study.
 
 For the third dataset, we analyzed 578 total specimens from the following species: \textit{Emys blandigii}, \textit{Terrapene coahuila}, \textit{Clemmys guttata}, \textit{Glyptemys insculpta}, \textit{Glyptemys muhlenbergii}, \textit{Emys orbicularis}, and \textit{Terrapene ornata}. Like the first data set, these specimens are a subset of those used in \citet{Angielczyk2011} and \citet{Angielczyk2013a}.
 
@@ -131,34 +131,33 @@ In order to preserve the relationship between all landmark configurations in sha
 
 We divisively clustered the shape dissimilarity matrix using partitioning around mediods clustering (PAM), a method similar to \textit{k}-means clustering except that instead of minimizing the sum of squared Euclidean distances between observations and centroids, the sum of squared dissimilarities between observations and mediods is minimized \citep{Kaufman1990}. Because the optimal number of clusters of shape configurations in the study was unknown, being possibly three, four, or some other value, we estimated clustering solutions in which the number of clusters varied between one and eight. We compared clustering solutions using the gap statistic, which is a measure of goodness of clustering \citep{Tibshirani2001a}. This method has been applied to morphometric data before and represents a comparatively simple approach for estimating latent classification CITATION.
 
-We conducted this analysis using the \texttt{cluster} package for R \citep{Maechler2013}.
+Only the \textit{E. marmorata} dataset was analyzed using unsupervised approaches. We conducted this analysis using the \texttt{cluster} package for R \citep{Maechler2013}.
 
 \subsubsection{Supervised learning}
-We used three different supervised learning, or classification, approaches: linear discriminate analysis, multinomial logistic regression, and random forests. Linear discriminate analysis, also known as canonical variate analysis, is commonly used in studies of geometric morphometric data \citep{Zelditch2004,Mitteroecker2011}. The other two methods, however, are not. In all cases, the optimal number of PCs used as predictors was chosen via maximum within-sample receiver operating characteristic values, explained below.
+We used three different supervised learning, or classification, approaches: linear discriminate analysis, multinomial logistic regression, and random forests. Linear discriminate analysis, also known as canonical variate analysis, is commonly used in studies of geometric morphometric data \citep{Zelditch2004,Mitteroecker2011}. The other two methods, however, are not. The set of possible predictors included the centroid size of each specimen along with the value of that specimen along all 22 PC axes. In all cases, the optimal subset of PCs included in the final model was chosen via maximum within-sample receiver operating characteristic values, explained below.
 
 In classification studies, such as this one, a common metric of performance is area under the receiver operating characteristic curve (AUC). AUC is an estimate of the relationship between the false positive and true positive rates, as opposed to just the true positive rate (accuracy). This relationship is especially useful in cases such as this study where misclassification needs to be minimized just as much as an accurate classification must be obtained. AUC ranges between 0.5 and 1, with 0.5 indicating classification no better than random and 1 indicating perfect classification \citep{Hastie2009}.
 
 The standard AUC calculation is defined for binary classifications, however in our application there are multiple categories. The alternative calculation that we used follows an all-against-one strategy where the individual AUC values for each class versus all others are averaged to produce a multiclass AUC \citep{Hand2001}. To estimate confidence intervals on the out-of-sample AUC values, we performed a nonparametric bootstrap in which the true and estimated classifications were resampled with replacement 1000 times.
 
-Linear discriminate analysis (LDA) attempts to find a linear combination of predictors that best model two or more classes. LDA is very similar to PCA except that instead of finding the linear combination of features that maximize the amount of explained variance in the data, LDA maximizes the differences between classes. The results of this analysis produces a transformation matrix by which the original features can be transformed to reflect the best discrimination between the classes. In this study, we applied LDA to the eigenscores from a subset of the total number of PCs, ranging from two to six in increasing order of complexity. In total, this produced nine different LDA scaling matrices. 
+Linear discriminate analysis (LDA) attempts to find a linear combination of predictors that best model two or more classes. LDA is very similar to PCA except that instead of finding the linear combination of features that maximize the amount of explained variance in the data, LDA maximizes the differences between classes. The results from this approach produce a transformation matrix by which the original features can be transformed to reflect the best discrimination between the classes. In this study, we applied LDA to the eigenscores from a subset of the total number of PCs, ranging from two to six in increasing order of complexity. In total, this produced nine different LDA scaling matrices. 
 
 Multinomial logistic regression is an extension of logistic regression, where instead of a binary response there are three or more response classes \citep{Venables2002a}. Similar to the odds ratios calculated from the coefficients of a logistic regression, the relative risk of a classification can be determined from the coefficients of the model.
 
 Random forest models are an extension of classification and regression trees (CART) \citep{Breiman1984,Breiman2001}. In a random forest model, many CARTs are built from a random subsample of both the features and the observations (specimens). This process is then repeated many times and the parameters of the final model are chosen as the mode of estimates from the distribution of CARTs \citep{Breiman2001}. In addition to classifying the observations, this procedure allows for the features to be ranked in order of importance. This is a generally useful property for studies in which the goal is to describe and model the differences between classes and the relative importance of different predictors. Random forest models were fit using the ``randomForest'' R package CITATION. In this analysis, we used 1000 subtrees to estimate the random forest model parameters. 
 
-We estimated the best set of predictors in the random forest model using a recursive feature selection algorithm, with AUC as our optimality criterion. Following the iterative backwards selection algorithm implemented in \texttt{caret} \citep{KuhnMAN2013}, the maximum number of features were included in the initial model, their importance ranked, and the AUC of the model calculated. The lowest ranked feature was then removed, and the AUC of the model recalculated. Because PCs were kept in order of importance and not in relation to the amount of variance each PC described, the PCs are not included in the order of ascending eigenvalue.
+We estimated the best set of predictors in the random forest model using a recursive feature selection algorithm, with AUC as our optimality criterion. Following the iterative backwards selection algorithm implemented in \texttt{caret} \citep{KuhnMAN2013}, the maximum number of features possible were included in the initial model, their importance ranked, and the AUC of the model calculated. The lowest-ranked feature was then removed, and the AUC of the model recalculated. Because PCs were kept in order of importance and not in relation to the amount of variance each PC described, the PCs are not included in the order of ascending eigenvalue.
 
-The ultimate measure of model fit is accurately predicting the values of unobserved samples \citep{Hastie2009,Kuhn2013}. Within-sample performance is inherently biased upwards, so model evaluation requires overcoming this bias. With very large sample sizes, as in this study, part of the sample can be used as the ``training set'' and the remainder acts as the ``testing set.'' The former is used for fitting the model where as the later is used for measuring model performance, a process called model generalization. In this analysis, we used 75\% of samples as the training set while the remaining 25\% were used as the testing set.
+The ultimate measure of model fit is accurately predicting the values of unobserved samples \citep{Hastie2009,Kuhn2013}. Within-sample performance is inherently biased upwards, so model evaluation requires overcoming this bias. With very large sample sizes, as in this study, part of the sample can be used as the ``training set'' and the remainder acts as the ``testing set.'' The former is used for fitting the model where as the later is used for measuring model performance, a process called model generalization. In this analysis, we used 75\% of samples as the training set while the remaining 25\% were used as the testing set. Testing and training sets are determined completely at random within each class and with respect to shape. Results were not affected by the individual specimen class assignments to the testing or training sets.
 
-It is common for some out of sample observations to be misclassified. This misclassification may be due to the model not accurately representing shape variance, systematic differences between the training and test sets, or systematic differences between the accurately and inaccurately classified samples. Testing and training sets are determined completely at random within each class and with respect to shape. Results were not effected by the individual specimen class assignments to the testing or training sets.
-
+Supervised learning methods were applied to all three datasets.
 
 
 \section{Results}
 
 \subsection{Unsupervised learning}
 
-Gap statistic values from the PAM clustering are mostly equivalent for all potential clusters, indicating that none of the proposed clusters are statistically different from each other (Fig. \ref{fig:gap}). No clustering result is statistically greater than that with only a single cluster, because of this we favor the interpretation that there is no latent structure in the data detected in this analysis. While the solution with two groupings does have the greatest mean gap statistic, there is no geographical signal in the results of this clustering solution (Fig. \ref{fig:gap_map}). Additionally, there is no correspondence between these two clusters and the sex of the specimens INSERT STATS. Because of this, we assert that there is no means of naturally partitioning \textit{E. marmorata} plastron shape into distinct subgroups with out reference to external information.
+Gap statistic values from the PAM clustering are mostly equivalent for all potential clusters, indicating that none of the proposed clusters are statistically different from each other (Fig. \ref{fig:gap}). No clustering result is statistically greater than that with only a single cluster, because of this we favor the interpretation that there is no latent structure in the data detected in this analysis. While the solution with two groupings does have the greatest mean gap statistic, there is no geographical signal in the results of this clustering solution (Fig. \ref{fig:gap_map}). Additionally, there is no correspondence between these two clusters and the sex of the specimens (\(\chi^{2}\) test 0.7685, df = 1, \textit{p}-value 0.38). Because of this, we assert that there is no means of naturally partitioning \textit{E. marmorata} plastron shape into distinct subgroups without reference to external information. 
 
 \begin{figure}[h]
   \centering
@@ -177,7 +176,7 @@ Gap statistic values from the PAM clustering are mostly equivalent for all poten
 
 \subsection{Supervised learning}
 % model selection/fit
-AUC--based model selection revealed some important patterns of variation and congruence between the classification schemes and the actual data. Generally, the best performing models tended to include as many PCs as possible \ref{fig:sel}). Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained. That almost all LDA and multinomial logistic regression models were as complex as possible indicates that the differences between the different groups within each classification scheme are very small.
+AUC--based model selection revealed some important patterns of variation and congruence between the classification schemes and the actual data. Generally, the best performing models tended to include as many PCs as possible (Fig. \ref{fig:sel}). Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained. That almost all LDA and multinomial logistic regression models were as complex as possible indicates that the differences between the different groups within each classification scheme are very small.
 
 \begin{figure}[h]
   \centering
@@ -186,7 +185,7 @@ AUC--based model selection revealed some important patterns of variation and con
   \label{fig:var_imp}
 \end{figure}
 
-As part of fitting a random forest model, a ranking of variable importance also is determined. Interestingly, the order of variable importance is not the same as the order of the PCs (\ref{fig:var_imp}). This means that the variance describing the differences between the classes does not align with the major axes of variance (i.e. the PCs). Such a result is expected if variation between classes was extremely fine grained and not a part of the principal form or function of the plastron. Moreover, this result is consistent with the results from the AUC--based model selection for the multinomial logistic regression and LDA models.
+As part of fitting a random forest model, a ranking of variable importance also is determined. Interestingly, the order of variable importance is not the same as the order of the PCs (Fig. \ref{fig:var_imp}). This means that the variance describing the differences between the classes does not align with the major axes of variance (i.e. the PCs). Such a result is expected if variation between classes was extremely fine grained and not a part of the principal form or function of the plastron. Moreover, this result is consistent with the results from the AUC--based model selection for the multinomial logistic regression and LDA models.
 
 \begin{figure}[ht]
   \centering
@@ -195,7 +194,7 @@ As part of fitting a random forest model, a ranking of variable importance also 
   \label{fig:gen_hist}
 \end{figure}
 
-Observed AUC values for all of the optimal models are not exceptionally high (\ref{fig:sel}). In most cases the different proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set (\ref{fig:gen_hist}).
+Observed AUC values for all of the optimal models are not exceptionally high (Fig. \ref{fig:sel}). In most cases the different proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set (Fig. \ref{fig:gen_hist}).
 
 \begin{figure}[ht]
   \centering
@@ -226,40 +225,66 @@ Observed AUC values for all of the optimal models are not exceptionally high (\r
   \label{tab:comp}
 \end{table}
 
-Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). The  cases in which the AUC from the  generalizations is less than the observed, indicate poor model fit and a poor classification scheme. AUC values from model generalization, or estimating testing data set membership, does not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). 
+Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). The  cases in which the AUC from the  generalizations is less than the observed indicate poor model fit and a poor classification scheme. Comparison of AUC values from the model generalizations do not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). 
 
 
 \subsection{Results from other datasets}
+
+In contrast to the muddled results from the analysis of \textit{E. marmorata}, the analysis of \textit{T. scripta scripta} to \textit{T. scripta elegans} indicates that these two subspecies are morphologically distinct enough to be classified with near perfect accuracy (Table \ref{tab:second_res}, with both in-sample and out-of-sample classification having AUC values of approximately 1 for all methods. The analysis of the seven morphologically-distinct species also demonstrates near perfect classification of both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). 
+
+For both datasets, the distribution of ROC scores from 1000 bootstrap replicates are tightly clustered near AUC = 1 (Fig. \ref{fig:other_boot}), in contrast to the results from the \textit{E. marmorata} case (Fig. \ref{fig:gen_hist}). These results demonstrate that when there are strong distinctions between the states of the classification schemes, the methods used here can recover them.
+% insert table here with the AUC values for in and out of sample results
+%   just like below for the 7 clear cut
 % trachemys
 % The analysis of the two subspecies of \uppercase{Trachemys}
 %   clearly identifiable
 %   in-sample is near perfect
 %   generalization is near perfect
 
-% seven species
-In contrast with the analysis of \textit{E. marmorata}, the analysis of the seven morphologically-distinct species demonstrates near perfect classification of the both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). Additionally, the distribution of ROC scores from 1000 bootstrap replicates are tightly clustered near ROC = 1 (Fig. \ref{fig:seven_boot}), which is contrast to the results from the \textit{E. marmorata} case (Fig. \ref{fig:gen_hist}). These results demonstrate that when there are strong distinctions between the states of the classification schemes, the methods used here can recover them.
-
 \begin{table}[ht]
-  \centering
+  \begin{subtable}[t]{\linewidth}
+    \begin{tabular}{ l r r r }
+      \hline
+      & \# predictors & In-sample AUC & Out-of-sample AUC \\ 
+      \hline
+      \hline
+      RF &   10 & 0.965 & 1.000 \\ 
+      LDA &    7 & 1.000 & 0.993 \\ 
+      MnL &    5 & 1.000 & 0.979 \\ 
+      \hline
+    \end{tabular}
+  \end{subtable}
+
+  \begin{subtable}[t]{\linewidth}
+    \begin{tabular}{ l r r r }
+      \hline
+      & \# predictors & In-sample AUC & Out-of-sample AUC \\ 
+      \hline
+      \hline
+      RF &   11 & 1.000 & 0.999 \\ 
+      LDA &   10 & 1.000 & 1.000 \\ 
+      MnL &    6 & 1.000 & 0.998 \\ 
+      \hline
+    \end{tabular}
+  \end{subtable}
   \caption{Results from classification model estimates of the secondary, multi-species dataset. Models are random forest (RF), linear discriminate analysis (LDA), and multinomial logistic regression (MLR). Comparison of in-sample and out-of-sample AUC of the best performing model, along with the number of predictors. AUC values range between 0.5 (no better than random) and 1 (perfect classification).}
-  \begin{tabular}{ l r r r }
-    \hline
-    & \# predictors & In-sample AUC & Out-of-sample AUC \\ 
-    \hline
-    \hline
-    RF &   11 & 1.000 & 0.999 \\ 
-    MLR &    6 & 1.000 & 0.998 \\ 
-    LDA &   10 & 1.000 & 1.000 \\ 
-    \hline
-  \end{tabular}
   \label{tab:second_res}
 \end{table}
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/seven_boot}
+  \begin{subfigure}[h]{0.45\linewidth}
+    \includegraphics[height = 0.3\textheight, width = \textwidth, keepaspectratio = true]{figure/trach_boot}
+    \caption{\textit{Tracheyms}}
+    \label{fig:trach_boot}
+  \end{subfigure}
+  \begin{subfigure}[h]{0.45\linewidth}
+    \includegraphics[height = 0.3\textheight, width = \textwidth, keepaspectratio = true]{figure/seven_boot}
+    \caption{Seven}
+    \label{fig:seven_boot}
+  \end{subfigure}
   \caption{Distribution of 1000 bootstrap replicates of the out-of-sample AUC values from the secondary, multi-species dataset. The AUC values are from the random forest (RF), linear discriminate analysis (LDA), and multinomial logistic regression (MLR). AUC values range between 0.5 (no better than random) and 1 (perfect classification).}
-  \label{fig:seven_boot}
+  \label{fig:other_boot}
 \end{figure}
 
 
@@ -273,19 +298,19 @@ The results from fitting the various supervised learning models to each of the c
 
 Both the low AUC values (\(< 0.9\)) and the significant difference between the correctly and incorrectly classified observations support the conclusion that none of the hypothesized classification schemes are good descriptors of the observed plastral variation within \textit{E. marmorata}.
 
-Nevertheless, it is important to note that plastron shape is an extremely effective method for differentiating members of the other seven species we investigated. The magnitude of shape differences between the species (measured as Procrustes distance between species' mean shapes) is approximately an order of magnitude greater than the differences between the \textit{E. marmorata} subgroups, and the machine learning methods had no trouble accurately classifying the specimens correctly. These results demonstrate that plastron shape is normally a good marker for species delineation iin the closest relatives of \textit{E. marmorata}, and that our lack of results for \textit{E. marmorata} is not simply a shortcoming of the methods we applied. Indeed, they beg the question of what factors have suppressed morphological differentiation of plastron shape in \textit{E. marmorata} and \textit{E. pallida} if they are distinct species. Invoking issues such as the role of the plastron in protection or the need for streamlining are insufficient because the other species are expected to be subject to similar constraints \citep{Stayton2011,Pollyb}. 
+Nevertheless, it is important to note that plastron shape is an extremely effective method for differentiating members of the other seven species we investigated. The magnitude of shape differences between the species (measured as Procrustes distance between species' mean shapes) is approximately an order of magnitude greater than the differences between the \textit{E. marmorata} subgroups, and the machine learning methods had no trouble accurately classifying the specimens correctly. These results demonstrate that plastron shape is normally a good marker for species delineation in the closest relatives of \textit{E. marmorata}, and that our lack of results for \textit{E. marmorata} is not simply a shortcoming of the methods we applied. Indeed, they beg the question of what factors have suppressed morphological differentiation of plastron shape in \textit{E. marmorata} and \textit{E. pallida} if they are distinct species. Invoking issues such as the role of the plastron in protection or the need for streamlining are insufficient because the other species are expected to be subject to similar constraints \citep{Stayton2011,Pollyb}. 
 
 \subsection{Is there more than one species of Western Pond Turtle?}
 
-The lack of morphological support for the distinctiveness of \textit{E. pallida} does not, on its own, preclude the recognition of this taxon. However, this apparent lack of congruence does prompt a reexamination of the methods and concepts that led to that taxonomic revision, especially considering that plastron shape is normally a strong indicator of species differences amoung emydines. In other words, before we can assess the significance of the morphological non-diagnosablity, it is essential to evaluate the methods and concepts that led to the initial taxonomic revision. 
+The lack of morphological support for the distinctiveness of \textit{E. pallida} does not, on its own, preclude the recognition of this taxon. However, this apparent lack of congruence does prompt a reexamination of the methods and concepts that led to that taxonomic revision, especially considering that plastron shape is normally a strong indicator of species differences among emydines. In other words, before we can assess the significance of the morphological non-diagnosablity, it is essential to evaluate the methods and concepts that led to the initial taxonomic revision. 
 
 \citet{Spinks2014} elevated \textit{E. pallida} based on a Bayesian species delimitation analysis of SNP data using BPP \citep{Yang2010b}. However, \citet{Spinks2014} did not heed the caveats about species delimitation methods raised by \citet{Carstens2013}. In addition to specifically addressing the shortcomings of validation methods such as BPP that rely on guide trees and ``should be interpreted with caution,'' \citet{Carstens2013} also strongly emphasize that ``Inferences regarding species boundaries based on genetic data alone are likely inadequate, and species delimitation should be conducted with consideration of the life history, geographical distribution, morphology and behaviour (where applicable) of the focal system\dots'' These caveats evoke the development of the Unified Species Concept \citep{Dayrat2005a,DeQueiroz2007b}, Integrative Taxonomy \citep{Padial2010}, and other pluralist approaches to species delimitation. None of these considerations were brought to bear on the \textit{E. marmorata} system until now, and in doing so we find the proposal that \textit{E. pallida} is a distinct species to be lacking in a normally robust morphological marker.
 
-The natural history and geographical distribution of \textit{E. marmorata} and \textit{E. pallida} also make the recognition of these taxa implausible. The data from \citet{Spinks2014} show extensive introgression and admixture in Central California, which is expected because there are no significant barriers to gene flow in this region. Combined with the well-demonstrated ability for testudinoid turtles, including emydids and even \textit{Emys}, to hybridize (e.g. \citealt{Buskirk2005,Spinks2009,Parham2013}) it is hard to imagine how \textit{E. marmorata} and \textit{E. pallida} could maintain their integrity in the face of such admixture. Because the geography, natural history, demonstrated genetic admixture of \textit{E. marmorata}, and comparisons with other morphologically-diagnosable species conflict with the recognition of \textit{E. pallida}, we hypothesize that out inability to classify the morphological data by proposed species is because \textit{E. pallida} is not a distinct species. We agree with \citet{Carstens2013} that ``the inferences drawn from species delimitation studies should be conservative, for in most contexts it is better to fail to delimit species than it is to falsely delimit entities that do not represent actual evolutionary lineages.'' 
+The natural history and geographical distribution of \textit{E. marmorata} and \textit{E. pallida} also make the recognition of these taxa implausible. The data from \citet{Spinks2014} show extensive introgression and admixture in Central California, which is expected because there are no significant barriers to gene flow in this region. Combined with the well-demonstrated ability for testudinoid turtles, including emydids and even \textit{Emys}, to hybridize (e.g. \citealt{Buskirk2005,Spinks2009,Parham2013}) it is hard to imagine how \textit{E. marmorata} and \textit{E. pallida} could maintain their integrity in the face of such admixture. Because the geography, natural history, demonstrated genetic admixture of \textit{E. marmorata}, and comparisons with other morphologically diagnosable species conflict with the recognition of \textit{E. pallida}, we hypothesize that our inability to classify the morphological data by proposed species is because \textit{E. pallida} is not a distinct species. 
 
 We fully agree with \citet{Spinks2014} that \textit{E. marmorata} (\textit{sensu lato}) is a species deserving of strong conservation efforts, and we do not wish to trivialize this need. Moreover, the genetic diversity uncovered by the analysis of \citet{Spinks2014} should be explicitly accounted for in any conservation plan. Given the apparent lack of morphological distinction, however, we consider that this diversity should be considered Evolutionary Significant Units or Distinct Population Segments instead of distinct species.
 
-Finally, it is important to note that the data and analyses we present do not let us definitively say whether the apparent lack of morphological divergence within \textit{E. marmorata} truly reflects the presence of a single species, or if it is an artifact of plastron shape being a poor morphological marker for phylogenetic and phylogeographic divergences, because we could not carry out our morphometric analyses on the specimens from which the genetic data were obtained. The comparisons with the other emydine species, suggests it is because \textit{E. marmorata} is a single species. However, tests of both our preferred conclusion (\textit{E. marmorata} as a single species) and that \citet{Spinks2014} should include morphological and molecular analyses of the same set of voucher specimens, as well as additional tests of species delimitation using alternative methods and corroborating evidence as suggested by \citet{Carstens2013}. From a morphological standpoint, support for the validity of ``\textit{E. Pallida}'' may come from other aspects of morphology, such as carapace shape or other features. Likewise, further investigation of the phylogeographic utility of plastron shape in other turtle species will help to clarify whether the lack of differentiation seen in \textit{E. marmoarata}, and the strong differentiation among the other emydines, is typical or an unusual case.
+Finally, it is important to note that the data and analyses we present do not let us definitively say whether the apparent lack of morphological divergence within \textit{E. marmorata} truly reflects the presence of a single species, or if it is an artifact of plastron shape being a poor morphological marker for phylogenetic and phylogeographic divergences, because we could not carry out our morphometric analyses on the specimens from which the genetic data were obtained. The comparisons with the other emydine species suggests it is because \textit{E. marmorata} is a single species. However, tests of both our preferred conclusion (\textit{E. marmorata} as a single species) and that \citet{Spinks2014} should include morphological and molecular analyses of the same set of voucher specimens, as well as additional tests of species delimitation using alternative methods and corroborating evidence as suggested by \citet{Carstens2013}. From a morphological standpoint, support for the validity of ``\textit{E. pallida}'' may come from other aspects of morphology, such as carapace shape or other features. Likewise, further investigation of the phylogeographic utility of plastron shape in other turtle species will help to clarify whether the lack of differentiation seen in \textit{E. marmoarata}, and the strong differentiation among the other emydines, is typical or an unusual case.
 
 
 \section*{Acknowledgements}
@@ -293,494 +318,494 @@ Data collection for this project was supported in part by NSF DBI-0306158 (to KD
 
 \clearpage
 \begin{thebibliography}{77}
-\providecommand{\natexlab}[1]{#1}
-\providecommand{\selectlanguage}[1]{\relax}
-\providecommand{\bibAnnoteFile}[1]{%
-  \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
-  \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
-\providecommand{\bibAnnote}[2]{%
-  \begin{quotation}\noindent\textsc{Key:} #1\\
-  \textsc{Annotation:}\ #2\end{quotation}}
-
-\bibitem[{Angielczyk and Feldman(2013)}]{Angielczyk2013a}
-Angielczyk, K.~D. and C.~R. Feldman. 2013. {Are diminutive turtles
-  miniaturized? The ontogeny of plastron shape in emydine turtles}. Biological
-  Journal of the Linnean Society 108:727--755.
-\bibAnnoteFile{Angielczyk2013a}
-
-\bibitem[{Angielczyk et~al.(2011)Angielczyk, Feldman, and
-  Miller}]{Angielczyk2011}
-Angielczyk, K.~D., C.~R. Feldman, and G.~R. Miller. 2011. {Adaptive evolution
-  of plastron shape in emydine turtles.} Evolution 65:377--394.
-\bibAnnoteFile{Angielczyk2011}
-
-\bibitem[{Angielczyk and Sheets(2007)}]{Angielczyk2007}
-Angielczyk, K.~D. and H.~D. Sheets. 2007. {Investigation of simulated tectonic
-  deformation in fossils using geometric morphometrics}. Paleobiology
-  33:125--148.
-\bibAnnoteFile{Angielczyk2007}
-
-\bibitem[{Baird and Girard(1852)}]{Baird1852}
-Baird, S.~F. and C.~Girard. 1852. {Descriptions of new species of reptiles
-  collected by the U.S. Exploring Expedition under the command of Capt. Charles
-  Wilkes}. Proceedings of the National Academy of Sciences Philadelphia
-  6:174--177.
-\bibAnnoteFile{Baird1852}
-
-\bibitem[{Bauer et~al.(2000)Bauer, Parham, Brown, Stuart, Grismer, Papenfuss,
-  Bohme, Savage, Carranza, Grismer, Wagner, Schmitz, Ananjeva, and
-  Inger}]{Bauer2000}
-Bauer, A.~M., J.~F. Parham, R.~M. Brown, B.~L. Stuart, L.~Grismer, T.~J.
-  Papenfuss, W.~Bohme, J.~M. Savage, S.~Carranza, J.~L. Grismer, P.~Wagner,
-  A.~Schmitz, N.~B. Ananjeva, and R.~F. Inger. 2000. {Availability of new
-  Baysian-delimited gecko names and the importance of character-based species
-  descriptions}. Proceedings of the Royal Society B: Biological Sciences
-  278:490--492.
-\bibAnnoteFile{Bauer2000}
-
-\bibitem[{Baylac et~al.(2003)Baylac, Villemant, and Simbolotti}]{Baylac2003}
-Baylac, M., C.~Villemant, and G.~Simbolotti. 2003. {Combining geometric
-  morphometrics with pattern recognition for the investigation of species
-  complexes}. Biological Journal of the Linnean Society 80:89--98.
-\bibAnnoteFile{Baylac2003}
-
-\bibitem[{Bickford et~al.(2007)Bickford, Lohman, Sodhi, Ng, Meier, Winker,
-  Ingram, and Das}]{Bickford2007}
-Bickford, D., D.~J. Lohman, N.~S. Sodhi, P.~K.~L. Ng, R.~Meier, K.~Winker,
-  K.~K. Ingram, and I.~Das. 2007. {Cryptic species as a window on diversity and
-  conservation.} Trends in ecology \& evolution 22:148--55.
-\bibAnnoteFile{Bickford2007}
-
-\bibitem[{Breiman(2001)}]{Breiman2001}
-Breiman, L. 2001. {Random Forests}. Machine Learning 45:5--32.
-\bibAnnoteFile{Breiman2001}
-
-\bibitem[{Breiman et~al.(1984)Breiman, Friedman, Stone, and
-  Olshen}]{Breiman1984}
-Breiman, L., J.~Friedman, C.~J. Stone, and R.~A. Olshen. 1984. {Classification
-  and regression trees}. Wadsworth International Group, Belmont.
-\bibAnnoteFile{Breiman1984}
-
-\bibitem[{Bury et~al.(2010)Bury, Germano, and Bury}]{Bury2010}
-Bury, R.~B., D.~J. Germano, and G.~W. Bury. 2010. {Population Structure and
-  Growth of the Turtle Actinemys marmorata from the Klamath–Siskiyou
-  Ecoregion: Age, Not Size, Matters}. Copeia 2010:443--451.
-\bibAnnoteFile{Bury2010}
-
-\bibitem[{Buskirk et~al.(2005)Buskirk, Parham, and Feldman}]{Buskirk2005}
-Buskirk, S.~W., J.~F. Parham, and C.~R. Feldman. 2005. {On the hybridisation
-  between two distantly related Asian turtles (Testudines: Scalia x Mauremys)}.
-  Salamandra 41:21--26.
-\bibAnnoteFile{Buskirk2005}
-
-\bibitem[{Cardini et~al.(2009)Cardini, Nagorsen, O'Higgins, Polly, {Thorington
-  Jr}, and Tongiorgi}]{Cardini2009a}
-Cardini, A., D.~Nagorsen, P.~O'Higgins, P.~D. Polly, R.~W. {Thorington Jr}, and
-  P.~Tongiorgi. 2009. {Detecting biological distinctiveness using geometric
-  morphometrics: an example case from the Vancouver Island marmot}. Ethology
-  Ecology \& Evolution 21:209--223.
-\bibAnnoteFile{Cardini2009a}
-
-\bibitem[{Carstens and Dewey(2010)}]{Carstens2010}
-Carstens, B.~C. and T.~A. Dewey. 2010. {Species Delimitation Using a Combined
-  Coalescent and Information-Theoretic Approach: An Example from North American
-  Myotis Bats}. Systematic Biology 59:400--414.
-\bibAnnoteFile{Carstens2010}
-
-\bibitem[{Carstens et~al.(2013)Carstens, Pelletier, Reid, and
-  Satler}]{Carstens2013}
-Carstens, B.~C., T.~a. Pelletier, N.~M. Reid, and J.~D. Satler. 2013. {How to
-  fail at species delimitation.} Molecular ecology 22:4369--83.
-\bibAnnoteFile{Carstens2013}
-
-\bibitem[{Caumul and Polly(2005)}]{Caumul2005a}
-Caumul, R. and P.~D. Polly. 2005. {Phylogenetic and environmental components of
-  morphological variation: skull, mandible, and molar shape in marmots
-  (Marmota, Rodentia).} Evolution; international journal of organic evolution
-  59:2460--72.
-\bibAnnoteFile{Caumul2005a}
-
-\bibitem[{Clare(2011)}]{Clare2011}
-Clare, E.~L. 2011. {Cryptic species? Patterns of maternal and paternal gene
-  flow in eight neotropical bats.} PloS one 6:e21460.
-\bibAnnoteFile{Clare2011}
-
-\bibitem[{Dayrat(2005)}]{Dayrat2005a}
-Dayrat, B. 2005. {Towards integrative taxonomy}. Biological Journal of the
-  Linnean Society 85:407--415.
-\bibAnnoteFile{Dayrat2005a}
-
-\bibitem[{{De Queiroz}(2007)}]{DeQueiroz2007b}
-{De Queiroz}, K. 2007. {Species concepts and species delimitation.} Systematic
-  Biology 56:879--86.
-\bibAnnoteFile{DeQueiroz2007b}
-
-\bibitem[{Demandt and Bergek(2009)}]{Demandt2009}
-Demandt, M.~H. and S.~Bergek. 2009. {Identification of cyprinid hybrids by
-  using geometric morphometrics and microsatellites}. Journal of Applied
-  Ichthyology 25:695--701.
-\bibAnnoteFile{Demandt2009}
-
-\bibitem[{Dobigny et~al.(2003)Dobigny, Granjon, Aniskin, Ba, and
-  Voloboulev}]{Dobigny2003}
-Dobigny, G., L.~Granjon, V.~Aniskin, K.~Ba, and V.~Voloboulev. 2003. {A new
-  sigling species of Taterillus (Muridae, Gerbillinae) from West Agrica}.
-  Mammalian Biology 68:299--316.
-\bibAnnoteFile{Dobigny2003}
-
-\bibitem[{Dryden(2013)}]{Dryden2013}
-Dryden, I.~L. 2013. shapes: Statistical shape analysis. R package version
-  1.1-8.
-\bibAnnoteFile{Dryden2013}
-
-\bibitem[{Dryden and Mardia(1998)}]{Dryden1998a}
-Dryden, I.~L. and K.~Y. Mardia. 1998. {Statistical shape analysis}. Wiley, New
-  York.
-\bibAnnoteFile{Dryden1998a}
-
-\bibitem[{Eldredge and Gould(1972)}]{Eldredge1972}
-Eldredge, N. and S.~J. Gould. 1972. {Punctuated equilibria: an alternative to
-  phyletic gradualism}. Pages~82--115 \emph{in} Models in Paleobiology
-  (T.~J.~M. Schopf, ed.). Freeman Cooper, San Francisco.
-\bibAnnoteFile{Eldredge1972}
-
-\bibitem[{Feldman and Parham(2002)}]{Feldman2002}
-Feldman, C.~R. and J.~F. Parham. 2002. {Molecular phylogenetics of emydine
-  turtles: taxonomic revision and the evolution of shell kinesis.} Molecular
-  Phylogenetics and Evolution 22:388--98.
-\bibAnnoteFile{Feldman2002}
-
-\bibitem[{Francoy et~al.(2009)Francoy, Silva, Nunes-Silva, Menezes, and
-  Imperatriz-Fonseca}]{Francoy2009}
-Francoy, T.~M., R.~A.~O. Silva, P.~Nunes-Silva, C.~Menezes, and V.~L.
-  Imperatriz-Fonseca. 2009. {Gender identification of five genera of stingless
-  bees (Apidae, Meliponini) based on wing morphology}. Genetics and molecular
-  research 8:207--214.
-\bibAnnoteFile{Francoy2009}
-
-\bibitem[{Funk et~al.(2012)Funk, Caminer, and Ron}]{Funk2012}
-Funk, W.~C., M.~Caminer, and S.~R. Ron. 2012. {High levels of cryptic species
-  diversity uncovered in Amazonian frogs.} Proceedings of the Royal Society B:
-  Biological Sciences 279:1806--14.
-\bibAnnoteFile{Funk2012}
-
-\bibitem[{Gaubert et~al.(2005)Gaubert, Taylor, Fernandes, Bruford, and
-  Veron}]{Gaubert2005b}
-Gaubert, P., P.~J. Taylor, C.~a. Fernandes, M.~W. Bruford, and G.~Veron. 2005.
-  {Patterns of cryptic hybridization revealed using an integrative approach: a
-  case study on genets (Carnivora, Viverridae, Genetta spp.) from the southern
-  African subregion}. Biological Journal of the Linnean Society 86:11--33.
-\bibAnnoteFile{Gaubert2005b}
-
-\bibitem[{Germano and Bury(2009)}]{Germano2009}
-Germano, D.~J. and R.~B. Bury. 2009. {Variation in body size, growth, and
-  population structure of Actinemys marmorata from lentic and lotic habitats in
-  Southern Oregon}. Journal of Herpetology 43:510--520.
-\bibAnnoteFile{Germano2009}
-
-\bibitem[{Germano and Rathbun(2008)}]{Germano2008}
-Germano, D.~J. and G.~B. Rathbun. 2008. {Growth, population structure, and
-  reproduction of western pond turtles (Actinemys marmorata) on the Central
-  Coast of California}. Chelonian Conservation and Biology 7:188--194.
-\bibAnnoteFile{Germano2008}
-
-\bibitem[{Gould and Eldredge(1977)}]{Gould1977a}
-Gould, S.~J. and N.~Eldredge. 1977. {Punctuated equilibria: the tempo and mode
-  of evolution reconsidered}. Paleobiology 3:115--151.
-\bibAnnoteFile{Gould1977a}
-
-\bibitem[{G\"{u}nd\"{u}z et~al.(2007)G\"{u}nd\"{u}z, Jaarola, Tez, Yeniyurt,
-  Polly, and Searle}]{Gunduz2007}
-G\"{u}nd\"{u}z, I., M.~Jaarola, C.~Tez, C.~Yeniyurt, P.~D. Polly, and J.~B.
-  Searle. 2007. {Multigenic and morphometric differentiation of ground
-  squirrels (Spermophilus, Scuiridae, Rodentia) in Turkey, with a description
-  of a new species.} Molecular phylogenetics and evolution 43:916--35.
-\bibAnnoteFile{Gunduz2007}
-
-\bibitem[{Hand and Till(2001)}]{Hand2001}
-Hand, D.~J. and R.~J. Till. 2001. {A Simple Generalisation of the Area Under
-  the ROC Curve for Multiple Class Classification Problems}. Machine Learning
-  45:171--186.
-\bibAnnoteFile{Hand2001}
-
-\bibitem[{Hastie et~al.(2009)Hastie, Tibshirani, and Friedman}]{Hastie2009}
-Hastie, T., R.~Tibshirani, and J.~Friedman. 2009. {The elements of statistical
-  learning: data mining, inference, and prediction}. 2nd ed. Springer, New
-  York.
-\bibAnnoteFile{Hastie2009}
-
-\bibitem[{Hausdorf and Hennig(2010)}]{Hausdorf2010}
-Hausdorf, B. and C.~Hennig. 2010. {Species delimitation using dominant and
-  codominant multilocus markers.} Systematic biology 59:491--503.
-\bibAnnoteFile{Hausdorf2010}
-
-\bibitem[{Holland(1992)}]{Holland1992}
-Holland, D.~C. 1992. {Level and pattern in morphological variation: a
-  phylogeographic study of the western pond turtle (Clemmys marmorata)}. Ph.D.
-  thesis University of Southwestern Louisiana.
-\bibAnnoteFile{Holland1992}
-
-\bibitem[{Huelsenbeck et~al.(2011)Huelsenbeck, Andolfatto, and
-  Huelsenbeck}]{Huelsenbeck2011b}
-Huelsenbeck, J.~P., P.~Andolfatto, and E.~T. Huelsenbeck. 2011. {Structurama:
-  bayesian inference of population structure.} Evolutionary bioinformatics
-  online 7:55--9.
-\bibAnnoteFile{Huelsenbeck2011b}
-
-\bibitem[{Hunt(2008)}]{Hunt2008}
-Hunt, G. 2008. {Gradual or pulsed evolution: when should punctuational
-  explanations be preferred?} Paleobiology 34:360--377.
-\bibAnnoteFile{Hunt2008}
-
-\bibitem[{Kaufman and Rousseeuw(1990)}]{Kaufman1990}
-Kaufman, L. and P.~J. Rousseeuw. 1990. {Finding groups in data : an
-  introduction to cluster analysis}. Wiley, New York.
-\bibAnnoteFile{Kaufman1990}
-
-\bibitem[{Kendall(1977)}]{Kendall1977a}
-Kendall, D.~G. 1977. {The diffusion of shape}. Advances in Applied Probability
-  9:428--430.
-\bibAnnoteFile{Kendall1977a}
-
-\bibitem[{Kendall(1984)}]{Kendall1984a}
-Kendall, D.~G. 1984. {Shape Manifolds, Procrustean Metrics, and Complex
-  Projective Spaces}. Bulletin of the London Mathematical Society 16:81--121.
-\bibAnnoteFile{Kendall1984a}
-
-\bibitem[{Klingenberg et~al.(2002)Klingenberg, Barluenga, and
-  Meyer}]{Klingenberg2002}
-Klingenberg, C.~P., M.~Barluenga, and A.~Meyer. 2002. {Shape analysis of
-  symetric structures: quantifying variation among individuals and asymmetry}.
-  Evolution 56:1909--1920.
-\bibAnnoteFile{Klingenberg2002}
-
-\bibitem[{Kuhn(2013)}]{KuhnMAN2013}
-Kuhn, M. 2013. caret: Classification and Regression Training. R package version
-  5.15-61.
-\bibAnnoteFile{KuhnMAN2013}
-
-\bibitem[{Kuhn and Johnson(2013)}]{Kuhn2013}
-Kuhn, M. and K.~Johnson. 2013. {Applied predictive modeling}. Springer, New
-  York, NY.
-\bibAnnoteFile{Kuhn2013}
-
-\bibitem[{Leach\'{e} and Fujita(2010)}]{Leache2010}
-Leach\'{e}, A.~D. and M.~K. Fujita. 2010. {Bayesian species delimitation in
-  West African forest geckos (Hemidactylus fasciatus).} Proceedings. Biological
-  sciences / The Royal Society 277:3071--7.
-\bibAnnoteFile{Leache2010}
-
-\bibitem[{Lubcke and Wilson(2007)}]{Lubcke2007}
-Lubcke, G.~M. and D.~S. Wilson. 2007. {Variation in shell morphology of the
-  Western Pond Turtle (Actinemys marmorata Baird and Giarard) from three
-  aquativ habitats in Northern California}. Journal of Herpetology 41:107--114.
-\bibAnnoteFile{Lubcke2007}
-
-\bibitem[{MacLeod(2007)}]{MacLeod2007}
-MacLeod, N. 2007. {Automated taxon identification in systematics: theory,
-  approaches and applications}. CRC Press, Boca Raton.
-\bibAnnoteFile{MacLeod2007}
-
-\bibitem[{Maechler et~al.(2013)Maechler, Rousseeuw, Struyf, Hubert, and
-  Hornik}]{Maechler2013}
-Maechler, M., P.~Rousseeuw, A.~Struyf, M.~Hubert, and K.~Hornik. 2013. cluster:
-  Cluster Analysis Basics and Extensions. R package version 1.14.4.
-\bibAnnoteFile{Maechler2013}
-
-\bibitem[{Mitrovski-Bogdanovic et~al.(2013)Mitrovski-Bogdanovic, Petrovic,
-  Mitrovic, Ivanovic, \v{Z}ikic, Star\'{y}, Vorburger, and
-  Tomanovic}]{MitrovskiBogdanovic2013}
-Mitrovski-Bogdanovic, A., A.~Petrovic, M.~Mitrovic, A.~Ivanovic, V.~\v{Z}ikic,
-  P.~Star\'{y}, C.~Vorburger, and v.~Tomanovic. 2013. {Identification of two
-  cryptic species within the Praon abjectum group (Hymenoptera: Braconidae:
-  Aphidiinae) using molecular markers and geometric morphometrics}. Annals of
-  the entomological society of America 106:170--180.
-\bibAnnoteFile{MitrovskiBogdanovic2013}
-
-\bibitem[{Mitteroecker and Bookstein(2011)}]{Mitteroecker2011}
-Mitteroecker, P. and F.~Bookstein. 2011. {Linear Discrimination, Ordination,
-  and the Visualization of Selection Gradients in Modern Morphometrics}.
-  Evolutionary Biology 38:100--114.
-\bibAnnoteFile{Mitteroecker2011}
-
-\bibitem[{O'Meara(2010)}]{O'Meara2010}
-O'Meara, B.~C. 2010. {New heuristic methods for joint species delimitation and
-  species tree inference.} Systematic biology 59:59--73.
-\bibAnnoteFile{O'Meara2010}
-
-\bibitem[{Padial et~al.(2010)Padial, Miralles, {De la Riva}, and
-  Vences}]{Padial2010}
-Padial, J.~M., A.~Miralles, I.~{De la Riva}, and M.~Vences. 2010. {The
-  integrative future of taxonomy}. Frontiers in Zoology 7:1--14.
-\bibAnnoteFile{Padial2010}
-
-\bibitem[{Parham et~al.(2013)Parham, Papenfuss, Dijk, Wilson, Marte, Schettino,
-  and {Brian Simison}}]{Parham2013}
-Parham, J.~F., T.~J. Papenfuss, P.~P.~V. Dijk, B.~S. Wilson, C.~Marte, L.~R.
-  Schettino, and W.~{Brian Simison}. 2013. {Genetic introgression and
-  hybridization in Antillean freshwater turtles (Trachemys) revealed by
-  coalescent analyses of mitochondrial and cloned nuclear markers.} Molecular
-  phylogenetics and evolution 67:176--87.
-\bibAnnoteFile{Parham2013}
-
-\bibitem[{Pfenninger and Schwenk(2007)}]{Pfenninger2007}
-Pfenninger, M. and K.~Schwenk. 2007. {Cryptic animal species are homogeneously
-  distributed among taxa and biogeographical regions.} BMC evolutionary biology
-  7:121.
-\bibAnnoteFile{Pfenninger2007}
-
-\bibitem[{Polly(2003)}]{Polly2003}
-Polly, P.~D. 2003. {Paleophylogeography of Sorex araneus: molar shape as a
-  morphological marker for fossil shrews}. Mammalia 68:233--243.
-\bibAnnoteFile{Polly2003}
-
-\bibitem[{Polly(2007)}]{Polly2007a}
-Polly, P.~D. 2007. {Phylogeographic differentiation in Sorex araneus:
-  morphology in relation to geography and karyotype}. Russian Journal of
-  Theriology 6:73--84.
-\bibAnnoteFile{Polly2007a}
-
-\bibitem[{Polly et~al.()Polly, Stayton, Dumont, Pierce, Rayfield, and
-  Angielczyk}]{Pollyb}
-Polly, P.~D., C.~T. Stayton, E.~R. Dumont, S.~E. Pierce, E.~J. Rayfield, and
-  K.~D. Angielczyk. ???? {Combining geometric morphometrics and finite element
-  analysis with evolutionary modeling: towards a synthesis}. Journal of
-  Vertebrate Paleontology .
-\bibAnnoteFile{Pollyb}
-
-\bibitem[{Pons et~al.(2006)Pons, Barraclough, Gomez-Zurita, Cardoso, Duran,
-  Hazell, Kamoun, Sumlin, and Vogler}]{Pons2006}
-Pons, J., T.~Barraclough, J.~Gomez-Zurita, A.~Cardoso, D.~Duran, S.~Hazell,
-  S.~Kamoun, W.~Sumlin, and A.~Vogler. 2006. {Sequence-Based Species
-  Delimitation for the DNA Taxonomy of Undescribed Insects}. Systematic Biology
-  55:595--609.
-\bibAnnoteFile{Pons2006}
-
-\bibitem[{{R Core Team}(2013)}]{2013}
-{R Core Team}. 2013. R: A Language and Environment for Statistical Computing. R
-  Foundation for Statistical Computing Vienna, Austria.
-\bibAnnoteFile{2013}
-
-\bibitem[{Rivera(2008)}]{Rivera2008}
-Rivera, G. 2008. {Ecomorphological variation in shell shape of the freshwater
-  turtle Pseudemys concinna inhabiting different aquatic flow regimes.}
-  Integrative and comparative biology 48:769--87.
-\bibAnnoteFile{Rivera2008}
-
-\bibitem[{Rivera et~al.(2014)Rivera, Davis, Godwin, and Adams}]{Rivera2014}
-Rivera, G., J.~N. Davis, J.~C. Godwin, and D.~C. Adams. 2014. {Repeatability of
-  Habitat-Associated Divergence in Shell Shape of Turtles}. Evolutionary
-  Biology Pages~29--37.
-\bibAnnoteFile{Rivera2014}
-
-\bibitem[{Rivera and Stayton(2011)}]{Rivera2011}
-Rivera, G. and C.~T. Stayton. 2011. {Finite element modeling of shell shape in
-  the freshwater turtle Pseudemys concinna reveals a trade-off between
-  mechanical strength and hydrodynamic efficiency.} Journal of morphology
-  272:1192--203.
-\bibAnnoteFile{Rivera2011}
-
-\bibitem[{Rohlf(2005)}]{Rohlf2005}
-Rohlf, F.~J. 2005. {TpsDig 2.04}.
-\bibAnnoteFile{Rohlf2005}
-
-\bibitem[{Schilck-Steiner et~al.(2007)Schilck-Steiner, Seifert, Stauffer,
-  Christian, Crozier, and Steiner}]{SchlickSteiner2007}
-Schilck-Steiner, B.~C., B.~Seifert, C.~Stauffer, E.~Christian, R.~H. Crozier,
-  and F.~M. Steiner. 2007. {Without morphology, cryptic species stay in
-  taxonomic crypsis following discovery}. Trends in ecology \& evolution
-  22:391--392.
-\bibAnnoteFile{SchlickSteiner2007}
-
-\bibitem[{Seeliger(1945)}]{Seeliger1945}
-Seeliger, L.~M. 1945. {Variation in the Pacific Mud Turtle}. Copeia
-  1945:150--159.
-\bibAnnoteFile{Seeliger1945}
-
-\bibitem[{Spinks and Shaffer(2005)}]{Spinks2005}
-Spinks, P.~Q. and H.~B. Shaffer. 2005. {Range-wide molecular analysis of the
-  western pond turtle (Emys marmorata): cryptic variation, isolation by
-  distance, and their conservation implications.} Molecular ecology
-  14:2047--64.
-\bibAnnoteFile{Spinks2005}
-
-\bibitem[{Spinks and Shaffer(2009)}]{Spinks2009}
-Spinks, P.~Q. and H.~B. Shaffer. 2009. {Conflicting mitochondrial and nuclear
-  phylogenies for the widely disjunct Emys (Testudines: Emydidae) species
-  complex, and what they tell us about biogeography and hybridization.}
-  Systematic biology 58:1--20.
-\bibAnnoteFile{Spinks2009}
-
-\bibitem[{Spinks et~al.(2014)Spinks, Thomson, and {Bradley
-  Shaffer}}]{Spinks2014}
-Spinks, P.~Q., R.~C. Thomson, and H.~{Bradley Shaffer}. 2014. {The advantages
-  of going large: genome wide SNPs clarify the complex population history and
-  systematics of the threatened western pond turtle}. Molecular Ecology
-  Pages~n/a--n/a.
-\bibAnnoteFile{Spinks2014}
-
-\bibitem[{Spinks et~al.(2010)Spinks, Thomson, and Shaffer}]{Spinks2010}
-Spinks, P.~Q., R.~C. Thomson, and H.~B. Shaffer. 2010. {Nuclear gene
-  phylogeography reveals the historical legacy of an ancient inland sea on
-  lineages of the western pond turtle, Emys marmorata in California.} Molecular
-  ecology 19:542--56.
-\bibAnnoteFile{Spinks2010}
-
-\bibitem[{Stayton(2011)}]{Stayton2011}
-Stayton, C.~T. 2011. {Biomechanics on the half shell: functional performance
-  influences patterns of morphological variation in the emydid turtle
-  carapace.} Zoology (Jena, Germany) 114:213--23.
-\bibAnnoteFile{Stayton2011}
-
-\bibitem[{Stuart et~al.(2006)Stuart, Inger, and Voris}]{Stuart2006}
-Stuart, B.~L., R.~F. Inger, and H.~K. Voris. 2006. {High level of cryptic
-  species diversity revealed by sympatric lineages of Southeast Asian forest
-  frogs.} Biology letters 2:470--4.
-\bibAnnoteFile{Stuart2006}
-
-\bibitem[{Sztencel-Jabłonka et~al.(2009)Sztencel-Jabłonka, Jones, and
-  BogdanowicZ}]{Sztencel-Jabonka2009}
-Sztencel-Jabłonka, A., G.~Jones, and W.~BogdanowicZ. 2009. {Skull Morphology
-  of Two Cryptic Bat Species: Pipistrellus pipistrellus and P. pygmaeus — A
-  3D Geometric Morphometrics Approach with Landmark Reconstruction}. Acta
-  Chiropterologica 11:113--126.
-\bibAnnoteFile{Sztencel-Jabonka2009}
-
-\bibitem[{Tibshirani et~al.(2001)Tibshirani, Walther, and
-  Hastie}]{Tibshirani2001a}
-Tibshirani, R., G.~Walther, and T.~Hastie. 2001. {Estimating the number of
-  clusters in a data set via the gap statistic}. Journal of the Royal
-  Statistical Society: Series B (Statistical Methodology) 63:411--423.
-\bibAnnoteFile{Tibshirani2001a}
-
-\bibitem[{{Van Bocxlaer} and Hunt(2013)}]{VanBocxlaer2013}
-{Van Bocxlaer}, B. and G.~Hunt. 2013. {Morphological stasis in an ongoing
-  gastropod radiation from Lake Malawi}. Proceedings of the National Academy of
-  Sciences .
-\bibAnnoteFile{VanBocxlaer2013}
-
-\bibitem[{van~den Brink and Bokma(2011)}]{VandenBrink2011}
-van~den Brink, V. and F.~Bokma. 2011. {Morphometric shape analysis using
-  learning vector quantization neural networks — an example distinguishing
-  two microtine vole species}. Annales Zoologici Fennici 48:359--364.
-\bibAnnoteFile{VandenBrink2011}
-
-\bibitem[{Venables and Ripley(2002)}]{Venables2002a}
-Venables, W. and B.~D. Ripley. 2002. {Modern applied statistics with S}. 4th
-  ed. Springer, New York.
-\bibAnnoteFile{Venables2002a}
-
-\bibitem[{Yang and Rannala(2010)}]{Yang2010b}
-Yang, Z. and B.~Rannala. 2010. {Bayesian species delimitation using multilocus
-  sequence data.} Proceedings of the National Academy of Sciences 107:9264--9.
-\bibAnnoteFile{Yang2010b}
-
-\bibitem[{Zelditch et~al.(2004)Zelditch, Swiderski, and Sheets}]{Zelditch2004}
-Zelditch, M.~L., D.~L. Swiderski, and H.~D. Sheets. 2004. {Geometric
-  morphometrics for biologists: a primer}. Elsevier Academic Press, Amsterdam.
-\bibAnnoteFile{Zelditch2004}
-
-\end{thebibliography}
+    \providecommand{\natexlab}[1]{#1}
+    \providecommand{\selectlanguage}[1]{\relax}
+    \providecommand{\bibAnnoteFile}[1]{%
+      \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
+        \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
+      \providecommand{\bibAnnote}[2]{%
+        \begin{quotation}\noindent\textsc{Key:} #1\\
+          \textsc{Annotation:}\ #2\end{quotation}}
+
+        \bibitem[{Angielczyk and Feldman(2013)}]{Angielczyk2013a}
+        Angielczyk, K.~D. and C.~R. Feldman. 2013. {Are diminutive turtles
+        miniaturized? The ontogeny of plastron shape in emydine turtles}. Biological
+        Journal of the Linnean Society 108:727--755.
+        \bibAnnoteFile{Angielczyk2013a}
+
+        \bibitem[{Angielczyk et~al.(2011)Angielczyk, Feldman, and
+        Miller}]{Angielczyk2011}
+        Angielczyk, K.~D., C.~R. Feldman, and G.~R. Miller. 2011. {Adaptive evolution
+        of plastron shape in emydine turtles.} Evolution 65:377--394.
+        \bibAnnoteFile{Angielczyk2011}
+
+        \bibitem[{Angielczyk and Sheets(2007)}]{Angielczyk2007}
+        Angielczyk, K.~D. and H.~D. Sheets. 2007. {Investigation of simulated tectonic
+        deformation in fossils using geometric morphometrics}. Paleobiology
+        33:125--148.
+        \bibAnnoteFile{Angielczyk2007}
+
+        \bibitem[{Baird and Girard(1852)}]{Baird1852}
+        Baird, S.~F. and C.~Girard. 1852. {Descriptions of new species of reptiles
+          collected by the U.S. Exploring Expedition under the command of Capt. Charles
+        Wilkes}. Proceedings of the National Academy of Sciences Philadelphia
+        6:174--177.
+        \bibAnnoteFile{Baird1852}
+
+        \bibitem[{Bauer et~al.(2000)Bauer, Parham, Brown, Stuart, Grismer, Papenfuss,
+          Bohme, Savage, Carranza, Grismer, Wagner, Schmitz, Ananjeva, and
+        Inger}]{Bauer2000}
+        Bauer, A.~M., J.~F. Parham, R.~M. Brown, B.~L. Stuart, L.~Grismer, T.~J.
+        Papenfuss, W.~Bohme, J.~M. Savage, S.~Carranza, J.~L. Grismer, P.~Wagner,
+        A.~Schmitz, N.~B. Ananjeva, and R.~F. Inger. 2000. {Availability of new
+          Baysian-delimited gecko names and the importance of character-based species
+        descriptions}. Proceedings of the Royal Society B: Biological Sciences
+        278:490--492.
+        \bibAnnoteFile{Bauer2000}
+
+        \bibitem[{Baylac et~al.(2003)Baylac, Villemant, and Simbolotti}]{Baylac2003}
+        Baylac, M., C.~Villemant, and G.~Simbolotti. 2003. {Combining geometric
+          morphometrics with pattern recognition for the investigation of species
+        complexes}. Biological Journal of the Linnean Society 80:89--98.
+        \bibAnnoteFile{Baylac2003}
+
+        \bibitem[{Bickford et~al.(2007)Bickford, Lohman, Sodhi, Ng, Meier, Winker,
+        Ingram, and Das}]{Bickford2007}
+        Bickford, D., D.~J. Lohman, N.~S. Sodhi, P.~K.~L. Ng, R.~Meier, K.~Winker,
+        K.~K. Ingram, and I.~Das. 2007. {Cryptic species as a window on diversity and
+        conservation.} Trends in ecology \& evolution 22:148--55.
+        \bibAnnoteFile{Bickford2007}
+
+        \bibitem[{Breiman(2001)}]{Breiman2001}
+        Breiman, L. 2001. {Random Forests}. Machine Learning 45:5--32.
+        \bibAnnoteFile{Breiman2001}
+
+        \bibitem[{Breiman et~al.(1984)Breiman, Friedman, Stone, and
+        Olshen}]{Breiman1984}
+        Breiman, L., J.~Friedman, C.~J. Stone, and R.~A. Olshen. 1984. {Classification
+        and regression trees}. Wadsworth International Group, Belmont.
+        \bibAnnoteFile{Breiman1984}
+
+        \bibitem[{Bury et~al.(2010)Bury, Germano, and Bury}]{Bury2010}
+        Bury, R.~B., D.~J. Germano, and G.~W. Bury. 2010. {Population Structure and
+          Growth of the Turtle Actinemys marmorata from the Klamath–Siskiyou
+        Ecoregion: Age, Not Size, Matters}. Copeia 2010:443--451.
+        \bibAnnoteFile{Bury2010}
+
+        \bibitem[{Buskirk et~al.(2005)Buskirk, Parham, and Feldman}]{Buskirk2005}
+        Buskirk, S.~W., J.~F. Parham, and C.~R. Feldman. 2005. {On the hybridisation
+        between two distantly related Asian turtles (Testudines: Scalia x Mauremys)}.
+        Salamandra 41:21--26.
+        \bibAnnoteFile{Buskirk2005}
+
+        \bibitem[{Cardini et~al.(2009)Cardini, Nagorsen, O'Higgins, Polly, {Thorington
+        Jr}, and Tongiorgi}]{Cardini2009a}
+        Cardini, A., D.~Nagorsen, P.~O'Higgins, P.~D. Polly, R.~W. {Thorington Jr}, and
+        P.~Tongiorgi. 2009. {Detecting biological distinctiveness using geometric
+        morphometrics: an example case from the Vancouver Island marmot}. Ethology
+        Ecology \& Evolution 21:209--223.
+        \bibAnnoteFile{Cardini2009a}
+
+        \bibitem[{Carstens and Dewey(2010)}]{Carstens2010}
+        Carstens, B.~C. and T.~A. Dewey. 2010. {Species Delimitation Using a Combined
+          Coalescent and Information-Theoretic Approach: An Example from North American
+        Myotis Bats}. Systematic Biology 59:400--414.
+        \bibAnnoteFile{Carstens2010}
+
+        \bibitem[{Carstens et~al.(2013)Carstens, Pelletier, Reid, and
+        Satler}]{Carstens2013}
+        Carstens, B.~C., T.~a. Pelletier, N.~M. Reid, and J.~D. Satler. 2013. {How to
+        fail at species delimitation.} Molecular ecology 22:4369--83.
+        \bibAnnoteFile{Carstens2013}
+
+        \bibitem[{Caumul and Polly(2005)}]{Caumul2005a}
+        Caumul, R. and P.~D. Polly. 2005. {Phylogenetic and environmental components of
+          morphological variation: skull, mandible, and molar shape in marmots
+        (Marmota, Rodentia).} Evolution; international journal of organic evolution
+        59:2460--72.
+        \bibAnnoteFile{Caumul2005a}
+
+        \bibitem[{Clare(2011)}]{Clare2011}
+        Clare, E.~L. 2011. {Cryptic species? Patterns of maternal and paternal gene
+        flow in eight neotropical bats.} PloS one 6:e21460.
+        \bibAnnoteFile{Clare2011}
+
+        \bibitem[{Dayrat(2005)}]{Dayrat2005a}
+        Dayrat, B. 2005. {Towards integrative taxonomy}. Biological Journal of the
+        Linnean Society 85:407--415.
+        \bibAnnoteFile{Dayrat2005a}
+
+        \bibitem[{{De Queiroz}(2007)}]{DeQueiroz2007b}
+        {De Queiroz}, K. 2007. {Species concepts and species delimitation.} Systematic
+        Biology 56:879--86.
+        \bibAnnoteFile{DeQueiroz2007b}
+
+        \bibitem[{Demandt and Bergek(2009)}]{Demandt2009}
+        Demandt, M.~H. and S.~Bergek. 2009. {Identification of cyprinid hybrids by
+        using geometric morphometrics and microsatellites}. Journal of Applied
+        Ichthyology 25:695--701.
+        \bibAnnoteFile{Demandt2009}
+
+        \bibitem[{Dobigny et~al.(2003)Dobigny, Granjon, Aniskin, Ba, and
+        Voloboulev}]{Dobigny2003}
+        Dobigny, G., L.~Granjon, V.~Aniskin, K.~Ba, and V.~Voloboulev. 2003. {A new
+        sigling species of Taterillus (Muridae, Gerbillinae) from West Agrica}.
+        Mammalian Biology 68:299--316.
+        \bibAnnoteFile{Dobigny2003}
+
+        \bibitem[{Dryden(2013)}]{Dryden2013}
+        Dryden, I.~L. 2013. shapes: Statistical shape analysis. R package version
+        1.1-8.
+        \bibAnnoteFile{Dryden2013}
+
+        \bibitem[{Dryden and Mardia(1998)}]{Dryden1998a}
+        Dryden, I.~L. and K.~Y. Mardia. 1998. {Statistical shape analysis}. Wiley, New
+        York.
+        \bibAnnoteFile{Dryden1998a}
+
+        \bibitem[{Eldredge and Gould(1972)}]{Eldredge1972}
+        Eldredge, N. and S.~J. Gould. 1972. {Punctuated equilibria: an alternative to
+        phyletic gradualism}. Pages~82--115 \emph{in} Models in Paleobiology
+        (T.~J.~M. Schopf, ed.). Freeman Cooper, San Francisco.
+        \bibAnnoteFile{Eldredge1972}
+
+        \bibitem[{Feldman and Parham(2002)}]{Feldman2002}
+        Feldman, C.~R. and J.~F. Parham. 2002. {Molecular phylogenetics of emydine
+        turtles: taxonomic revision and the evolution of shell kinesis.} Molecular
+        Phylogenetics and Evolution 22:388--98.
+        \bibAnnoteFile{Feldman2002}
+
+        \bibitem[{Francoy et~al.(2009)Francoy, Silva, Nunes-Silva, Menezes, and
+        Imperatriz-Fonseca}]{Francoy2009}
+        Francoy, T.~M., R.~A.~O. Silva, P.~Nunes-Silva, C.~Menezes, and V.~L.
+        Imperatriz-Fonseca. 2009. {Gender identification of five genera of stingless
+        bees (Apidae, Meliponini) based on wing morphology}. Genetics and molecular
+        research 8:207--214.
+        \bibAnnoteFile{Francoy2009}
+
+        \bibitem[{Funk et~al.(2012)Funk, Caminer, and Ron}]{Funk2012}
+        Funk, W.~C., M.~Caminer, and S.~R. Ron. 2012. {High levels of cryptic species
+        diversity uncovered in Amazonian frogs.} Proceedings of the Royal Society B:
+        Biological Sciences 279:1806--14.
+        \bibAnnoteFile{Funk2012}
+
+        \bibitem[{Gaubert et~al.(2005)Gaubert, Taylor, Fernandes, Bruford, and
+        Veron}]{Gaubert2005b}
+        Gaubert, P., P.~J. Taylor, C.~a. Fernandes, M.~W. Bruford, and G.~Veron. 2005.
+        {Patterns of cryptic hybridization revealed using an integrative approach: a
+          case study on genets (Carnivora, Viverridae, Genetta spp.) from the southern
+        African subregion}. Biological Journal of the Linnean Society 86:11--33.
+        \bibAnnoteFile{Gaubert2005b}
+
+        \bibitem[{Germano and Bury(2009)}]{Germano2009}
+        Germano, D.~J. and R.~B. Bury. 2009. {Variation in body size, growth, and
+          population structure of Actinemys marmorata from lentic and lotic habitats in
+        Southern Oregon}. Journal of Herpetology 43:510--520.
+        \bibAnnoteFile{Germano2009}
+
+        \bibitem[{Germano and Rathbun(2008)}]{Germano2008}
+        Germano, D.~J. and G.~B. Rathbun. 2008. {Growth, population structure, and
+          reproduction of western pond turtles (Actinemys marmorata) on the Central
+        Coast of California}. Chelonian Conservation and Biology 7:188--194.
+        \bibAnnoteFile{Germano2008}
+
+        \bibitem[{Gould and Eldredge(1977)}]{Gould1977a}
+        Gould, S.~J. and N.~Eldredge. 1977. {Punctuated equilibria: the tempo and mode
+        of evolution reconsidered}. Paleobiology 3:115--151.
+        \bibAnnoteFile{Gould1977a}
+
+        \bibitem[{G\"{u}nd\"{u}z et~al.(2007)G\"{u}nd\"{u}z, Jaarola, Tez, Yeniyurt,
+        Polly, and Searle}]{Gunduz2007}
+        G\"{u}nd\"{u}z, I., M.~Jaarola, C.~Tez, C.~Yeniyurt, P.~D. Polly, and J.~B.
+        Searle. 2007. {Multigenic and morphometric differentiation of ground
+          squirrels (Spermophilus, Scuiridae, Rodentia) in Turkey, with a description
+        of a new species.} Molecular phylogenetics and evolution 43:916--35.
+        \bibAnnoteFile{Gunduz2007}
+
+        \bibitem[{Hand and Till(2001)}]{Hand2001}
+        Hand, D.~J. and R.~J. Till. 2001. {A Simple Generalisation of the Area Under
+        the ROC Curve for Multiple Class Classification Problems}. Machine Learning
+        45:171--186.
+        \bibAnnoteFile{Hand2001}
+
+        \bibitem[{Hastie et~al.(2009)Hastie, Tibshirani, and Friedman}]{Hastie2009}
+        Hastie, T., R.~Tibshirani, and J.~Friedman. 2009. {The elements of statistical
+        learning: data mining, inference, and prediction}. 2nd ed. Springer, New
+        York.
+        \bibAnnoteFile{Hastie2009}
+
+        \bibitem[{Hausdorf and Hennig(2010)}]{Hausdorf2010}
+        Hausdorf, B. and C.~Hennig. 2010. {Species delimitation using dominant and
+        codominant multilocus markers.} Systematic biology 59:491--503.
+        \bibAnnoteFile{Hausdorf2010}
+
+        \bibitem[{Holland(1992)}]{Holland1992}
+        Holland, D.~C. 1992. {Level and pattern in morphological variation: a
+        phylogeographic study of the western pond turtle (Clemmys marmorata)}. Ph.D.
+        thesis University of Southwestern Louisiana.
+        \bibAnnoteFile{Holland1992}
+
+        \bibitem[{Huelsenbeck et~al.(2011)Huelsenbeck, Andolfatto, and
+        Huelsenbeck}]{Huelsenbeck2011b}
+        Huelsenbeck, J.~P., P.~Andolfatto, and E.~T. Huelsenbeck. 2011. {Structurama:
+        bayesian inference of population structure.} Evolutionary bioinformatics
+        online 7:55--9.
+        \bibAnnoteFile{Huelsenbeck2011b}
+
+        \bibitem[{Hunt(2008)}]{Hunt2008}
+        Hunt, G. 2008. {Gradual or pulsed evolution: when should punctuational
+        explanations be preferred?} Paleobiology 34:360--377.
+        \bibAnnoteFile{Hunt2008}
+
+        \bibitem[{Kaufman and Rousseeuw(1990)}]{Kaufman1990}
+        Kaufman, L. and P.~J. Rousseeuw. 1990. {Finding groups in data : an
+        introduction to cluster analysis}. Wiley, New York.
+        \bibAnnoteFile{Kaufman1990}
+
+        \bibitem[{Kendall(1977)}]{Kendall1977a}
+        Kendall, D.~G. 1977. {The diffusion of shape}. Advances in Applied Probability
+        9:428--430.
+        \bibAnnoteFile{Kendall1977a}
+
+        \bibitem[{Kendall(1984)}]{Kendall1984a}
+        Kendall, D.~G. 1984. {Shape Manifolds, Procrustean Metrics, and Complex
+        Projective Spaces}. Bulletin of the London Mathematical Society 16:81--121.
+        \bibAnnoteFile{Kendall1984a}
+
+        \bibitem[{Klingenberg et~al.(2002)Klingenberg, Barluenga, and
+        Meyer}]{Klingenberg2002}
+        Klingenberg, C.~P., M.~Barluenga, and A.~Meyer. 2002. {Shape analysis of
+        symetric structures: quantifying variation among individuals and asymmetry}.
+        Evolution 56:1909--1920.
+        \bibAnnoteFile{Klingenberg2002}
+
+        \bibitem[{Kuhn(2013)}]{KuhnMAN2013}
+        Kuhn, M. 2013. caret: Classification and Regression Training. R package version
+        5.15-61.
+        \bibAnnoteFile{KuhnMAN2013}
+
+        \bibitem[{Kuhn and Johnson(2013)}]{Kuhn2013}
+        Kuhn, M. and K.~Johnson. 2013. {Applied predictive modeling}. Springer, New
+        York, NY.
+        \bibAnnoteFile{Kuhn2013}
+
+        \bibitem[{Leach\'{e} and Fujita(2010)}]{Leache2010}
+        Leach\'{e}, A.~D. and M.~K. Fujita. 2010. {Bayesian species delimitation in
+        West African forest geckos (Hemidactylus fasciatus).} Proceedings. Biological
+        sciences / The Royal Society 277:3071--7.
+        \bibAnnoteFile{Leache2010}
+
+        \bibitem[{Lubcke and Wilson(2007)}]{Lubcke2007}
+        Lubcke, G.~M. and D.~S. Wilson. 2007. {Variation in shell morphology of the
+          Western Pond Turtle (Actinemys marmorata Baird and Giarard) from three
+        aquativ habitats in Northern California}. Journal of Herpetology 41:107--114.
+        \bibAnnoteFile{Lubcke2007}
+
+        \bibitem[{MacLeod(2007)}]{MacLeod2007}
+        MacLeod, N. 2007. {Automated taxon identification in systematics: theory,
+        approaches and applications}. CRC Press, Boca Raton.
+        \bibAnnoteFile{MacLeod2007}
+
+        \bibitem[{Maechler et~al.(2013)Maechler, Rousseeuw, Struyf, Hubert, and
+        Hornik}]{Maechler2013}
+        Maechler, M., P.~Rousseeuw, A.~Struyf, M.~Hubert, and K.~Hornik. 2013. cluster:
+        Cluster Analysis Basics and Extensions. R package version 1.14.4.
+        \bibAnnoteFile{Maechler2013}
+
+        \bibitem[{Mitrovski-Bogdanovic et~al.(2013)Mitrovski-Bogdanovic, Petrovic,
+          Mitrovic, Ivanovic, \v{Z}ikic, Star\'{y}, Vorburger, and
+        Tomanovic}]{MitrovskiBogdanovic2013}
+        Mitrovski-Bogdanovic, A., A.~Petrovic, M.~Mitrovic, A.~Ivanovic, V.~\v{Z}ikic,
+        P.~Star\'{y}, C.~Vorburger, and v.~Tomanovic. 2013. {Identification of two
+          cryptic species within the Praon abjectum group (Hymenoptera: Braconidae:
+        Aphidiinae) using molecular markers and geometric morphometrics}. Annals of
+        the entomological society of America 106:170--180.
+        \bibAnnoteFile{MitrovskiBogdanovic2013}
+
+        \bibitem[{Mitteroecker and Bookstein(2011)}]{Mitteroecker2011}
+        Mitteroecker, P. and F.~Bookstein. 2011. {Linear Discrimination, Ordination,
+        and the Visualization of Selection Gradients in Modern Morphometrics}.
+        Evolutionary Biology 38:100--114.
+        \bibAnnoteFile{Mitteroecker2011}
+
+        \bibitem[{O'Meara(2010)}]{O'Meara2010}
+        O'Meara, B.~C. 2010. {New heuristic methods for joint species delimitation and
+        species tree inference.} Systematic biology 59:59--73.
+        \bibAnnoteFile{O'Meara2010}
+
+        \bibitem[{Padial et~al.(2010)Padial, Miralles, {De la Riva}, and
+        Vences}]{Padial2010}
+        Padial, J.~M., A.~Miralles, I.~{De la Riva}, and M.~Vences. 2010. {The
+        integrative future of taxonomy}. Frontiers in Zoology 7:1--14.
+        \bibAnnoteFile{Padial2010}
+
+        \bibitem[{Parham et~al.(2013)Parham, Papenfuss, Dijk, Wilson, Marte, Schettino,
+        and {Brian Simison}}]{Parham2013}
+        Parham, J.~F., T.~J. Papenfuss, P.~P.~V. Dijk, B.~S. Wilson, C.~Marte, L.~R.
+        Schettino, and W.~{Brian Simison}. 2013. {Genetic introgression and
+          hybridization in Antillean freshwater turtles (Trachemys) revealed by
+        coalescent analyses of mitochondrial and cloned nuclear markers.} Molecular
+        phylogenetics and evolution 67:176--87.
+        \bibAnnoteFile{Parham2013}
+
+        \bibitem[{Pfenninger and Schwenk(2007)}]{Pfenninger2007}
+        Pfenninger, M. and K.~Schwenk. 2007. {Cryptic animal species are homogeneously
+        distributed among taxa and biogeographical regions.} BMC evolutionary biology
+        7:121.
+        \bibAnnoteFile{Pfenninger2007}
+
+        \bibitem[{Polly(2003)}]{Polly2003}
+        Polly, P.~D. 2003. {Paleophylogeography of Sorex araneus: molar shape as a
+        morphological marker for fossil shrews}. Mammalia 68:233--243.
+        \bibAnnoteFile{Polly2003}
+
+        \bibitem[{Polly(2007)}]{Polly2007a}
+        Polly, P.~D. 2007. {Phylogeographic differentiation in Sorex araneus:
+        morphology in relation to geography and karyotype}. Russian Journal of
+        Theriology 6:73--84.
+        \bibAnnoteFile{Polly2007a}
+
+        \bibitem[{Polly et~al.()Polly, Stayton, Dumont, Pierce, Rayfield, and
+        Angielczyk}]{Pollyb}
+        Polly, P.~D., C.~T. Stayton, E.~R. Dumont, S.~E. Pierce, E.~J. Rayfield, and
+        K.~D. Angielczyk. ???? {Combining geometric morphometrics and finite element
+        analysis with evolutionary modeling: towards a synthesis}. Journal of
+        Vertebrate Paleontology .
+        \bibAnnoteFile{Pollyb}
+
+        \bibitem[{Pons et~al.(2006)Pons, Barraclough, Gomez-Zurita, Cardoso, Duran,
+        Hazell, Kamoun, Sumlin, and Vogler}]{Pons2006}
+        Pons, J., T.~Barraclough, J.~Gomez-Zurita, A.~Cardoso, D.~Duran, S.~Hazell,
+        S.~Kamoun, W.~Sumlin, and A.~Vogler. 2006. {Sequence-Based Species
+        Delimitation for the DNA Taxonomy of Undescribed Insects}. Systematic Biology
+        55:595--609.
+        \bibAnnoteFile{Pons2006}
+
+        \bibitem[{{R Core Team}(2013)}]{2013}
+        {R Core Team}. 2013. R: A Language and Environment for Statistical Computing. R
+        Foundation for Statistical Computing Vienna, Austria.
+        \bibAnnoteFile{2013}
+
+        \bibitem[{Rivera(2008)}]{Rivera2008}
+        Rivera, G. 2008. {Ecomorphological variation in shell shape of the freshwater
+        turtle Pseudemys concinna inhabiting different aquatic flow regimes.}
+        Integrative and comparative biology 48:769--87.
+        \bibAnnoteFile{Rivera2008}
+
+        \bibitem[{Rivera et~al.(2014)Rivera, Davis, Godwin, and Adams}]{Rivera2014}
+        Rivera, G., J.~N. Davis, J.~C. Godwin, and D.~C. Adams. 2014. {Repeatability of
+        Habitat-Associated Divergence in Shell Shape of Turtles}. Evolutionary
+        Biology Pages~29--37.
+        \bibAnnoteFile{Rivera2014}
+
+        \bibitem[{Rivera and Stayton(2011)}]{Rivera2011}
+        Rivera, G. and C.~T. Stayton. 2011. {Finite element modeling of shell shape in
+          the freshwater turtle Pseudemys concinna reveals a trade-off between
+        mechanical strength and hydrodynamic efficiency.} Journal of morphology
+        272:1192--203.
+        \bibAnnoteFile{Rivera2011}
+
+        \bibitem[{Rohlf(2005)}]{Rohlf2005}
+        Rohlf, F.~J. 2005. {TpsDig 2.04}.
+        \bibAnnoteFile{Rohlf2005}
+
+        \bibitem[{Schilck-Steiner et~al.(2007)Schilck-Steiner, Seifert, Stauffer,
+        Christian, Crozier, and Steiner}]{SchlickSteiner2007}
+        Schilck-Steiner, B.~C., B.~Seifert, C.~Stauffer, E.~Christian, R.~H. Crozier,
+        and F.~M. Steiner. 2007. {Without morphology, cryptic species stay in
+        taxonomic crypsis following discovery}. Trends in ecology \& evolution
+        22:391--392.
+        \bibAnnoteFile{SchlickSteiner2007}
+
+        \bibitem[{Seeliger(1945)}]{Seeliger1945}
+        Seeliger, L.~M. 1945. {Variation in the Pacific Mud Turtle}. Copeia
+        1945:150--159.
+        \bibAnnoteFile{Seeliger1945}
+
+        \bibitem[{Spinks and Shaffer(2005)}]{Spinks2005}
+        Spinks, P.~Q. and H.~B. Shaffer. 2005. {Range-wide molecular analysis of the
+          western pond turtle (Emys marmorata): cryptic variation, isolation by
+        distance, and their conservation implications.} Molecular ecology
+        14:2047--64.
+        \bibAnnoteFile{Spinks2005}
+
+        \bibitem[{Spinks and Shaffer(2009)}]{Spinks2009}
+        Spinks, P.~Q. and H.~B. Shaffer. 2009. {Conflicting mitochondrial and nuclear
+          phylogenies for the widely disjunct Emys (Testudines: Emydidae) species
+        complex, and what they tell us about biogeography and hybridization.}
+        Systematic biology 58:1--20.
+        \bibAnnoteFile{Spinks2009}
+
+        \bibitem[{Spinks et~al.(2014)Spinks, Thomson, and {Bradley
+        Shaffer}}]{Spinks2014}
+        Spinks, P.~Q., R.~C. Thomson, and H.~{Bradley Shaffer}. 2014. {The advantages
+          of going large: genome wide SNPs clarify the complex population history and
+        systematics of the threatened western pond turtle}. Molecular Ecology
+        Pages~n/a--n/a.
+        \bibAnnoteFile{Spinks2014}
+
+        \bibitem[{Spinks et~al.(2010)Spinks, Thomson, and Shaffer}]{Spinks2010}
+        Spinks, P.~Q., R.~C. Thomson, and H.~B. Shaffer. 2010. {Nuclear gene
+          phylogeography reveals the historical legacy of an ancient inland sea on
+        lineages of the western pond turtle, Emys marmorata in California.} Molecular
+        ecology 19:542--56.
+        \bibAnnoteFile{Spinks2010}
+
+        \bibitem[{Stayton(2011)}]{Stayton2011}
+        Stayton, C.~T. 2011. {Biomechanics on the half shell: functional performance
+          influences patterns of morphological variation in the emydid turtle
+        carapace.} Zoology (Jena, Germany) 114:213--23.
+        \bibAnnoteFile{Stayton2011}
+
+        \bibitem[{Stuart et~al.(2006)Stuart, Inger, and Voris}]{Stuart2006}
+        Stuart, B.~L., R.~F. Inger, and H.~K. Voris. 2006. {High level of cryptic
+          species diversity revealed by sympatric lineages of Southeast Asian forest
+        frogs.} Biology letters 2:470--4.
+        \bibAnnoteFile{Stuart2006}
+
+        \bibitem[{Sztencel-Jabłonka et~al.(2009)Sztencel-Jabłonka, Jones, and
+        BogdanowicZ}]{Sztencel-Jabonka2009}
+        Sztencel-Jabłonka, A., G.~Jones, and W.~BogdanowicZ. 2009. {Skull Morphology
+          of Two Cryptic Bat Species: Pipistrellus pipistrellus and P. pygmaeus — A
+        3D Geometric Morphometrics Approach with Landmark Reconstruction}. Acta
+        Chiropterologica 11:113--126.
+        \bibAnnoteFile{Sztencel-Jabonka2009}
+
+        \bibitem[{Tibshirani et~al.(2001)Tibshirani, Walther, and
+        Hastie}]{Tibshirani2001a}
+        Tibshirani, R., G.~Walther, and T.~Hastie. 2001. {Estimating the number of
+        clusters in a data set via the gap statistic}. Journal of the Royal
+        Statistical Society: Series B (Statistical Methodology) 63:411--423.
+        \bibAnnoteFile{Tibshirani2001a}
+
+        \bibitem[{{Van Bocxlaer} and Hunt(2013)}]{VanBocxlaer2013}
+        {Van Bocxlaer}, B. and G.~Hunt. 2013. {Morphological stasis in an ongoing
+        gastropod radiation from Lake Malawi}. Proceedings of the National Academy of
+        Sciences .
+        \bibAnnoteFile{VanBocxlaer2013}
+
+        \bibitem[{van~den Brink and Bokma(2011)}]{VandenBrink2011}
+        van~den Brink, V. and F.~Bokma. 2011. {Morphometric shape analysis using
+          learning vector quantization neural networks — an example distinguishing
+        two microtine vole species}. Annales Zoologici Fennici 48:359--364.
+        \bibAnnoteFile{VandenBrink2011}
+
+        \bibitem[{Venables and Ripley(2002)}]{Venables2002a}
+        Venables, W. and B.~D. Ripley. 2002. {Modern applied statistics with S}. 4th
+        ed. Springer, New York.
+        \bibAnnoteFile{Venables2002a}
+
+        \bibitem[{Yang and Rannala(2010)}]{Yang2010b}
+        Yang, Z. and B.~Rannala. 2010. {Bayesian species delimitation using multilocus
+        sequence data.} Proceedings of the National Academy of Sciences 107:9264--9.
+        \bibAnnoteFile{Yang2010b}
+
+        \bibitem[{Zelditch et~al.(2004)Zelditch, Swiderski, and Sheets}]{Zelditch2004}
+        Zelditch, M.~L., D.~L. Swiderski, and H.~D. Sheets. 2004. {Geometric
+        morphometrics for biologists: a primer}. Elsevier Academic Press, Amsterdam.
+        \bibAnnoteFile{Zelditch2004}
+
+    \end{thebibliography}
 
 %\begin{table}[ht]
 %  \centering
@@ -812,4 +837,4 @@ Zelditch, M.~L., D.~L. Swiderski, and H.~D. Sheets. 2004. {Geometric
 %  \label{tab:miss_tests}
 %\end{table}
 
-\end{document}
+    \end{document}

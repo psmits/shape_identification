@@ -10,7 +10,6 @@ three datasets
 
 changes to analysis
 
-- dropped unsupervised analysis
 - increased number of PCs as predictors
   - done as response to reviewers
 - include size as predictor of category
@@ -43,4 +42,3 @@ include size as a predictor of category (actually a piece of good advice)
 
 slow the manuscript down a lot. while it is generally straight forward, it is
 a bit slap-dash.
-

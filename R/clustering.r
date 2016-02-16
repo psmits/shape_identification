@@ -7,8 +7,7 @@
 require(cluster)
 
 source('../R/clus_func.r')
-source('../R/mung.r')
-source('../R/dac.r') 
+source('../R/supervised_mung.r')
 
 # explore the range of clusterings for the morphology
 # gap clustering
@@ -20,4 +19,4 @@ tadult.gap <- clusGap(adult.dist, FUNcluster = tpam,
                       K.max = 2 * n.groups, B = 500)
 tadult.km <- pam(as.dist(adult.dist), k = which.max(tadult.gap$Tab[, 3]))
 
-save(tadult.gap, tadult.km, file = '../data/cluster_res.RData')
+save(adult, adult.dist, tadult.gap, tadult.km, file = '../data/cluster_res.RData')

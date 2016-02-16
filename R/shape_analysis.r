@@ -4,11 +4,11 @@ library(cluster)
 
 load('../data/cluster_res.RData')
 
-# correlation between size and the first couple PCs
-cs <- rawturt[, ncol(rawturt)]
-ipc <- adult[, 1:2]
-
-scor <- apply(ipc, 2, function(x) cor.test(cs, x, method = 'spearman'))
+## correlation between size and the first couple PCs
+#cs <- rawturt[, ncol(rawturt)]
+#ipc <- adult[, 1:2]
+#
+#scor <- apply(ipc, 2, function(x) cor.test(cs, x, method = 'spearman'))
 
 
 # sexual dimorphism in the clustering solution
@@ -31,5 +31,5 @@ tsex.s <- tsex[-sexrm]
 csex.tab <- table(tclus.s, tsex.s)
 csex.chi <- chisq.test(csex.tab)
 
-save(cs, scor, tsex, tclus.s, tsex.s, csex.tab, csex.chi,
-     file = '../data/shape.RData')
+#save(cs, scor, tsex, tclus.s, tsex.s, csex.tab, csex.chi,
+#     file = '../data/shape.RData')
