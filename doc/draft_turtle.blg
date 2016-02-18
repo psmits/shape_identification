@@ -1,50 +1,47 @@
 This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: draft_turtle.aux
-The style file: sysbio.bst
-A level-1 auxiliary file: comp_tab.aux
-Database file #1: turtle.bib
-Database file #2: packages.bib
-Warning--empty year in Pollyb; set to ????
-You've used 77 entries,
-            2858 wiz_defined-function locations,
-            1105 strings with 19824 characters,
-and the built_in function-call counts, 46698 in all, are:
-= -- 4066
-> -- 2263
-< -- 46
-+ -- 741
-- -- 664
-* -- 3503
-:= -- 7318
-add.period$ -- 308
-call.type$ -- 77
-change.case$ -- 598
-chr.to.int$ -- 77
-cite$ -- 155
-duplicate$ -- 3336
-empty$ -- 3294
-format.name$ -- 911
-if$ -- 9429
-int.to.chr$ -- 1
-int.to.str$ -- 1
-missing$ -- 745
-newline$ -- 319
-num.names$ -- 310
-pop$ -- 1234
-preamble$ -- 1
-purify$ -- 529
+I found no \bibdata command---while reading file draft_turtle.aux
+I found no \bibstyle command---while reading file draft_turtle.aux
+You've used 78 entries,
+            0 wiz_defined-function locations,
+            238 strings with 2252 characters,
+and the built_in function-call counts, 0 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 0
+:= -- 0
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 0
+format.name$ -- 0
+if$ -- 0
+int.to.chr$ -- 0
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 0
+num.names$ -- 0
+pop$ -- 0
+preamble$ -- 0
+purify$ -- 0
 quote$ -- 0
-skip$ -- 1101
+skip$ -- 0
 stack$ -- 0
-substring$ -- 2267
-swap$ -- 1457
+substring$ -- 0
+swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 669
-warning$ -- 1
-while$ -- 355
+type$ -- 0
+warning$ -- 0
+while$ -- 0
 width$ -- 0
-write$ -- 922
-(There was 1 warning)
+write$ -- 0
+(There were 2 error messages)
