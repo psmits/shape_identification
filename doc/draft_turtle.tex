@@ -96,16 +96,12 @@ More recently, the phylogeography of \textit{E. marmorata} and the possibility o
 
 In this study, we attempt to estimate the best classification scheme of \textit{E. marmorata} based on variation in plastron (ventral shell) shape in order to determine whether this character is consistent with any of the past divisions based on other morphological features or molecular data. We are particularly interested in whether any aspect of plastron shape can be used to reliably diagnose the proposed species of \citet{Spinks2014}, and if so, the nature of that shape variation.
 
-% Why did we analyze plastron shape?
-%   ammenable to 2d GMM
-%   easy to compare across species
+\uppercase{Why did we analyze plastron shape?}
 
 Because of unclear geographic boundaries between subgroups of \textit{E. marmorata}, we compare multiple hypotheses of morphologically-- and molecularly--based classification. We hypothesize that if morphological variation corresponds to class assignment, it should be possible to determine the best classification hypothesis of \textit{E. marmorata} from amongst multiple candidate hypotheses. However, if morphological variation does not correspond to any of the standing hypothesis, then supervised learning model generalization performance will be poor.
 
 In order to test the efficacy of our approach, we analyzed two additional datasets: the two subspecies of \textit{Trachemys scripta scripta} and \textit{Trachemys scripta elgans}, and seven distinct species from the Emydidae family. The former dataset represents a situation similar to the \textit{E. marmorata} scenario except there are two valid subspecies CITATIONS. The latter dataset represents a set of morphologically distinct species. Both of these datasets help constrain the effectiveness of the methods used here and can help in interpreting the \textit{E. marmorata} scenario.
 
-% additionally
-% comparison with two groups
 
 \section{Materials and Methods}
 \subsection{Specimens, sampling, morphometrics}
@@ -320,532 +316,502 @@ Data collection for this project was supported in part by NSF DBI-0306158 (to KD
 
 \clearpage
 \begin{thebibliography}{77}
-    \providecommand{\natexlab}[1]{#1}
-    \providecommand{\selectlanguage}[1]{\relax}
-    \providecommand{\bibAnnoteFile}[1]{%
-      \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
-        \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
-      \providecommand{\bibAnnote}[2]{%
-        \begin{quotation}\noindent\textsc{Key:} #1\\
-          \textsc{Annotation:}\ #2\end{quotation}}
-
-        \bibitem[{Angielczyk and Feldman(2013)}]{Angielczyk2013a}
-        Angielczyk, K.~D. and C.~R. Feldman. 2013. {Are diminutive turtles
-        miniaturized? The ontogeny of plastron shape in emydine turtles}. Biological
-        Journal of the Linnean Society 108:727--755.
-        \bibAnnoteFile{Angielczyk2013a}
-
-        \bibitem[{Angielczyk et~al.(2011)Angielczyk, Feldman, and
-        Miller}]{Angielczyk2011}
-        Angielczyk, K.~D., C.~R. Feldman, and G.~R. Miller. 2011. {Adaptive evolution
-        of plastron shape in emydine turtles.} Evolution 65:377--394.
-        \bibAnnoteFile{Angielczyk2011}
-
-        \bibitem[{Angielczyk and Sheets(2007)}]{Angielczyk2007}
-        Angielczyk, K.~D. and H.~D. Sheets. 2007. {Investigation of simulated tectonic
-        deformation in fossils using geometric morphometrics}. Paleobiology
-        33:125--148.
-        \bibAnnoteFile{Angielczyk2007}
-
-        \bibitem[{Baird and Girard(1852)}]{Baird1852}
-        Baird, S.~F. and C.~Girard. 1852. {Descriptions of new species of reptiles
-          collected by the U.S. Exploring Expedition under the command of Capt. Charles
-        Wilkes}. Proceedings of the National Academy of Sciences Philadelphia
-        6:174--177.
-        \bibAnnoteFile{Baird1852}
-
-        \bibitem[{Bauer et~al.(2000)Bauer, Parham, Brown, Stuart, Grismer, Papenfuss,
-          Bohme, Savage, Carranza, Grismer, Wagner, Schmitz, Ananjeva, and
-        Inger}]{Bauer2000}
-        Bauer, A.~M., J.~F. Parham, R.~M. Brown, B.~L. Stuart, L.~Grismer, T.~J.
-        Papenfuss, W.~Bohme, J.~M. Savage, S.~Carranza, J.~L. Grismer, P.~Wagner,
-        A.~Schmitz, N.~B. Ananjeva, and R.~F. Inger. 2000. {Availability of new
-          Baysian-delimited gecko names and the importance of character-based species
-        descriptions}. Proceedings of the Royal Society B: Biological Sciences
-        278:490--492.
-        \bibAnnoteFile{Bauer2000}
-
-        \bibitem[{Baylac et~al.(2003)Baylac, Villemant, and Simbolotti}]{Baylac2003}
-        Baylac, M., C.~Villemant, and G.~Simbolotti. 2003. {Combining geometric
-          morphometrics with pattern recognition for the investigation of species
-        complexes}. Biological Journal of the Linnean Society 80:89--98.
-        \bibAnnoteFile{Baylac2003}
-
-        \bibitem[{Bickford et~al.(2007)Bickford, Lohman, Sodhi, Ng, Meier, Winker,
-        Ingram, and Das}]{Bickford2007}
-        Bickford, D., D.~J. Lohman, N.~S. Sodhi, P.~K.~L. Ng, R.~Meier, K.~Winker,
-        K.~K. Ingram, and I.~Das. 2007. {Cryptic species as a window on diversity and
-        conservation.} Trends in ecology \& evolution 22:148--55.
-        \bibAnnoteFile{Bickford2007}
-
-        \bibitem[{Breiman(2001)}]{Breiman2001}
-        Breiman, L. 2001. {Random Forests}. Machine Learning 45:5--32.
-        \bibAnnoteFile{Breiman2001}
-
-        \bibitem[{Breiman et~al.(1984)Breiman, Friedman, Stone, and
-        Olshen}]{Breiman1984}
-        Breiman, L., J.~Friedman, C.~J. Stone, and R.~A. Olshen. 1984. {Classification
-        and regression trees}. Wadsworth International Group, Belmont.
-        \bibAnnoteFile{Breiman1984}
-
-        \bibitem[{Bury et~al.(2010)Bury, Germano, and Bury}]{Bury2010}
-        Bury, R.~B., D.~J. Germano, and G.~W. Bury. 2010. {Population Structure and
-          Growth of the Turtle Actinemys marmorata from the Klamath–Siskiyou
-        Ecoregion: Age, Not Size, Matters}. Copeia 2010:443--451.
-        \bibAnnoteFile{Bury2010}
-
-        \bibitem[{Buskirk et~al.(2005)Buskirk, Parham, and Feldman}]{Buskirk2005}
-        Buskirk, S.~W., J.~F. Parham, and C.~R. Feldman. 2005. {On the hybridisation
-        between two distantly related Asian turtles (Testudines: Scalia x Mauremys)}.
-        Salamandra 41:21--26.
-        \bibAnnoteFile{Buskirk2005}
-
-        \bibitem[{Cardini et~al.(2009)Cardini, Nagorsen, O'Higgins, Polly, {Thorington
-        Jr}, and Tongiorgi}]{Cardini2009a}
-        Cardini, A., D.~Nagorsen, P.~O'Higgins, P.~D. Polly, R.~W. {Thorington Jr}, and
-        P.~Tongiorgi. 2009. {Detecting biological distinctiveness using geometric
-        morphometrics: an example case from the Vancouver Island marmot}. Ethology
-        Ecology \& Evolution 21:209--223.
-        \bibAnnoteFile{Cardini2009a}
-
-        \bibitem[{Carstens and Dewey(2010)}]{Carstens2010}
-        Carstens, B.~C. and T.~A. Dewey. 2010. {Species Delimitation Using a Combined
-          Coalescent and Information-Theoretic Approach: An Example from North American
-        Myotis Bats}. Systematic Biology 59:400--414.
-        \bibAnnoteFile{Carstens2010}
-
-        \bibitem[{Carstens et~al.(2013)Carstens, Pelletier, Reid, and
-        Satler}]{Carstens2013}
-        Carstens, B.~C., T.~a. Pelletier, N.~M. Reid, and J.~D. Satler. 2013. {How to
-        fail at species delimitation.} Molecular ecology 22:4369--83.
-        \bibAnnoteFile{Carstens2013}
-
-        \bibitem[{Caumul and Polly(2005)}]{Caumul2005a}
-        Caumul, R. and P.~D. Polly. 2005. {Phylogenetic and environmental components of
-          morphological variation: skull, mandible, and molar shape in marmots
-        (Marmota, Rodentia).} Evolution; international journal of organic evolution
-        59:2460--72.
-        \bibAnnoteFile{Caumul2005a}
-
-        \bibitem[{Clare(2011)}]{Clare2011}
-        Clare, E.~L. 2011. {Cryptic species? Patterns of maternal and paternal gene
-        flow in eight neotropical bats.} PloS one 6:e21460.
-        \bibAnnoteFile{Clare2011}
-
-        \bibitem[{Dayrat(2005)}]{Dayrat2005a}
-        Dayrat, B. 2005. {Towards integrative taxonomy}. Biological Journal of the
-        Linnean Society 85:407--415.
-        \bibAnnoteFile{Dayrat2005a}
-
-        \bibitem[{{De Queiroz}(2007)}]{DeQueiroz2007b}
-        {De Queiroz}, K. 2007. {Species concepts and species delimitation.} Systematic
-        Biology 56:879--86.
-        \bibAnnoteFile{DeQueiroz2007b}
-
-        \bibitem[{Demandt and Bergek(2009)}]{Demandt2009}
-        Demandt, M.~H. and S.~Bergek. 2009. {Identification of cyprinid hybrids by
-        using geometric morphometrics and microsatellites}. Journal of Applied
-        Ichthyology 25:695--701.
-        \bibAnnoteFile{Demandt2009}
-
-        \bibitem[{Dobigny et~al.(2003)Dobigny, Granjon, Aniskin, Ba, and
-        Voloboulev}]{Dobigny2003}
-        Dobigny, G., L.~Granjon, V.~Aniskin, K.~Ba, and V.~Voloboulev. 2003. {A new
-        sigling species of Taterillus (Muridae, Gerbillinae) from West Agrica}.
-        Mammalian Biology 68:299--316.
-        \bibAnnoteFile{Dobigny2003}
-
-        \bibitem[{Dryden(2013)}]{Dryden2013}
-        Dryden, I.~L. 2013. shapes: Statistical shape analysis. R package version
-        1.1-8.
-        \bibAnnoteFile{Dryden2013}
-
-        \bibitem[{Dryden and Mardia(1998)}]{Dryden1998a}
-        Dryden, I.~L. and K.~Y. Mardia. 1998. {Statistical shape analysis}. Wiley, New
-        York.
-        \bibAnnoteFile{Dryden1998a}
-
-        \bibitem[{Eldredge and Gould(1972)}]{Eldredge1972}
-        Eldredge, N. and S.~J. Gould. 1972. {Punctuated equilibria: an alternative to
-        phyletic gradualism}. Pages~82--115 \emph{in} Models in Paleobiology
-        (T.~J.~M. Schopf, ed.). Freeman Cooper, San Francisco.
-        \bibAnnoteFile{Eldredge1972}
-
-        \bibitem[{Feldman and Parham(2002)}]{Feldman2002}
-        Feldman, C.~R. and J.~F. Parham. 2002. {Molecular phylogenetics of emydine
-        turtles: taxonomic revision and the evolution of shell kinesis.} Molecular
-        Phylogenetics and Evolution 22:388--98.
-        \bibAnnoteFile{Feldman2002}
-
-        \bibitem[{Francoy et~al.(2009)Francoy, Silva, Nunes-Silva, Menezes, and
-        Imperatriz-Fonseca}]{Francoy2009}
-        Francoy, T.~M., R.~A.~O. Silva, P.~Nunes-Silva, C.~Menezes, and V.~L.
-        Imperatriz-Fonseca. 2009. {Gender identification of five genera of stingless
-        bees (Apidae, Meliponini) based on wing morphology}. Genetics and molecular
-        research 8:207--214.
-        \bibAnnoteFile{Francoy2009}
-
-        \bibitem[{Funk et~al.(2012)Funk, Caminer, and Ron}]{Funk2012}
-        Funk, W.~C., M.~Caminer, and S.~R. Ron. 2012. {High levels of cryptic species
-        diversity uncovered in Amazonian frogs.} Proceedings of the Royal Society B:
-        Biological Sciences 279:1806--14.
-        \bibAnnoteFile{Funk2012}
-
-        \bibitem[{Gaubert et~al.(2005)Gaubert, Taylor, Fernandes, Bruford, and
-        Veron}]{Gaubert2005b}
-        Gaubert, P., P.~J. Taylor, C.~a. Fernandes, M.~W. Bruford, and G.~Veron. 2005.
-        {Patterns of cryptic hybridization revealed using an integrative approach: a
-          case study on genets (Carnivora, Viverridae, Genetta spp.) from the southern
-        African subregion}. Biological Journal of the Linnean Society 86:11--33.
-        \bibAnnoteFile{Gaubert2005b}
-
-        \bibitem[{Germano and Bury(2009)}]{Germano2009}
-        Germano, D.~J. and R.~B. Bury. 2009. {Variation in body size, growth, and
-          population structure of Actinemys marmorata from lentic and lotic habitats in
-        Southern Oregon}. Journal of Herpetology 43:510--520.
-        \bibAnnoteFile{Germano2009}
-
-        \bibitem[{Germano and Rathbun(2008)}]{Germano2008}
-        Germano, D.~J. and G.~B. Rathbun. 2008. {Growth, population structure, and
-          reproduction of western pond turtles (Actinemys marmorata) on the Central
-        Coast of California}. Chelonian Conservation and Biology 7:188--194.
-        \bibAnnoteFile{Germano2008}
-
-        \bibitem[{Gould and Eldredge(1977)}]{Gould1977a}
-        Gould, S.~J. and N.~Eldredge. 1977. {Punctuated equilibria: the tempo and mode
-        of evolution reconsidered}. Paleobiology 3:115--151.
-        \bibAnnoteFile{Gould1977a}
-
-        \bibitem[{G\"{u}nd\"{u}z et~al.(2007)G\"{u}nd\"{u}z, Jaarola, Tez, Yeniyurt,
-        Polly, and Searle}]{Gunduz2007}
-        G\"{u}nd\"{u}z, I., M.~Jaarola, C.~Tez, C.~Yeniyurt, P.~D. Polly, and J.~B.
-        Searle. 2007. {Multigenic and morphometric differentiation of ground
-          squirrels (Spermophilus, Scuiridae, Rodentia) in Turkey, with a description
-        of a new species.} Molecular phylogenetics and evolution 43:916--35.
-        \bibAnnoteFile{Gunduz2007}
-
-        \bibitem[{Hand and Till(2001)}]{Hand2001}
-        Hand, D.~J. and R.~J. Till. 2001. {A Simple Generalisation of the Area Under
-        the ROC Curve for Multiple Class Classification Problems}. Machine Learning
-        45:171--186.
-        \bibAnnoteFile{Hand2001}
-
-        \bibitem[{Hastie et~al.(2009)Hastie, Tibshirani, and Friedman}]{Hastie2009}
-        Hastie, T., R.~Tibshirani, and J.~Friedman. 2009. {The elements of statistical
-        learning: data mining, inference, and prediction}. 2nd ed. Springer, New
-        York.
-        \bibAnnoteFile{Hastie2009}
-
-        \bibitem[{Hausdorf and Hennig(2010)}]{Hausdorf2010}
-        Hausdorf, B. and C.~Hennig. 2010. {Species delimitation using dominant and
-        codominant multilocus markers.} Systematic biology 59:491--503.
-        \bibAnnoteFile{Hausdorf2010}
-
-        \bibitem[{Holland(1992)}]{Holland1992}
-        Holland, D.~C. 1992. {Level and pattern in morphological variation: a
-        phylogeographic study of the western pond turtle (Clemmys marmorata)}. Ph.D.
-        thesis University of Southwestern Louisiana.
-        \bibAnnoteFile{Holland1992}
-
-        \bibitem[{Huelsenbeck et~al.(2011)Huelsenbeck, Andolfatto, and
-        Huelsenbeck}]{Huelsenbeck2011b}
-        Huelsenbeck, J.~P., P.~Andolfatto, and E.~T. Huelsenbeck. 2011. {Structurama:
-        bayesian inference of population structure.} Evolutionary bioinformatics
-        online 7:55--9.
-        \bibAnnoteFile{Huelsenbeck2011b}
-
-        \bibitem[{Hunt(2008)}]{Hunt2008}
-        Hunt, G. 2008. {Gradual or pulsed evolution: when should punctuational
-        explanations be preferred?} Paleobiology 34:360--377.
-        \bibAnnoteFile{Hunt2008}
-
-        \bibitem[{Kaufman and Rousseeuw(1990)}]{Kaufman1990}
-        Kaufman, L. and P.~J. Rousseeuw. 1990. {Finding groups in data : an
-        introduction to cluster analysis}. Wiley, New York.
-        \bibAnnoteFile{Kaufman1990}
-
-        \bibitem[{Kendall(1977)}]{Kendall1977a}
-        Kendall, D.~G. 1977. {The diffusion of shape}. Advances in Applied Probability
-        9:428--430.
-        \bibAnnoteFile{Kendall1977a}
-
-        \bibitem[{Kendall(1984)}]{Kendall1984a}
-        Kendall, D.~G. 1984. {Shape Manifolds, Procrustean Metrics, and Complex
-        Projective Spaces}. Bulletin of the London Mathematical Society 16:81--121.
-        \bibAnnoteFile{Kendall1984a}
-
-        \bibitem[{Klingenberg et~al.(2002)Klingenberg, Barluenga, and
-        Meyer}]{Klingenberg2002}
-        Klingenberg, C.~P., M.~Barluenga, and A.~Meyer. 2002. {Shape analysis of
-        symetric structures: quantifying variation among individuals and asymmetry}.
-        Evolution 56:1909--1920.
-        \bibAnnoteFile{Klingenberg2002}
-
-        \bibitem[{Kuhn(2013)}]{KuhnMAN2013}
-        Kuhn, M. 2013. caret: Classification and Regression Training. R package version
-        5.15-61.
-        \bibAnnoteFile{KuhnMAN2013}
-
-        \bibitem[{Kuhn and Johnson(2013)}]{Kuhn2013}
-        Kuhn, M. and K.~Johnson. 2013. {Applied predictive modeling}. Springer, New
-        York, NY.
-        \bibAnnoteFile{Kuhn2013}
-
-        \bibitem[{Leach\'{e} and Fujita(2010)}]{Leache2010}
-        Leach\'{e}, A.~D. and M.~K. Fujita. 2010. {Bayesian species delimitation in
-        West African forest geckos (Hemidactylus fasciatus).} Proceedings. Biological
-        sciences / The Royal Society 277:3071--7.
-        \bibAnnoteFile{Leache2010}
-
-        \bibitem[{Lubcke and Wilson(2007)}]{Lubcke2007}
-        Lubcke, G.~M. and D.~S. Wilson. 2007. {Variation in shell morphology of the
-          Western Pond Turtle (Actinemys marmorata Baird and Giarard) from three
-        aquativ habitats in Northern California}. Journal of Herpetology 41:107--114.
-        \bibAnnoteFile{Lubcke2007}
-
-        \bibitem[{MacLeod(2007)}]{MacLeod2007}
-        MacLeod, N. 2007. {Automated taxon identification in systematics: theory,
-        approaches and applications}. CRC Press, Boca Raton.
-        \bibAnnoteFile{MacLeod2007}
-
-        \bibitem[{Maechler et~al.(2013)Maechler, Rousseeuw, Struyf, Hubert, and
-        Hornik}]{Maechler2013}
-        Maechler, M., P.~Rousseeuw, A.~Struyf, M.~Hubert, and K.~Hornik. 2013. cluster:
-        Cluster Analysis Basics and Extensions. R package version 1.14.4.
-        \bibAnnoteFile{Maechler2013}
-
-        \bibitem[{Mitrovski-Bogdanovic et~al.(2013)Mitrovski-Bogdanovic, Petrovic,
-          Mitrovic, Ivanovic, \v{Z}ikic, Star\'{y}, Vorburger, and
-        Tomanovic}]{MitrovskiBogdanovic2013}
-        Mitrovski-Bogdanovic, A., A.~Petrovic, M.~Mitrovic, A.~Ivanovic, V.~\v{Z}ikic,
-        P.~Star\'{y}, C.~Vorburger, and v.~Tomanovic. 2013. {Identification of two
-          cryptic species within the Praon abjectum group (Hymenoptera: Braconidae:
-        Aphidiinae) using molecular markers and geometric morphometrics}. Annals of
-        the entomological society of America 106:170--180.
-        \bibAnnoteFile{MitrovskiBogdanovic2013}
-
-        \bibitem[{Mitteroecker and Bookstein(2011)}]{Mitteroecker2011}
-        Mitteroecker, P. and F.~Bookstein. 2011. {Linear Discrimination, Ordination,
-        and the Visualization of Selection Gradients in Modern Morphometrics}.
-        Evolutionary Biology 38:100--114.
-        \bibAnnoteFile{Mitteroecker2011}
-
-        \bibitem[{O'Meara(2010)}]{O'Meara2010}
-        O'Meara, B.~C. 2010. {New heuristic methods for joint species delimitation and
-        species tree inference.} Systematic biology 59:59--73.
-        \bibAnnoteFile{O'Meara2010}
-
-        \bibitem[{Padial et~al.(2010)Padial, Miralles, {De la Riva}, and
-        Vences}]{Padial2010}
-        Padial, J.~M., A.~Miralles, I.~{De la Riva}, and M.~Vences. 2010. {The
-        integrative future of taxonomy}. Frontiers in Zoology 7:1--14.
-        \bibAnnoteFile{Padial2010}
-
-        \bibitem[{Parham et~al.(2013)Parham, Papenfuss, Dijk, Wilson, Marte, Schettino,
-        and {Brian Simison}}]{Parham2013}
-        Parham, J.~F., T.~J. Papenfuss, P.~P.~V. Dijk, B.~S. Wilson, C.~Marte, L.~R.
-        Schettino, and W.~{Brian Simison}. 2013. {Genetic introgression and
-          hybridization in Antillean freshwater turtles (Trachemys) revealed by
-        coalescent analyses of mitochondrial and cloned nuclear markers.} Molecular
-        phylogenetics and evolution 67:176--87.
-        \bibAnnoteFile{Parham2013}
-
-        \bibitem[{Pfenninger and Schwenk(2007)}]{Pfenninger2007}
-        Pfenninger, M. and K.~Schwenk. 2007. {Cryptic animal species are homogeneously
-        distributed among taxa and biogeographical regions.} BMC evolutionary biology
-        7:121.
-        \bibAnnoteFile{Pfenninger2007}
-
-        \bibitem[{Polly(2003)}]{Polly2003}
-        Polly, P.~D. 2003. {Paleophylogeography of Sorex araneus: molar shape as a
-        morphological marker for fossil shrews}. Mammalia 68:233--243.
-        \bibAnnoteFile{Polly2003}
-
-        \bibitem[{Polly(2007)}]{Polly2007a}
-        Polly, P.~D. 2007. {Phylogeographic differentiation in Sorex araneus:
-        morphology in relation to geography and karyotype}. Russian Journal of
-        Theriology 6:73--84.
-        \bibAnnoteFile{Polly2007a}
-
-        \bibitem[{Polly et~al.()Polly, Stayton, Dumont, Pierce, Rayfield, and
-        Angielczyk}]{Pollyb}
-        Polly, P.~D., C.~T. Stayton, E.~R. Dumont, S.~E. Pierce, E.~J. Rayfield, and
-        K.~D. Angielczyk. ???? {Combining geometric morphometrics and finite element
-        analysis with evolutionary modeling: towards a synthesis}. Journal of
-        Vertebrate Paleontology .
-        \bibAnnoteFile{Pollyb}
-
-        \bibitem[{Pons et~al.(2006)Pons, Barraclough, Gomez-Zurita, Cardoso, Duran,
-        Hazell, Kamoun, Sumlin, and Vogler}]{Pons2006}
-        Pons, J., T.~Barraclough, J.~Gomez-Zurita, A.~Cardoso, D.~Duran, S.~Hazell,
-        S.~Kamoun, W.~Sumlin, and A.~Vogler. 2006. {Sequence-Based Species
-        Delimitation for the DNA Taxonomy of Undescribed Insects}. Systematic Biology
-        55:595--609.
-        \bibAnnoteFile{Pons2006}
-
-        \bibitem[{{R Core Team}(2015)}]{2015}
-        {R Core Team}. 2015. R: A Language and Environment for Statistical Computing. R
-        Foundation for Statistical Computing Vienna, Austria.
-        \bibAnnoteFile{2015}
-
-        \bibitem[{Rivera(2008)}]{Rivera2008}
-        Rivera, G. 2008. {Ecomorphological variation in shell shape of the freshwater
-        turtle Pseudemys concinna inhabiting different aquatic flow regimes.}
-        Integrative and comparative biology 48:769--87.
-        \bibAnnoteFile{Rivera2008}
-
-        \bibitem[{Rivera et~al.(2014)Rivera, Davis, Godwin, and Adams}]{Rivera2014}
-        Rivera, G., J.~N. Davis, J.~C. Godwin, and D.~C. Adams. 2014. {Repeatability of
-        Habitat-Associated Divergence in Shell Shape of Turtles}. Evolutionary
-        Biology Pages~29--37.
-        \bibAnnoteFile{Rivera2014}
-
-        \bibitem[{Rivera and Stayton(2011)}]{Rivera2011}
-        Rivera, G. and C.~T. Stayton. 2011. {Finite element modeling of shell shape in
-          the freshwater turtle Pseudemys concinna reveals a trade-off between
-        mechanical strength and hydrodynamic efficiency.} Journal of morphology
-        272:1192--203.
-        \bibAnnoteFile{Rivera2011}
-
-        \bibitem[{Rohlf(2005)}]{Rohlf2005}
-        Rohlf, F.~J. 2005. {TpsDig 2.04}.
-        \bibAnnoteFile{Rohlf2005}
-
-        \bibitem[{Schilck-Steiner et~al.(2007)Schilck-Steiner, Seifert, Stauffer,
-        Christian, Crozier, and Steiner}]{SchlickSteiner2007}
-        Schilck-Steiner, B.~C., B.~Seifert, C.~Stauffer, E.~Christian, R.~H. Crozier,
-        and F.~M. Steiner. 2007. {Without morphology, cryptic species stay in
-        taxonomic crypsis following discovery}. Trends in ecology \& evolution
-        22:391--392.
-        \bibAnnoteFile{SchlickSteiner2007}
-
-        \bibitem[{Seeliger(1945)}]{Seeliger1945}
-        Seeliger, L.~M. 1945. {Variation in the Pacific Mud Turtle}. Copeia
-        1945:150--159.
-        \bibAnnoteFile{Seeliger1945}
-
-        \bibitem[{Spinks and Shaffer(2005)}]{Spinks2005}
-        Spinks, P.~Q. and H.~B. Shaffer. 2005. {Range-wide molecular analysis of the
-          western pond turtle (Emys marmorata): cryptic variation, isolation by
-        distance, and their conservation implications.} Molecular ecology
-        14:2047--64.
-        \bibAnnoteFile{Spinks2005}
-
-        \bibitem[{Spinks and Shaffer(2009)}]{Spinks2009}
-        Spinks, P.~Q. and H.~B. Shaffer. 2009. {Conflicting mitochondrial and nuclear
-          phylogenies for the widely disjunct Emys (Testudines: Emydidae) species
-        complex, and what they tell us about biogeography and hybridization.}
-        Systematic biology 58:1--20.
-        \bibAnnoteFile{Spinks2009}
-
-        \bibitem[{Spinks et~al.(2014)Spinks, Thomson, and {Bradley
-        Shaffer}}]{Spinks2014}
-        Spinks, P.~Q., R.~C. Thomson, and H.~{Bradley Shaffer}. 2014. {The advantages
-          of going large: genome wide SNPs clarify the complex population history and
-        systematics of the threatened western pond turtle}. Molecular Ecology
-        Pages~n/a--n/a.
-        \bibAnnoteFile{Spinks2014}
-
-        \bibitem[{Spinks et~al.(2010)Spinks, Thomson, and Shaffer}]{Spinks2010}
-        Spinks, P.~Q., R.~C. Thomson, and H.~B. Shaffer. 2010. {Nuclear gene
-          phylogeography reveals the historical legacy of an ancient inland sea on
-        lineages of the western pond turtle, Emys marmorata in California.} Molecular
-        ecology 19:542--56.
-        \bibAnnoteFile{Spinks2010}
-
-        \bibitem[{Stayton(2011)}]{Stayton2011}
-        Stayton, C.~T. 2011. {Biomechanics on the half shell: functional performance
-          influences patterns of morphological variation in the emydid turtle
-        carapace.} Zoology (Jena, Germany) 114:213--23.
-        \bibAnnoteFile{Stayton2011}
-
-        \bibitem[{Stuart et~al.(2006)Stuart, Inger, and Voris}]{Stuart2006}
-        Stuart, B.~L., R.~F. Inger, and H.~K. Voris. 2006. {High level of cryptic
-          species diversity revealed by sympatric lineages of Southeast Asian forest
-        frogs.} Biology letters 2:470--4.
-        \bibAnnoteFile{Stuart2006}
-
-        \bibitem[{Sztencel-Jabłonka et~al.(2009)Sztencel-Jabłonka, Jones, and
-        BogdanowicZ}]{Sztencel-Jabonka2009}
-        Sztencel-Jabłonka, A., G.~Jones, and W.~BogdanowicZ. 2009. {Skull Morphology
-          of Two Cryptic Bat Species: Pipistrellus pipistrellus and P. pygmaeus — A
-        3D Geometric Morphometrics Approach with Landmark Reconstruction}. Acta
-        Chiropterologica 11:113--126.
-        \bibAnnoteFile{Sztencel-Jabonka2009}
-
-        \bibitem[{Tibshirani et~al.(2001)Tibshirani, Walther, and
-        Hastie}]{Tibshirani2001a}
-        Tibshirani, R., G.~Walther, and T.~Hastie. 2001. {Estimating the number of
-        clusters in a data set via the gap statistic}. Journal of the Royal
-        Statistical Society: Series B (Statistical Methodology) 63:411--423.
-        \bibAnnoteFile{Tibshirani2001a}
-
-        \bibitem[{{Van Bocxlaer} and Hunt(2013)}]{VanBocxlaer2013}
-        {Van Bocxlaer}, B. and G.~Hunt. 2013. {Morphological stasis in an ongoing
-        gastropod radiation from Lake Malawi}. Proceedings of the National Academy of
-        Sciences .
-        \bibAnnoteFile{VanBocxlaer2013}
-
-        \bibitem[{van~den Brink and Bokma(2011)}]{VandenBrink2011}
-        van~den Brink, V. and F.~Bokma. 2011. {Morphometric shape analysis using
-          learning vector quantization neural networks — an example distinguishing
-        two microtine vole species}. Annales Zoologici Fennici 48:359--364.
-        \bibAnnoteFile{VandenBrink2011}
-
-        \bibitem[{Venables and Ripley(2002)}]{Venables2002a}
-        Venables, W. and B.~D. Ripley. 2002. {Modern applied statistics with S}. 4th
-        ed. Springer, New York.
-        \bibAnnoteFile{Venables2002a}
-
-        \bibitem[{Liaw and Wiener(2002)}]{Liaw2002}
-        Law, A. and M. Wiener. 2002. {Classification and Regression by randomForest.} 
-        R News 2(3):18--22.
-        \bibAnnoteFile{Liaw2002}
-        
-      \bibitem[{Yang and Rannala(2010)}]{Yang2010b}
-        Yang, Z. and B.~Rannala. 2010. {Bayesian species delimitation using multilocus
-        sequence data.} Proceedings of the National Academy of Sciences 107:9264--9.
-        \bibAnnoteFile{Yang2010b}
-
-        \bibitem[{Zelditch et~al.(2004)Zelditch, Swiderski, and Sheets}]{Zelditch2004}
-        Zelditch, M.~L., D.~L. Swiderski, and H.~D. Sheets. 2004. {Geometric
-        morphometrics for biologists: a primer}. Elsevier Academic Press, Amsterdam.
-        \bibAnnoteFile{Zelditch2004}
-
-        \bibitem[{Claude(2008)}]{Claude2008}
-        Claude, J. 2004. {Morphometrics with R}. Springer-Verlang, New York.
-        \bibAnnoteFile{Claude2008}
-
-    \end{thebibliography}
-
-%\begin{table}[ht]
-%  \centering
-%  \caption{Results of comparisons between correctly and incorrectly classified observations from the testing data set, defined P(distance - simulated \(>\) 0). For each scheme, the classifications with at least 10 observations were tested. This was done for each of the three modeling techniques included in this study: random forest (RF), multinomial logistic regression (MLR), and linear discriminate analysis (LDA).}
-%  \begin{tabular}{ l | l r r r }
-%    \hline
-%    Scheme & Class & RF & MLR & LDA \\
-%    \hline
-%    \hline
-%    \multirow{2}{*}{Morph 1} & CCR & 0.77 & 1.00 & 1.00 \\ 
-%    & marm & 0.87 & 0.93 & 1.00 \\ 
-%    \hline
-%    \multirow{2}{*}{Morph 2} & CCR & 0.88 & 1.00 & 1.00 \\ 
-%    & marm & 1.00 & 1.00 & 0.98 \\ 
-%    \hline
-%    \multirow{2}{*}{Mito 1} & CCR & 0.94 & 0.99 & 0.98 \\ 
-%    & marm & 0.99 & 0.98 & 0.47 \\ 
-%    \hline
-%    \multirow{2}{*}{Mito 2} & marm & 0.85 & 0.97 & 0.96 \\ 
-%    & pall & 0.94 & 1.00 & 1.00 \\ 
-%    \hline
-%    \multirow{2}{*}{Mito 3} & 1 & 0.40 & 0.92 & 0.90 \\ 
-%    & 3 & 0.97 & 0.99 & 1.00 \\ 
-%    \hline
-%    \multirow{2}{*}{Nuclear} & marm & 1.00 & 1.00 & 1.00 \\ 
-%    & pall & 0.99 & 1.00 & 1.00 \\ 
-%    \hline
-%  \end{tabular}
-%  \label{tab:miss_tests}
-%\end{table}
-
-    \end{document}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\selectlanguage}[1]{\relax}
+\providecommand{\bibAnnoteFile}[1]{%
+  \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
+    \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
+  \providecommand{\bibAnnote}[2]{%
+    \begin{quotation}\noindent\textsc{Key:} #1\\
+      \textsc{Annotation:}\ #2\end{quotation}}
+
+    \bibitem[{Angielczyk and Feldman(2013)}]{Angielczyk2013a}
+    Angielczyk, K.~D. and C.~R. Feldman. 2013. {Are diminutive turtles
+    miniaturized? The ontogeny of plastron shape in emydine turtles}. Biological
+    Journal of the Linnean Society 108:727--755.
+    \bibAnnoteFile{Angielczyk2013a}
+
+    \bibitem[{Angielczyk et~al.(2011)Angielczyk, Feldman, and
+    Miller}]{Angielczyk2011}
+    Angielczyk, K.~D., C.~R. Feldman, and G.~R. Miller. 2011. {Adaptive evolution
+    of plastron shape in emydine turtles.} Evolution 65:377--394.
+    \bibAnnoteFile{Angielczyk2011}
+
+    \bibitem[{Angielczyk and Sheets(2007)}]{Angielczyk2007}
+    Angielczyk, K.~D. and H.~D. Sheets. 2007. {Investigation of simulated tectonic
+    deformation in fossils using geometric morphometrics}. Paleobiology
+    33:125--148.
+    \bibAnnoteFile{Angielczyk2007}
+
+    \bibitem[{Baird and Girard(1852)}]{Baird1852}
+    Baird, S.~F. and C.~Girard. 1852. {Descriptions of new species of reptiles
+      collected by the U.S. Exploring Expedition under the command of Capt. Charles
+    Wilkes}. Proceedings of the National Academy of Sciences Philadelphia
+    6:174--177.
+    \bibAnnoteFile{Baird1852}
+
+    \bibitem[{Bauer et~al.(2000)Bauer, Parham, Brown, Stuart, Grismer, Papenfuss,
+      Bohme, Savage, Carranza, Grismer, Wagner, Schmitz, Ananjeva, and
+    Inger}]{Bauer2000}
+    Bauer, A.~M., J.~F. Parham, R.~M. Brown, B.~L. Stuart, L.~Grismer, T.~J.
+    Papenfuss, W.~Bohme, J.~M. Savage, S.~Carranza, J.~L. Grismer, P.~Wagner,
+    A.~Schmitz, N.~B. Ananjeva, and R.~F. Inger. 2000. {Availability of new
+      Baysian-delimited gecko names and the importance of character-based species
+    descriptions}. Proceedings of the Royal Society B: Biological Sciences
+    278:490--492.
+    \bibAnnoteFile{Bauer2000}
+
+    \bibitem[{Baylac et~al.(2003)Baylac, Villemant, and Simbolotti}]{Baylac2003}
+    Baylac, M., C.~Villemant, and G.~Simbolotti. 2003. {Combining geometric
+      morphometrics with pattern recognition for the investigation of species
+    complexes}. Biological Journal of the Linnean Society 80:89--98.
+    \bibAnnoteFile{Baylac2003}
+
+    \bibitem[{Bickford et~al.(2007)Bickford, Lohman, Sodhi, Ng, Meier, Winker,
+    Ingram, and Das}]{Bickford2007}
+    Bickford, D., D.~J. Lohman, N.~S. Sodhi, P.~K.~L. Ng, R.~Meier, K.~Winker,
+    K.~K. Ingram, and I.~Das. 2007. {Cryptic species as a window on diversity and
+    conservation.} Trends in ecology \& evolution 22:148--55.
+    \bibAnnoteFile{Bickford2007}
+
+    \bibitem[{Breiman(2001)}]{Breiman2001}
+    Breiman, L. 2001. {Random Forests}. Machine Learning 45:5--32.
+    \bibAnnoteFile{Breiman2001}
+
+    \bibitem[{Breiman et~al.(1984)Breiman, Friedman, Stone, and
+    Olshen}]{Breiman1984}
+    Breiman, L., J.~Friedman, C.~J. Stone, and R.~A. Olshen. 1984. {Classification
+    and regression trees}. Wadsworth International Group, Belmont.
+    \bibAnnoteFile{Breiman1984}
+
+    \bibitem[{Bury et~al.(2010)Bury, Germano, and Bury}]{Bury2010}
+    Bury, R.~B., D.~J. Germano, and G.~W. Bury. 2010. {Population Structure and
+      Growth of the Turtle Actinemys marmorata from the Klamath–Siskiyou
+    Ecoregion: Age, Not Size, Matters}. Copeia 2010:443--451.
+    \bibAnnoteFile{Bury2010}
+
+    \bibitem[{Buskirk et~al.(2005)Buskirk, Parham, and Feldman}]{Buskirk2005}
+    Buskirk, S.~W., J.~F. Parham, and C.~R. Feldman. 2005. {On the hybridisation
+    between two distantly related Asian turtles (Testudines: Scalia x Mauremys)}.
+    Salamandra 41:21--26.
+    \bibAnnoteFile{Buskirk2005}
+
+    \bibitem[{Cardini et~al.(2009)Cardini, Nagorsen, O'Higgins, Polly, {Thorington
+    Jr}, and Tongiorgi}]{Cardini2009a}
+    Cardini, A., D.~Nagorsen, P.~O'Higgins, P.~D. Polly, R.~W. {Thorington Jr}, and
+    P.~Tongiorgi. 2009. {Detecting biological distinctiveness using geometric
+    morphometrics: an example case from the Vancouver Island marmot}. Ethology
+    Ecology \& Evolution 21:209--223.
+    \bibAnnoteFile{Cardini2009a}
+
+    \bibitem[{Carstens and Dewey(2010)}]{Carstens2010}
+    Carstens, B.~C. and T.~A. Dewey. 2010. {Species Delimitation Using a Combined
+      Coalescent and Information-Theoretic Approach: An Example from North American
+    Myotis Bats}. Systematic Biology 59:400--414.
+    \bibAnnoteFile{Carstens2010}
+
+    \bibitem[{Carstens et~al.(2013)Carstens, Pelletier, Reid, and
+    Satler}]{Carstens2013}
+    Carstens, B.~C., T.~a. Pelletier, N.~M. Reid, and J.~D. Satler. 2013. {How to
+    fail at species delimitation.} Molecular ecology 22:4369--83.
+    \bibAnnoteFile{Carstens2013}
+
+    \bibitem[{Caumul and Polly(2005)}]{Caumul2005a}
+    Caumul, R. and P.~D. Polly. 2005. {Phylogenetic and environmental components of
+      morphological variation: skull, mandible, and molar shape in marmots
+    (Marmota, Rodentia).} Evolution; international journal of organic evolution
+    59:2460--72.
+    \bibAnnoteFile{Caumul2005a}
+
+    \bibitem[{Clare(2011)}]{Clare2011}
+    Clare, E.~L. 2011. {Cryptic species? Patterns of maternal and paternal gene
+    flow in eight neotropical bats.} PloS one 6:e21460.
+    \bibAnnoteFile{Clare2011}
+
+    \bibitem[{Dayrat(2005)}]{Dayrat2005a}
+    Dayrat, B. 2005. {Towards integrative taxonomy}. Biological Journal of the
+    Linnean Society 85:407--415.
+    \bibAnnoteFile{Dayrat2005a}
+
+    \bibitem[{{De Queiroz}(2007)}]{DeQueiroz2007b}
+    {De Queiroz}, K. 2007. {Species concepts and species delimitation.} Systematic
+    Biology 56:879--86.
+    \bibAnnoteFile{DeQueiroz2007b}
+
+    \bibitem[{Demandt and Bergek(2009)}]{Demandt2009}
+    Demandt, M.~H. and S.~Bergek. 2009. {Identification of cyprinid hybrids by
+    using geometric morphometrics and microsatellites}. Journal of Applied
+    Ichthyology 25:695--701.
+    \bibAnnoteFile{Demandt2009}
+
+    \bibitem[{Dobigny et~al.(2003)Dobigny, Granjon, Aniskin, Ba, and
+    Voloboulev}]{Dobigny2003}
+    Dobigny, G., L.~Granjon, V.~Aniskin, K.~Ba, and V.~Voloboulev. 2003. {A new
+    sigling species of Taterillus (Muridae, Gerbillinae) from West Agrica}.
+    Mammalian Biology 68:299--316.
+    \bibAnnoteFile{Dobigny2003}
+
+    \bibitem[{Dryden(2013)}]{Dryden2013}
+    Dryden, I.~L. 2013. shapes: Statistical shape analysis. R package version
+    1.1-8.
+    \bibAnnoteFile{Dryden2013}
+
+    \bibitem[{Dryden and Mardia(1998)}]{Dryden1998a}
+    Dryden, I.~L. and K.~Y. Mardia. 1998. {Statistical shape analysis}. Wiley, New
+    York.
+    \bibAnnoteFile{Dryden1998a}
+
+    \bibitem[{Eldredge and Gould(1972)}]{Eldredge1972}
+    Eldredge, N. and S.~J. Gould. 1972. {Punctuated equilibria: an alternative to
+    phyletic gradualism}. Pages~82--115 \emph{in} Models in Paleobiology
+    (T.~J.~M. Schopf, ed.). Freeman Cooper, San Francisco.
+    \bibAnnoteFile{Eldredge1972}
+
+    \bibitem[{Feldman and Parham(2002)}]{Feldman2002}
+    Feldman, C.~R. and J.~F. Parham. 2002. {Molecular phylogenetics of emydine
+    turtles: taxonomic revision and the evolution of shell kinesis.} Molecular
+    Phylogenetics and Evolution 22:388--98.
+    \bibAnnoteFile{Feldman2002}
+
+    \bibitem[{Francoy et~al.(2009)Francoy, Silva, Nunes-Silva, Menezes, and
+    Imperatriz-Fonseca}]{Francoy2009}
+    Francoy, T.~M., R.~A.~O. Silva, P.~Nunes-Silva, C.~Menezes, and V.~L.
+    Imperatriz-Fonseca. 2009. {Gender identification of five genera of stingless
+    bees (Apidae, Meliponini) based on wing morphology}. Genetics and molecular
+    research 8:207--214.
+    \bibAnnoteFile{Francoy2009}
+
+    \bibitem[{Funk et~al.(2012)Funk, Caminer, and Ron}]{Funk2012}
+    Funk, W.~C., M.~Caminer, and S.~R. Ron. 2012. {High levels of cryptic species
+    diversity uncovered in Amazonian frogs.} Proceedings of the Royal Society B:
+    Biological Sciences 279:1806--14.
+    \bibAnnoteFile{Funk2012}
+
+    \bibitem[{Gaubert et~al.(2005)Gaubert, Taylor, Fernandes, Bruford, and
+    Veron}]{Gaubert2005b}
+    Gaubert, P., P.~J. Taylor, C.~a. Fernandes, M.~W. Bruford, and G.~Veron. 2005.
+    {Patterns of cryptic hybridization revealed using an integrative approach: a
+      case study on genets (Carnivora, Viverridae, Genetta spp.) from the southern
+    African subregion}. Biological Journal of the Linnean Society 86:11--33.
+    \bibAnnoteFile{Gaubert2005b}
+
+    \bibitem[{Germano and Bury(2009)}]{Germano2009}
+    Germano, D.~J. and R.~B. Bury. 2009. {Variation in body size, growth, and
+      population structure of Actinemys marmorata from lentic and lotic habitats in
+    Southern Oregon}. Journal of Herpetology 43:510--520.
+    \bibAnnoteFile{Germano2009}
+
+    \bibitem[{Germano and Rathbun(2008)}]{Germano2008}
+    Germano, D.~J. and G.~B. Rathbun. 2008. {Growth, population structure, and
+      reproduction of western pond turtles (Actinemys marmorata) on the Central
+    Coast of California}. Chelonian Conservation and Biology 7:188--194.
+    \bibAnnoteFile{Germano2008}
+
+    \bibitem[{Gould and Eldredge(1977)}]{Gould1977a}
+    Gould, S.~J. and N.~Eldredge. 1977. {Punctuated equilibria: the tempo and mode
+    of evolution reconsidered}. Paleobiology 3:115--151.
+    \bibAnnoteFile{Gould1977a}
+
+    \bibitem[{G\"{u}nd\"{u}z et~al.(2007)G\"{u}nd\"{u}z, Jaarola, Tez, Yeniyurt,
+    Polly, and Searle}]{Gunduz2007}
+    G\"{u}nd\"{u}z, I., M.~Jaarola, C.~Tez, C.~Yeniyurt, P.~D. Polly, and J.~B.
+    Searle. 2007. {Multigenic and morphometric differentiation of ground
+      squirrels (Spermophilus, Scuiridae, Rodentia) in Turkey, with a description
+    of a new species.} Molecular phylogenetics and evolution 43:916--35.
+    \bibAnnoteFile{Gunduz2007}
+
+    \bibitem[{Hand and Till(2001)}]{Hand2001}
+    Hand, D.~J. and R.~J. Till. 2001. {A Simple Generalisation of the Area Under
+    the ROC Curve for Multiple Class Classification Problems}. Machine Learning
+    45:171--186.
+    \bibAnnoteFile{Hand2001}
+
+    \bibitem[{Hastie et~al.(2009)Hastie, Tibshirani, and Friedman}]{Hastie2009}
+    Hastie, T., R.~Tibshirani, and J.~Friedman. 2009. {The elements of statistical
+    learning: data mining, inference, and prediction}. 2nd ed. Springer, New
+    York.
+    \bibAnnoteFile{Hastie2009}
+
+    \bibitem[{Hausdorf and Hennig(2010)}]{Hausdorf2010}
+    Hausdorf, B. and C.~Hennig. 2010. {Species delimitation using dominant and
+    codominant multilocus markers.} Systematic biology 59:491--503.
+    \bibAnnoteFile{Hausdorf2010}
+
+    \bibitem[{Holland(1992)}]{Holland1992}
+    Holland, D.~C. 1992. {Level and pattern in morphological variation: a
+    phylogeographic study of the western pond turtle (Clemmys marmorata)}. Ph.D.
+    thesis University of Southwestern Louisiana.
+    \bibAnnoteFile{Holland1992}
+
+    \bibitem[{Huelsenbeck et~al.(2011)Huelsenbeck, Andolfatto, and
+    Huelsenbeck}]{Huelsenbeck2011b}
+    Huelsenbeck, J.~P., P.~Andolfatto, and E.~T. Huelsenbeck. 2011. {Structurama:
+    bayesian inference of population structure.} Evolutionary bioinformatics
+    online 7:55--9.
+    \bibAnnoteFile{Huelsenbeck2011b}
+
+    \bibitem[{Hunt(2008)}]{Hunt2008}
+    Hunt, G. 2008. {Gradual or pulsed evolution: when should punctuational
+    explanations be preferred?} Paleobiology 34:360--377.
+    \bibAnnoteFile{Hunt2008}
+
+    \bibitem[{Kaufman and Rousseeuw(1990)}]{Kaufman1990}
+    Kaufman, L. and P.~J. Rousseeuw. 1990. {Finding groups in data : an
+    introduction to cluster analysis}. Wiley, New York.
+    \bibAnnoteFile{Kaufman1990}
+
+    \bibitem[{Kendall(1977)}]{Kendall1977a}
+    Kendall, D.~G. 1977. {The diffusion of shape}. Advances in Applied Probability
+    9:428--430.
+    \bibAnnoteFile{Kendall1977a}
+
+    \bibitem[{Kendall(1984)}]{Kendall1984a}
+    Kendall, D.~G. 1984. {Shape Manifolds, Procrustean Metrics, and Complex
+    Projective Spaces}. Bulletin of the London Mathematical Society 16:81--121.
+    \bibAnnoteFile{Kendall1984a}
+
+    \bibitem[{Klingenberg et~al.(2002)Klingenberg, Barluenga, and
+    Meyer}]{Klingenberg2002}
+    Klingenberg, C.~P., M.~Barluenga, and A.~Meyer. 2002. {Shape analysis of
+    symetric structures: quantifying variation among individuals and asymmetry}.
+    Evolution 56:1909--1920.
+    \bibAnnoteFile{Klingenberg2002}
+
+    \bibitem[{Kuhn(2013)}]{KuhnMAN2013}
+    Kuhn, M. 2013. caret: Classification and Regression Training. R package version
+    5.15-61.
+    \bibAnnoteFile{KuhnMAN2013}
+
+    \bibitem[{Kuhn and Johnson(2013)}]{Kuhn2013}
+    Kuhn, M. and K.~Johnson. 2013. {Applied predictive modeling}. Springer, New
+    York, NY.
+    \bibAnnoteFile{Kuhn2013}
+
+    \bibitem[{Leach\'{e} and Fujita(2010)}]{Leache2010}
+    Leach\'{e}, A.~D. and M.~K. Fujita. 2010. {Bayesian species delimitation in
+    West African forest geckos (Hemidactylus fasciatus).} Proceedings. Biological
+    sciences / The Royal Society 277:3071--7.
+    \bibAnnoteFile{Leache2010}
+
+    \bibitem[{Lubcke and Wilson(2007)}]{Lubcke2007}
+    Lubcke, G.~M. and D.~S. Wilson. 2007. {Variation in shell morphology of the
+      Western Pond Turtle (Actinemys marmorata Baird and Giarard) from three
+    aquativ habitats in Northern California}. Journal of Herpetology 41:107--114.
+    \bibAnnoteFile{Lubcke2007}
+
+    \bibitem[{MacLeod(2007)}]{MacLeod2007}
+    MacLeod, N. 2007. {Automated taxon identification in systematics: theory,
+    approaches and applications}. CRC Press, Boca Raton.
+    \bibAnnoteFile{MacLeod2007}
+
+    \bibitem[{Maechler et~al.(2013)Maechler, Rousseeuw, Struyf, Hubert, and
+    Hornik}]{Maechler2013}
+    Maechler, M., P.~Rousseeuw, A.~Struyf, M.~Hubert, and K.~Hornik. 2013. cluster:
+    Cluster Analysis Basics and Extensions. R package version 1.14.4.
+    \bibAnnoteFile{Maechler2013}
+
+    \bibitem[{Mitrovski-Bogdanovic et~al.(2013)Mitrovski-Bogdanovic, Petrovic,
+      Mitrovic, Ivanovic, \v{Z}ikic, Star\'{y}, Vorburger, and
+    Tomanovic}]{MitrovskiBogdanovic2013}
+    Mitrovski-Bogdanovic, A., A.~Petrovic, M.~Mitrovic, A.~Ivanovic, V.~\v{Z}ikic,
+    P.~Star\'{y}, C.~Vorburger, and v.~Tomanovic. 2013. {Identification of two
+      cryptic species within the Praon abjectum group (Hymenoptera: Braconidae:
+    Aphidiinae) using molecular markers and geometric morphometrics}. Annals of
+    the entomological society of America 106:170--180.
+    \bibAnnoteFile{MitrovskiBogdanovic2013}
+
+    \bibitem[{Mitteroecker and Bookstein(2011)}]{Mitteroecker2011}
+    Mitteroecker, P. and F.~Bookstein. 2011. {Linear Discrimination, Ordination,
+    and the Visualization of Selection Gradients in Modern Morphometrics}.
+    Evolutionary Biology 38:100--114.
+    \bibAnnoteFile{Mitteroecker2011}
+
+    \bibitem[{O'Meara(2010)}]{O'Meara2010}
+    O'Meara, B.~C. 2010. {New heuristic methods for joint species delimitation and
+    species tree inference.} Systematic biology 59:59--73.
+    \bibAnnoteFile{O'Meara2010}
+
+    \bibitem[{Padial et~al.(2010)Padial, Miralles, {De la Riva}, and
+    Vences}]{Padial2010}
+    Padial, J.~M., A.~Miralles, I.~{De la Riva}, and M.~Vences. 2010. {The
+    integrative future of taxonomy}. Frontiers in Zoology 7:1--14.
+    \bibAnnoteFile{Padial2010}
+
+    \bibitem[{Parham et~al.(2013)Parham, Papenfuss, Dijk, Wilson, Marte, Schettino,
+    and {Brian Simison}}]{Parham2013}
+    Parham, J.~F., T.~J. Papenfuss, P.~P.~V. Dijk, B.~S. Wilson, C.~Marte, L.~R.
+    Schettino, and W.~{Brian Simison}. 2013. {Genetic introgression and
+      hybridization in Antillean freshwater turtles (Trachemys) revealed by
+    coalescent analyses of mitochondrial and cloned nuclear markers.} Molecular
+    phylogenetics and evolution 67:176--87.
+    \bibAnnoteFile{Parham2013}
+
+    \bibitem[{Pfenninger and Schwenk(2007)}]{Pfenninger2007}
+    Pfenninger, M. and K.~Schwenk. 2007. {Cryptic animal species are homogeneously
+    distributed among taxa and biogeographical regions.} BMC evolutionary biology
+    7:121.
+    \bibAnnoteFile{Pfenninger2007}
+
+    \bibitem[{Polly(2003)}]{Polly2003}
+    Polly, P.~D. 2003. {Paleophylogeography of Sorex araneus: molar shape as a
+    morphological marker for fossil shrews}. Mammalia 68:233--243.
+    \bibAnnoteFile{Polly2003}
+
+    \bibitem[{Polly(2007)}]{Polly2007a}
+    Polly, P.~D. 2007. {Phylogeographic differentiation in Sorex araneus:
+    morphology in relation to geography and karyotype}. Russian Journal of
+    Theriology 6:73--84.
+    \bibAnnoteFile{Polly2007a}
+
+    \bibitem[{Polly et~al.()Polly, Stayton, Dumont, Pierce, Rayfield, and
+    Angielczyk}]{Pollyb}
+    Polly, P.~D., C.~T. Stayton, E.~R. Dumont, S.~E. Pierce, E.~J. Rayfield, and
+    K.~D. Angielczyk. ???? {Combining geometric morphometrics and finite element
+    analysis with evolutionary modeling: towards a synthesis}. Journal of
+    Vertebrate Paleontology .
+    \bibAnnoteFile{Pollyb}
+
+    \bibitem[{Pons et~al.(2006)Pons, Barraclough, Gomez-Zurita, Cardoso, Duran,
+    Hazell, Kamoun, Sumlin, and Vogler}]{Pons2006}
+    Pons, J., T.~Barraclough, J.~Gomez-Zurita, A.~Cardoso, D.~Duran, S.~Hazell,
+    S.~Kamoun, W.~Sumlin, and A.~Vogler. 2006. {Sequence-Based Species
+    Delimitation for the DNA Taxonomy of Undescribed Insects}. Systematic Biology
+    55:595--609.
+    \bibAnnoteFile{Pons2006}
+
+    \bibitem[{{R Core Team}(2015)}]{2015}
+    {R Core Team}. 2015. R: A Language and Environment for Statistical Computing. R
+    Foundation for Statistical Computing Vienna, Austria.
+    \bibAnnoteFile{2015}
+
+    \bibitem[{Rivera(2008)}]{Rivera2008}
+    Rivera, G. 2008. {Ecomorphological variation in shell shape of the freshwater
+    turtle Pseudemys concinna inhabiting different aquatic flow regimes.}
+    Integrative and comparative biology 48:769--87.
+    \bibAnnoteFile{Rivera2008}
+
+    \bibitem[{Rivera et~al.(2014)Rivera, Davis, Godwin, and Adams}]{Rivera2014}
+    Rivera, G., J.~N. Davis, J.~C. Godwin, and D.~C. Adams. 2014. {Repeatability of
+    Habitat-Associated Divergence in Shell Shape of Turtles}. Evolutionary
+    Biology Pages~29--37.
+    \bibAnnoteFile{Rivera2014}
+
+    \bibitem[{Rivera and Stayton(2011)}]{Rivera2011}
+    Rivera, G. and C.~T. Stayton. 2011. {Finite element modeling of shell shape in
+      the freshwater turtle Pseudemys concinna reveals a trade-off between
+    mechanical strength and hydrodynamic efficiency.} Journal of morphology
+    272:1192--203.
+    \bibAnnoteFile{Rivera2011}
+
+    \bibitem[{Rohlf(2005)}]{Rohlf2005}
+    Rohlf, F.~J. 2005. {TpsDig 2.04}.
+    \bibAnnoteFile{Rohlf2005}
+
+    \bibitem[{Schilck-Steiner et~al.(2007)Schilck-Steiner, Seifert, Stauffer,
+    Christian, Crozier, and Steiner}]{SchlickSteiner2007}
+    Schilck-Steiner, B.~C., B.~Seifert, C.~Stauffer, E.~Christian, R.~H. Crozier,
+    and F.~M. Steiner. 2007. {Without morphology, cryptic species stay in
+    taxonomic crypsis following discovery}. Trends in ecology \& evolution
+    22:391--392.
+    \bibAnnoteFile{SchlickSteiner2007}
+
+    \bibitem[{Seeliger(1945)}]{Seeliger1945}
+    Seeliger, L.~M. 1945. {Variation in the Pacific Mud Turtle}. Copeia
+    1945:150--159.
+    \bibAnnoteFile{Seeliger1945}
+
+    \bibitem[{Spinks and Shaffer(2005)}]{Spinks2005}
+    Spinks, P.~Q. and H.~B. Shaffer. 2005. {Range-wide molecular analysis of the
+      western pond turtle (Emys marmorata): cryptic variation, isolation by
+    distance, and their conservation implications.} Molecular ecology
+    14:2047--64.
+    \bibAnnoteFile{Spinks2005}
+
+    \bibitem[{Spinks and Shaffer(2009)}]{Spinks2009}
+    Spinks, P.~Q. and H.~B. Shaffer. 2009. {Conflicting mitochondrial and nuclear
+      phylogenies for the widely disjunct Emys (Testudines: Emydidae) species
+    complex, and what they tell us about biogeography and hybridization.}
+    Systematic biology 58:1--20.
+    \bibAnnoteFile{Spinks2009}
+
+    \bibitem[{Spinks et~al.(2014)Spinks, Thomson, and {Bradley
+    Shaffer}}]{Spinks2014}
+    Spinks, P.~Q., R.~C. Thomson, and H.~{Bradley Shaffer}. 2014. {The advantages
+      of going large: genome wide SNPs clarify the complex population history and
+    systematics of the threatened western pond turtle}. Molecular Ecology
+    Pages~n/a--n/a.
+    \bibAnnoteFile{Spinks2014}
+
+    \bibitem[{Spinks et~al.(2010)Spinks, Thomson, and Shaffer}]{Spinks2010}
+    Spinks, P.~Q., R.~C. Thomson, and H.~B. Shaffer. 2010. {Nuclear gene
+      phylogeography reveals the historical legacy of an ancient inland sea on
+    lineages of the western pond turtle, Emys marmorata in California.} Molecular
+    ecology 19:542--56.
+    \bibAnnoteFile{Spinks2010}
+
+    \bibitem[{Stayton(2011)}]{Stayton2011}
+    Stayton, C.~T. 2011. {Biomechanics on the half shell: functional performance
+      influences patterns of morphological variation in the emydid turtle
+    carapace.} Zoology (Jena, Germany) 114:213--23.
+    \bibAnnoteFile{Stayton2011}
+
+    \bibitem[{Stuart et~al.(2006)Stuart, Inger, and Voris}]{Stuart2006}
+    Stuart, B.~L., R.~F. Inger, and H.~K. Voris. 2006. {High level of cryptic
+      species diversity revealed by sympatric lineages of Southeast Asian forest
+    frogs.} Biology letters 2:470--4.
+    \bibAnnoteFile{Stuart2006}
+
+    \bibitem[{Sztencel-Jabłonka et~al.(2009)Sztencel-Jabłonka, Jones, and
+    BogdanowicZ}]{Sztencel-Jabonka2009}
+    Sztencel-Jabłonka, A., G.~Jones, and W.~BogdanowicZ. 2009. {Skull Morphology
+      of Two Cryptic Bat Species: Pipistrellus pipistrellus and P. pygmaeus — A
+    3D Geometric Morphometrics Approach with Landmark Reconstruction}. Acta
+    Chiropterologica 11:113--126.
+    \bibAnnoteFile{Sztencel-Jabonka2009}
+
+    \bibitem[{Tibshirani et~al.(2001)Tibshirani, Walther, and
+    Hastie}]{Tibshirani2001a}
+    Tibshirani, R., G.~Walther, and T.~Hastie. 2001. {Estimating the number of
+    clusters in a data set via the gap statistic}. Journal of the Royal
+    Statistical Society: Series B (Statistical Methodology) 63:411--423.
+    \bibAnnoteFile{Tibshirani2001a}
+
+    \bibitem[{{Van Bocxlaer} and Hunt(2013)}]{VanBocxlaer2013}
+    {Van Bocxlaer}, B. and G.~Hunt. 2013. {Morphological stasis in an ongoing
+    gastropod radiation from Lake Malawi}. Proceedings of the National Academy of
+    Sciences .
+    \bibAnnoteFile{VanBocxlaer2013}
+
+    \bibitem[{van~den Brink and Bokma(2011)}]{VandenBrink2011}
+    van~den Brink, V. and F.~Bokma. 2011. {Morphometric shape analysis using
+      learning vector quantization neural networks — an example distinguishing
+    two microtine vole species}. Annales Zoologici Fennici 48:359--364.
+    \bibAnnoteFile{VandenBrink2011}
+
+    \bibitem[{Venables and Ripley(2002)}]{Venables2002a}
+    Venables, W. and B.~D. Ripley. 2002. {Modern applied statistics with S}. 4th
+    ed. Springer, New York.
+    \bibAnnoteFile{Venables2002a}
+
+    \bibitem[{Liaw and Wiener(2002)}]{Liaw2002}
+    Law, A. and M. Wiener. 2002. {Classification and Regression by randomForest.} 
+    R News 2(3):18--22.
+    \bibAnnoteFile{Liaw2002}
+    
+    \bibitem[{Yang and Rannala(2010)}]{Yang2010b}
+    Yang, Z. and B.~Rannala. 2010. {Bayesian species delimitation using multilocus
+    sequence data.} Proceedings of the National Academy of Sciences 107:9264--9.
+    \bibAnnoteFile{Yang2010b}
+
+    \bibitem[{Zelditch et~al.(2004)Zelditch, Swiderski, and Sheets}]{Zelditch2004}
+    Zelditch, M.~L., D.~L. Swiderski, and H.~D. Sheets. 2004. {Geometric
+    morphometrics for biologists: a primer}. Elsevier Academic Press, Amsterdam.
+    \bibAnnoteFile{Zelditch2004}
+
+    \bibitem[{Claude(2008)}]{Claude2008}
+    Claude, J. 2004. {Morphometrics with R}. Springer-Verlang, New York.
+    \bibAnnoteFile{Claude2008}
+
+\end{thebibliography}
+
+\end{document}
