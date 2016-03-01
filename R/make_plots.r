@@ -67,7 +67,7 @@ rf.imp$gr <- mapvalues(rf.imp$gr, unique(rf.imp$gr),
                          'Nuclear', 'Mito 2', 'Mito 3'))
 
 grf <- ggplot(rf.imp, aes(x = gini, y = pc))
-grf <- grf + geom_point(size = 5)
+grf <- grf + geom_point(size = 3)
 #grf <- grf + geom_bar(stat = 'identity', width = 0.5)
 grf <- grf + facet_grid(. ~ gr)
 grf <- grf + labs(x = 'Mean decrease\nin Gini Index', 
@@ -75,7 +75,7 @@ grf <- grf + labs(x = 'Mean decrease\nin Gini Index',
 grf <- grf + theme(axis.title = element_text(size = 20),
                    axis.title.y = element_text())
 ggsave(file = '../doc/figure/var_imp.png', plot = grf,
-       width = 15, height = 5)
+       width = 8, height = 10)
 
 # selection accumulation curves
 m.auc <- llply(tm.a.analysis$auc, function(x) {
@@ -130,7 +130,7 @@ gsel <- gsel + labs(x = 'Cummulative number of\nprincipal components',
                     y = 'Value')
 gsel <- gsel + coord_cartesian(ylim = c(0.5, 1))
 ggsave(file = '../doc/figure/sel_val.png', plot = gsel,
-       width = 15, height = 10)
+       width = 10, height = 8)
 
 
 
@@ -155,20 +155,20 @@ colnames(lr) <- groups
 zz <- list(rf = oo, mn = uu, lda = vv, lrf = lr)
 dd <- melt(zz)
 names(dd)[3] <- 'val'
-gdist <- ggplot(dd, aes(x = val, fill = Var2))
+gdist <- ggplot(dd, aes(x = val))
 gdist <- gdist + geom_histogram(aes(y = ..density..),
-                                alpha = 0.3,
+                                #alpha = 0.3,
                                 size = 0.1,
                                 position = 'identity',
-                                colour = 'darkgrey',
+                                #colour = 'darkgrey',
                                 binwidth = 1/100)
 gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                    labels = c('Morph 1', 'Morph 2',
                                               'Mito 1', 'Nuclear',
                                               'Mito 2', 'Mito 3'))
-gdist <- gdist + facet_grid(L1 ~ ., labeller = labeller(L1 = gen.name))
+gdist <- gdist + facet_grid(Var2 ~ L1, labeller = labeller(L1 = gen.name))
 gdist <- gdist + labs(x = 'AUC')
-gdist <- gdist + coord_cartesian(xlim = c(0, 1))
+#gdist <- gdist + coord_cartesian(xlim = c(0, 1))
 gdist <- gdist + theme(legend.title = element_blank(),
                        legend.margin = unit(0, 'cm'),
                        legend.text = element_text(size = 6))

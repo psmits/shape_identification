@@ -15,7 +15,7 @@ library(cluster)
 source('../R/plotting_functions.r')
 source('../R/supervised_mung.r')
 
-source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
+#source_url('https://raw.github.com/JoFrhwld/FAAV/master/r/stat-ellipse.R')
 
 load('../data/cluster_res.RData')
 

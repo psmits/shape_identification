@@ -9,107 +9,37 @@ library(Metrics)
 source('../R/plotting_functions.r')
 source('../R/miss_class.r')
 
+load('../data/gen.RData')
 
-against.best <- function(wb, mods) {
-  best <- mods[[wb]]$t
-  nm <- seq(length(mods))
-  nm <- nm != wb
-  others <- mods[nm]
-  sets <- lapply(others, function(x) x$t)
-  nana <- lapply(sets, function(x) which(!is.na(x)))
-  dif <- Map(function(x, n) sum((best[n] - x[n]) > 0) / length(x[n]),
-             x = sets, n = nana)
-  dif
-}
+rr$sh1$t0
+sd(rr$sh1$t)
 
-# observed AUC values of best models
-# compared to AUC for generalization
-mm.mean <- llply(mm, function(x) as.numeric(x$t0))
-mm.comp <- data.frame(cbind(sch = names(mm.mean), 
-                            obs = laply(tm.a.analysis$auc, max)),
-                            gen = unlist(mm.mean))
+rr.comp <- data.frame(sch = names(rr), 
+                      train.mean = unlist(Map(function(x, y) x[y], 
+                                              trf.a.analysis$auc, 
+                                              trf.a.analysis$best)),
+                      test.mean = laply(rr, function(x) x$t0), 
+                      test.sd = laply(rr, function(x) sd(x$t, na.rm = TRUE)))
+mm.comp <- data.frame(sch = names(mm), 
+                      train.mean = laply(tm.a.analysis$auc, max),
+                      test.mean = laply(mm, function(x) as.numeric(x$t0)), 
+                      test.sd = laply(mm, function(x) sd(x$t, na.rm = TRUE)))
+ll.comp <- data.frame(sch = names(ll), 
+                      train.mean = laply(tl.a.analysis$auc, max),
+                      test.mean = laply(ll, function(x) x$t0), 
+                      test.sd = laply(ll, function(x) sd(x$t, na.rm = TRUE)))
+lrf.comp <- data.frame(sch = names(lrf), 
+                       train.mean = laply(trf.a.analysis$auc, max),
+                       gen.mean = laply(lrf, function(x) x$t0), 
+                       gen.sd = laply(lrf, function(x) sd(x$t, na.rm = TRUE)))
 
-rf.mean <- llply(rr, function(x) as.numeric(x$t0))
-rf.comp <- data.frame(cbind(sch = names(rf.mean), 
-                            obs = laply(trf.a.analysis$auc, max)),
-                            gen = unlist(rf.mean))
-ll.mean <- llply(ll, function(x) as.numeric(x$t0))
-ll.comp <- data.frame(cbind(sch = names(ll.mean), 
-                            obs = laply(tl.a.analysis$auc, max)),
-                            gen = unlist(ll.mean))
-comp.tab <- cbind(rf.comp, mm.comp[, -1], ll.comp[, -1])
+which.max(rr.comp[, 2]) == which.max(rr.comp[, 3])
+which.max(mm.comp[, 2]) == which.max(mm.comp[, 3])
+which.max(ll.comp[, 2]) == which.max(ll.comp[, 3])
+which.max(lrf.comp[, 2]) == which.max(lrf.comp[, 3])
+
+comp.tab <- cbind(rr.comp, mm.comp[, -1], ll.comp[, -1], lrf.comp[, -1])
 comp.tab <- xtable(comp.tab)
 label(comp.tab) <- 'comp_tab'
 print.xtable(x = comp.tab, 
              file = '../doc/comp_tab_raw.tex')
-
-
-#generalize comparisons
-best.mm <- which.max(laply(mm, function(x) mean(x$t)))
-best.rr <- which.max(laply(rr, function(x) mean(x$t)))
-best.ll <- which.max(laply(ll, function(x) mean(x$t)))
-
-mm.dif <- against.best(best.mm, mm)
-rr.dif <- against.best(best.rr, rr)
-ll.dif <- against.best(best.ll, ll)
-# is there a significant difference between the "best" scheme and the others?
-
-diff.table <- function(boot.mod, best, dif) {
-  comp <- names(boot.mod)[best]
-  means <- llply(boot.mod, function(x) as.numeric(x$t0))
-  wbest <- names(means) == comp
-  ccoo <- wbest
-  ccoo[!wbest] <- dif
-  ccoo[wbest] <- NA
-  out <- cbind(scheme = names(means), compare = unlist(ccoo))
-  xtable(out)
-}
-names(mm) <- c('Morph 1', 'Morph 2', 'Mito 1', 'Nuclear', 'Mito 2', 'Mito 3')
-names(rr) <- c('Morph 1', 'Morph 2', 'Mito 1', 'Nuclear', 'Mito 2', 'Mito 3')
-names(ll) <- c('Morph 1', 'Morph 2', 'Mito 1', 'Nuclear', 'Mito 2', 'Mito 3')
-mmdif.tab <- diff.table(mm, best.mm, mm.dif)
-label(mmdif.tab) <- 'mmdif'
-print.xtable(x = mmdif.tab,
-             file = '../doc/mm_dif_raw.tex')
-rfdif.tab <- diff.table(rr, best.rr, rr.dif)
-label(mmdif.tab) <- 'rfdif'
-print.xtable(x = rfdif.tab,
-             file = '../doc/rf_dif_raw.tex')
-lldif.tab <- diff.table(ll, best.ll, ll.dif)
-label(lldif.tab) <- 'lldif'
-print.xtable(x = lldif.tab,
-             file = '../doc/ll_dif_raw.tex')
-
-
-# miss matches
-sig.table <- function(test, groups) {
-  sig.val <- lapply(test, function(x) {
-                    x <- lapply(x, function(y) y[c(1,3)])
-                    x[names(x) != 'rm']})
-  row.nam <- llply(sig.val, names)
-  sig.tab <- llply(sig.val, function(x) Reduce(rbind, x))
-  sig.tab <- Map(function(x, y) {
-                 rownames(x) <- y
-                 x}, x = sig.tab, y = row.nam)
-  gr.nam <- unlist(Map(function(x, y) rep(y, nrow(x)), x = sig.tab, y = groups))
-  sig.tab <- Reduce(rbind, sig.tab)
-  sig.tab <- data.frame(apply(sig.tab, 2, unlist))
-  sig.tab$cat <- unlist(row.nam)
-  sig.tab$gr <- gr.nam
-  sig.tab <- sig.tab[, c(4, 3, 1, 2)]
-  sig.tab <- xtable(sig.tab)
-}
-groups <- list('Morph 1', 'Morph 2', 'Molec 1', 
-               'Nuclear', 'Molec 2', 'Molec 3')
-rfmiss.tab <- sig.table(rf.test, groups)
-label(rfmiss.tab) <- 'rfmiss'
-print.xtable(x = rfmiss.tab,
-             file = '../doc/rf_miss_raw.tex')
-mmmiss.tab <- sig.table(mm.test, groups)
-label(mmmiss.tab) <- 'mmmiss'
-print.xtable(x = mmmiss.tab,
-             file = '../doc/mm_miss_raw.tex')
-llmiss.tab <- sig.table(ll.test, groups)
-label(llmiss.tab) <- 'llmiss'
-print.xtable(x = llmiss.tab,
-             file = '../doc/ll_miss_raw.tex')

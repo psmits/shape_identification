@@ -8,6 +8,7 @@
 \usepackage[font=small]{caption}
 \usepackage{subcaption, multirow, morefloats}
 \usepackage{subcaption, wrapfig}
+\usepackage{rotating}
 \usepackage{titlesec}
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage{authblk, attrib, fullpage}
@@ -107,7 +108,7 @@ In order to test the efficacy of our approach, we analyzed two additional datase
 \subsection{Specimens, sampling, morphometrics}
 Three different landmark-based morphometric datasets describing plastron variation were assembled for this analysis: \textit{E. marmorata} specimens from across its geographic range, \textit{T. scripta} specimens from both subspecies, and specimens from seven distinct species from the Emydidae family. We chose to focus on adults because significant changes in plastron shape occur over the course of ontogeny in \textit{E. marmorata} and other emydines \citep{Angielczyk2013a}.
 
-The first dataset included 354 adult \textit{E. marmorata} museum specimens; a subset of those included in \citet{Angielczyk2007}, \citet{Angielczyk2011}, and \citet{Angielczyk2013a}. We assigned a classification to each specimen for the different binning schemes based on geographic occurrence data recorded in museum collection archives. When precise latitude and longitude information were not available we estimated them from locality information. Because \citet{Spinks2005}, \citet{Spinks2010}, and \citet{Spinks2014} did not use vouchered specimens we were not able to directly sample individuals in their studies. Therefore our specimen classifications were based solely on the geographic information, not explicit assignment using molecular data. Because the exact barriers between different biogeographic regions are unknown and unclear, we represented each hypothesis with two schemes for a total of six different schemes. The schemes differed based on where geographic boundaries were assigned. This changes the classification of certain individuals near the boundaries between groups, providing a test of the robustness of the classification schemes. Sex information was only know for a subset of the total dataset and was not included as a predictor of classification. Sex information was used to determine if observations cluster by sex or not.
+The first dataset included 354 adult \textit{E. marmorata} museum specimens; a subset of those included in \citet{Angielczyk2007}, \citet{Angielczyk2011}, and \citet{Angielczyk2013a}. We assigned a classification to each specimen for the different binning schemes based on geographic occurrence data recorded in museum collection archives. When precise latitude and longitude information were not available we estimated them from locality information. Because \citet{Spinks2005}, \citet{Spinks2010}, and \citet{Spinks2014} did not use vouchered specimens we were not able to directly sample individuals in their studies. Therefore our specimen classifications were based solely on the geographic information, not explicit assignment using molecular data. Because the exact barriers between different biogeographic regions are unknown and unclear, we represented some hypothesis with two schemes for a total of six different schemes. These schemes differed based on where geographic boundaries were assigned. This changes the classification of certain individuals near the boundaries between groups, providing a test of the robustness of the classification schemes. Sex information was only know for a subset of the total dataset and was not included as a predictor of classification. Sex information was used to determine if observations cluster by sex or not. The scheme names are as follows: Mito 1 and 2 correspond to \citet{Spinks2005}, Mito 3 corresponds to \citet{Spinks2010}, Morph 1 and Morph 2 correspond to \citet{Holland1992}, and Nuclear corresponds to \citet{Spinks2014}. 
 
 The second dataset is a compilation of XXX specimens of \textit{T. scripta} with approximately equal representation of both the \textit{T. scripta scripta} and \textit{T. scripta elegans} subspecies. This landmark data was collected specifically for this study. For the third dataset, we analyzed 578 total specimens from the following species: \textit{Emys blandigii}, \textit{Terrapene coahuila}, \textit{Clemmys guttata}, \textit{Glyptemys insculpta}, \textit{Glyptemys muhlenbergii}, \textit{Emys orbicularis}, and \textit{Terrapene ornata}. Like the first data set, these specimens are a subset of those used in \citet{Angielczyk2011} and \citet{Angielczyk2013a}.
 
@@ -132,7 +133,7 @@ We divisively clustered the shape dissimilarity matrix using partitioning around
 Only the \textit{E. marmorata} dataset was analyzed using unsupervised approaches. We conducted this analysis using the \texttt{cluster} package for R \citep{Maechler2013}.
 
 \subsubsection{Supervised learning}
-We used three different supervised learning, or classification, approaches: linear discriminate analysis, multinomial logistic regression, and random forests. Linear discriminate analysis, also known as canonical variate analysis, is commonly used in studies of geometric morphometric data \citep{Zelditch2004,Claude2008,Mitteroecker2011}. The other two methods, however, are not. The set of possible predictors included the centroid size of each specimen along with the value of that specimen along all 22 PC axes. In all cases, the optimal subset of PCs included in the final model was chosen via maximum within-sample receiver operating characteristic values, explained below.
+We used three different supervised learning, or classification, approaches: linear discriminate analysis, multinomial logistic regression, and random forests. Linear discriminate analysis, also known as canonical variate analysis, is commonly used in studies of geometric morphometric data \citep{Zelditch2004,Claude2008,Mitteroecker2011}. The other two methods, however, are not. The set of possible predictors included the centroid size of each specimen along with the value of that specimen along all 22 PC axes. In all cases, the optimal subset of PCs included in the final model was chosen via maximum within-sample receiver operating characteristic values, explained below. Additionally, all of the following models assume that each of the predictors (PC axes) are statistically independent; this is a reasonable assumption because by definition principal components are statistically independent. Using PCs as predictors in regression and classification methods is called PCA regression is a common technique for for dimensionality reduction and for accounting for correlation between variables \citep{Hastie2009}. The PCs are a coordinate system where combinations of axes and ranges of those axes can describe groupings; we are not assuming that evolution happens ``along'' PC axes \citep{Uyeda2015} but use them as a coordinate system for describing observed shapes.
 
 In classification studies, such as this one, a common metric of performance is area under the receiver operating characteristic curve (AUC). AUC is an estimate of the relationship between the false positive and true positive rates, as opposed to just the true positive rate (accuracy). This relationship is especially useful in cases such as this study where misclassification needs to be minimized just as much as an accurate classification must be obtained. AUC ranges between 0.5 and 1, with 0.5 indicating classification no better than random and 1 indicating perfect classification \citep{Hastie2009}.
 
@@ -160,14 +161,14 @@ Gap statistic values from the PAM clustering are mostly equivalent for all poten
 \begin{figure}[h]
   \centering
   \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/gap_res}
-  \caption{Results from PAM clustering of the Riemannian shape distance for 8 different number of clusters. Vertical lines are 1 standard deviation of the mean determined from 500 resamples.}
+  \caption{Results from PAM clustering of the Riemannian shape distance for 8 different number of clusters. Vertical lines are 1 standard deviation of the mean determined from 500 resamples. 354 points are plotted, some of which overlap.}
   \label{fig:gap}
 \end{figure}
 
 \begin{figure}[h]
   \centering
   \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/gap_map}
-  \caption{Comparison of geographic distribution of clustered observations from the 2 clustering PAM solution. Colour and shape correspond to each of the groups. There is clearly no geographic signal in the data.}
+  \caption{Comparison of geographic distribution of clustered observations from the 2 clustering PAM solution. Colour and shape correspond to each of the groups. There is clearly no geographic signal in the data. Points are slightly transparent as 354 points are plotted but many of them overlap.}
   \label{fig:gap_map}
 \end{figure}
 
@@ -176,56 +177,56 @@ Gap statistic values from the PAM clustering are mostly equivalent for all poten
 % model selection/fit
 AUC--based model selection revealed some important patterns of variation and congruence between the classification schemes and the actual data. Generally, the best performing models tended to include as many PCs as possible (Fig. \ref{fig:sel}). Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained. That almost all LDA and multinomial logistic regression models were as complex as possible indicates that the differences between the different groups within each classification scheme are very small.
 
+As part of fitting a random forest model, a ranking of variable importance also is determined. Interestingly, the order of variable importance is not the same as the order of the PCs (Fig. \ref{fig:var_imp}). This means that the variance describing the differences between the classes does not align with the major axes of variance (i.e. the PCs). Such a result is expected if variation between classes was extremely fine grained and not a part of the principal form or function of the plastron. Moreover, this result is consistent with the results from the AUC--based model selection for the multinomial logistic regression and LDA models.
+
+Observed AUC values for all of the optimal models are not exceptionally high (Fig. \ref{fig:sel}). In most cases the different proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set (Fig. \ref{fig:gen_hist}).
+
+Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). The  cases in which the AUC from the  generalizations is less than the observed indicate poor model fit and a poor classification scheme. Comparison of AUC values from the model generalizations do not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). 
+
 \begin{figure}[h]
   \centering
-  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/var_imp}
+  \includegraphics[height = 0.8\textheight, width = 0.8\textwidth, keepaspectratio = true]{figure/var_imp}
   \caption{Variable importance from the random forest models for each of the six classification schemes. Importance is measured as the mean decrease in Gini Index, which is a measure of the strength by which that variable determines CART structure. Indices that are farther to the right indicate greater variable importance.}
   \label{fig:var_imp}
 \end{figure}
 
-As part of fitting a random forest model, a ranking of variable importance also is determined. Interestingly, the order of variable importance is not the same as the order of the PCs (Fig. \ref{fig:var_imp}). This means that the variance describing the differences between the classes does not align with the major axes of variance (i.e. the PCs). Such a result is expected if variation between classes was extremely fine grained and not a part of the principal form or function of the plastron. Moreover, this result is consistent with the results from the AUC--based model selection for the multinomial logistic regression and LDA models.
-
 \begin{figure}[ht]
   \centering
-  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/gen_res}
-  \caption{Bootstrap distributions for genearlized AUC values for each of the classification schemes. Each row corresponds to a different modeling approach: multinomial logistic regression (MLR), random forest (RF), linear discriminate analysis (LDA), and LDA using best variables from random forest. Each distribution corresponds to 1000 bootstrap replicates.}
+  \includegraphics[height = 0.8\textheight, width = \textwidth, keepaspectratio = true]{figure/gen_res}
+  \caption{Bootstrap distributions for genearlized AUC values for each of the classification schemes. Columns correspond to different modeling approachs: multinomial logistic regression (MLR), random forest (RF), linear discriminate analysis (LDA), and LDA using best variables from random forest. Rows correspond to different classification schemes. Each distribution corresponds to 1000 bootstrap replicates.}
   \label{fig:gen_hist}
 \end{figure}
 
-Observed AUC values for all of the optimal models are not exceptionally high (Fig. \ref{fig:sel}). In most cases the different proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set (Fig. \ref{fig:gen_hist}).
-
 \begin{figure}[ht]
   \centering
-  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/sel_val}
+  \includegraphics[height = 0.8\textheight, width = 0.8\textwidth, keepaspectratio = true]{figure/sel_val}
   \caption{Graphical representation of the AUC values from model selection for multinomial logistic regression and linear discriminate analysis, respectively. AUC model selection is based on greatest AUC value. The horizontal axis corresponds to the cummulative number of axes included in the model of interest. A highlighted point corresponds to the AUC best model for that classification scheme.}
   \label{fig:sel}
 \end{figure}
 
-\begin{table}[ht]
+\clearpage
+
+\begin{sidewaystable}[ht]
   \centering
   \caption{AUC values for the best model of each classification scheme for both the observed (training) data and the generalized (testing) data. Results from all three different supervised learning approaches are shown here. AUC values range between 0.5 and 1. }
-  \begin{tabular}{ l | c c | c c | c c }
+  \begin{tabular}{l | r r r | r r r | r r r | r r r }
     \hline
-    & \multicolumn{2}{| l |}{random forest} & 
-    \multicolumn{2}{| l |}{multinomial logistic regression} & 
-    \multicolumn{2}{| l}{linear discriminate analysis} \\
-    Scheme & Observed & Generalized & Observed & Generalized & Observed & Generalized \\ 
+    Scheme & \multicolumn{3}{c |}{RF} & \multicolumn{3}{c |}{MLR} & \multicolumn{3}{c |}{LDA} & \multicolumn{3}{c}{LDA + RF} \\
+    & Train & Test & SD(Test) & Train & Test & SD(Test) & Train & Test & SD(Test) & Train & Test & SD(Test) \\ 
     \hline
-    \hline
-    Morph 1 & 0.63 & 0.73 & 0.75 & 0.79 & 0.75 & 0.80 \\ 
-    Morph 2 & 0.61 & 0.58 & 0.76 & 0.77 & 0.76 & 0.77 \\ 
-    Mito 1& 0.63 & 0.62 & 0.75 & 0.63 & 0.75 & 0.63 \\ 
-    Mito 2 & 0.77 & 0.67 & 0.80 & 0.64 & 0.80 & 0.63 \\ 
-    Mito 3 & 0.56 & 0.64 & 0.71 & 0.74 & 0.71 & 0.73 \\ 
-    Nuclear & 0.56 & 0.67 & 0.74 & 0.62 & 0.74 & 0.77 \\ 
-    \hline
-  \end{tabular}
+    Mito 1 & 0.67 & 0.74 & 0.05 & 0.90 & 0.67 & 0.10 & 0.87 & 0.73 & 0.05 & 0.67 & 0.73 & 0.05 \\ 
+    Mito 2 & 0.77 & 0.70 & 0.05 & 0.91 & 0.58 & 0.05 & 0.89 & 0.73 & 0.05 & 0.77 & 0.74 & 0.05 \\ 
+    Mito 3 & 0.74 & 0.66 & 0.05 & 0.91 & 0.54 & 0.05 & 0.88 & 0.65 & 0.05 & 0.74 & 0.66 & 0.05 \\ 
+    Morph 1 & 0.81 & 0.71 & 0.06 & 0.86 & 0.73 & 0.05 & 0.85 & 0.74 & 0.05 & 0.81 & 0.79 & 0.05 \\ 
+    Morph 2 & 0.68 & 0.72 & 0.05 & 0.89 & 0.67 & 0.04 & 0.86 & 0.73 & 0.05 & 0.68 & 0.72 & 0.05 \\ 
+    Nuclear & 0.64 & 0.63 & 0.06 & 0.84 & 0.59 & 0.06 & 0.82 & 0.58 & 0.06 & 0.64 & 0.58 & 0.08 \\ 
+   \hline
+\end{tabular}
   \label{tab:comp}
-\end{table}
-
-Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Table \ref{tab:comp}). The  cases in which the AUC from the  generalizations is less than the observed indicate poor model fit and a poor classification scheme. Comparison of AUC values from the model generalizations do not indicate a clear ``best'' classification scheme (Fig. \ref{fig:gen_hist}). 
+\end{sidewaystable}
 
 
+\clearpage
 \subsection{Results from other datasets}
 
 In contrast to the muddled results from the analysis of \textit{E. marmorata}, the analysis of \textit{T. scripta scripta} to \textit{T. scripta elegans} indicates that these two subspecies are morphologically distinct enough to be classified with near perfect accuracy (Table \ref{tab:second_res}, with both in-sample and out-of-sample classification having AUC values of approximately 1 for all methods. The analysis of the seven morphologically-distinct species also demonstrates near perfect classification of both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). 
@@ -271,13 +272,14 @@ For both datasets, the distribution of ROC scores from 1000 bootstrap replicates
 
 \begin{figure}[ht]
   \centering
-  \begin{subfigure}[h]{0.45\linewidth}
-    \includegraphics[height = 0.3\textheight, width = \textwidth, keepaspectratio = true]{figure/trach_boot}
+  \begin{subfigure}[h]{0.8\linewidth}
+    \includegraphics[height = 0.8\textheight, width = \textwidth, keepaspectratio = true]{figure/trach_boot}
     \caption{\textit{Tracheyms}}
     \label{fig:trach_boot}
   \end{subfigure}
-  \begin{subfigure}[h]{0.45\linewidth}
-    \includegraphics[height = 0.3\textheight, width = \textwidth, keepaspectratio = true]{figure/seven_boot}
+  \\
+  \begin{subfigure}[h]{0.8\linewidth}
+    \includegraphics[height = 0.8\textheight, width = \textwidth, keepaspectratio = true]{figure/seven_boot}
     \caption{Seven}
     \label{fig:seven_boot}
   \end{subfigure}
@@ -779,8 +781,14 @@ Data collection for this project was supported in part by NSF DBI-0306158 (to KD
     \bibitem[{{Van Bocxlaer} and Hunt(2013)}]{VanBocxlaer2013}
     {Van Bocxlaer}, B. and G.~Hunt. 2013. {Morphological stasis in an ongoing
     gastropod radiation from Lake Malawi}. Proceedings of the National Academy of
-    Sciences .
+    Sciences 110:13892--13897.
     \bibAnnoteFile{VanBocxlaer2013}
+    
+    \bibitem[{Uyeda et~al.(2008)Uyeda, Caetano, and Pennell}]{Uyeda2015}
+    Uyeda, Josef C., D.~S.~Caetano and M.~W.~Pennell, {Comparative Analysis of 
+    Principal Components Can be Misleading}. Systematic Biology 64:677--689.
+    \bibAnnoteFile{Uyeda2015}
+    
 
     \bibitem[{van~den Brink and Bokma(2011)}]{VandenBrink2011}
     van~den Brink, V. and F.~Bokma. 2011. {Morphometric shape analysis using
@@ -811,6 +819,7 @@ Data collection for this project was supported in part by NSF DBI-0306158 (to KD
     \bibitem[{Claude(2008)}]{Claude2008}
     Claude, J. 2004. {Morphometrics with R}. Springer-Verlang, New York.
     \bibAnnoteFile{Claude2008}
+    
 
 \end{thebibliography}
 
