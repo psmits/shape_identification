@@ -54,10 +54,9 @@ psmits@uchicago.edu}
 
 
   \textbf{14) Lines 299-305: As you note, figure 2 shows that the solution with two groupings has the greatest mean gap statistic, so I think it’s misleading to cite Fig. 2 when asserting that ``Comparison of gap statistic values from PAM clustering show that the optimal, minimal number of clusters is most likely one''. I understand the argument about the lack of a geographic signal, but unless I am severely misunderstanding something (always possible), Fig. 2, by itself, tells me two groupings is best. This needs to be clarified. }
-
-  %
-  %
-  %
+  
+  The results of PAM clustering have been clarified. The biggest detail is remembering the confidence intervals around the mean. In the previous draft, only a single standard deviation was plotted which may lead to confusion. We've changed this so that two standard deviations are plotted as confidence intervals; this makes the result that no single classification scheme is optimal much more obvious.
+ 
 
   \textbf{15) Line 308: Should be ``best-performing models''\\
     16) Line 309: ``as possible 6)'' -- ??? \\
@@ -117,24 +116,25 @@ psmits@uchicago.edu}
 
   \textbf{I have two primary criticisms of the paper. First, the presentation of some material is not always conducive to a reader’s full understanding of this study. Aside from numerous typos or grammatical issues (see below), in some cases the material presented is incomplete, or not given enough context for the reader to understand. The major issues for me were as follows: the Results section contains multiple numbers in parentheses - are these supposed to refer to figure numbers? It would seem like they are, and that the authors just neglected to put ``Fig.'' in front, but they don’t show up in the proper order, so I can’t be sure. ``AUC'' first shows up in line 212 but is not defined until 251; it should be defined at its first appearance. Table 1 provides abbreviations for a series of ``Schemes'', but I can’t find in the text where such schemes are explicitly described. The authors should provide this information (``Morph 1'' corresponds to X classification in Y reference, for example). }
 
-  %
-  %
-  %
+  
+  These typographic errors and content omissions were fixed where applicable. Additionally, the sources of the schemes have been identified early in the Methods section.
+ 
 
   \textbf{Figure 3 purports to show the geographic distribution of groups arrived at for a certain solution; however, I’m pretty sure that I don’t see 354 points, which would correspond to all of the specimens in the data set. And this made me question my earlier assumption that the input for the grouping methods consisted of data for individual turtles. If the input matrices consisted of something else, like means for a given locality, the authors should state this. And it does make sense that the clustering should be performed on mean values; otherwise, it seems like some of the first clusters to come out, at least of the unsupervised approaches, would just separate males and females. So the authors should describe how they handled the issue of sexual dimorphism in plastron shape (well-known in many turtle species) in E. marmorata. }
 
- %
- %
- %
+  354 points are plotted it is just that many of them are plotted on top of each other. We've made these points slightly transparent to help understand how many points there are and where they occur.
 
-  \textbf{My second criticism has to do with the choice of data set for the author’s ``clear-cut example''. In one view, this study doesn’t need a ``clear-cut'' example for comparison at all. This is the case if the question of the study is: ``Is there evidence for morphological differentiation in the plastra of E. marmorata, consistent with some previously-proposed classifications?'' But on another view, an appropriate comparator is necessary. This is the case if the question of the study is: ``Is there as much evidence in the plastra of E. marmorata for grouping members of this species into multiple subspecies, as there is in other turtle species which have already been grouped into multiple subspecies?''. And of course, a comparator is also necessary to answer the question: ``Can the methods used in this paper ever produce a taxonomically-appropriate clustering?''\\
-    The authors clearly intend the latter for their study. They almost could not have chosen a set of taxa better-suited to successfully finding differences (maybe not at all within a given subfamily of turtles). The species they have chosen differ in pretty much all of the major factors that are known to affect the plastra of turtles: size, plastral kinesis, habitat, and degree of phylogenetic relatedness. Perhaps this is why they chose the taxa that they did, but if so, then I’m not sure that the results are particularly germane to the rest of the analyses. Of course the methods will produce an appropriate grouping for that set of taxa - I cannot imagine any published methods not doing so. So these results don’t really provide a useful comparator with the E. marmorata groupings; they just show that the methods used aren’t utterly abysmal. \\
-    Instead, I think that the authors need to be able to answer the second question that I proposed above. They need to be able to show that these methods can successfully group turtle plastra which show the same magnitude of variation that is expected in subspecies or recently-diverged species or cryptic species in related groups. Grouping species within Emydinae won’t provide this. I’m not sure what the best comparisons would be. Perhaps Chrysemys subspecies, or C. picta versus C. dorsalis. Perhaps Terrapene species or subspecies. But the authors should pick and justify an appropriate comparison. And if the methods cannot successfully group these taxa either, then the relevance of their failure to group E. marmorata will be put in its proper context. \\
+  Additionally, we've tested if the two-cluster PAM solution corresponded to the sexes of the specimens. While we did not have complete sex information for every specimen, we found that this clustering solution has no correspondence with sex. 
+ 
+
+  \textbf{My second criticism has to do with the choice of data set for the author’s ``clear-cut example''. In one view, this study doesn’t need a ``clear-cut'' example for comparison at all. This is the case if the question of the study is: ``Is there evidence for morphological differentiation in the plastra of E. marmorata, consistent with some previously-proposed classifications?'' But on another view, an appropriate comparator is necessary. This is the case if the question of the study is: ``Is there as much evidence in the plastra of E. marmorata for grouping members of this species into multiple subspecies, as there is in other turtle species which have already been grouped into multiple subspecies?''. And of course, a comparator is also necessary to answer the question: ``Can the methods used in this paper ever produce a taxonomically-appropriate clustering?''\\\\
+    The authors clearly intend the latter for their study. They almost could not have chosen a set of taxa better-suited to successfully finding differences (maybe not at all within a given subfamily of turtles). The species they have chosen differ in pretty much all of the major factors that are known to affect the plastra of turtles: size, plastral kinesis, habitat, and degree of phylogenetic relatedness. Perhaps this is why they chose the taxa that they did, but if so, then I’m not sure that the results are particularly germane to the rest of the analyses. Of course the methods will produce an appropriate grouping for that set of taxa - I cannot imagine any published methods not doing so. So these results don’t really provide a useful comparator with the E. marmorata groupings; they just show that the methods used aren’t utterly abysmal. \\\\
+    Instead, I think that the authors need to be able to answer the second question that I proposed above. They need to be able to show that these methods can successfully group turtle plastra which show the same magnitude of variation that is expected in subspecies or recently-diverged species or cryptic species in related groups. Grouping species within Emydinae won’t provide this. I’m not sure what the best comparisons would be. Perhaps Chrysemys subspecies, or C. picta versus C. dorsalis. Perhaps Terrapene species or subspecies. But the authors should pick and justify an appropriate comparison. And if the methods cannot successfully group these taxa either, then the relevance of their failure to group E. marmorata will be put in its proper context. \\\\
   The paper is otherwise strong. Again, I think the authors did an excellent job of synthesizing results from multiple methods, and the study is important (and, needless to say, appropriate for Systematic Biology). But I think the authors need to clean up their presentation and choose a more appropriate comparison or validation of the relevance of their results. }
 
-  %
-  %
-  %
+  You are correct that our goal was the to address the second question. Following your suggestion, we've included an additional dataset looking at plastron shape variation between the two subspecies \textit{Trachemys scripta}. Between these two additional datasets we believe we have demonstrated that our approach can work when classes are actually distinct. 
+  
+  
 
   \textbf{Minor editorial comments follow. Line numbers are provided, along with suggested corrections: \\
     15 - what is meant by an ``appropriate'' signal? \\
