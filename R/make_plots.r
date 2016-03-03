@@ -67,7 +67,7 @@ rf.imp$gr <- mapvalues(rf.imp$gr, unique(rf.imp$gr),
                          'Nuclear', 'Mito 2', 'Mito 3'))
 
 grf <- ggplot(rf.imp, aes(x = gini, y = pc))
-grf <- grf + geom_point(size = 3)
+grf <- grf + geom_point(size = 2)
 #grf <- grf + geom_bar(stat = 'identity', width = 0.5)
 grf <- grf + facet_grid(. ~ gr)
 grf <- grf + labs(x = 'Mean decrease\nin Gini Index', 
@@ -127,7 +127,7 @@ gsel <- gsel + geom_point(data = maxes,
                           mapping = aes(x = n, y = x), shape = 1,
                           size = 8)
 gsel <- gsel + labs(x = 'Cummulative number of\nprincipal components', 
-                    y = 'Value')
+                    y = 'AUC')
 gsel <- gsel + coord_cartesian(ylim = c(0.5, 1))
 ggsave(file = '../doc/figure/sel_val.png', plot = gsel,
        width = 10, height = 8)
@@ -155,9 +155,13 @@ colnames(lr) <- groups
 zz <- list(rf = oo, mn = uu, lda = vv, lrf = lr)
 dd <- melt(zz)
 names(dd)[3] <- 'val'
+
+dd$Var2 <- as.character(dd$Var2)
+dd$Var2 <- mapvalues(dd$Var2, unique(dd$Var2), 
+                     c('Morph 1', 'Morph 2', 'Mito 1', 'Nuclear', 'Mito 2', 'Mito 3'))
+
 gdist <- ggplot(dd, aes(x = val))
-gdist <- gdist + geom_histogram(aes(y = ..density..),
-                                #alpha = 0.3,
+gdist <- gdist + geom_histogram(#alpha = 0.3,
                                 size = 0.1,
                                 position = 'identity',
                                 #colour = 'darkgrey',
@@ -167,7 +171,7 @@ gdist <- gdist + scale_fill_manual(name = '', values = cbp,
                                               'Mito 1', 'Nuclear',
                                               'Mito 2', 'Mito 3'))
 gdist <- gdist + facet_grid(Var2 ~ L1, labeller = labeller(L1 = gen.name))
-gdist <- gdist + labs(x = 'AUC')
+gdist <- gdist + labs(x = 'AUC', y = 'Count')
 #gdist <- gdist + coord_cartesian(xlim = c(0, 1))
 gdist <- gdist + theme(legend.title = element_blank(),
                        legend.margin = unit(0, 'cm'),
