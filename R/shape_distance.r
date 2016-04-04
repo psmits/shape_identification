@@ -9,8 +9,8 @@ riem.matrix <- function(config) {
   n <- dim(config)[3]
 
   pr <- combn(n, 2)
-  dis <- apply(pr, 2, function(x) riemdist(config[, , x[1]], 
-                                           config[, , x[2]]))
+  dis <- apply(pr, 2, function(x) ssriemdist(config[, , x[1]], 
+                                             config[, , x[2]]))
   mat <- matrix(ncol = n, nrow = n)
   for(ii in seq(ncol(pr))) {
     mat[pr[1, ii], pr[2, ii]] <- dis[ii]

@@ -126,6 +126,9 @@ The second dataset is a compilation of 101 specimens of \textit{T. scripta}: 51 
 Following previous work on plastron shape \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, we used TpsDig 2.04 \citep{Rohlf2005} to digitize 19 landmarks (Fig. \ref{fig:plastra}). Seventeen of the landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the plastron. Twelve of the landmarks were symmetrical across the axis of symmetry. Because damage prevented the digitization of all the symmetric landmarks in some specimens, we reflected landmarks across the axis of symmetry (i.e. midline) prior to analysis and used the average position of each symmetrical pair. In cases where damage or incompleteness prevented symmetric landmarks from being determined, we used only the single member of the pair. We conducted all subsequent analyses on the resulting ``half'' plastra. We superimposed the plastral landmark configurations using generalized Procrustes analysis \citep{Dryden1998a}, after which, we calculated the principal components (PC) of shape using the \texttt{shapes} package for R \citep{2015,Dryden2013}.
 
 
+We estimated the possible effect of digitization error CITATIONS on our results by comparing within (replicated) specimen Procrustes distances to the distances between classification scheme centroids. 10 randomly selected specimen both for this study and an additional four times. These 50 landmark configurations were then Procrustes superimposed. A range of four Procrustes distances were then calculated as the distance between the original configutation and each replicate configuration. These distances were then compared to the Procrustes distances between the centroids of the different classification schemes of \textit{E. marmorata} being analyzed.
+
+
 \subsection{Machine learning analyses}
 \subsubsection{Unsupervised learning}
 In order to preserve the relationship between all landmark configurations in shape space, we measured the dissimilarity between observations using Kendall's Riemannian shape distance or \(\rho\) \citep{Kendall1984a,Dryden1998a}. We chose this metric because shape space, or the set of all possible shape configurations following Procrustes superimposition, is a Riemannian manifold and thus non-Euclidean \citep{Dryden1998a}. \(\rho\) varies between 0 and \(\pi / 2\) when there is no reflection invariance, which should not be a concern in the case of the half plastral landmark configurations used in the study.
@@ -157,6 +160,14 @@ Supervised learning methods were applied to all three datasets.
 
 
 \section{Results}
+
+\subsection{Effect of digitization}
+
+% within specimen (between replicates) procrustes distance
+% between specimens and centroid procrustes distance for each classification scheme
+% what graphs if any?
+%   just put them in an online appendix?
+
 
 \subsection{Unsupervised learning}
 
