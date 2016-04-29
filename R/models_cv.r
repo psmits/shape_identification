@@ -6,6 +6,7 @@ library(mda)
 library(kernlab)
 library(caret)
 library(parallel)
+library(reshape2)
 library(doParallel)
 source('../R/caret_funcs.r')
 source('../R/multiclass_roc.r')
@@ -68,23 +69,38 @@ adult$spinks <- LETTERS[adult$spinks]
 schemes <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
 meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
 
-results <- list()
-for(ii in seq(length(meth))) {
-  results[[ii]] <- use.model(method = meth[ii],
-                             adult = adult, 
-                             scheme = schemes,
-                             npred = 25)
-}
-names(results) <- meth
-save(results, file = '../data/model_cv_results.rdata')
+#results <- list()
+#for(ii in seq(length(meth))) {
+#  results[[ii]] <- use.model(method = meth[ii],
+#                             adult = adult, 
+#                             scheme = schemes,
+#                             npred = 25)
+#}
+#names(results) <- meth
+#save(results, file = '../data/model_cv_results.rdata')
+load('../data/model_cv_results.rdata')
 
-#oo <- use.model(method = meth[1], adult = adult, scheme = schemes)
-#llply(oo$training, function(x) laply(x, function(y) y$results[c('ROC', 'ROCSD')]))
+roc.out <- llply(results, function(oo) 
+                 llply(oo$training, function(x) 
+                       laply(x, function(y) y$results[c('ROC', 'ROCSD')])))
+names(roc.out) <- meth
 
+roc.melt <- llply(roc.out, function(l) 
+                  Reduce(rbind, Map(function(x, y) 
+                                    cbind(npred = seq(nrow(x)), scheme = y, x), 
+                                    l, schemes)))
+roc.melt <- Reduce(rbind, Map(function(x, y) 
+                              cbind(model = y, x), roc.melt, meth))
 
-# use to calculate ROC using allvone
-#get.testing <- Map(function(y, z, w) 
-#                   laply(y, function(x) 
-#                         allvone(x, oo$testing.dataset[[w]][, z])), 
-#                   y = oo$testing, z = schemes, w = length(schemes))
+roc.melt <- apply(roc.melt, 2, unlist)
+roc.melt <- data.frame(roc.melt)
+roc.melt$npred <- as.numeric(as.character(roc.melt$npred))
+roc.melt$ROC <- as.numeric(as.character(roc.melt$ROC))
+roc.melt$ROCSD <- as.numeric(as.character(roc.melt$ROCSD))
 
+roc.melt$ROCmin <- roc.melt$ROC - roc.melt$ROCSD
+roc.melt$ROCmax <- roc.melt$ROC - roc.melt$ROCSD
+
+roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
+roc.plot <- roc.plot + geom_pointrange(aes(ymin = ROCmin, ymax = ROCmax))
+roc.plot <- roc.plot + facet_grid(model ~ scheme)
