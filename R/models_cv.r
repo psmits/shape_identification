@@ -75,7 +75,8 @@ for(ii in seq(length(meth))) {
                              scheme = schemes,
                              npred = 25)
 }
-
+names(results) <- meth
+save(results, file = '../data/model_cv_results.rdata')
 
 #oo <- use.model(method = meth[1], adult = adult, scheme = schemes)
 #llply(oo$training, function(x) laply(x, function(y) y$results[c('ROC', 'ROCSD')]))
