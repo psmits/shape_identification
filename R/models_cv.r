@@ -152,3 +152,14 @@ oos.roc <- Map(function(a, b)
                unlist(Map(function(x, y, z) allvone(x, y[, z]), 
                           a, b$testing.dataset, schemes)),
                test.pred, results)
+oos.melt <- Reduce(rbind, Map(function(x, y) 
+                              cbind(model = y, scheme = schemes, value = x), 
+                              oos.roc, meth))
+oos.melt <- data.frame(oos.melt)
+oos.melt$value <- as.numeric(as.character(oos.melt$value))
+oos.mean <- ddply(oos.melt, .(scheme), summarize, mean = mean(value))
+
+oos.plot <- ggplot(oos.melt, aes(x = model, y = value))
+oos.plot <- oos.plot + geom_point() + facet_grid(. ~ scheme)
+oos.plot <- oos.plot + geom_hline(data = oos.mean, 
+                                  mapping = aes(yintercept = mean))
