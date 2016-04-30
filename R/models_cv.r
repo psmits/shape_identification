@@ -107,10 +107,40 @@ roc.melt$ROCSD <- as.numeric(as.character(roc.melt$ROCSD))
 roc.melt$ROCmin <- roc.melt$ROC - roc.melt$ROCSD
 roc.melt$ROCmax <- roc.melt$ROC - roc.melt$ROCSD
 
+# add point for "best" and "selected"
+high.melt <- Reduce(rbind, Map(function(x, y, z) 
+                               cbind(model = x, npred = y, scheme = schemes), 
+                               meth, high.roc))
+high.melt <- cbind(high.melt, 
+                   melt(Map(function(a, b) 
+                            unlist(Map(function(x, y) x[y, 1], a, b)), 
+                            roc.out, high.roc)))
+high.melt$npred <- as.numeric(as.character(high.melt$npred))
+
+# select
+selc.melt <- Reduce(rbind, Map(function(x, y, z) 
+                               cbind(model = x, npred = y, scheme = schemes), 
+                               meth, select.roc))
+selc.melt <- cbind(selc.melt, 
+                   melt(Map(function(a, b) 
+                            unlist(Map(function(x, y) x[y, 1], a, b)), 
+                            roc.out, select.roc)))
+selc.melt$npred <- as.numeric(as.character(selc.melt$npred))
+
+
 roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
 roc.plot <- roc.plot + geom_pointrange(aes(ymin = ROCmin, ymax = ROCmax))
+roc.plot <- roc.plot + geom_line()
 roc.plot <- roc.plot + facet_grid(model ~ scheme)
 
+roc.plot <- roc.plot + geom_point(data = high.melt, 
+                                  mapping = aes(x = npred, y = value, 
+                                                ymin = NULL, ymax = NULL), 
+                                  colour = 'blue')
+roc.plot <- roc.plot + geom_point(data = selc.melt, 
+                                  mapping = aes(x = npred, y = value, 
+                                                ymin = NULL, ymax = NULL), 
+                                  colour = 'red')
 
 
 # out of sample roc from test
