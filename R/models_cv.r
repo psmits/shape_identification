@@ -6,6 +6,8 @@ library(mda)
 library(kernlab)
 library(caret)
 library(parallel)
+library(pROC)
+library(boot)
 library(reshape2)
 library(doParallel)
 source('../R/caret_funcs.r')
@@ -80,10 +82,14 @@ meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
 #save(results, file = '../data/model_cv_results.rdata')
 load('../data/model_cv_results.rdata')
 
+# in sample roc from cv
 roc.out <- llply(results, function(oo) 
                  llply(oo$training, function(x) 
                        laply(x, function(y) y$results[c('ROC', 'ROCSD')])))
 names(roc.out) <- meth
+high.roc <- llply(roc.out, function(y) laply(y, function(x) which.max(x[, 1])))
+select.roc <- llply(high.roc, function(x) ifelse(x == 1, x, x - 1))
+
 
 roc.melt <- llply(roc.out, function(l) 
                   Reduce(rbind, Map(function(x, y) 
@@ -104,3 +110,15 @@ roc.melt$ROCmax <- roc.melt$ROC - roc.melt$ROCSD
 roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
 roc.plot <- roc.plot + geom_pointrange(aes(ymin = ROCmin, ymax = ROCmax))
 roc.plot <- roc.plot + facet_grid(model ~ scheme)
+
+
+
+# out of sample roc from test
+# with best model
+test.pred <- Map(function(a, b) Map(function(x, y) y[[x]], a, b$testing), 
+                 select.roc, results)
+ 
+oos.roc <- Map(function(a, b) 
+               unlist(Map(function(x, y, z) allvone(x, y[, z]), 
+                          a, b$testing.dataset, schemes)),
+               test.pred, results)
