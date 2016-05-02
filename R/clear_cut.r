@@ -20,22 +20,12 @@ library(scales)
 # source files
 source('../R/array2df.r')
 source('../R/df2array.r')
-source('../R/shape_distance.r')
 source('../R/caret_funcs.r')  # helper functions for train
 source('../R/support_functions.r')
-source('../R/multi_funcs.r')
 source('../R/multiclass_roc.r')
+source('../R/train_and_test.r')
 
-# plot settings
-theme_set(theme_bw())
-cbp <- c('#E69F00', '#56B4E9', '#009E73', '#F0E442', 
-         '#0072B2', '#D55E00', '#CC79A7')
-theme_update(axis.text = element_text(size = 20),
-             axis.title = element_text(size = 30),
-             legend.text = element_text(size = 25),
-             legend.title = element_text(size = 26),
-             legend.key.size = unit(2, 'cm'),
-             strip.text = element_text(size = 20))
+turt.out <- list()
 
 # actually start doing analysis...
 newturt <- list.files('../data/new_turtle', 
@@ -51,166 +41,156 @@ turt.align <- df2array(turt, n.land = 26, n.dim = 2)
 turt.proc <- procGPA(turt.align)
 turt.scores <- turt.proc$scores
 
-
+centroids <- scale(unlist(centroids))
 turt.name <- laply(str_split(newturt, '\\/'), function(x) x[length(x)])
 turt.name <- str_trim(str_extract(turt.name, '\\s(.*?)\\s'))
-turt.scores <- data.frame(name = rep(turt.name, times = laply(numbers, nrow)), 
-                          unlist(centroids), turt.scores)
+turt.out[[1]] <- data.frame(sp = rep(turt.name, 
+                                        times = laply(numbers, nrow)), 
+                               size = centroids,
+                               inter = (centroids * turt.scores[, 1]),
+                               turt.scores, stringsAsFactors = FALSE)
+
+trac <- list.files('../data/trach', pattern = 'txt', full.names = TRUE)
+turt <- llply(trac, function(x) 
+              read.table(x, header = FALSE, stringsAsFactors = FALSE))
+# lands...., centroid
+centroids <- scale(unlist(llply(turt, function(x) x[, ncol(x)])))
+ids <- Reduce(c, Map(function(x, y) 
+                     rep(y, times = nrow(x)), 
+                     x = turt, y = c('a', 'b')))
+turt <- llply(turt, function(x) x[, -(ncol(x))])
+turt <- Reduce(rbind, turt)
+turt.align <- df2array(turt, n.land = 26, n.dim = 2)
+turt.proc <- procGPA(turt.align)
+turt.scores <- turt.proc$scores
+
+turt.out[[2]] <- data.frame(sp = ids, size = centroids,
+                               inter = (centroids * turt.scores[, 1]),
+                               turt.scores, stringsAsFactors = FALSE)
 
 
-# supervised learning
-max.ad <- nrow(turt.scores) / 10
-max.ad <- min(c(max.ad, 26 - 3))
-part <- createDataPartition(turt.scores[, 1], p = 0.75)[[1]]
-train <- turt.scores[part, ]
-test <- turt.scores[-part, ]
+meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
+schemes <- c('cc7', 'trac')
+#results <- list()
+#for(ii in seq(length(meth))) {
+#  results[[ii]] <- abrv.model(method = meth[ii], 
+#                              adult = turt.out, 
+#                              scheme = schemes, 
+#                              npred = 25)
+#}
+#names(results) <- meth
+#save(results, file = '../data/others_cv_results.rdata')
+load('../data/others_cv_results.rdata')
 
-# go over all theoretical fits based on max pred
-fort.fit <- rfe(x = train[, seq(from = 2, to = max.ad + 2)], 
-                 y = train[, 1], 
-                 rfeControl = rf.ctrl, ntree = 100, metric = 'ROC', 
-                 sizes = 1:max.ad)
-lda.fit <- list()
-for(ii in seq(from = 2, to = max.ad)) {
-  lda.fit[[ii - 1]] <- lda(train[, seq(from = 2, to = ii + 2)], train[, 1])
+
+# in sample roc from cv
+roc.out <- llply(results, function(oo) 
+                 llply(oo$training, function(x) 
+                       laply(x, function(y) y$results[c('ROC', 'ROCSD')])))
+names(roc.out) <- meth
+roc.out <- llply(roc.out, function(x) llply(x, function(y) apply(y, 2, unlist)))
+high.roc <- llply(roc.out, function(y) laply(y, function(x) which.max(x[, 1])))
+
+
+# this is all to make sure i get the most parsimonious within one SE of best
+min.grab <- list()
+for(ii in seq(length(roc.out))) {
+  hold <- list()
+  for(jj in seq(length(schemes))) {
+    hold[[jj]] <- diff(rev(roc.out[[ii]][[jj]][high.roc[[ii]][jj], ]))
+  }
+  min.grab[[ii]] <- unlist(hold)
 }
+names(min.grab) <- meth
 
-mnom.fit <- list()
-for(ii in seq(from = 2, to = max.ad)) {
-  dat <- as.matrix(train[, seq(from = 2, to = ii + 2)])
-  colnames(dat) <- NULL
-  mnom.fit[[ii - 1]] <- multinom(train[, 1] ~ dat)
-}
-
-# analysis of the supervised fits
-# process rf
-# in sample AUC for chosing best model
-fort.auc <- fort.fit$results$ROC
-# out of sample
-fort.pred <- predict(fort.fit, test[, -1])
-pred <- fort.pred[, 1]
-obs <- test[, 1]
-prob <- lapply(unique(test[, 1]), function(cl) {
-               pp <- ifelse(pred == cl, 1, 0)
-               oo <- ifelse(obs == cl, 1, 0)
-               prob <- fort.pred[, as.character(cl)]
-
-               ps <- Metrics::auc(oo, prob)
-               ps})
-rf.oo.auc <- colMeans(do.call(rbind, prob))
-
-# process lda
-# in sample AUC for choosing best model
-lda.auc <- c()
-for(ii in seq(length(lda.fit))) {
-  lda.pred <- predict(lda.fit[[ii]], 
-                      newdata = train[, seq(from = 2, to = ii + 3)])
-  pred <- lda.pred$class
-  obs <- train[, 1]
-  prob <- lapply(unique(train[, 1]), function(cl) {
-                 pp <- ifelse(pred == cl, 1, 0)
-                 oo <- ifelse(obs == cl, 1, 0)
-                 prob <- lda.pred$posterior[, as.character(cl)]
-
-                 ps <- Metrics::auc(oo, prob)
-                 ps})
-  lda.auc[ii] <- colMeans(do.call(rbind, prob))
-}
-lda.best <- lda.fit[[which.max(lda.auc)]]
-lda.bp <- predict(lda.best, 
-                  newdata = test[, seq(from = 2, to = which.max(lda.auc) + 3)])
-pred <- lda.bp$class
-obs <- test[, 1]
-prob <- lapply(unique(test[, 1]), function(cl) {
-               pp <- ifelse(pred == cl, 1, 0)
-               oo <- ifelse(obs == cl, 1, 0)
-               prob <- lda.bp$posterior[, as.character(cl)]
-
-               ps <- Metrics::auc(oo, prob)
-               ps})
-lda.oo.auc <- colMeans(do.call(rbind, prob))
-# TODO out of sample AUC for best model
+roc.subrank <- Map(function(x, y) 
+                   Map(function(a, b) a[1:b, 1], x, y), 
+                   roc.out, high.roc)
+select.roc <- Map(function(x, y) 
+                  unlist(Map(function(a, b) max(which(a >= b)) - 1, x, y)), 
+                  x = roc.subrank, y = min.grab)
+select.roc <- llply(select.roc, function(x) ifelse(x != 0, x, x + 1))
 
 
-# process multinomial
-# in sample auc for chosing best model
-mnom.auc <- c()
-for(ii in seq(length(mnom.fit))) {
-  mnom.pred.c <- predict(mnom.fit[[ii]])
-  mnom.pred.p <- predict(mnom.fit[[ii]], type = 'probs')
-  pred <- mnom.pred.c
-  obs <- train[, 1]
-  prob <- lapply(unique(train[, 1]), function(cl) {
-                 pp <- ifelse(pred == cl, 1, 0)
-                 oo <- ifelse(obs == cl, 1, 0)
-                 prob <- mnom.pred.p[, as.character(cl)]
 
-                 ps <- Metrics::auc(oo, prob)
-                 ps})
-  mnom.auc[ii] <- colMeans(do.call(rbind, prob))
-}
-mnom.best <- mnom.fit[[which.max(mnom.auc)]]
-dat <- as.matrix(test[, seq(from = 2, to = which.max(mnom.auc) + 3)])
-colnames(dat) <- NULL
-mnom.oo.c <- predict(mnom.best, dat)
-mnom.oo.p <- predict(mnom.best, dat, 'probs')
-pred <- mnom.oo.c
-obs <- test[, 1]
-prob <- lapply(unique(test[, 1]), function(cl) {
-               pp <- ifelse(pred == cl, 1, 0)
-               oo <- ifelse(obs == cl, 1, 0)
-               prob <- mnom.oo.p[, as.character(cl)]
+roc.melt <- llply(roc.out, function(l) 
+                  Reduce(rbind, Map(function(x, y) 
+                                    cbind(npred = seq(from = 3,
+                                                      to = nrow(x) + 2), 
+                                          scheme = y, x), 
+                                    l, schemes)))
+roc.melt <- Reduce(rbind, Map(function(x, y) 
+                              cbind(model = y, x), roc.melt, meth))
 
-               ps <- Metrics::auc(oo, prob)
-               ps})
-mnom.oo.auc <- colMeans(do.call(rbind, prob))
+roc.melt <- apply(roc.melt, 2, unlist)
+roc.melt <- data.frame(roc.melt)
+roc.melt$npred <- as.numeric(as.character(roc.melt$npred))
+roc.melt$ROC <- as.numeric(as.character(roc.melt$ROC))
+roc.melt$ROCSD <- as.numeric(as.character(roc.melt$ROCSD))
 
+roc.melt$ROCmin <- roc.melt$ROC - roc.melt$ROCSD
+roc.melt$ROCmax <- roc.melt$ROC + roc.melt$ROCSD
 
-# make some results tables
-results <- data.frame(npred = c(which.max(fort.auc), 
-                                which.max(lda.auc), 
-                                which.max(mnom.auc)), 
-                      ii.auc = c(fort.auc[which.max(fort.auc)], 
-                                 lda.auc[which.max(lda.auc)], 
-                                 mnom.auc[which.max(mnom.auc)]), 
-                      oo.auc = c(rf.oo.auc, lda.oo.auc, mnom.oo.auc))
-rownames(results) <- c('RF', 'LDA', 'MnL')
-res.tab <- xtable(results, label = 'tab:second_res', digits = 3)
-print.xtable(res.tab, file = '../doc/second_tab.tex')
+# add point for "best" and "selected"
+high.melt <- Reduce(rbind, Map(function(x, y, z) 
+                               cbind(model = x, npred = y + 2, scheme = schemes), 
+                               meth, high.roc))
+high.melt <- cbind(high.melt, 
+                   melt(Map(function(a, b) 
+                            unlist(Map(function(x, y) x[y, 1], a, b)), 
+                            roc.out, high.roc)))
+high.melt$npred <- as.numeric(as.character(high.melt$npred))
+
+# select
+selc.melt <- Reduce(rbind, Map(function(x, y) 
+                               cbind(model = x, npred = y + 2, scheme = schemes), 
+                               meth, select.roc))
+selc.melt <- cbind(selc.melt, 
+                   melt(Map(function(a, b) 
+                            unlist(Map(function(x, y) x[y, 1], a, b)), 
+                            roc.out, select.roc)))
+selc.melt$npred <- as.numeric(as.character(selc.melt$npred))
 
 
-# boot strap the generalization
-boot.roc <- function(data, indicies) {
-  data <- data[indicies, ]
-  pp <- data[, seq(ncol(data) - 1)]
-  names(pp) <- gsub('X', '', names(pp))
-  tt <- data[, ncol(data)]
-  return(allvone(pp, tt))
-}
+roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
+roc.plot <- roc.plot + geom_linerange(aes(ymin = ROCmin, ymax = ROCmax))
+roc.plot <- roc.plot + geom_line()
+roc.plot <- roc.plot + facet_grid(model ~ scheme, switch = 'y')
 
-# rf
-tester <- cbind(fort.pred, test[, 1])
-rf.boot <- boot(data = tester, statistic = boot.roc, R = 1000)
-# mnl
-tester <- cbind(mnom.oo.c, data.frame(mnom.oo.p), test[, 1])
-mnl.boot <- boot(data = tester, statistic = boot.roc, R = 1000)
-# lda
-tester <- cbind(lda.bp$class, data.frame(lda.bp$posterior), test[, 1])
-lda.boot <- boot(data = tester, statistic = boot.roc, R = 1000)
+roc.plot <- roc.plot + geom_point(data = high.melt, 
+                                  mapping = aes(x = npred, y = value, 
+                                                ymin = NULL, ymax = NULL), 
+                                  colour = 'blue')
+roc.plot <- roc.plot + geom_point(data = selc.melt, 
+                                  mapping = aes(x = npred, y = value, 
+                                                ymin = NULL, ymax = NULL), 
+                                  colour = 'red')
+roc.plot <- roc.plot + labs(x = 'Model complexity', y = 'AUC')
+ggsave(plot = roc.plot, filename = '../doc/figure/other_model_sel.pdf',
+       width = 4, height = 4)
 
 
-# make some output graphs
-test.gen <- melt(data.frame(RF = rf.boot$t, MLR = mnl.boot$t, LDA = lda.boot$t))
-gen.gg <- ggplot(test.gen, aes(x = value))
-gen.gg <- gen.gg + geom_histogram(position = 'identity', binwidth = 1/50)
-gen.gg <- gen.gg + labs(x = 'AUC', y = 'count')
-gen.gg <- gen.gg + facet_grid(variable ~ .)
-ggsave(file = '../doc/figure/seven_boot.png', plot = gen.gg, 
-       width = 15, height = 10)
+# out of sample roc from test
+# with best model
+test.pred <- Map(function(a, b) Map(function(x, y) y[[x]], a, b$testing), 
+                 select.roc, results)
+ 
+oos.roc <- Map(function(a, b) 
+               unlist(Map(function(x, y) allvone(x, y[, 1]), 
+                          a, b$testing.dataset)),
+               test.pred, results)
+oos.melt <- Reduce(rbind, Map(function(x, y) 
+                              cbind(model = y, scheme = schemes, value = x), 
+                              oos.roc, meth))
+oos.melt <- data.frame(oos.melt)
+oos.melt$value <- as.numeric(as.character(oos.melt$value))
+oos.mean <- ddply(oos.melt, .(scheme), summarize, mean = mean(value))
 
-pc.gg <- ggplot(turt.scores, aes(x = PC1, y = PC2, colour = name))
-pc.gg <- pc.gg + geom_point()
-pc.gg <- pc.gg + labs(x = paste0('PC 1 ', turt.proc$percent[1]),
-                      y = paste0('PC 2 ', turt.proc$percent[2]))
-ggsave(file = '../doc/figure/seven_plot.png', plot = pc.gg, 
-       width = 15, height = 10)
+oos.plot <- ggplot(oos.melt, aes(x = model, y = value))
+oos.plot <- oos.plot + geom_point() + facet_grid(. ~ scheme)
+oos.plot <- oos.plot + geom_hline(data = oos.mean, 
+                                  mapping = aes(yintercept = mean))
+oos.plot <- oos.plot + labs(x = 'Model type', y = 'AUC')
+oos.plot <- oos.plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggsave(plot = oos.plot, filename = '../doc/figure/other_oos_sel.pdf',
+       width = 4, height = 3)

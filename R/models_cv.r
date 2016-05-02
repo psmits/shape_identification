@@ -12,54 +12,7 @@ library(reshape2)
 library(doParallel)
 source('../R/caret_funcs.r')
 source('../R/multiclass_roc.r')
-
-# wrapper for all of my analyses
-use.model <- function(method, adult, scheme, npred = 28) {
-  # create data partition for training set and testing set
-  schism <- alply(scheme, 1, function(x) 
-                  createDataPartition(adult[, x], p = 0.8, 
-                                      list = FALSE, times = 1))
-
-  trainsets <- testsets <- list()
-  train.res <- test.res <- list()
-  # methods
-
-  for(kk in seq(length(scheme))) {
-    trainsets[[kk]] <- adult[schism[[kk]], ]
-    testsets[[kk]] <- adult[-schism[[kk]], ]
-
-    dataset <- trainsets[[kk]][, 1:npred]
-    responses <- trainsets[[kk]][, scheme[kk]]
-
-    # do cross validation of ROC for all random forest models
-    traind <- list()
-    for(ii in seq(from = 3, to = ncol(dataset))) {
-      traind[[ii - 2]] <- 
-        train(form = responses ~ ., 
-              data = as.matrix(dataset[, seq(ii)]),
-              method = method,
-              trControl = ctrl, 
-              metric = 'ROC', 
-              tuneLength = 1)
-    }
-    train.res[[kk]] <- traind
-
-    # now test all the models against external data
-    pclass <- llply(traind, function(x) 
-                    predict.train(object = x, 
-                                  newdata = testsets[[kk]][, 1:npred], 
-                                  type = 'raw'))
-    prob <- llply(traind, function(x)
-                  predict.train(object = x, 
-                                newdata = testsets[[kk]][, 1:npred], 
-                                type = 'prob'))
-    test.res[[kk]] <- Map(function(x, y) cbind(class = x, y), pclass, prob)
-  }
-
-  final.res <- list(training = train.res, testing = test.res,
-                    training.dataset = trainsets, testing.dataset = testsets)
-  final.res
-}
+source('../R/train_and_test.r')
 
 
 # start analysis
@@ -70,6 +23,7 @@ adult$spinks <- LETTERS[adult$spinks]
 
 schemes <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
 meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
+npred <- 25
 
 #results <- list()
 #for(ii in seq(length(meth))) {
@@ -87,13 +41,36 @@ roc.out <- llply(results, function(oo)
                  llply(oo$training, function(x) 
                        laply(x, function(y) y$results[c('ROC', 'ROCSD')])))
 names(roc.out) <- meth
+roc.out <- llply(roc.out, function(x) llply(x, function(y) apply(y, 2, unlist)))
 high.roc <- llply(roc.out, function(y) laply(y, function(x) which.max(x[, 1])))
-select.roc <- llply(high.roc, function(x) ifelse(x == 1, x, x - 1))
+
+
+# this is all to make sure i get the most parsimonious within one SE of best
+min.grab <- list()
+for(ii in seq(length(roc.out))) {
+  hold <- list()
+  for(jj in seq(length(schemes))) {
+    hold[[jj]] <- diff(rev(roc.out[[ii]][[jj]][high.roc[[ii]][jj], ]))
+  }
+  min.grab[[ii]] <- unlist(hold)
+}
+names(min.grab) <- meth
+
+roc.subrank <- Map(function(x, y) 
+                   Map(function(a, b) a[1:b, 1], x, y), 
+                   roc.out, high.roc)
+select.roc <- Map(function(x, y) 
+                  unlist(Map(function(a, b) max(which(a >= b)) - 1, x, y)), 
+                  x = roc.subrank, y = min.grab)
+select.roc <- llply(select.roc, function(x) ifelse(x != 0, x, x + 1))
+
 
 
 roc.melt <- llply(roc.out, function(l) 
                   Reduce(rbind, Map(function(x, y) 
-                                    cbind(npred = seq(nrow(x)), scheme = y, x), 
+                                    cbind(npred = seq(from = 3,
+                                                      to = nrow(x) + 2), 
+                                          scheme = y, x), 
                                     l, schemes)))
 roc.melt <- Reduce(rbind, Map(function(x, y) 
                               cbind(model = y, x), roc.melt, meth))
@@ -105,11 +82,11 @@ roc.melt$ROC <- as.numeric(as.character(roc.melt$ROC))
 roc.melt$ROCSD <- as.numeric(as.character(roc.melt$ROCSD))
 
 roc.melt$ROCmin <- roc.melt$ROC - roc.melt$ROCSD
-roc.melt$ROCmax <- roc.melt$ROC - roc.melt$ROCSD
+roc.melt$ROCmax <- roc.melt$ROC + roc.melt$ROCSD
 
 # add point for "best" and "selected"
 high.melt <- Reduce(rbind, Map(function(x, y, z) 
-                               cbind(model = x, npred = y, scheme = schemes), 
+                               cbind(model = x, npred = y + 2, scheme = schemes), 
                                meth, high.roc))
 high.melt <- cbind(high.melt, 
                    melt(Map(function(a, b) 
@@ -118,8 +95,8 @@ high.melt <- cbind(high.melt,
 high.melt$npred <- as.numeric(as.character(high.melt$npred))
 
 # select
-selc.melt <- Reduce(rbind, Map(function(x, y, z) 
-                               cbind(model = x, npred = y, scheme = schemes), 
+selc.melt <- Reduce(rbind, Map(function(x, y) 
+                               cbind(model = x, npred = y + 2, scheme = schemes), 
                                meth, select.roc))
 selc.melt <- cbind(selc.melt, 
                    melt(Map(function(a, b) 
@@ -129,9 +106,9 @@ selc.melt$npred <- as.numeric(as.character(selc.melt$npred))
 
 
 roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
-roc.plot <- roc.plot + geom_pointrange(aes(ymin = ROCmin, ymax = ROCmax))
+roc.plot <- roc.plot + geom_linerange(aes(ymin = ROCmin, ymax = ROCmax))
 roc.plot <- roc.plot + geom_line()
-roc.plot <- roc.plot + facet_grid(model ~ scheme)
+roc.plot <- roc.plot + facet_grid(model ~ scheme, switch = 'y')
 
 roc.plot <- roc.plot + geom_point(data = high.melt, 
                                   mapping = aes(x = npred, y = value, 
@@ -141,6 +118,9 @@ roc.plot <- roc.plot + geom_point(data = selc.melt,
                                   mapping = aes(x = npred, y = value, 
                                                 ymin = NULL, ymax = NULL), 
                                   colour = 'red')
+roc.plot <- roc.plot + labs(x = 'Model complexity', y = 'AUC')
+ggsave(plot = roc.plot, filename = '../doc/figure/emys_model_sel.pdf',
+       width = 7.5, height = 8)
 
 
 # out of sample roc from test
@@ -163,3 +143,7 @@ oos.plot <- ggplot(oos.melt, aes(x = model, y = value))
 oos.plot <- oos.plot + geom_point() + facet_grid(. ~ scheme)
 oos.plot <- oos.plot + geom_hline(data = oos.mean, 
                                   mapping = aes(yintercept = mean))
+oos.plot <- oos.plot + labs(x = 'Model type', y = 'AUC')
+oos.plot <- oos.plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggsave(plot = oos.plot, filename = '../doc/figure/emys_oos_sel.pdf',
+       width = 7.5, height = 4)

@@ -12,7 +12,6 @@ library(plyr)
 # source files
 source('../R/array2df.r')
 source('../R/df2array.r')
-source('../R/shape_distance.r')
 source('../R/support_functions.r')
 
 # landmarks
