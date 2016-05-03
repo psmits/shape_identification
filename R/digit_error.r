@@ -1,70 +1,98 @@
 library(shapes)
+library(reshape2)
 library(stringr)
 library(geomorph)
 source('../R/df2array.r')
 source('../R/supervised_mung.r')
 
-by.scheme <- list()
+
+split.land <- function(shapes, f) {
+  ll <- length(unique(f))
+  for(jj in seq(ll)) {
+    by.class <- list()
+    sch <- as.character(f)
+    sch.t <- unique(f)
+    for(ii in seq(ll)) {
+      sch.w <- sch == sch.t[ii]
+      by.class[[ii]] <- shapes[, , sch.w]
+    }
+  }
+  by.class
+}
+land.dist <- function(shapes) {
+  ns <- dim(shapes)[3]
+  distmat <- matrix(nrow = ns, ncol = ns)
+  for(ii in seq(ns)) {
+    for(jj in seq(ns)) {
+      distmat[ii, jj] <- sum(rowSums((shapes[, , ii] - shapes[, , jj])^2))
+    }
+  }
+  distmat
+}
+
+
+
+# emys set
 scheme <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
+ff <- adult[, scheme]
+emys.split <- list()
+for(ii in seq(length(scheme))) {
+  emys.split[[ii]] <- split.land(fit$rotated, ff[, ii])
+}
+emys.dist <- land.dist(fit$rotated)
+within.scheme <- llply(emys.split, function(x) llply(x, land.dist))
+within.scheme <- llply(within.scheme, function(x) 
+                       laply(x, function(y) mean(y[lower.tri(y)])))
+
+
+scheme.mean <- llply(emys.split, function(x) llply(x, mshape))
+between.scheme <- list()
+for(kk in seq(length(scheme.mean))) {
+  bs <- length(scheme.mean[[kk]])
+  distmat <- matrix(nrow = bs, ncol = bs)
+  for(ii in seq(length(scheme.mean[[kk]]))) {
+    for(jj in seq(length(scheme.mean[[kk]]))) {
+      distmat[ii, jj] <- sum(rowSums((scheme.mean[[kk]][[ii]] - 
+                                      scheme.mean[[kk]][[jj]])^2))
+    }
+  }
+  between.scheme[[kk]] <- mean(distmat[lower.tri(distmat)])
+}
+
+
+scheme.ratio <- laply(within.scheme, function(x) 
+                      mean(x) / mean(emys.dist[lower.tri(emys.dist)]))
+
+
+# replicated turtles
 
 rep.turt <- read.table('../data/replicate turtles fixed.txt', 
                        header = FALSE, stringsAsFactors = FALSE)
 rep.turt <- df2array(rep.turt, n.land = 26, n.dim = 2)
-
-combined <- abind(land.adult, rep.turt)
-combo.turt <- procGPA(combined)
-# should i re-split the normal lands from the rep.turts?
-
 unit <- rep(c('r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'r0'), 
             each = 5)
-types <- c(scheme, unique(unit))
+rep.turt <- procGPA(rep.turt)
 
-for(jj in seq(6)) {
-  by.class <- list()
-  sch <- as.character(adult[, scheme[jj]])
-  sch <- c(sch, unit)
-  sch.t <- unique(sch)
-  for(ii in seq(length(sch.t))) {
-    sch.w <- sch == sch.t[ii]
-    by.class[[ii]] <- combo.turt$rotated[, , sch.w]
+rep.split <- split.land(rep.turt$rotated, unit)
+rep.dist <- land.dist(rep.turt$rotated)
+within.rep <- llply(rep.split, land.dist)
+within.rep <- laply(within.rep, function(x) mean(x[lower.tri(x)]))
+
+rep.mean <- llply(rep.split, mshape)
+bs <- length(rep.mean)
+distmat <- matrix(nrow = bs, ncol = bs)
+for(ii in seq(length(rep.mean))) {
+  for(jj in seq(length(rep.mean))) {
+    distmat[ii, jj] <- sum(rowSums((rep.mean[[ii]] - rep.mean[[jj]])^2))
   }
-  by.scheme[[jj]] <- by.class
 }
+between.rep <- mean(distmat[lower.tri(distmat)])
 
-class.dist <- list()
-for(ii in seq(length(by.scheme))) {
-  class.mean <- llply(by.scheme[[ii]], mshape)
-  distmat <- matrix(nrow = length(by.scheme[[ii]]), 
-                    ncol = length(by.scheme[[ii]]))
-  for(jj in seq(length(class.mean))) {
-    for(kk in seq(length(class.mean))) {
-      distmat[jj, kk] <- sum(rowSums((class.mean[[jj]] - class.mean[[kk]])^2))
-    }
-  }
-  class.dist[[ii]] <- distmat
-}
 
-sch.md <- rep.md <- c()
-sch.dd <- rep.dd <- list()
-for(ii in seq(length(by.scheme))) {
-  sch <- as.character(adult[, scheme[ii]])
-  sch.t <- length(unique(sch))
-  
-  sch.dist <- class.dist[[ii]][seq(sch.t), seq(sch.t)]
-  sch.dd[[ii]] <- sch.dist
-  sch.md[ii] <- mean(sch.dist[lower.tri(sch.dist)])
-  
-  ee <- nrow(class.dist[[ii]])
-  ss <- ee - sch.t
-  rep.dist <- class.dist[[ii]][seq(ss + 1, ee), seq(ss+1, ee)]
-  rep.dd[[ii]] <- rep.dist
-  rep.md[ii] <- mean(rep.dist[lower.tri(rep.dist)])
-}
-
+rep.ratio <- mean(within.rep) / mean(rep.dist[lower.tri(rep.dist)])
 
 
 # between species distance
-
 newturt <- list.files('../data/new_turtle', 
                       pattern = 'adult', 
                       full.names = TRUE)
@@ -76,33 +104,74 @@ turt <- llply(turt, function(x) x[, -c(1:2, ncol(x))])
 turt <- Reduce(rbind, turt)
 turt.align <- df2array(turt, n.land = 26, n.dim = 2)
 turt.proc <- procGPA(turt.align)
-turt.scores <- turt.proc$scores
 
-centroids <- scale(unlist(centroids))
 turt.name <- laply(str_split(newturt, '\\/'), function(x) x[length(x)])
 turt.name <- str_trim(str_extract(turt.name, '\\s(.*?)\\s'))
-#rep(turt.name, times = laply(numbers, nrow))
+turt.name <- rep(turt.name, times = laply(numbers, nrow))
+
+turt.split <- split.land(turt.proc$rotated, turt.name)
+turt.dist <- land.dist(turt.proc$rotated)
+within.species <- llply(turt.split, land.dist)
+within.species <- laply(within.species, function(x) mean(x[lower.tri(x)]))
 
 
-by.species <- list()
-groups <- laply(numbers, nrow)
-group.mod <- cumsum(groups)
-for(ii in seq(length(turt.name))) {
-  if(ii == 1) {
-    ss <- seq(from = 1, group.mod[ii])
-  } else {
-    ss <- seq(from = group.mod[ii - 1] + 1, to = group.mod[ii])
-  }
-  by.species[[ii]] <- turt.proc$rotated[, , ss]
-}
-
-
-species.mean <- llply(by.species, mshape)
-distmat <- matrix(nrow = length(by.species),
-                  ncol = length(by.species))
-for(jj in seq(length(species.mean))) {
-  for(kk in seq(length(species.mean))) {
-    distmat[jj, kk] <- sum(rowSums((species.mean[[jj]] - species.mean[[kk]])^2))
+species.mean <- llply(turt.split, mshape)
+bs <- length(species.mean)
+distmat <- matrix(nrow = bs, ncol = bs)
+for(ii in seq(length(species.mean))) {
+  for(jj in seq(length(species.mean))) {
+    distmat[ii, jj] <- sum(rowSums((species.mean[[ii]] - species.mean[[jj]])^2))
   }
 }
-mean.between.speciesmeans <- mean(distmat[lower.tri(distmat)])
+between.species <- mean(distmat[lower.tri(distmat)])
+
+
+species.ratio <- mean(within.species) / mean(turt.dist[lower.tri(turt.dist)])
+
+
+
+
+# between species distance (trach)
+trac <- list.files('../data/trach', pattern = 'txt', full.names = TRUE)
+turt <- llply(trac, function(x) 
+              read.table(x, header = FALSE, stringsAsFactors = FALSE))
+# lands...., centroid
+centroids <- scale(unlist(llply(turt, function(x) x[, ncol(x)])))
+ids <- Reduce(c, Map(function(x, y) 
+                     rep(y, times = nrow(x)), 
+                     x = turt, y = c('a', 'b')))
+turt <- llply(turt, function(x) x[, -(ncol(x))])
+turt <- Reduce(rbind, turt)
+turt.align <- df2array(turt, n.land = 26, n.dim = 2)
+turt.proc <- procGPA(turt.align)
+
+turt.split <- split.land(turt.proc$rotated, ids)
+turt.dist <- land.dist(turt.proc$rotated)
+within.species <- llply(turt.split, land.dist)
+within.species <- laply(within.species, function(x) mean(x[lower.tri(x)]))
+
+
+species.mean <- llply(turt.split, mshape)
+bs <- length(species.mean)
+distmat <- matrix(nrow = bs, ncol = bs)
+for(ii in seq(length(species.mean))) {
+  for(jj in seq(length(species.mean))) {
+    distmat[ii, jj] <- sum(rowSums((species.mean[[ii]] - species.mean[[jj]])^2))
+  }
+}
+between.species <- mean(distmat[lower.tri(distmat)])
+
+
+species.ratio2 <- mean(within.species) / mean(turt.dist[lower.tri(turt.dist)])
+
+
+# ratio of
+#   average within group distance / average between individuals distance
+#   1+ = grouping not meaningful
+#   1 = no grouping
+#   0 = amazing grouping
+# scheme.ratio
+# rep.ratio
+# species.ratio
+# species.ratio2
+
