@@ -1,4 +1,5 @@
 library(shapes)
+library(stringr)
 library(geomorph)
 source('../R/df2array.r')
 source('../R/supervised_mung.r')
@@ -12,8 +13,7 @@ rep.turt <- df2array(rep.turt, n.land = 26, n.dim = 2)
 
 combined <- abind(land.adult, rep.turt)
 combo.turt <- procGPA(combined)
-
-adult$sh1
+# should i re-split the normal lands from the rep.turts?
 
 unit <- rep(c('r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'r0'), 
             each = 5)
@@ -60,3 +60,49 @@ for(ii in seq(length(by.scheme))) {
   rep.dd[[ii]] <- rep.dist
   rep.md[ii] <- mean(rep.dist[lower.tri(rep.dist)])
 }
+
+
+
+# between species distance
+
+newturt <- list.files('../data/new_turtle', 
+                      pattern = 'adult', 
+                      full.names = TRUE)
+turt <- llply(newturt, function(x) read.csv(x, header = FALSE))
+numbers <- llply(turt, function(x) x[, 1:2])
+centroids <- llply(turt, function(x) x[, ncol(x)])
+turt <- llply(turt, function(x) x[, -c(1:2, ncol(x))])
+# number, museum #, lands...., centroid
+turt <- Reduce(rbind, turt)
+turt.align <- df2array(turt, n.land = 26, n.dim = 2)
+turt.proc <- procGPA(turt.align)
+turt.scores <- turt.proc$scores
+
+centroids <- scale(unlist(centroids))
+turt.name <- laply(str_split(newturt, '\\/'), function(x) x[length(x)])
+turt.name <- str_trim(str_extract(turt.name, '\\s(.*?)\\s'))
+#rep(turt.name, times = laply(numbers, nrow))
+
+
+by.species <- list()
+groups <- laply(numbers, nrow)
+group.mod <- cumsum(groups)
+for(ii in seq(length(turt.name))) {
+  if(ii == 1) {
+    ss <- seq(from = 1, group.mod[ii])
+  } else {
+    ss <- seq(from = group.mod[ii - 1] + 1, to = group.mod[ii])
+  }
+  by.species[[ii]] <- turt.proc$rotated[, , ss]
+}
+
+
+species.mean <- llply(by.species, mshape)
+distmat <- matrix(nrow = length(by.species),
+                  ncol = length(by.species))
+for(jj in seq(length(species.mean))) {
+  for(kk in seq(length(species.mean))) {
+    distmat[jj, kk] <- sum(rowSums((species.mean[[jj]] - species.mean[[kk]])^2))
+  }
+}
+mean.between.speciesmeans <- mean(distmat[lower.tri(distmat)])
