@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: turtles_statistical_learning.aux
+The style file: abbrvnat.bst
+Database file #1: turtle.bib
+Database file #2: packages.bib
+Warning--I didn't find a database entry for "2015"
+You've used 14 entries,
+            2773 wiz_defined-function locations,
+            709 strings with 7275 characters,
+and the built_in function-call counts, 6035 in all, are:
+= -- 574
+> -- 286
+< -- 11
++ -- 98
+- -- 84
+* -- 480
+:= -- 943
+add.period$ -- 56
+call.type$ -- 14
+change.case$ -- 66
+chr.to.int$ -- 14
+cite$ -- 28
+duplicate$ -- 281
+empty$ -- 503
+format.name$ -- 110
+if$ -- 1258
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 14
+newline$ -- 92
+num.names$ -- 56
+pop$ -- 119
+preamble$ -- 1
+purify$ -- 56
+quote$ -- 0
+skip$ -- 213
+stack$ -- 0
+substring$ -- 232
+swap$ -- 29
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 139
+warning$ -- 0
+while$ -- 59
+width$ -- 0
+write$ -- 216
+(There was 1 warning)
