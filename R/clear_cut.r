@@ -151,6 +151,15 @@ selc.melt <- cbind(selc.melt,
                             roc.out, select.roc)))
 selc.melt$npred <- as.numeric(as.character(selc.melt$npred))
 
+# map values of schemes to useful names
+# map values of models to correct abbreviation
+roc.melt$model <- mapvalues(roc.melt$model, from = unique(roc.melt$model),
+                            to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+high.melt$model <- mapvalues(high.melt$model, from = unique(high.melt$model),
+                            to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+selc.melt$model <- mapvalues(selc.melt$model, from = unique(selc.melt$model),
+                            to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+
 
 roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
 roc.plot <- roc.plot + geom_linerange(aes(ymin = ROCmin, ymax = ROCmax))
@@ -185,6 +194,11 @@ oos.melt <- Reduce(rbind, Map(function(x, y)
 oos.melt <- data.frame(oos.melt)
 oos.melt$value <- as.numeric(as.character(oos.melt$value))
 oos.mean <- ddply(oos.melt, .(scheme), summarize, mean = mean(value))
+
+# map values of schemes to useful names
+# map values of models to correct abbreviation
+oos.melt$model <- mapvalues(oos.melt$model, from = unique(oos.melt$model),
+                            to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
 
 oos.plot <- ggplot(oos.melt, aes(x = model, y = value))
 oos.plot <- oos.plot + geom_point() + facet_grid(. ~ scheme)

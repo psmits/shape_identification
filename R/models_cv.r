@@ -105,6 +105,28 @@ selc.melt <- cbind(selc.melt,
 selc.melt$npred <- as.numeric(as.character(selc.melt$npred))
 
 
+# map values of schemes to useful names
+# map values of models to correct abbreviation
+roc.melt$model <- mapvalues(roc.melt$model, from = unique(roc.melt$model),
+                            to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+roc.melt$scheme <- mapvalues(roc.melt$scheme, from = unique(roc.melt$scheme),
+                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+                                   'Nuclear', 
+                                   'Mito 2', 'Mito 3'))
+high.melt$model <- mapvalues(high.melt$model, from = unique(high.melt$model),
+                            to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+high.melt$scheme <- mapvalues(high.melt$scheme, from = unique(high.melt$scheme),
+                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+                                   'Nuclear', 
+                                   'Mito 2', 'Mito 3'))
+selc.melt$model <- mapvalues(selc.melt$model, from = unique(selc.melt$model),
+                            to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+selc.melt$scheme <- mapvalues(selc.melt$scheme, from = unique(selc.melt$scheme),
+                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+                                   'Nuclear', 
+                                   'Mito 2', 'Mito 3'))
+
+
 roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
 roc.plot <- roc.plot + geom_linerange(aes(ymin = ROCmin, ymax = ROCmax))
 roc.plot <- roc.plot + geom_line()
@@ -138,6 +160,19 @@ oos.melt <- Reduce(rbind, Map(function(x, y)
 oos.melt <- data.frame(oos.melt)
 oos.melt$value <- as.numeric(as.character(oos.melt$value))
 oos.mean <- ddply(oos.melt, .(scheme), summarize, mean = mean(value))
+
+# map values of schemes to useful names
+# map values of models to correct abbreviation
+oos.melt$model <- mapvalues(oos.melt$model, from = unique(oos.melt$model),
+                            to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+oos.melt$scheme <- mapvalues(oos.melt$scheme, from = unique(oos.melt$scheme),
+                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+                                   'Nuclear', 
+                                   'Mito 2', 'Mito 3'))
+oos.mean$scheme <- mapvalues(oos.mean$scheme, from = unique(oos.mean$scheme),
+                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+                                   'Nuclear', 
+                                   'Mito 2', 'Mito 3'))
 
 oos.plot <- ggplot(oos.melt, aes(x = model, y = value))
 oos.plot <- oos.plot + geom_point() + facet_grid(. ~ scheme)
