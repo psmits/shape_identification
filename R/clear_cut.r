@@ -174,7 +174,7 @@ roc.plot <- roc.plot + geom_point(data = selc.melt,
                                   mapping = aes(x = npred, y = value, 
                                                 ymin = NULL, ymax = NULL), 
                                   colour = 'red')
-roc.plot <- roc.plot + labs(x = 'Model complexity', y = 'AUC')
+roc.plot <- roc.plot + labs(x = 'Model complexity (# predictors)', y = 'AUC')
 ggsave(plot = roc.plot, filename = '../doc/figure/other_model_sel.pdf',
        width = 4, height = 4)
 
