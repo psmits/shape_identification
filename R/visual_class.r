@@ -72,8 +72,9 @@ scores.df$centroid <- c(seven.centroids, trac.centroids)
 # turt.proc$percent[1:2]  # percent of variation on PC
 
 clear.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, 
-                                  colour = species, size = log10(centroid)))
+                                  colour = species, size = centroid))
 clear.gg <- clear.gg + geom_point()
+clear.gg <- clear.gg + scale_size_area(max_size = 4)
 clear.gg <- clear.gg + facet_grid(. ~ who)
 clear.gg <- clear.gg + labs(x = 'PC 1', y = 'PC 2')
 clear.gg <- clear.gg + scale_colour_manual(values = cbp.ord)
@@ -82,7 +83,7 @@ ggsave(plot = clear.gg, filename = '../doc/figure/other_pc_graph.png',
 
 xs <- split(scores.df, f = scores.df$who)
 p1 <- ggplot(xs$cc7, aes(x = PC1, y = PC2, 
-                         colour = sp, size = log10(centroid)))
+                         colour = sp, size = centroid))
 p1 <- p1 + geom_point()
 p1 <- p1 + facet_grid(. ~ who)
 p2 <- p1 %+% xs$trac
@@ -119,8 +120,9 @@ scores.df$sch <- sch
 scores.df$centroid <- rep(rawturt[, n.land + 1], length(schemes))
 
 emys.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, 
-                                 colour = class, size = log10(centroid)))
+                                 colour = class, size = centroid))
 emys.gg <- emys.gg + geom_point(alpha = 0.3)
+emys.gg <- emys.gg + scale_size_area(max_size = 4)
 emys.gg <- emys.gg + facet_wrap(~ sch, nrow = 2)
 emys.gg <- emys.gg + coord_fixed(ratio = 1, xlim = c(-4, 4), ylim = c(-4, 4))
 emys.gg <- emys.gg + scale_colour_manual(values = cbp.ord)
