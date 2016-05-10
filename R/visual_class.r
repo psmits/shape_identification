@@ -40,7 +40,7 @@ turt.align <- df2array(turt, n.land = 26, n.dim = 2)
 turt.proc <- procGPA(turt.align)
 turt.scores <- turt.proc$scores
 
-centroids <- scale(unlist(centroids))
+seven.centroids <- unlist(centroids)
 turt.name <- laply(str_split(newturt, '\\/'), function(x) x[length(x)])
 turt.name <- str_trim(str_extract(turt.name, '\\s(.*?)\\s'))
 
@@ -50,7 +50,7 @@ trac <- list.files('../data/trach', pattern = 'txt', full.names = TRUE)
 trac <- llply(trac, function(x) 
               read.table(x, header = FALSE, stringsAsFactors = FALSE))
 # lands...., centroid
-centroids <- scale(unlist(llply(trac, function(x) x[, ncol(x)])))
+trac.centroids <- unlist(llply(trac, function(x) x[, ncol(x)]))
 ids <- Reduce(c, Map(function(x, y) 
                      rep(y, times = nrow(x)), 
                      x = trac, y = c('a', 'b')))
@@ -68,9 +68,11 @@ scores.df$species <- c(rep(turt.name, times = laply(numbers, nrow)),
                        ids)
 scores.df$who <- c(rep('7 species', turt.proc$n), 
                    rep('Trachemys', trac.proc$n))
+scores.df$centroid <- c(seven.centroids, trac.centroids)
 # turt.proc$percent[1:2]  # percent of variation on PC
 
-clear.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, colour = species))
+clear.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, 
+                                  colour = species, size = log10(centroid)))
 clear.gg <- clear.gg + geom_point()
 clear.gg <- clear.gg + facet_grid(. ~ who)
 clear.gg <- clear.gg + labs(x = 'PC 1', y = 'PC 2')
@@ -79,7 +81,8 @@ ggsave(plot = clear.gg, filename = '../doc/figure/other_pc_graph.png',
        width = 6, height = 4)
 
 xs <- split(scores.df, f = scores.df$who)
-p1 <- ggplot(xs$cc7, aes(x = PC1, y = PC2, colour = sp))
+p1 <- ggplot(xs$cc7, aes(x = PC1, y = PC2, 
+                         colour = sp, size = log10(centroid)))
 p1 <- p1 + geom_point()
 p1 <- p1 + facet_grid(. ~ who)
 p2 <- p1 %+% xs$trac
@@ -103,7 +106,8 @@ ad <- Reduce(c, ad)  # vector of the classifications for all schemes
 
 
 sch <- rep(schemes, each = nrow(adult))  # vector of the schemes for ad
-
+sch <- mapvalues(sch, from = schemes, to = c('Morph 1', 'Morph 2', 'Mito 1',
+                                             'Nuclear', 'Mito 2', 'Mito 3'))
 
 scores <- Reduce(rbind, 
                  replicate(length(schemes), fit$stdscores, simplify = FALSE))
@@ -111,11 +115,12 @@ scores <- Reduce(rbind,
 scores.df <- data.frame(scores)
 scores.df$class <- factor(ad, levels = level)
 scores.df$sch <- sch
-
 #fit$percent[1:2]
+scores.df$centroid <- rep(rawturt[, n.land + 1], length(schemes))
 
-emys.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, colour = class))
-emys.gg <- emys.gg + geom_point(alpha = 0.5)
+emys.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, 
+                                 colour = class, size = log10(centroid)))
+emys.gg <- emys.gg + geom_point(alpha = 0.3)
 emys.gg <- emys.gg + facet_wrap(~ sch, nrow = 2)
 emys.gg <- emys.gg + coord_fixed(ratio = 1, xlim = c(-4, 4), ylim = c(-4, 4))
 emys.gg <- emys.gg + scale_colour_manual(values = cbp.ord)
