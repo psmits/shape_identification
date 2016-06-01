@@ -2,6 +2,9 @@ library(shapes)
 library(reshape2)
 library(stringr)
 library(geomorph)
+library(ggplot2)
+library(scales)
+library(grid)
 source('../R/df2array.r')
 source('../R/supervised_mung.r')
 
@@ -58,4 +61,14 @@ for(ii in seq(1000)) {
   null[ii] <- sum(rowSums((sm[[1]] - sm[[2]])^2))
 }
 
+dfg <- data.frame(null = null)
 
+
+theme_set(theme_minimal())
+dfgp <- ggplot(dfg, aes(x = null))
+dfgp <- dfgp + geom_histogram(colour = 'darkgrey', fill = 'lightgrey')
+dfgp <- dfgp + geom_vline(xintercept = sex.mean, size = 2)
+dfgp <- dfgp + scale_x_continuous(breaks = pretty_breaks(4))
+dfgp <- dfgp + labs(x = 'Procrustes distance', y = 'Frequency')
+ggsave(plot = dfgp, filename = '../doc/figure/sex_test_hist.png',
+       width = 4, height = 3)

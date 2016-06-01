@@ -167,7 +167,7 @@ species.ratio2 <- mean(within.species) / mean(turt.dist[lower.tri(turt.dist)])
 
 # ratio of
 #   average within group distance / average between individuals distance
-#   1+ = grouping not meaningful
+#   1+ = grouping is counter-intuitive
 #   1 = no grouping
 #   0 = amazing grouping
 # scheme.ratio

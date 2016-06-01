@@ -64,9 +64,44 @@
 \modulolinenumbers[2]
 
 \begin{abstract}
+  We investigate the morphometric identification of cryptic species using machine learning approaches by examining their implications for a recently proposed cryptic turtle species (\textit{Emys pallida}). We collected landmark-based morphometric data from 354 adult \textit{E. marmorata/``pallida''} museum specimens. We assigned a classification to each specimen for six different binning schemes based on geographic occurrence data recorded in museum collection archives. We used multiple machine learning methods, both unsupervised and supervised, to compare different classification hypotheses and asked whether it is possible to determine which amongst a set of classification hypotheses is best. 
+  In addition, we applied the above approach to two additional datasets: two well-supported subspecies of \textit{Trachemys scripta} and a set of seven unambiguously distinct species closely related to \textit{E. marmorata}. The results of this study indicate that there is no clear grouping of \textit{E. marmorata/``pallida''} based on plastron shape. In contrast, the analysis of the other datasets demonstrate a near perfect classification, which demonstrates that application of the methods to plastron shape data can recover correct results in similar situations. Explanations for the lack of grouping in \textit{E. marmorata} include that possibility that genetic differentiation is not associated with plastron shape variation in this species complex and/or that local selective pressures (e.g., from hydrological regime) overwhelm morphological differentiation. A reconsideration of the methods used to delimit \textit{E. ``pallida,''} the lack of barriers to gene flow, the strong evidence for widespread admixture between lineages, and the fact that plastron shape can be used to differentiate other emydid species and subspecies suggest that its lack of diagnosability most likely reflects the non-distinctiveness of this proposed taxon.
 \end{abstract}
 
 \section{Introduction}
+% cryptic diversity
+%   most species are still deliminated solely based on morphology
+Molecular systematics has repeatedly demonstrated the existence of cryptic species that can only be diagnosed using genetic data \citep{Stuart2006,Bickford2007,SchlickSteiner2007,Pfenninger2007,Clare2011,Funk2012}. In attempts to streamline the documentation of biodiversity, several methods of species delimitation that rely almost entirely on genetic data have recently been proposed \citep{Pons2006,Carstens2010,Hausdorf2010,O'Meara2010,Yang2010b,Huelsenbeck2011b}. Although strong caveats on the utility of these methods have been raised \citep{Bauer2000,Carstens2013}, they are nevertheless being used to name species \citep{Leache2010,Spinks2014}.
+
+The majority of extant taxa, and almost all extinct taxa, are delimited by morphology alone. This disjunction complicates interpretations of variation and diversity in deep time, as apparent morphological stasis may not reflect the true underlying diversity \citep{Eldredge1972,Gould1977a,Hunt2008,VanBocxlaer2013}. Similarly, for many museum specimens of extant taxa (e.g. those preserved in formalin), it is difficult to acquire the genetic data needed for non-morphological species delimitation methods.
+
+These considerations have sparked interest in whether geometric morphometric analyses can capture fine-scale variation that can be used for identifying cryptic species. This would make the task of identifying and maintaining endangered or conserved groups much easier and could contribute to improved classifications of extinct taxa and populations. Most such studies focus on using morphometrics to discover differences between taxa that were identified by other means \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Demandt2009}. Additionally, there has been work on automated taxon identification and classification of taxa into groups \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011}. 
+
+Here, we investigate the morphometric identification of cryptic species using machine learning approaches. In particular, we ask whether it is possible to determine which amongst a set of classification hypotheses is best and examine the implications of the results for a recently proposed set of cryptic turtle species.
+
+% past work on automatic taxon identification and older approaches to classifying taxa
+% why use machine learning methods
+\subsection{Background and study system}
+Machine learning is an extension of known statistical methodology \citep{Hastie2009} that emphasizes high predictive accuracy and generality at the expense of the interpretability of individual parameters. The basic statistical mechanics are supplemented by randomization, sorting, and partitioning algorithms, along with the maximization or minimization of summary statistics, in order to best estimate a general model for all data, both sampled and unsampled \citep{Hastie2009}. Machine learning approaches have found use in medical research, epidemiology, economics and automated identification of images such as handwritten zip codes \citep{Hastie2009}. The two major classes of machine learning methods are unsupervised and supervised learning. Unsupervised learning methods are used with unlabeled data where the underlying structure is estimated; they are analogous to clustering and density estimation methods \citep{Kaufman1990}. Supervised learning methods are used with labeled data where the final output of data is known and the rules for going from input to output are inferred. These are analogous to classification and regression models \citep{Breiman1984}. Our application of the approaches used in this study illustrates only a sampling of the various methods available for clustering observations and fitting classification models. 
+
+Geometric morphometric approaches to identifying differences in morphological variation between different classes, including cryptic species, mostly have used methods like linear discriminate analysis and canonical variates analysis \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Francoy2009,Sztencel-Jabonka2009,MitrovskiBogdanovic2013}. Because of their similarity to multivariate approaches like principal components analysis (PCA), these methods are comparatively straightforward ways of understanding the differences in morphology between classes. They also benefit from producing results that can be easily visualized, which aids in the interpretation and presentation of data and results. Most previous morphometric studies did not assess which amongst a set of alternative classification hypotheses was optimal. For example, studies such as those of \citet{Caumul2005a} and \citet{Polly2007a} focused on comparing different aspects of morphology and their fidelity to a classification scheme instead of comparing the fidelity of one aspect of morphology to multiple classification schemes. In this context, the study of \citet{Cardini2009a} is noteworthy because they compared morphological variation in marmots at the population, regional, and species level and determined the fidelity of shape to divisions at each of these levels.
+
+Here, we used multiple machine learning methods, both unsupervised and supervised, to compare different classification hypotheses. These methods provide different advantages for understanding how to classify taxa, as well as the accuracy of the resulting classifications. Although machine learning methods such as neural networks have been applied to studying shape variation \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011}, including in the context of automated taxon identification and classification of groups, the number of cases remains limited. In the current study, we not only consider pure classification accuracy but also use a statistic of classification strength that reflects the rate at which taxa are both accurately and inaccurately classified. 
+
+
+We analyzed the problem of whether there are distinct subspecies or cryptic species within the western pond turtle, \textit{Emys marmorata} \citep{Baird1852} (formerly \emph{Clemmys marmorata}; see \citealp{Feldman2002}). \textit{Emys marmorata} is distributed from northern Washington State, USA to Baja California, Mexico. Traditionally, \textit{E. marmorata} was classified into two named subspecies: the northern \textit{E. marmorata marmorata} and the southern \textit{Emys marmorata pallida} \citep{Seeliger1945}, with a central Californian intergrade zone in between. \textit{Emys marmorata marmorata} is differentiated from \textit{E. marmorata pallida} by the presence of a pair of triangular inguinal scales and darker neck markings. The triangular inguinal plates can sometimes be present in \textit{E. marmorata pallida} although they are considerably smaller. \citet{Seeliger1945} did not formally include the Baja California populations of \textit{E. marmorata} in either taxon, implying the existence of a third distinct but unnamed subspecies.
+
+Previous work on morphological variation in \textit{E. marmorata} has focused primarily on differentiation between populations over a portion of the species' total range \citep{Lubcke2007,Germano2008,Germano2009,Bury2010}; comparatively few studies have included specimens from across the entire range \citep{Holland1992}. Most of these studies considered how local biotic and abiotic factors may contribute to differences in carapace length and found that size can vary greatly between different populations \citep{Lubcke2007,Germano2008,Germano2009}. There also has been interest in size-based sexual dimorphism in \textit{E. marmorata} \citep{Holland1992,Lubcke2007,Germano2009}, with males being on average larger than females based on total carapace length and other linear measurements. However, the quality of size as a classifier of sex can vary greatly between populations \citep{Holland1992} because of the magnitude of size differences among populations \citep{Lubcke2007,Germano2009}. The effect of sexual dimorphism on shape, \textit{sensu} \citet{Kendall1977a}, has not been assessed \citep{Holland1992,Lubcke2007,Germano2008}.
+
+Of particular relevance in the context of cryptic diversity in \textit{E. marmorata} is the morphometric analysis of carapace shape carried out by \citet{Holland1992}, who compared populations of \textit{E. marmorata} from three areas of the species range. This study concluded that geographic distance was a poor indicator of morphological differentiation, and instead hypothesized that geographic features such as breaks between different drainage basis are probably more important barriers to dispersal and interbreeding. Additionally, \citet{Holland1992} suggested that morphological differences were more pronounced as the magnitude of barriers and distance increased, but this variation required many variables to adequately capture, implying only very subtle morphological differentiation between putatively distinct populations. Finally, Holland concluded that \textit{E. marmorata} is best classified as three distinct species: a northern species, a southern species, and a Columbia Basin species. This classification is similar to that of \citet{Seeliger1945}, except elevated to the species level and without recognition of a distinct Baja species. 
+
+More recently, the phylogeography of \textit{E. marmorata} and the possibility of cryptic diversity was investigated using molecular data \citep{Spinks2005,Spinks2010,Spinks2014}. Based on mitochondrial DNA, \citet{Spinks2005} recognized four subclades within \textit{E. marmorata}, a northern clade, a San Joaquin Valley clade, a Santa Barbara clade, and a southern clade. Analyses with nuclear DNA \citep{Spinks2010} and single-nucleotide polymorphism (SNP) data suggest a primarily north--south division in \textit{E. marmorata}, although these datasets differed from that of \citet{Spinks2005} in the location of the break point. All three studies discussed the potential taxonomic implications of their results, with \citet{Spinks2014} going so far as to strongly advocate for the recognition of at least two species (\emph{E. marmorata} and \emph{E. pallida}), and a possible third based on populations in Baja California. However, they did not discuss in detail the morphological characters that would help to diagnose these species beyond those specified by \citet{Seeliger1945}. Given that these characters are variable within the proposed species, and that \citet{Holland1992} described shell shape variation that might be consistent with this taxonomy, a geometric morphometric analysis of shell shape might provide a reliable way to diagnose groups (whether species or subspecies) within \textit{E. marmorata}.
+
+In this study, we attempt to estimate the best classification scheme of \textit{E. marmorata} based on variation in plastron (ventral shell) shape in order to determine whether this character is consistent with any of the past divisions based on other morphological features or molecular data. We are particularly interested in whether any aspect of plastron shape can be used to reliably diagnose the proposed species of \citet{Spinks2014}, and if so, the nature of that shape variation.
+
+\uppercase{Why did we analyze plastron shape? Peter doesn't have a good answer.}
+
+Because of unclear geographic boundaries between subgroups of \textit{E. marmorata}, we compare multiple hypotheses of morphologically-- and molecularly--based classification. We hypothesize that if morphological variation corresponds to class assignment, it should be possible to determine the best classification hypothesis of \textit{E. marmorata} from amongst multiple candidate hypotheses. However, if morphological variation does not correspond to any of the standing hypothesis, then supervised learning model generalization performance will be poor.
 
 
 \section{Materials and Methods}
@@ -98,11 +133,11 @@ Following previous work on plastron shape \citep{Angielczyk2007,Angielczyk2011,A
 
 \subsection{Biasing effects}
 % digitization
-We estimated the possible effect of digitization error CITATIONS on our results by comparing within (replicated) specimen Procrustes distances to the distances between classification scheme centroids. 10 randomly selected specimen both for this study and an additional four times. These 50 landmark configurations were then Procrustes superimposed. A range of four Procrustes distances were then calculated as the average of the pairwise distances between each of the replicate configurations. These distances were then compared to the average pairwise Procrustes distance between the class centroids for each classification schemes of \textit{E. marmorata} being analyzed.
+We estimated the possible effect of digitization error CITATIONS on our results by comparing within (replicated) specimen Procrustes distances to the distances between classification scheme centroids. 10 randomly selected specimen both for this study and an additional four times. These 50 landmark configurations were then Procrustes superimposed. A range of four Procrustes distances were then calculated as the average of the pairwise distances between each of the replicate configurations. 
 
-% sex
-% permutation test
-%   is the distance between sex means bigger than expected by random?
+The relative magnitude of digitization error was calculated as the ratio between the average of the within-species replicate distances and the average distance between any two configurations in the replicate dataset. The goal of this ratio is to determine if the within group distances are on average smaller than the between individual distances; a value of 0 indicates perfect grouping, a value of 1 indicates no difference between grouping and no grouping, and a value of 1+ indicates that the grouping is counter-intuitive to the data.
+
+Turtles are well known to demonstrate strong sexual dimorphism in carapace shape CITATION. To test for issues surrounding sexual dimorphism in our \textit{E. marmorata} data set, we used a simple permutation test to determine if the distance between the mean female and male shapes is greater than expected when the sex labels are randomly shuffled. Because not all of our specimens have sex identifications associated with them, this analysis was done using a subset of the data.
 
 
 \subsection{Supervised learning approaches}
@@ -169,9 +204,42 @@ Instead of relying on a single supervised learning method, we chose to use an en
 
 \section{Results}
 
-\subsection{Biasing effects}
+\subsection{Geometric morphometrics}
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/cc7_pc_graph}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \caption{}
+    \includegraphics[width = \textwidth]{figure/tra_pc_graph}
+  \end{subfigure}
+  \caption{CAPTION}
+  \label{fig:other_pca}
+\end{figure}
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/emys_pc_graph}
+  \caption{CAPTION}
+  \label{fig:emys_pca}
+\end{figure}
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/sex_test_hist}
+  \caption{CAPTION}
+  \label{fig:sex_test}
+\end{figure}
+
+
 
 \subsection{Supervised learning}
+
 
 \begin{figure}[ht]
   \centering
