@@ -4,38 +4,36 @@ The top-level auxiliary file: turtles_statistical_learning.aux
 The style file: abbrvnat.bst
 Database file #1: turtle.bib
 Database file #2: packages.bib
-Warning--empty year in Pollyb
-Warning--empty year in Pollyb
 You've used 73 entries,
             2773 wiz_defined-function locations,
-            1176 strings with 21864 characters,
-and the built_in function-call counts, 36180 in all, are:
-= -- 3419
+            1180 strings with 21920 characters,
+and the built_in function-call counts, 36212 in all, are:
+= -- 3427
 > -- 2106
 < -- 47
 + -- 713
 - -- 640
-* -- 3172
-:= -- 5701
-add.period$ -- 325
+* -- 3176
+:= -- 5709
+add.period$ -- 327
 call.type$ -- 73
 change.case$ -- 421
 chr.to.int$ -- 73
-cite$ -- 148
+cite$ -- 146
 duplicate$ -- 1493
-empty$ -- 2751
+empty$ -- 2752
 format.name$ -- 767
-if$ -- 7461
+if$ -- 7470
 int.to.chr$ -- 1
 int.to.str$ -- 1
 missing$ -- 75
-newline$ -- 478
+newline$ -- 480
 num.names$ -- 294
-pop$ -- 681
+pop$ -- 672
 preamble$ -- 1
 purify$ -- 359
 quote$ -- 0
-skip$ -- 1126
+skip$ -- 1131
 stack$ -- 0
 substring$ -- 1456
 swap$ -- 133
@@ -43,8 +41,7 @@ text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 763
-warning$ -- 2
+warning$ -- 0
 while$ -- 334
 width$ -- 0
-write$ -- 1163
-(There were 2 warnings)
+write$ -- 1169
