@@ -1,5 +1,4 @@
 library(shapes)
-library(MuMIn)
 library(geomorph)
 library(plyr)
 library(stringr)
@@ -25,7 +24,17 @@ source('../R/support_functions.r')
 source('../R/multiclass_roc.r')
 source('../R/train_and_test.r')
 
+theme_set(theme_bw())
+cbp <- c('#000000', '#E69F00', '#56B4E9', '#009E73', 
+         '#F0E442', '#0072B2', '#D55E00', '#CC79A7')
+cbp.long <- c('#000000', '#004949', '#009292', '#FF7DB6', '#FFB6DB', 
+              '#490092', '#006DDB', '#B66DFF', '#6DB6FF', '#B6DBFF', 
+              '#920000', '#924900', '#DBD100', '#24FF24', '#FFFF6D')
+
+grab <- laply(seq(5), function(x) seq(from = x, to = length(cbp.long), by = 5))
+cbp.ord <- cbp.long[t(grab)]
 turt.out <- list()
+
 
 # actually start doing analysis...
 newturt <- list.files('../data/new_turtle', 

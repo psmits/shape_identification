@@ -169,27 +169,7 @@ Supervised learning methods were applied to all three datasets.
 %   just put them in an online appendix?
 
 
-\subsection{Unsupervised learning}
 
-Gap statistic values from the PAM clustering are mostly equivalent for all potential clusters, indicating that none of the proposed clusters are statistically different from each other as evidenced by the confidence intervals around these estimates (Fig. \ref{fig:gap}). No clustering result is statistically greater than that with only a single cluster, because of this we favor the interpretation that there is no latent structure in the data detected by this analysis. While the solution with two groupings does have the greatest mean gap statistic, there is no geographical signal in the results of this clustering solution (Fig. \ref{fig:gap_map}). Additionally, there is no correspondence between these two clusters and the sex of the specimens (\(\chi^{2}\) 0.7685, df = 1, \textit{p}-value 0.38). Because of this, we assert that 1) there is no means of naturally partitioning \textit{E. marmorata} plastron shape into distinct subgroups without reference to external information and 2) sexual dimorphism most likely is not confounding these analyses.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/gap_res}
-  \caption{Results from PAM clustering of the Riemannian shape distance for 8 different number of clusters. Vertical lines are 2 standard deviation of the mean determined from 500 resamples as defined in \citep{Tibshirani2001a}.}
-  \label{fig:gap}
-\end{figure}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/gap_map}
-  \caption{Comparison of geographic distribution of clustered observations from the 2 clustering PAM solution. Colour and shape correspond to each of the groups. There is clearly no geographic signal in the data. Points are slightly transparent as 354 points are plotted but many of them overlap. 354 points are plotted, some of which overlap.}
-  \label{fig:gap_map}
-\end{figure}
-
-
-\subsection{Supervised learning}
-% model selection/fit
 AUC--based model selection revealed some important patterns of variation and congruence between the classification schemes and the actual data. Generally, the best performing models tended to include as many PCs as possible (Fig. \ref{fig:sel}). Note that the best random forest models were determined via recursive feature selection, so PCs were not included in order of percent variance explained. That almost all LDA and multinomial logistic regression models were as complex as possible indicates that the differences between the different groups within each classification scheme are very small.
 
 As part of fitting a random forest model, a ranking of variable importance also is determined. Interestingly, the order of variable importance is not the same as the order of the PCs (Fig. \ref{fig:var_imp}). This means that the variance describing the differences between the classes does not align with the major axes of variance (i.e. the PCs). Such a result is expected if variation between classes was extremely fine grained and not a part of the principal form or function of the plastron. Moreover, this result is consistent with the results from the AUC--based model selection for the multinomial logistic regression and LDA models.
@@ -246,7 +226,6 @@ Mean AUC values for the model generalizations, in most cases, are approximately 
 
 In contrast to the muddled results from the analysis of \textit{E. marmorata}, the analysis of \textit{T. scripta scripta} to \textit{T. scripta elegans} indicates that these two subspecies are sufficiently morphologically distinct to be classified with near perfect accuracy (Table \ref{tab:second_res}, with both in-sample and out-of-sample classification having AUC values of approximately 1 for all methods. The analysis of the seven morphologically-distinct species also demonstrates near perfect classification of both the in-sample and out-of-sample datasets (Table \ref{tab:second_res}). 
 
-For both datasets, the distribution of ROC scores from 1000 bootstrap replicates are tightly clustered near AUC = 1 (Fig. \ref{fig:other_boot}), in contrast to the results from the \textit{E. marmorata} case (Fig. \ref{fig:gen_hist}). These results demonstrate that when there are distinctions between the states of the classification schemes, the methods used here can recover them.
 % insert table here with the AUC values for in and out of sample results
 %   just like below for the 7 clear cut
 % trachemys

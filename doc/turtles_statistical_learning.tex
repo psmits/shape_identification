@@ -128,7 +128,7 @@ The final dataset dataset included 354 adult \textit{E. marmorata} museum specim
 \end{figure}
 
 
-Following previous work on plastron shape \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, we used TpsDig 2.04 \citep{Rohlf2005} to digitize 19 landmarks (Fig. \ref{fig:plastra}). Seventeen of the landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the plastron. Twelve of the landmarks were symmetrical across the axis of symmetry. Because damage prevented the digitization of all the symmetric landmarks in some specimens, we reflected landmarks across the axis of symmetry (i.e. midline) prior to analysis and used the average position of each symmetrical pair. In cases where damage or incompleteness prevented symmetric landmarks from being determined, we used only the single member of the pair. We conducted all subsequent analyses on the resulting ``half'' plastra. We superimposed the plastral landmark configurations using generalized Procrustes analysis \citep{Dryden1998a}, after which, we calculated the principal components (PC) of shape using the \texttt{shapes} package for R \citep{2015,Dryden2013}.
+Following previous work on plastron shape \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, we used TpsDig 2.04 \citep{Rohlf2005} to digitize 19 landmarks (Fig. \ref{fig:plastra}). Seventeen of the landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the plastron. Twelve of the landmarks were symmetrical across the axis of symmetry. Because damage prevented the digitization of all the symmetric landmarks in some specimens, we reflected landmarks across the axis of symmetry (i.e. midline) prior to analysis and used the average position of each symmetrical pair. In cases where damage or incompleteness prevented symmetric landmarks from being determined, we used only the single member of the pair. We conducted all subsequent analyses on the resulting ``half'' plastra. We superimposed the plastral landmark configurations using generalized Procrustes analysis \citep{Dryden1998a}, after which, we calculated the principal components (PC) of shape using the \texttt{shapes} package for R \citep{R2016,Dryden2013}.
 
 
 \subsection{Biasing effects}
@@ -169,7 +169,7 @@ In classification studies, such as this one, a common metric of performance is t
 % caret package for R
 We adopted a training and testing paradigm for selecting parsimonious models and estimating their overall error rates \citep{Hastie2009,Kuhn2013}. Within-sample model performance is inherently biased upwards, so model evaluation requires overcoming this bias. With very large sample sizes, as in this study, part of the sample can be used as the ``training set'' and the remainder acts as the ``testing set.'' In this approach, following all cleaning and vetting, the data is split into a training dataset and a testing dataset. The former is used for fitting the model where as the later is used for measuring model performance, a process called model generalization. In this analysis, we used 80\% of samples as the training set while the remaining 20\% were used as the testing set. 
 
-For a given supervised learning method, we compared the fit of 27 models as the average AUC from 10 rounds of 5-fold cross-validation. Cross-validation is an approach for estimating the average out-of-sample predictive error of a model by simulating out-of-sample data from the training data itself \citep{Hastie2009}. In a single round of \(k\)-fold cross-validation, the training data is divided into \(k\) blocks where the model is fit to \(k - 1\) blocks and the values of the \(k\)th block are predicted; this is then repeated for all combinations of blocks. Within each round, the predictive performance metrics is averaged across all folds. Finally, the predictive performance metric is the averaged across all rounds of \(k\)-fold cross-validation. This process was implemented using the R package \texttt{caret} CITATION.
+For a given supervised learning method, we compared the fit of 27 models as the average AUC from 10 rounds of 5-fold cross-validation. Cross-validation is an approach for estimating the average out-of-sample predictive error of a model by simulating out-of-sample data from the training data itself \citep{Hastie2009}. In a single round of \(k\)-fold cross-validation, the training data is divided into \(k\) blocks where the model is fit to \(k - 1\) blocks and the values of the \(k\)th block are predicted; this is then repeated for all combinations of blocks. Within each round, the predictive performance metrics is averaged across all folds. Finally, the predictive performance metric is the averaged across all rounds of \(k\)-fold cross-validation. This process was implemented using the R package \texttt{caret} \citep{KuhnMAN2013}.
 
 For a given supervised learning method, the ``best'' trained model is that the highest mean AUC as estimated from 5-fold cross-validation. The selected or final model, however, is the next most parsimonious model that is within one standard error of the best model; this is a variant on the ``one-standard error'' rule from \citet{Hastie2009}.
 
@@ -189,11 +189,11 @@ Instead of relying on a single supervised learning method, we chose to use an en
     \hline
     Method name & abbreviation & R package & citation \\
     \hline
-    multinomial logistic regression & MLR & nnet & citation \\
-    linear discriminate analysis & LDA & MASS & citation \\
-    penalized discrminiate analysis & PDA & mda & citation \\
-    single-hidden-layer neural network & NN & nnet & citation \\
-    random forests & RF & randomForest & citation \\
+    multinomial logistic regression & MLR & nnet & \citet{Venables2002} \\
+    linear discriminate analysis & LDA & MASS & \citet{Venables2002} \\
+    penalized discrminiate analysis & PDA & mda & \citet{mdapack} \\
+    single-hidden-layer neural network & NN & nnet & \citet{Venables2002} \\
+    random forests & RF & randomForest & \citet{Liaw2002} \\
     \hline
   \end{tabular}
   \caption{table of the methods}
@@ -240,6 +240,7 @@ Instead of relying on a single supervised learning method, we chose to use an en
 
 \subsection{Supervised learning}
 
+Analysis of the seven morphologically-distinct species and the \textit{T. scripta scripta}--\textit{T. scripta elegans} datasets indicate that these classifications are sufficiently morphologically distinct. Both in-sample and out-of-sample classification have AUC values of approximately 1 for all methods (Fig. \ref{fig:other_sel}, \ref{fig:other_oos}). For both datasets, the ROC scores from testing datasets are tightly clustered near AUC = 1 (Fig. \ref{fig:other_oos}). These results demonstrate that when there are distinctions between the states of the classification schemes, the methods used here can recover them.
 
 \begin{figure}[ht]
   \centering
@@ -255,23 +256,50 @@ Instead of relying on a single supervised learning method, we chose to use an en
   \label{fig:other_oos}
 \end{figure}
 
+
+AUC--based model selection revealed some important patterns of variation and congruence between the classification schemes and the actual data. Generally, the best performing models tended to include about half the total number of possible PCs (Fig. \ref{fig:emys_sel}). As was the case with the \textit{Trachemys} dataset (Fig. \ref{fig:other_sel}), the neural net models are the least well-performing models compared to all others used (Fig. \ref{fig:emys_sel}).
+
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/emys_model_sel}
-  \caption{CAPTION}
+  \caption{AUC values for models of varying complexity fit to the \textit{Emys marmorata} training datasets for each classification scheme. Standard errors on AUC estimates are calculated from 10 rounds of 5-fold cross-validation. Indicated are the best performing and the selected models, in red and blue respectively. In some cases, there is no difference in complexity between the best and selected models.}
   \label{fig:emys_sel}
 \end{figure}
+
+Observed AUC values for all of the optimal models are not exceptionally high (Fig. \ref{fig:emys_sel}). In most cases the different proposed classification schemes are generally poor descriptors of the observed variation. It appears that the data set is overwhelmed by noise, making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing data set (Fig. \ref{fig:emys_oos}).
 
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/emys_oos_sel}
-  \caption{CAPTION}
+  \caption{Comparison of out-of-sample AUC estimates from the predictions of selected models (Fig. \ref{fig:emys_sel}), grouped by classification scheme. The horizontal line in each panel corresponds to the average AUC value across all models of that classification scheme.}
   \label{fig:emys_oos}
 \end{figure}
 
+Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training data set (Fig. \ref{fig:emys_sel}, \ref{fig:emys_oos}). The  cases in which the AUC from the  generalizations is less than the observed indicate poor model fit and a poor classification scheme. Comparison of AUC values from the model generalizations do not indicate a clear ``best'' classification scheme (Fig. \ref{fig:emys_sel}, \ref{fig:emys_oos}). 
 
 \section{Discussion}
 
+The results of this study show that there is no clear grouping of \textit{E. marmorata} based on plastron shape.
+
+The unsupervised learning results indicate that no grouping is optimal or particularly better than a single grouping, which is consistent with the results from the generalizations of the supervised learning models. The classification schemes used in the supervised learning models correspond, loosely, to unsupervised learning solutions with multiple groups. Because unsupervised learning solutions with multiple groups are poor descriptors of the observed variation, it is important to see this generally supported by the supervised learning results.
+
+The results from fitting the various supervised learning models to each of the classification schemes generally shows that no one scheme is ``best.'' Possible explanations include that the genetic differentiation is not associated with plastron shape variation and/or that local selective pressures (e.g. from hydrological regime) overwhelm morphological differentiation. This makes sense given that shell shape is influenced by selection for both protection and streamlining, but not necessary mate choice \citep{Rivera2008,Rivera2011,Stayton2011,Rivera2014,Pollyb} and that shell shape in \textit{E. marmorata} is known to vary among populations inhabiting water bodies with different flow regimes \citep{Holland1992,Lubcke2007,Germano2009}. Plastron shape does not seem to preserve a strong phylogenetic signal at the interspecific level in emydine turtles \citep{Angielczyk2011}, and our current results suggest that this may be the case for phylogeographic signal within emydine species as well. A final possibility (explored below) is that the proposed classification schemes themselves do not represent significant evolutionary lineages.
+
+Both the low out-of-sample AUC values (\(< 0.9\)) and the significant difference between the correctly and incorrectly classified observations support the conclusion that none of the hypothesized classification schemes are good descriptors of the observed plastral variation within \textit{E. marmorata}.
+
+Nevertheless, it is important to note that plastron shape is an extremely effective method for differentiating classes in the additional datasets we investigated. The magnitude of shape differences between the species (measured as Procrustes distance between species' mean shapes) is approximately an order of magnitude greater than the differences between the \textit{E. marmorata} subgroups, and the machine learning methods had no trouble accurately classifying the specimens correctly. However, the magnitude of the shape differences between the \textit{T. scripta} subspecies is comparable to theose separating the different \textit{E. marmorata} subgroups, yet even in this case the machine learning methods returned an almost perfect classification. These results demonstrate that plastron shape is normally a good marker for differentiating real subgroups in close relatives of \textit{E. marmorata}, and that our lack of results for \textit{E. marmorata} is not simply a shortcoming of the methods we applied. Indeed, they beg the question of what factors have suppressed morphological differentiation of plastron shape in \textit{E. marmorata} and \textit{E. pallida} if they are distinct species. Invoking issues such as the role of the plastron in protection or the need for streamlining are insufficient because the other species are expected to be subject to similar constraints \citep{Stayton2011,Pollyb}. While it may seem counterintuitive that plastron shape is both useful for species delimitation but has weak or absent phylogenetic signal, it is important to note that these are different goals. While phylogenetically similar species may not be morphologically similar, the variation within a species is much less than the variation between species which leads to plastron shape being a useful tool for species delimitation but not phylogenetic reconstruction.
+
+\subsection{Is there more than one species of Western Pond Turtle?}
+
+The lack of morphological support for the distinctiveness of \textit{E. pallida} does not, on its own, preclude the recognition of this taxon. However, this apparent lack of congruence does prompt a reexamination of the methods and concepts that led to that taxonomic revision, especially considering that plastron shape is demonstrably capable of differentiating species and subspecies among emydids. In other words, before we can assess the significance of the morphological non-diagnosablity, it is essential to evaluate the methods and concepts that led to the initial taxonomic revision. 
+
+\citet{Spinks2014} elevated \textit{E. pallida} based on a species delimitation analysis of SNP data using BPP \citep{Yang2010b}. However, \citet{Spinks2014} did not heed the caveats about species delimitation methods raised by \citet{Carstens2013}. In addition to specifically addressing the shortcomings of validation methods such as BPP that rely on guide trees and ``should be interpreted with caution,'' \citet{Carstens2013} also strongly emphasized that ``Inferences regarding species boundaries based on genetic data alone are likely inadequate, and species delimitation should be conducted with consideration of the life history, geographical distribution, morphology and behaviour (where applicable) of the focal system\dots'' These caveats evoke the development of the Unified Species Concept \citep{Dayrat2005a,DeQueiroz2007b}, Integrative Taxonomy \citep{Padial2010}, and other pluralist approaches to species delimitation. None of these considerations were brought to bear on the \textit{E. marmorata} system until now, and in doing so we find the proposal that \textit{E. pallida} is a distinct species to be lacking in a normally robust morphological marker.
+
+The natural history and geographical distribution of \textit{E. marmorata} and \textit{E. pallida} also make the recognition of these taxa implausible. The data from \citet{Spinks2014} show extensive introgression and admixture in Central California, which is expected because there are no significant barriers to gene flow in this region. Combined with the well-demonstrated ability for testudinoid turtles, including emydids and even \textit{Emys}, to hybridize (e.g. \citealt{Buskirk2005,Spinks2009,Parham2013}) it is hard to imagine how \textit{E. marmorata} and \textit{E. pallida} could maintain their integrity in the face of such admixture. Because the geography, natural history, demonstrated genetic admixture of \textit{E. marmorata}, and comparisons with other morphologically diagnosable species and subspecies conflict with the recognition of \textit{E. pallida}, we hypothesize that our inability to classify the morphological data by proposed species is because \textit{E. pallida} is not a distinct species. 
+
+We fully agree with \citet{Spinks2014} that \textit{E. marmorata} (\textit{sensu lato}) is a species deserving of strong conservation efforts, and we do not wish to trivialize this need. Moreover, the genetic diversity uncovered by the analysis of \citet{Spinks2014} should be explicitly accounted for in any conservation plan. Given the apparent lack of morphological distinction, however, we consider that this diversity should be considered Evolutionary Significant Units or Distinct Population Segments instead of distinct species.
+
+Finally, it is important to note that the data and analyses we present do not let us definitively say whether the apparent lack of morphological divergence within \textit{E. marmorata} truly reflects the presence of a single species, or if it is an artifact of plastron shape being a poor morphological marker for phylogenetic and phylogeographic divergences in the case of \textit{E. marmorata}, because we could not carry out our morphometric analyses on the specimens from which the genetic data were obtained. The comparisons with the other emydid taxa suggest that it is because \textit{E. marmorata} is a single species. However, tests of both our preferred conclusion (\textit{E. marmorata} as a single species) and that \citet{Spinks2014} should include morphological and molecular analyses of the same set of voucher specimens, as well as additional tests of species delimitation using alternative methods and corroborating evidence as suggested by \citet{Carstens2013}. From a morphological standpoint, support for the validity of ``\textit{E. pallida}'' may come from other aspects of morphology, such as carapace shape or other features. Likewise, further investigation of the phylogeographic utility of plastron shape in other turtle species will help to clarify whether the lack of differentiation seen in \textit{E. marmoarata}, and the strong differentiation among the other emydids, is typical or an unusual case.
 
 
 \section*{Acknowledgements}

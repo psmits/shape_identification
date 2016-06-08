@@ -4,46 +4,47 @@ The top-level auxiliary file: turtles_statistical_learning.aux
 The style file: abbrvnat.bst
 Database file #1: turtle.bib
 Database file #2: packages.bib
-Warning--I didn't find a database entry for "2015"
-You've used 57 entries,
+Warning--empty year in Pollyb
+Warning--empty year in Pollyb
+You've used 73 entries,
             2773 wiz_defined-function locations,
-            1056 strings with 18354 characters,
-and the built_in function-call counts, 28652 in all, are:
-= -- 2700
-> -- 1683
-< -- 36
-+ -- 568
-- -- 511
-* -- 2525
-:= -- 4507
-add.period$ -- 251
-call.type$ -- 57
-change.case$ -- 333
-chr.to.int$ -- 57
-cite$ -- 114
-duplicate$ -- 1170
-empty$ -- 2181
-format.name$ -- 614
-if$ -- 5911
+            1176 strings with 21864 characters,
+and the built_in function-call counts, 36180 in all, are:
+= -- 3419
+> -- 2106
+< -- 47
++ -- 713
+- -- 640
+* -- 3172
+:= -- 5701
+add.period$ -- 325
+call.type$ -- 73
+change.case$ -- 421
+chr.to.int$ -- 73
+cite$ -- 148
+duplicate$ -- 1493
+empty$ -- 2751
+format.name$ -- 767
+if$ -- 7461
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 61
-newline$ -- 372
-num.names$ -- 230
-pop$ -- 539
+missing$ -- 75
+newline$ -- 478
+num.names$ -- 294
+pop$ -- 681
 preamble$ -- 1
-purify$ -- 284
+purify$ -- 359
 quote$ -- 0
-skip$ -- 888
+skip$ -- 1126
 stack$ -- 0
-substring$ -- 1193
-swap$ -- 100
-text.length$ -- 2
+substring$ -- 1456
+swap$ -- 133
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 592
-warning$ -- 0
-while$ -- 264
+type$ -- 763
+warning$ -- 2
+while$ -- 334
 width$ -- 0
-write$ -- 906
-(There was 1 warning)
+write$ -- 1163
+(There were 2 warnings)
