@@ -64,7 +64,7 @@
 \modulolinenumbers[2]
 
 \begin{abstract}
-  We investigate the morphometric identification of cryptic species using machine learning approaches by examining their implications for a recently proposed cryptic turtle species (\textit{Emys pallida}). We collected landmark-based morphometric data from 354 adult \textit{E. marmorata/``pallida''} museum specimens. We assigned a classification to each specimen for six different binning schemes based on geographic occurrence data recorded in museum collection archives. We used multiple machine learning methods, both unsupervised and supervised, to compare different classification hypotheses and asked whether it is possible to determine which amongst a set of classification hypotheses is best. 
+  We investigate the morphometric identification of cryptic species using machine learning approaches by examining their implications for a recently proposed cryptic turtle species (\textit{Emys pallida}). We collected landmark-based morphometric data from 354 adult \textit{E. marmorata/``pallida''} museum specimens. We assigned a classification to each specimen for six different binning schemes based on geographic occurrence data recorded in museum collection archives. We used multiple supervised machine learning methods to compare different classification hypotheses and asked whether it is possible to determine which amongst a set of classification hypotheses is best. 
   In addition, we applied the above approach to two additional datasets: two well-supported subspecies of \textit{Trachemys scripta} and a set of seven unambiguously distinct species closely related to \textit{E. marmorata}. The results of this study indicate that there is no clear grouping of \textit{E. marmorata/``pallida''} based on plastron shape. In contrast, the analysis of the other datasets demonstrate a near perfect classification, which demonstrates that application of the methods to plastron shape data can recover correct results in similar situations. Explanations for the lack of grouping in \textit{E. marmorata} include that possibility that genetic differentiation is not associated with plastron shape variation in this species complex and/or that local selective pressures (e.g., from hydrological regime) overwhelm morphological differentiation. A reconsideration of the methods used to delimit \textit{E. ``pallida,''} the lack of barriers to gene flow, the strong evidence for widespread admixture between lineages, and the fact that plastron shape can be used to differentiate other emydid species and subspecies suggest that its lack of diagnosability most likely reflects the non-distinctiveness of this proposed taxon.
 \end{abstract}
 
@@ -86,7 +86,7 @@ Machine learning is an extension of known statistical methodology \citep{Hastie2
 
 Geometric morphometric approaches to identifying differences in morphological variation between different classes, including cryptic species, mostly have used methods like linear discriminate analysis and canonical variates analysis \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Francoy2009,Sztencel-Jabonka2009,MitrovskiBogdanovic2013}. Because of their similarity to multivariate approaches like principal components analysis (PCA), these methods are comparatively straightforward ways of understanding the differences in morphology between classes. They also benefit from producing results that can be easily visualized, which aids in the interpretation and presentation of data and results. Most previous morphometric studies did not assess which amongst a set of alternative classification hypotheses was optimal. For example, studies such as those of \citet{Caumul2005a} and \citet{Polly2007a} focused on comparing different aspects of morphology and their fidelity to a classification scheme instead of comparing the fidelity of one aspect of morphology to multiple classification schemes. In this context, the study of \citet{Cardini2009a} is noteworthy because they compared morphological variation in marmots at the population, regional, and species level and determined the fidelity of shape to divisions at each of these levels.
 
-Here, we used multiple machine learning methods, both unsupervised and supervised, to compare different classification hypotheses. These methods provide different advantages for understanding how to classify taxa, as well as the accuracy of the resulting classifications. Although machine learning methods such as neural networks have been applied to studying shape variation \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011}, including in the context of automated taxon identification and classification of groups, the number of cases remains limited. In the current study, we not only consider pure classification accuracy but also use a statistic of classification strength that reflects the rate at which taxa are both accurately and inaccurately classified. 
+Here, we used multiple supervised machine learning methods to compare different classification hypotheses. These methods provide different advantages for understanding how to classify taxa, as well as the accuracy of the resulting classifications. Although machine learning methods such as neural networks have been applied to studying shape variation \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011}, including in the context of automated taxon identification and classification of groups, the number of cases remains limited. In the current study, we not only consider pure classification accuracy but also use a statistic of classification strength that reflects the rate at which taxa are both accurately and inaccurately classified. 
 
 
 We analyzed the problem of whether there are distinct subspecies or cryptic species within the western pond turtle, \textit{Emys marmorata} \citep{Baird1852} (formerly \emph{Clemmys marmorata}; see \citealp{Feldman2002}). \textit{Emys marmorata} is distributed from northern Washington State, USA to Baja California, Mexico. Traditionally, \textit{E. marmorata} was classified into two named subspecies: the northern \textit{E. marmorata marmorata} and the southern \textit{Emys marmorata pallida} \citep{Seeliger1945}, with a central Californian intergrade zone in between. \textit{Emys marmorata marmorata} is differentiated from \textit{E. marmorata pallida} by the presence of a pair of triangular inguinal scales and darker neck markings. The triangular inguinal plates can sometimes be present in \textit{E. marmorata pallida} although they are considerably smaller. \citet{Seeliger1945} did not formally include the Baja California populations of \textit{E. marmorata} in either taxon, implying the existence of a third distinct but unnamed subspecies.
@@ -185,6 +185,7 @@ Instead of relying on a single supervised learning method, we chose to use an en
 
 \begin{table}
   \centering
+  \caption{Table of the supervised learning methods used in this analysis.}
   \begin{tabular}{l l l l}
     \hline
     Method name & abbreviation & R package & citation \\
@@ -196,7 +197,6 @@ Instead of relying on a single supervised learning method, we chose to use an en
     random forests & RF & randomForest & \citet{Liaw2002} \\
     \hline
   \end{tabular}
-  \caption{table of the methods}
   \label{tab:methods}
 \end{table}
 
@@ -205,6 +205,8 @@ Instead of relying on a single supervised learning method, we chose to use an en
 \section{Results}
 
 \subsection{Geometric morphometrics}
+
+The results of the PCA of plastron shape in both the seven species and \textit{Trachemys} datasets demonstrate strong association between shape and the recognized classification schemes (Fig. \ref{fig:other_pca}). Additionally, there appears to be both little difference in centroid size across individuals as well as little correspondence between centroid size and the PC axes.
 
 \begin{figure}[ht]
   \centering
@@ -216,26 +218,56 @@ Instead of relying on a single supervised learning method, we chose to use an en
     \caption{}
     \includegraphics[width = \textwidth]{figure/tra_pc_graph}
   \end{subfigure}
-  \caption{CAPTION}
+  \caption{Scatterplots of the first two axes from the PCA results for both the seven species (a) and \textit{Trachemys} (b) datasets. Point color corresponds to the species within each dataset. Point size is proportional to individual centroid size. In parentheses next to the axis labels are the percent of total variation accounted for by that axis.}
   \label{fig:other_pca}
 \end{figure}
 
 
+The results of the PCA of plastron shape in the \textit{Emys marmorata} dataset show no clear connection between plastron shape and any of the six proposed classification schemes (Fig. \ref{fig:emys_pca}). The first PC axis of shape variation appears to be very structured by differences in individual centroid size (Fig. \ref{fig:emys_pca}); this was the motivation for including centroid size and its interaction with PC1 as predictors in all of the supervised learning models.
+
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/emys_pc_graph}
-  \caption{CAPTION}
+  \caption{Plot of the first two axes of the PCA of the \textit{Emys marmorata} dataset. Each panel corresponds to each of the six different proposed classification schemes analyzed as part of this study. Point color corresponds to the classes within each scheme, with the titles corresponding to subspecies or regional codes. Point size is proportional to centroid size.}
   \label{fig:emys_pca}
 \end{figure}
 
 
+Analysis of the differences between sexes of \textit{E. marmorata} indicates that sex does not appear to strongly structure differences in shape (Fig. \ref{fig:sex_test}). The difference between the centroids of both sexes is very small; the sexes overlap much more than expected from a null distribution formed by permuting the sex-labels.
+
 \begin{figure}[ht]
   \centering
-  \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/sex_test_hist}
-  \caption{CAPTION}
+  \includegraphics[height = 0.3\textheight, width = \textwidth, keepaspectratio = true]{figure/sex_test_hist}
+  \caption{Comparison of observed Procrustes distance between the centroids of each sex (vertical line) to a null distribution generated from 1000 permutations of the sex-labels. This result indicates that the difference between the centroids is as small/smaller than expected by random.}
   \label{fig:sex_test}
 \end{figure}
 
+
+Comparison of the within to between Procrustes distances of the digitization replicates gives an approximate estimate of the error between distinct groupings (Table \ref{tab:rep_res}). The ratio of the average within-individual distance to the average distance between individuals for the replicated datasets is 1.11; this indicates that the grouping is slightly counter-intuitive to the data. This value provides a baseline by which to understand how distinct the groupings are, where otherratios are compared to the correction ratio \(1.11/1\). 
+
+The results from the seven species and \textit{Trachemys} datasets indicate that both of these classification schemes are more recognizable than not given our estimate of digitization error (Table \ref{tab:rep_res}). In contrast, the different \textit{E. marmorata} classification schemes appear to be barely be distinct, with their within:between ratios being approximate 1 which indicates that the differences between groupings are approximatly as different as any two random individuals are (Table \ref{tab:rep_res}).
+
+\begin{table}
+  \centering
+  \caption{Results from the within-individual to between-individual Procrustes distances for the replicated shapes, the seven species dataset, the \textit{Trachemys} dataset, and each of the \textit{Emys marmorata} classification schemes.}
+  \begin{tabular}{l l c c}
+    \textbf{Dataset} & \textbf{Scheme} & \textbf{Ratio} & \textbf{Corrected ratio} \\
+    \hline
+    Replicates & & 1.11 & \\
+    \hline
+    Seven species & & 0.33 & \\
+    \textit{Trachemys} & & 0.76 & \\
+    \hline
+    \textit{E. marmorata} & Mito 1 & 0.92 & 1.02 \\
+     & Mito 2 & 0.92 & 1.02 \\
+     & Mito 3 & 0.88 & 0.98 \\
+     & Morph 1 & 0.98 & 1.09 \\
+     & Morph 2 & 0.83 & 0.92 \\
+     & Nuclear & 0.90 & 1 \\
+    \hline
+  \end{tabular}
+  \label{tab:rep_res}
+\end{table}
 
 
 \subsection{Supervised learning}
@@ -245,14 +277,14 @@ Analysis of the seven morphologically-distinct species and the \textit{T. script
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/other_model_sel}
-  \caption{CAPTION}
+  \caption{Comparisons of model fit to the training dataset for each of the supervised learning methods; the results from the seven species dataset are presented in the left column, while those from the \textit{Trachemys} dataset are presented in the right column. Models were fit to datasets of varying complexity, with the number of parameters listed along the x-axis. Model fit is measured as the area under the receiver operating characteristic (AUC), which ranges from 0.5 to 1. Error bars correspond to one standard error estimated from 10 rounds of 5-fold cross-validation. The red dot corresponds to the model fit with the highest mean AUC while the blue dot corresponds to the model selected for further analysis. In some cases, there is no difference in complexity between the best and selected models.}
   \label{fig:other_sel}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/other_oos_sel}
-  \caption{CAPTION}
+  \caption{The results of out-of-sample predictive performance of the selected models for both the seven species (left) and \textit{Trachemys} datasets. Predictive performance is measured as the area under the receiver operating characteristic (AUC), which ranges from 0.5 to 1. Points correspond to the individual out-of-sample predictive performance of the specific model, indicated along the x-axis. The horizontal bars correspond the average out-of-sample predictive performance of all the models.}
   \label{fig:other_oos}
 \end{figure}
 
@@ -280,8 +312,6 @@ Mean AUC values for the model generalizations, in most cases, are approximately 
 \section{Discussion}
 
 The results of this study show that there is no clear grouping of \textit{E. marmorata} based on plastron shape.
-
-The unsupervised learning results indicate that no grouping is optimal or particularly better than a single grouping, which is consistent with the results from the generalizations of the supervised learning models. The classification schemes used in the supervised learning models correspond, loosely, to unsupervised learning solutions with multiple groups. Because unsupervised learning solutions with multiple groups are poor descriptors of the observed variation, it is important to see this generally supported by the supervised learning results.
 
 The results from fitting the various supervised learning models to each of the classification schemes generally shows that no one scheme is ``best.'' Possible explanations include that the genetic differentiation is not associated with plastron shape variation and/or that local selective pressures (e.g. from hydrological regime) overwhelm morphological differentiation. This makes sense given that shell shape is influenced by selection for both protection and streamlining, but not necessary mate choice \citep{Rivera2008,Rivera2011,Stayton2011,Rivera2014,Polly2016} and that shell shape in \textit{E. marmorata} is known to vary among populations inhabiting water bodies with different flow regimes \citep{Holland1992,Lubcke2007,Germano2009}. Plastron shape does not seem to preserve a strong phylogenetic signal at the interspecific level in emydine turtles \citep{Angielczyk2011}, and our current results suggest that this may be the case for phylogeographic signal within emydine species as well. A final possibility (explored below) is that the proposed classification schemes themselves do not represent significant evolutionary lineages.
 
