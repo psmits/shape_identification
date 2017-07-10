@@ -24,36 +24,41 @@ land <- df2array(land, n.land, n.dim)
 
 # meta data
 #meta <- read.csv('../data/marmorata_meta2.csv')
-meta <- read.csv('../data/turtle_update.csv')
+meta <- read.csv('../data/marm_upbins.csv')
 meta[meta == "?"] <- NA
 meta[meta == "<NA>"] <- NA
+#names(meta) <- c('ind', 'spec', 'lat', 'long', 'year',
+#                 'sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks.pre', 'spinks',
+#                 'p.sex', 'b.sex', 'sex.pre', 'notes')
 names(meta) <- c('ind', 'spec', 'lat', 'long', 'year',
-                 'sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks.pre', 'spinks',
+                 'sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph', 'ndu',
                  'p.sex', 'b.sex', 'sex.pre', 'notes')
-meta$sh4 <- as.factor(meta$sh4)
-meta$spinks <- as.factor(meta$spinks)
 
+# get rid of everything that doesn't have lat-long
+meta[, c('lat', 'long')] <- apply(meta[, c('lat', 'long')], 
+                                  2, function(x) as.numeric(as.character(x)))
+meta$long <- meta$long * -1
+land <- land[, , !is.na(meta$lat)]
+rawturt<- rawturt[!is.na(meta$lat), ]
+meta <- meta[!is.na(meta$lat), ]
+
+# get rid of everything that doesn't have assigns
 # clean off the missing important values
-imp <- c('lat', 'long', 'sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks', 'p.sex')
+imp <- c('lat', 'long', 'sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph', 'p.sex')
 rms <- Reduce('|', alply(meta[, imp], 2, is.na))
 land <- land[, , !rms]
 meta <- meta[!rms, ]
 rawturt <- rawturt[!rms, ]
 
-# clean the geographic information
-meta[, c('lat', 'long')] <- apply(meta[, c('lat', 'long')], 
-                                  2, function(x) as.numeric(as.character(x)))
-meta$long <- meta$long * -1
-meta$long[meta$long > 0] <- meta$long[meta$long > 0] * -1
 
-cl <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
+cl <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 meta[, cl] <- apply(meta[, cl], 2, function(x) x)
-meta$sh1 <- factor(meta$sh1)
-meta$sh2 <- factor(meta$sh2)
-meta$sh3 <- factor(meta$sh3)
-meta$sh4 <- factor(meta$sh4)
-meta$sh5 <- factor(meta$sh5)
-meta$spinks <- factor(meta$spinks)
+#meta$sh1 <- factor(meta$sh1)
+#meta$sh2 <- factor(meta$sh2)
+#meta$sh3 <- factor(meta$sh3)
+#meta$sh4 <- factor(meta$sh4)
+#meta$sh5 <- factor(meta$sh5)
+#meta$spinks <- factor(meta$spinks)
 
 # clean the juveniles
 jv <- grepl(pattern = '[jJh]', meta$p.sex)

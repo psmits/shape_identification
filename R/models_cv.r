@@ -30,22 +30,22 @@ cbp.ord <- cbp.long[t(grab)]
 registerDoParallel(cores = detectCores())
 
 source('../R/supervised_mung.r')
-adult$spinks <- LETTERS[adult$spinks]
+#adult$spinks <- LETTERS[adult$spinks]
 
-schemes <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
+schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
 npred <- 25
 
-#results <- list()
-#for(ii in seq(length(meth))) {
-#  results[[ii]] <- use.model(method = meth[ii],
-#                             adult = adult, 
-#                             scheme = schemes,
-#                             npred = 25)
-#}
-#names(results) <- meth
+results <- list()
+for(ii in seq(length(meth))) {
+  results[[ii]] <- use.model(method = meth[ii],
+                             adult = adult, 
+                             scheme = schemes,
+                             npred = 25)
+}
+names(results) <- meth
 #save(results, file = '../data/model_cv_results.rdata')
-load('../data/model_cv_results.rdata')
+#load('../data/model_cv_results.rdata')
 
 # in sample roc from cv
 roc.out <- llply(results, function(oo) 
@@ -120,22 +120,22 @@ selc.melt$npred <- as.numeric(as.character(selc.melt$npred))
 # map values of models to correct abbreviation
 roc.melt$model <- mapvalues(roc.melt$model, from = unique(roc.melt$model),
                             to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
-roc.melt$scheme <- mapvalues(roc.melt$scheme, from = unique(roc.melt$scheme),
-                            to = c('Morph 1', 'Morph 2', 'Mito 1',
-                                   'Nuclear', 
-                                   'Mito 2', 'Mito 3'))
+#roc.melt$scheme <- mapvalues(roc.melt$scheme, from = unique(roc.melt$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
 high.melt$model <- mapvalues(high.melt$model, from = unique(high.melt$model),
                             to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
-high.melt$scheme <- mapvalues(high.melt$scheme, from = unique(high.melt$scheme),
-                            to = c('Morph 1', 'Morph 2', 'Mito 1',
-                                   'Nuclear', 
-                                   'Mito 2', 'Mito 3'))
+#high.melt$scheme <- mapvalues(high.melt$scheme, from = unique(high.melt$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
 selc.melt$model <- mapvalues(selc.melt$model, from = unique(selc.melt$model),
                             to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
-selc.melt$scheme <- mapvalues(selc.melt$scheme, from = unique(selc.melt$scheme),
-                            to = c('Morph 1', 'Morph 2', 'Mito 1',
-                                   'Nuclear', 
-                                   'Mito 2', 'Mito 3'))
+#selc.melt$scheme <- mapvalues(selc.melt$scheme, from = unique(selc.melt$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
 
 
 roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
@@ -176,14 +176,14 @@ oos.mean <- ddply(oos.melt, .(scheme), summarize, mean = mean(value))
 # map values of models to correct abbreviation
 oos.melt$model <- mapvalues(oos.melt$model, from = unique(oos.melt$model),
                             to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
-oos.melt$scheme <- mapvalues(oos.melt$scheme, from = unique(oos.melt$scheme),
-                            to = c('Morph 1', 'Morph 2', 'Mito 1',
-                                   'Nuclear', 
-                                   'Mito 2', 'Mito 3'))
-oos.mean$scheme <- mapvalues(oos.mean$scheme, from = unique(oos.mean$scheme),
-                            to = c('Morph 1', 'Morph 2', 'Mito 1',
-                                   'Nuclear', 
-                                   'Mito 2', 'Mito 3'))
+#oos.melt$scheme <- mapvalues(oos.melt$scheme, from = unique(oos.melt$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
+#oos.mean$scheme <- mapvalues(oos.mean$scheme, from = unique(oos.mean$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
 
 oos.plot <- ggplot(oos.melt, aes(x = model, y = value))
 oos.plot <- oos.plot + geom_point() + facet_grid(. ~ scheme)
