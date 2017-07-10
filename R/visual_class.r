@@ -96,8 +96,7 @@ ggsave(plot = trag, filename = '../doc/figure/tra_pc_graph.png',
 
 # now for marmorata data
 source('../R/supervised_mung.r')
-schemes <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
-adult$spinks <- LETTERS[adult$spinks]
+schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 
 ad <- data.frame(adult[, schemes], stringsAsFactors = FALSE)
 level <- unique(unlist(apply(adult[, schemes], 2, 
