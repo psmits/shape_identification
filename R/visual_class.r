@@ -108,8 +108,8 @@ ad <- Reduce(c, ad)  # vector of the classifications for all schemes
 
 
 sch <- rep(schemes, each = nrow(adult))  # vector of the schemes for ad
-sch <- mapvalues(sch, from = schemes, to = c('Morph 1', 'Morph 2', 'Mito 1',
-                                             'Nuclear', 'Mito 2', 'Mito 3'))
+#sch <- mapvalues(sch, from = schemes, to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                             'Nuclear', 'Mito 2', 'Mito 3'))
 
 scores <- Reduce(rbind, 
                  replicate(length(schemes), fit$stdscores, simplify = FALSE))
