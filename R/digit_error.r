@@ -33,7 +33,7 @@ land.dist <- function(shapes) {
 
 
 # emys set
-scheme <- c('sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks')
+scheme <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2')
 ff <- adult[, scheme]
 emys.split <- list()
 for(ii in seq(length(scheme))) {

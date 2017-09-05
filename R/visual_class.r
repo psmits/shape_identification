@@ -29,17 +29,37 @@ cbp.ord <- cbp.long[t(grab)]
 
 # actually start doing analysis...
 newturt <- list.files('../data/new_turtle', 
-                      pattern = 'adult', 
+                      pattern = 'txt', 
                       full.names = TRUE)
-turt <- llply(newturt, function(x) read.csv(x, header = FALSE))
-numbers <- llply(turt, function(x) x[, 1:2])
+turt <- llply(newturt, function(x) read.delim(x, header = FALSE, sep = ' '))
+# for some reason there are 2 dead columns...
+turt <- llply(turt, function(x) { 
+                x = x[1:27]
+                x})
+
+# need to get rid of the JRB specimens
+inturt <- list.files('../data/new_turtle', 
+                      pattern = 'list.csv', 
+                      full.names = TRUE)
+# blan, coa, gut, ins, muh, orb, orn, pic
+inturt <- inturt[c(1, 3, 4, 5, 6, 7, 8, 2)]
+numbers <- llply(inturt, function(x) read.csv(x, header = TRUE))
+
+# remove JRB before things get awkward
+spec.source <- llply(numbers, function(x) as.character(x[, 2]))
+to.rm <- llply(spec.source, function(x) str_detect(x, 'JRB'))
+
+turt <- Map(function(x, y) {x = x[!y, ]; x}, turt, to.rm)
+numbers <- Map(function(x, y) {x = x[!y, ]; x}, numbers, to.rm)
+
+# ok, onto the analysis
 centroids <- llply(turt, function(x) x[, ncol(x)])
-turt <- llply(turt, function(x) x[, -c(1:2, ncol(x))])
 # number, museum #, lands...., centroid
 turt <- Reduce(rbind, turt)
 turt.align <- df2array(turt, n.land = 26, n.dim = 2)
 turt.proc <- procGPA(turt.align)
 turt.scores <- turt.proc$scores
+
 
 seven.centroids <- unlist(centroids)
 turt.name <- laply(str_split(newturt, '\\/'), function(x) x[length(x)])
@@ -54,7 +74,7 @@ trac <- llply(trac, function(x)
 trac.centroids <- unlist(llply(trac, function(x) x[, ncol(x)]))
 ids <- Reduce(c, Map(function(x, y) 
                      rep(y, times = nrow(x)), 
-                     x = trac, y = c('a', 'b')))
+                     x = trac, y = c('T. scripta elegans', 'T. scripta scripta')))
 trac <- llply(trac, function(x) x[, -(ncol(x))])
 trac <- Reduce(rbind, trac)
 trac.align <- df2array(trac, n.land = 26, n.dim = 2)
@@ -88,15 +108,15 @@ trag <- clear.gg %+% splits[[2]] + labs(x = 'PC 1 (37.9%)', y = 'PC 2 (17.3%)')
 trag <- trag + coord_fixed(ratio = 1)
 
 ggsave(plot = cc7g, filename = '../doc/figure/cc7_pc_graph.png',
-       width = 5, height = 4)
+       width = 8, height = 6)
 ggsave(plot = trag, filename = '../doc/figure/tra_pc_graph.png',
-       width = 5, height = 4)
+       width = 8, height = 6)
 
 
 
 # now for marmorata data
 source('../R/supervised_mung.r')
-schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
+schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2')#, 'morph')
 
 ad <- data.frame(adult[, schemes], stringsAsFactors = FALSE)
 level <- unique(unlist(apply(adult[, schemes], 2, 
@@ -119,6 +139,14 @@ scores.df$class <- factor(ad, levels = level)
 scores.df$sch <- sch
 #fit$percent[1:2]
 scores.df$centroid <- rep(rawturt[, n.land + 1], length(schemes))
+
+# need to be made human readable
+scores.df$class <- as.character(scores.df$class)
+scores.df$class <- mapvalues(scores.df$class, 
+                             from = unique(scores.df$class), 
+                             to = c('Central Coast', 'E. marmorata', 'E. pallida', 
+                                    'San Juan', 'Sierra Foothills', 
+                                    'Baja California'))
 
 emys.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, 
                                  colour = class, size = centroid))

@@ -32,7 +32,7 @@ registerDoParallel(cores = detectCores())
 source('../R/supervised_mung.r')
 #adult$spinks <- LETTERS[adult$spinks]
 
-schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
+schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2')#, 'morph')
 meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
 npred <- 25
 

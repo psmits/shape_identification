@@ -68,8 +68,8 @@ abrv.model <- function(method, adult, scheme, npred = 28) {
     traind <- list()
     for(ii in seq(from = 3, to = ncol(dataset))) {
       traind[[ii - 2]] <- 
-        train(form = responses ~ ., 
-              data = as.matrix(dataset[, seq(ii)]),
+        train(y = responses, 
+              x = dataset[, seq(ii)],
               method = method,
               trControl = ctrl,
               metric = 'ROC', 

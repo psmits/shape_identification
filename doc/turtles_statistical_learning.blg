@@ -1,47 +1,47 @@
-This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: turtles_statistical_learning.aux
 The style file: abbrvnat.bst
 Database file #1: turtle.bib
 Database file #2: packages.bib
-You've used 73 entries,
+You've used 79 entries,
             2773 wiz_defined-function locations,
-            1180 strings with 21920 characters,
-and the built_in function-call counts, 36212 in all, are:
-= -- 3427
-> -- 2106
-< -- 47
-+ -- 713
-- -- 640
-* -- 3176
-:= -- 5709
-add.period$ -- 327
-call.type$ -- 73
-change.case$ -- 421
-chr.to.int$ -- 73
-cite$ -- 146
-duplicate$ -- 1493
-empty$ -- 2752
-format.name$ -- 767
-if$ -- 7470
+            1234 strings with 23802 characters,
+and the built_in function-call counts, 39431 in all, are:
+= -- 3721
+> -- 2340
+< -- 49
++ -- 791
+- -- 712
+* -- 3473
+:= -- 6226
+add.period$ -- 354
+call.type$ -- 79
+change.case$ -- 463
+chr.to.int$ -- 79
+cite$ -- 158
+duplicate$ -- 1608
+empty$ -- 2968
+format.name$ -- 849
+if$ -- 8125
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 75
-newline$ -- 480
-num.names$ -- 294
-pop$ -- 672
+missing$ -- 79
+newline$ -- 519
+num.names$ -- 318
+pop$ -- 740
 preamble$ -- 1
-purify$ -- 359
+purify$ -- 395
 quote$ -- 0
-skip$ -- 1131
+skip$ -- 1230
 stack$ -- 0
-substring$ -- 1456
-swap$ -- 133
+substring$ -- 1558
+swap$ -- 139
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 763
+type$ -- 829
 warning$ -- 0
-while$ -- 334
+while$ -- 359
 width$ -- 0
-write$ -- 1169
+write$ -- 1264

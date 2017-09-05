@@ -38,12 +38,31 @@ turt.out <- list()
 
 # actually start doing analysis...
 newturt <- list.files('../data/new_turtle', 
-                      pattern = 'adult', 
+                      pattern = 'txt', 
                       full.names = TRUE)
-turt <- llply(newturt, function(x) read.csv(x, header = FALSE))
-numbers <- llply(turt, function(x) x[, 1:2])
+turt <- llply(newturt, function(x) read.delim(x, header = FALSE, sep = ' '))
+# for some reason there are 2 dead columns...
+turt <- llply(turt, function(x) { 
+                x = x[1:27]
+                x})
+
+# need to get rid of the JRB specimens
+inturt <- list.files('../data/new_turtle', 
+                      pattern = 'list.csv', 
+                      full.names = TRUE)
+# blan, coa, gut, ins, muh, orb, orn, pic
+inturt <- inturt[c(1, 3, 4, 5, 6, 7, 8, 2)]
+numbers <- llply(inturt, function(x) read.csv(x, header = TRUE))
+
+# remove JRB before things get awkward
+spec.source <- llply(numbers, function(x) as.character(x[, 2]))
+to.rm <- llply(spec.source, function(x) str_detect(x, 'JRB'))
+
+turt <- Map(function(x, y) {x = x[!y, ]; x}, turt, to.rm)
+numbers <- Map(function(x, y) {x = x[!y, ]; x}, numbers, to.rm)
+
+# ok, onto the analysis
 centroids <- llply(turt, function(x) x[, ncol(x)])
-turt <- llply(turt, function(x) x[, -c(1:2, ncol(x))])
 # number, museum #, lands...., centroid
 turt <- Reduce(rbind, turt)
 turt.align <- df2array(turt, n.land = 26, n.dim = 2)
@@ -54,10 +73,12 @@ centroids <- scale(unlist(centroids))
 turt.name <- laply(str_split(newturt, '\\/'), function(x) x[length(x)])
 turt.name <- str_trim(str_extract(turt.name, '\\s(.*?)\\s'))
 turt.out[[1]] <- data.frame(sp = rep(turt.name, 
-                                        times = laply(numbers, nrow)), 
-                               size = centroids,
-                               inter = (centroids * turt.scores[, 1]),
-                               turt.scores, stringsAsFactors = FALSE)
+                                     times = laply(numbers, nrow)),
+                            size = centroids,
+                            inter = (centroids * turt.scores[, 1]),
+                            turt.scores, stringsAsFactors = FALSE)
+
+
 
 trac <- list.files('../data/trach', pattern = 'txt', full.names = TRUE)
 turt <- llply(trac, function(x) 
