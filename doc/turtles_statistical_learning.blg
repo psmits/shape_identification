@@ -4,44 +4,44 @@ The top-level auxiliary file: turtles_statistical_learning.aux
 The style file: abbrvnat.bst
 Database file #1: turtle.bib
 Database file #2: packages.bib
-You've used 79 entries,
+You've used 81 entries,
             2773 wiz_defined-function locations,
-            1234 strings with 23802 characters,
-and the built_in function-call counts, 39431 in all, are:
-= -- 3721
-> -- 2340
-< -- 49
-+ -- 791
-- -- 712
-* -- 3473
-:= -- 6226
-add.period$ -- 354
-call.type$ -- 79
-change.case$ -- 463
-chr.to.int$ -- 79
-cite$ -- 158
-duplicate$ -- 1608
-empty$ -- 2968
-format.name$ -- 849
-if$ -- 8125
+            1250 strings with 24359 characters,
+and the built_in function-call counts, 40520 in all, are:
+= -- 3823
+> -- 2409
+< -- 50
++ -- 814
+- -- 733
+* -- 3573
+:= -- 6395
+add.period$ -- 362
+call.type$ -- 81
+change.case$ -- 476
+chr.to.int$ -- 81
+cite$ -- 162
+duplicate$ -- 1649
+empty$ -- 3049
+format.name$ -- 874
+if$ -- 8349
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 79
-newline$ -- 519
-num.names$ -- 318
-pop$ -- 740
+missing$ -- 81
+newline$ -- 531
+num.names$ -- 326
+pop$ -- 760
 preamble$ -- 1
-purify$ -- 395
+purify$ -- 406
 quote$ -- 0
-skip$ -- 1230
+skip$ -- 1263
 stack$ -- 0
-substring$ -- 1558
-swap$ -- 139
+substring$ -- 1612
+swap$ -- 141
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 829
+type$ -- 851
 warning$ -- 0
-while$ -- 359
+while$ -- 369
 width$ -- 0
-write$ -- 1264
+write$ -- 1294

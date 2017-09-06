@@ -103,9 +103,11 @@ clear.gg <- clear.gg + scale_colour_manual(values = cbp.ord)
 
 
 cc7g <- clear.gg + labs(x = 'PC 1 (41.6%)', y = 'PC 2 (19.1%)')
-cc7g <- cc7g + coord_fixed(ratio = 1)
+cc7g <- cc7g + coord_fixed(ratio = 1) + 
+  theme(plot.margin = unit(c(0, 0, 0, 0), 'mm'))
 trag <- clear.gg %+% splits[[2]] + labs(x = 'PC 1 (37.9%)', y = 'PC 2 (17.3%)')
-trag <- trag + coord_fixed(ratio = 1)
+trag <- trag + coord_fixed(ratio = 1) +
+  theme(plot.margin = unit(c(0, 0, 0, 0), 'mm'))
 
 ggsave(plot = cc7g, filename = '../doc/figure/cc7_pc_graph.png',
        width = 8, height = 6)
