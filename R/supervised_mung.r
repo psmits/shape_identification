@@ -46,11 +46,12 @@ meta[meta == '?' | meta == '??'] <- NA
 
 # get rid of everything that doesn't have assigns
 # clean off the missing important values
+
 imp <- c('lat', 'long', 'sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2')
-rms <- Reduce('|', alply(meta[, imp], 2, is.na))
-land <- land[, , !rms]
-meta <- meta[!rms, ]
-rawturt <- rawturt[!rms, ]
+#rms <- Reduce('|', alply(meta[, imp], 2, is.na))
+#land <- land[, , !rms]
+#meta <- meta[!rms, ]
+#rawturt <- rawturt[!rms, ]
 
 
 # clean the juveniles
