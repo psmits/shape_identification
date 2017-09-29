@@ -137,14 +137,13 @@ scores <- Reduce(rbind,
 scores.df <- data.frame(scores)
 scores.df$class <- factor(ad, levels = level)
 scores.df$sch <- sch
-perc <- fit$percent[1:2]
 scores.df$centroid <- rep(rawturt[, n.land + 1], length(schemes))
 
 # need to be made human readable
 scores.df$class <- as.character(scores.df$class)
 scores.df <- scores.df[!is.na(scores.df$class), ]
 scores.df <- scores.df[scores.df$class != '', ]
-unique(scores.df$class)
+#unique(scores.df$class)
 scores.df$class <- mapvalues(scores.df$class, 
                              from = unique(scores.df$class), 
                              to = c('Central Coast', 
@@ -152,6 +151,8 @@ scores.df$class <- mapvalues(scores.df$class,
                                     'San Juan', 'Baja California', 
                                     'Sierra Foothills'))
 
+perc <- fit$percent[1:2]
+perc <- round(perc, digits = 1)
 emys.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, 
                                  colour = class, size = centroid))
 emys.gg <- emys.gg + geom_point(alpha = 0.5)
@@ -161,7 +162,6 @@ emys.gg <- emys.gg + coord_fixed(ratio = 1,
                                  xlim = c(-3.5, 3.5), 
                                  ylim = c(-3.5, 3.5))
 emys.gg <- emys.gg + scale_colour_manual(values = cbp.ord)
-perc <- round(perc, digits = 1)
 emys.gg <- emys.gg + labs(x = paste0('PC 1 (', perc[1], '%)'), 
                           y = paste0('PC 2 (', perc[2], '%)'))
 ggsave(plot = emys.gg, filename = '../doc/figure/emys_pc_graph.png',

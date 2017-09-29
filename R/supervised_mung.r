@@ -39,10 +39,10 @@ meta[, c('lat', 'long')] <- apply(meta[, c('lat', 'long')],
 meta[meta == '?' | meta == '??'] <- NA
 
 # get rid of everything that doesn't have lat-long
-#meta$long <- meta$long * -1
-#land <- land[, , !is.na(meta$lat)]
-#rawturt<- rawturt[!is.na(meta$lat), ]
-#meta <- meta[!is.na(meta$lat), ]
+#meta$long <- meta$long
+land <- land[, , !is.na(meta$lat)]
+rawturt<- rawturt[!is.na(meta$lat), ]
+meta <- meta[!is.na(meta$lat), ]
 
 # get rid of everything that doesn't have assigns
 # clean off the missing important values
@@ -59,7 +59,13 @@ jv <- grepl(pattern = '[jJh]', meta$p.sex)
 land.adult <- land[, , !jv]
 meta.adult <- meta[!jv, ]
 rawturt <- rawturt[!jv, ]
+
+rms <- is.na(meta.adult$sp10.1) | meta.adult$sp10.1 == ''
+land.adult <- land.adult[, , !rms]
+meta.adult <- meta.adult[!rms, ]
+rawturt <- rawturt[!rms, ]
 centroid <- rawturt[, n.land + 1]  # size of each observation
+
 
 geo <- cbind(lat = meta.adult$lat, long = meta.adult$long)
 
@@ -71,5 +77,12 @@ adult <- cbind(data.frame(size = centroid,
                           inter = centroid * fit$stdscores[, 1],
                           fit$stdscores),
                meta.adult)
+
+
+schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
+nspec <- aaply(meta.adult[, schemes], 2, function(x) {
+                 n <- is.na(x) | x == ''
+                 length(x[!n])})
+meta.adult <- meta.adult[!(is.na(meta.adult$sp10.1) | meta.adult$sp10.1 == ''), ]
 
 write.table(meta.adult, file = '../data/clean_meta_marm.csv')

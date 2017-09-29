@@ -33,11 +33,14 @@ land.dist <- function(shapes) {
 
 
 # emys set
-scheme <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2')
+scheme <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 ff <- adult[, scheme]
 emys.split <- list()
 for(ii in seq(length(scheme))) {
-  emys.split[[ii]] <- split.land(fit$rotated, ff[, ii])
+  rms <- is.na(ff[, ii]) | ff[, ii] == ''
+  temp <- ff[!rms, ii]
+  tempfit <- fit$rotated[, , !rms]
+  emys.split[[ii]] <- split.land(tempfit, temp)
 }
 emys.dist <- land.dist(fit$rotated)
 within.scheme <- llply(emys.split, function(x) llply(x, land.dist))
@@ -62,7 +65,7 @@ for(kk in seq(length(scheme.mean))) {
 
 scheme.ratio <- laply(within.scheme, function(x) 
                       mean(x) / mean(emys.dist[lower.tri(emys.dist)]))
-
+#scheme.ratio * 1.11
 
 # replicated turtles
 
