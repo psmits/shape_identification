@@ -118,20 +118,18 @@ ggsave(plot = trag, filename = '../doc/figure/tra_pc_graph.png',
 
 # now for marmorata data
 source('../R/supervised_mung.r')
-schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2')#, 'morph')
+schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 
 ad <- data.frame(adult[, schemes], stringsAsFactors = FALSE)
+ad <- apply(ad, 2, as.character)
 level <- unique(unlist(apply(adult[, schemes], 2, 
                              function(x) levels(as.factor(x)))))
-
 
 ad <- apply(ad, 2, as.character)
 ad <- Reduce(c, ad)  # vector of the classifications for all schemes
 
 
 sch <- rep(schemes, each = nrow(adult))  # vector of the schemes for ad
-#sch <- mapvalues(sch, from = schemes, to = c('Morph 1', 'Morph 2', 'Mito 1',
-#                                             'Nuclear', 'Mito 2', 'Mito 3'))
 
 scores <- Reduce(rbind, 
                  replicate(length(schemes), fit$stdscores, simplify = FALSE))
@@ -139,16 +137,20 @@ scores <- Reduce(rbind,
 scores.df <- data.frame(scores)
 scores.df$class <- factor(ad, levels = level)
 scores.df$sch <- sch
-#fit$percent[1:2]
+perc <- fit$percent[1:2]
 scores.df$centroid <- rep(rawturt[, n.land + 1], length(schemes))
 
 # need to be made human readable
 scores.df$class <- as.character(scores.df$class)
+scores.df <- scores.df[!is.na(scores.df$class), ]
+scores.df <- scores.df[scores.df$class != '', ]
+unique(scores.df$class)
 scores.df$class <- mapvalues(scores.df$class, 
                              from = unique(scores.df$class), 
-                             to = c('Central Coast', 'E. marmorata', 'E. pallida', 
-                                    'San Juan', 'Sierra Foothills', 
-                                    'Baja California'))
+                             to = c('Central Coast', 
+                                    'E. marmorata', 'E. pallida', 
+                                    'San Juan', 'Baja California', 
+                                    'Sierra Foothills'))
 
 emys.gg <- ggplot(scores.df, aes(x = PC1, y = PC2, 
                                  colour = class, size = centroid))
@@ -159,6 +161,8 @@ emys.gg <- emys.gg + coord_fixed(ratio = 1,
                                  xlim = c(-3.5, 3.5), 
                                  ylim = c(-3.5, 3.5))
 emys.gg <- emys.gg + scale_colour_manual(values = cbp.ord)
-emys.gg <- emys.gg + labs(x = 'PC 1 (32.1%)', y = 'PC 2 (15.2%)')
+perc <- round(perc, digits = 1)
+emys.gg <- emys.gg + labs(x = paste0('PC 1 (', perc[1], '%)'), 
+                          y = paste0('PC 2 (', perc[2], '%)'))
 ggsave(plot = emys.gg, filename = '../doc/figure/emys_pc_graph.png',
        width = 8, height = 6)
