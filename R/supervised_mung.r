@@ -83,6 +83,9 @@ schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 nspec <- aaply(meta.adult[, schemes], 2, function(x) {
                  n <- is.na(x) | x == ''
                  length(x[!n])})
-meta.adult <- meta.adult[!(is.na(meta.adult$sp10.1) | meta.adult$sp10.1 == ''), ]
 
-write.table(meta.adult, file = '../data/clean_meta_marm.csv')
+cliped <- meta.adult[, c('spec', 'lat', 'long', 
+                         'sp10.1', 'sp10.2', 'sp10.3', 
+                         'sp14.1', 'sp14.2', 
+                         'morph')]
+write.csv(cliped, file = '../data/clean_meta_marm.csv', fileEncoding = 'UTF-16LE')
