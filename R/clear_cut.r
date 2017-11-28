@@ -51,7 +51,7 @@ inturt <- list.files('../data/new_turtle',
                       pattern = 'list.csv', 
                       full.names = TRUE)
 # blan, coa, gut, ins, muh, orb, orn, pic
-inturt <- inturt[c(1, 3, 4, 5, 6, 7, 8, 2)]
+#inturt <- inturt[c(1, 3, 4, 5, 6, 7, 8, 2)]
 numbers <- llply(inturt, function(x) read.csv(x, header = TRUE))
 
 # remove JRB before things get awkward
@@ -101,15 +101,15 @@ turt.out[[2]] <- data.frame(sp = ids, size = centroids,
 
 meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
 schemes <- c('cc7', 'trac')
-#results <- list()
-#for(ii in seq(length(meth))) {
-#  results[[ii]] <- abrv.model(method = meth[ii], 
-#                              adult = turt.out, 
-#                              scheme = schemes, 
-#                              npred = 25)
-#}
-#names(results) <- meth
-#save(results, file = '../data/others_cv_results.rdata')
+results <- list()
+for(ii in seq(length(meth))) {
+  results[[ii]] <- abrv.model(method = meth[ii], 
+                              adult = turt.out, 
+                              scheme = schemes, 
+                              npred = 25)
+}
+names(results) <- meth
+save(results, file = '../data/others_cv_results.rdata')
 load('../data/others_cv_results.rdata')
 
 

@@ -42,7 +42,7 @@ inturt <- list.files('../data/new_turtle',
                       pattern = 'list.csv', 
                       full.names = TRUE)
 # blan, coa, gut, ins, muh, orb, orn, pic
-inturt <- inturt[c(1, 3, 4, 5, 6, 7, 8, 2)]
+#inturt <- inturt[c(1, 3, 4, 5, 6, 7, 8, 2)]
 numbers <- llply(inturt, function(x) read.csv(x, header = TRUE))
 
 # remove JRB before things get awkward

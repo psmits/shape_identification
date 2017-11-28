@@ -24,7 +24,7 @@ land <- df2array(land, n.land, n.dim)
 
 # meta data
 #meta <- read.csv('../data/marmorata_meta2.csv')
-meta <- read.csv('../data/marm_upbins.csv')
+meta <- read.csv('../data/marm_upbins.csv', skip = 1, header = TRUE)
 #names(meta) <- c('ind', 'spec', 'lat', 'long', 'year',
 #                 'sh1', 'sh2', 'sh3', 'sh4', 'sh5', 'spinks.pre', 'spinks',
 #                 'p.sex', 'b.sex', 'sex.pre', 'notes')

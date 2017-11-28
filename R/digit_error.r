@@ -97,12 +97,17 @@ rep.ratio <- mean(within.rep) / mean(rep.dist[lower.tri(rep.dist)])
 
 # between species distance
 newturt <- list.files('../data/new_turtle', 
-                      pattern = 'adult', 
+                      pattern = 'fixed', 
                       full.names = TRUE)
-turt <- llply(newturt, function(x) read.csv(x, header = FALSE))
-numbers <- llply(turt, function(x) x[, 1:2])
+turt <- llply(newturt, function(x) 
+              read.delim(x, header = FALSE, sep = ' ')[, 1:27])
+numbers <- list.files('../data/new_turtle', 
+                      pattern = 'list.csv', 
+                      full.names = TRUE)
+numbers <- llply(numbers, function(x) read.csv(x, header = TRUE))
+numbers <- llply(numbers, function(x) x[, 1:2])
 centroids <- llply(turt, function(x) x[, ncol(x)])
-turt <- llply(turt, function(x) x[, -c(1:2, ncol(x))])
+turt <- llply(turt, function(x) x[, -(ncol(x))])
 # number, museum #, lands...., centroid
 turt <- Reduce(rbind, turt)
 turt.align <- df2array(turt, n.land = 26, n.dim = 2)
