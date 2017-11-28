@@ -2,3 +2,8 @@
 .RData
 .rdata
 data
+doc/old/*
+*.aux
+*.out
+*.log
+*.Rout

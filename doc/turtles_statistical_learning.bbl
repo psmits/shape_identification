@@ -1,0 +1,686 @@
+\begin{thebibliography}{81}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Angielczyk and Feldman(2013)]{Angielczyk2013a}
+K.~D. Angielczyk and C.~R. Feldman.
+\newblock {Are diminutive turtles miniaturized? The ontogeny of plastron shape
+  in emydine turtles}.
+\newblock \emph{Biological Journal of the Linnean Society}, 108\penalty0
+  (4):\penalty0 727--755, apr 2013.
+\newblock ISSN 00244066.
+\newblock \doi{10.1111/bij.12010}.
+\newblock URL \url{http://doi.wiley.com/10.1111/bij.12010}.
+
+\bibitem[Angielczyk and Sheets(2007)]{Angielczyk2007}
+K.~D. Angielczyk and H.~D. Sheets.
+\newblock {Investigation of simulated tectonic deformation in fossils using
+  geometric morphometrics}.
+\newblock \emph{Paleobiology}, 33\penalty0 (1):\penalty0 125--148, 2007.
+
+\bibitem[Angielczyk et~al.(2011)Angielczyk, Feldman, and
+  Miller]{Angielczyk2011}
+K.~D. Angielczyk, C.~R. Feldman, and G.~R. Miller.
+\newblock {Adaptive evolution of plastron shape in emydine turtles.}
+\newblock \emph{Evolution}, 65\penalty0 (2):\penalty0 377--394, feb 2011.
+\newblock ISSN 1558-5646.
+\newblock \doi{10.1111/j.1558-5646.2010.01118.x}.
+
+\bibitem[Arnqvist and M{\aa}rtensson(1998)]{Arnqvist1998}
+G.~Arnqvist and T.~M{\aa}rtensson.
+\newblock {Measurement error in geometric morphometrics: Empirical strategies
+  to assess and reduce its impact on measures of shape}, 1998.
+\newblock ISSN 12178837.
+
+\bibitem[Baird and Girard(1852)]{Baird1852}
+S.~F. Baird and C.~Girard.
+\newblock {Descriptions of new species of reptiles collected by the U.S.
+  Exploring Expedition under the command of Capt. Charles Wilkes}.
+\newblock \emph{Proceedings of the National Academy of Sciences Philadelphia},
+  6:\penalty0 174--177, 1852.
+
+\bibitem[Bauer et~al.(2000)Bauer, Parham, Brown, Stuart, Grismer, Papenfuss,
+  Bohme, Savage, Carranza, Grismer, Wagner, Schmitz, Ananjeva, and
+  Inger]{Bauer2000}
+A.~M. Bauer, J.~F. Parham, R.~M. Brown, B.~L. Stuart, L.~Grismer, T.~J.
+  Papenfuss, W.~Bohme, J.~M. Savage, S.~Carranza, J.~L. Grismer, P.~Wagner,
+  A.~Schmitz, N.~B. Ananjeva, and R.~F. Inger.
+\newblock {Availability of new Baysian-delimited gecko names and the importance
+  of character-based species descriptions}.
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences},
+  278:\penalty0 490--492, 2000.
+\newblock ISSN 07331347.
+\newblock \doi{10.2307/1467045}.
+\newblock URL \url{http://www.jstor.org/stable/1467045?origin=crossref}.
+
+\bibitem[Baylac et~al.(2003)Baylac, Villemant, and Simbolotti]{Baylac2003}
+M.~Baylac, C.~Villemant, and G.~Simbolotti.
+\newblock {Combining geometric morphometrics with pattern recognition for the
+  investigation of species complexes}.
+\newblock \emph{Biological Journal of the Linnean Society}, 80:\penalty0
+  89--98, 2003.
+
+\bibitem[Bickford et~al.(2007)Bickford, Lohman, Sodhi, Ng, Meier, Winker,
+  Ingram, and Das]{Bickford2007}
+D.~Bickford, D.~J. Lohman, N.~S. Sodhi, P.~K.~L. Ng, R.~Meier, K.~Winker, K.~K.
+  Ingram, and I.~Das.
+\newblock {Cryptic species as a window on diversity and conservation.}
+\newblock \emph{Trends in ecology {\&} evolution}, 22\penalty0 (3):\penalty0
+  148--55, mar 2007.
+\newblock ISSN 0169-5347.
+\newblock \doi{10.1016/j.tree.2006.11.004}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/17129636}.
+
+\bibitem[Breiman et~al.(1984)Breiman, Friedman, Stone, and Olshen]{Breiman1984}
+L.~Breiman, J.~Friedman, C.~J. Stone, and R.~A. Olshen.
+\newblock \emph{{Classification and regression trees}}.
+\newblock Wadsworth International Group, Belmont, 1984.
+
+\bibitem[Bury et~al.(2010)Bury, Germano, and Bury]{Bury2010}
+R.~B. Bury, D.~J. Germano, and G.~W. Bury.
+\newblock {Population Structure and Growth of the Turtle Actinemys marmorata
+  from the Klamath–Siskiyou Ecoregion: Age, Not Size, Matters}.
+\newblock \emph{Copeia}, 2010\penalty0 (3):\penalty0 443--451, sep 2010.
+\newblock ISSN 0045-8511.
+\newblock \doi{10.1643/CH-08-096}.
+\newblock URL \url{http://www.bioone.org/doi/abs/10.1643/CH-08-096}.
+
+\bibitem[Buskirk et~al.(2005)Buskirk, Parham, and Feldman]{Buskirk2005}
+S.~W. Buskirk, J.~F. Parham, and C.~R. Feldman.
+\newblock {On the hybridisation between two distantly related Asian turtles
+  (Testudines: Scalia x Mauremys)}.
+\newblock \emph{Salamandra}, 41:\penalty0 21--26, 2005.
+
+\bibitem[Cardini et~al.(2009)Cardini, Nagorsen, O'Higgins, Polly, {Thorington
+  Jr}, and Tongiorgi]{Cardini2009a}
+A.~Cardini, D.~Nagorsen, P.~O'Higgins, P.~D. Polly, R.~W. {Thorington Jr}, and
+  P.~Tongiorgi.
+\newblock {Detecting biological distinctiveness using geometric morphometrics:
+  an example case from the Vancouver Island marmot}.
+\newblock \emph{Ethology Ecology {\&} Evolution}, 21:\penalty0 209--223, 2009.
+
+\bibitem[Carstens and Dewey(2010)]{Carstens2010}
+B.~C. Carstens and T.~A. Dewey.
+\newblock {Species Delimitation Using a Combined Coalescent and
+  Information-Theoretic Approach: An Example from North American Myotis Bats}.
+\newblock \emph{Systematic Biology}, 59\penalty0 (4):\penalty0 400--414, 2010.
+\newblock URL \url{papers2://publication/doi/10.1093/sysbio/syq024}.
+
+\bibitem[Carstens et~al.(2013)Carstens, Pelletier, Reid, and
+  Satler]{Carstens2013}
+B.~C. Carstens, T.~a. Pelletier, N.~M. Reid, and J.~D. Satler.
+\newblock {How to fail at species delimitation.}
+\newblock \emph{Molecular ecology}, 22\penalty0 (17):\penalty0 4369--83, sep
+  2013.
+\newblock ISSN 1365-294X.
+\newblock \doi{10.1111/mec.12413}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/23855767}.
+
+\bibitem[Caumul and Polly(2005)]{Caumul2005a}
+R.~Caumul and P.~D. Polly.
+\newblock {Phylogenetic and environmental components of morphological
+  variation: skull, mandible, and molar shape in marmots (Marmota, Rodentia).}
+\newblock \emph{Evolution; international journal of organic evolution},
+  59\penalty0 (11):\penalty0 2460--72, nov 2005.
+\newblock ISSN 0014-3820.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/16396186}.
+
+\bibitem[Clare(2011)]{Clare2011}
+E.~L. Clare.
+\newblock {Cryptic species? Patterns of maternal and paternal gene flow in
+  eight neotropical bats.}
+\newblock \emph{PloS one}, 6\penalty0 (7):\penalty0 e21460, jan 2011.
+\newblock ISSN 1932-6203.
+\newblock \doi{10.1371/journal.pone.0021460}.
+
+\bibitem[Dayrat(2005)]{Dayrat2005a}
+B.~Dayrat.
+\newblock {Towards integrative taxonomy}.
+\newblock \emph{Biological Journal of the Linnean Society}, 85:\penalty0
+  407--415, 2005.
+
+\bibitem[{De Queiroz}(2007)]{DeQueiroz2007b}
+K.~{De Queiroz}.
+\newblock {Species concepts and species delimitation.}
+\newblock \emph{Systematic Biology}, 56\penalty0 (6):\penalty0 879--86, dec
+  2007.
+\newblock ISSN 1063-5157.
+\newblock \doi{10.1080/10635150701701083}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/18027281}.
+
+\bibitem[Demandt and Bergek(2009)]{Demandt2009}
+M.~H. Demandt and S.~Bergek.
+\newblock {Identification of cyprinid hybrids by using geometric morphometrics
+  and microsatellites}.
+\newblock \emph{Journal of Applied Ichthyology}, 25\penalty0 (6):\penalty0
+  695--701, dec 2009.
+\newblock ISSN 01758659.
+\newblock \doi{10.1111/j.1439-0426.2009.01329.x}.
+\newblock URL \url{http://doi.wiley.com/10.1111/j.1439-0426.2009.01329.x}.
+
+\bibitem[Dillard(2017)]{Dillard2017}
+K.~C. Dillard.
+\newblock \emph{{A comparative analysis of geometric morphometrics across two
+  Pseudemys turtle species in east central Virginia}}.
+\newblock Masters, Virginia Commonwealth University, 2017.
+
+\bibitem[Dobigny et~al.(2003)Dobigny, Granjon, Aniskin, Ba, and
+  Voloboulev]{Dobigny2003}
+G.~Dobigny, L.~Granjon, V.~Aniskin, K.~Ba, and V.~Voloboulev.
+\newblock {A new sigling species of Taterillus (Muridae, Gerbillinae) from West
+  Agrica}.
+\newblock \emph{Mammalian Biology}, 68:\penalty0 299--316, 2003.
+
+\bibitem[Dryden(2013)]{Dryden2013}
+I.~L. Dryden.
+\newblock \emph{shapes: Statistical shape analysis}, 2013.
+\newblock URL \url{http://CRAN.R-project.org/package=shapes}.
+\newblock R package version 1.1-8.
+
+\bibitem[Dryden and Mardia(1998)]{Dryden1998a}
+I.~L. Dryden and K.~Y. Mardia.
+\newblock \emph{{Statistical shape analysis}}.
+\newblock Wiley, New York, 1998.
+
+\bibitem[Eldredge and Gould(1972)]{Eldredge1972}
+N.~Eldredge and S.~J. Gould.
+\newblock {Punctuated equilibria: an alternative to phyletic gradualism}.
+\newblock In T.~J.~M. Schopf, editor, \emph{Models in Paleobiology}, pages
+  82--115. Freeman Cooper, San Francisco, 1972.
+
+\bibitem[Feldman and Parham(2002)]{Feldman2002}
+C.~R. Feldman and J.~F. Parham.
+\newblock {Molecular phylogenetics of emydine turtles: taxonomic revision and
+  the evolution of shell kinesis.}
+\newblock \emph{Molecular Phylogenetics and Evolution}, 22\penalty0
+  (3):\penalty0 388--98, mar 2002.
+\newblock ISSN 1055-7903.
+\newblock \doi{10.1006/mpev.2001.1070}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/11884163}.
+
+\bibitem[Francoy et~al.(2009)Francoy, Silva, Nunes-Silva, Menezes, and
+  Imperatriz-Fonseca]{Francoy2009}
+T.~M. Francoy, R.~A.~O. Silva, P.~Nunes-Silva, C.~Menezes, and V.~L.
+  Imperatriz-Fonseca.
+\newblock {Gender identification of five genera of stingless bees (Apidae,
+  Meliponini) based on wing morphology}.
+\newblock \emph{Genetics and molecular research}, 8\penalty0 (1):\penalty0
+  207--214, 2009.
+
+\bibitem[Fruciano et~al.(2016)Fruciano, Franchini, Raffini, Fan, and
+  Meyer]{Fruciano2016}
+C.~Fruciano, P.~Franchini, F.~Raffini, S.~Fan, and A.~Meyer.
+\newblock {Are sympatrically speciating Midas cichlid fish special? Patterns of
+  morphological and genetic variation in the closely related species
+  Archocentrus centrarchus}.
+\newblock \emph{Ecology and Evolution}, 6\penalty0 (12):\penalty0 4102--4114,
+  2016.
+\newblock ISSN 20457758.
+\newblock \doi{10.1002/ece3.2184}.
+
+\bibitem[Funk et~al.(2012)Funk, Caminer, and Ron]{Funk2012}
+W.~C. Funk, M.~Caminer, and S.~R. Ron.
+\newblock {High levels of cryptic species diversity uncovered in Amazonian
+  frogs.}
+\newblock \emph{Proceedings of the Royal Society B: Biological Sciences},
+  279\penalty0 (1734):\penalty0 1806--14, may 2012.
+\newblock ISSN 1471-2954.
+\newblock \doi{10.1098/rspb.2011.1653}.
+
+\bibitem[Gaubert et~al.(2005)Gaubert, Taylor, Fernandes, Bruford, and
+  Veron]{Gaubert2005b}
+P.~Gaubert, P.~J. Taylor, C.~a. Fernandes, M.~W. Bruford, and G.~Veron.
+\newblock {Patterns of cryptic hybridization revealed using an integrative
+  approach: a case study on genets (Carnivora, Viverridae, Genetta spp.) from
+  the southern African subregion}.
+\newblock \emph{Biological Journal of the Linnean Society}, 86\penalty0
+  (1):\penalty0 11--33, aug 2005.
+\newblock ISSN 00244066.
+\newblock \doi{10.1111/j.1095-8312.2005.00518.x}.
+\newblock URL \url{http://doi.wiley.com/10.1111/j.1095-8312.2005.00518.x}.
+
+\bibitem[Germano and Bury(2009)]{Germano2009}
+D.~J. Germano and R.~B. Bury.
+\newblock {Variation in body size, growth, and population structure of
+  Actinemys marmorata from lentic and lotic habitats in Southern Oregon}.
+\newblock \emph{Journal of Herpetology}, 43\penalty0 (3):\penalty0 510--520,
+  2009.
+
+\bibitem[Germano and Rathbun(2008)]{Germano2008}
+D.~J. Germano and G.~B. Rathbun.
+\newblock {Growth, population structure, and reproduction of western pond
+  turtles (Actinemys marmorata) on the Central Coast of California}.
+\newblock \emph{Chelonian Conservation and Biology}, 7\penalty0 (2):\penalty0
+  188--194, 2008.
+
+\bibitem[Gould and Eldredge(1977)]{Gould1977a}
+S.~J. Gould and N.~Eldredge.
+\newblock {Punctuated equilibria: the tempo and mode of evolution
+  reconsidered}.
+\newblock \emph{Paleobiology}, 3\penalty0 (2):\penalty0 115--151, 1977.
+
+\bibitem[G{\"{u}}nd{\"{u}}z et~al.(2007)G{\"{u}}nd{\"{u}}z, Jaarola, Tez,
+  Yeniyurt, Polly, and Searle]{Gunduz2007}
+I.~G{\"{u}}nd{\"{u}}z, M.~Jaarola, C.~Tez, C.~Yeniyurt, P.~D. Polly, and J.~B.
+  Searle.
+\newblock {Multigenic and morphometric differentiation of ground squirrels
+  (Spermophilus, Scuiridae, Rodentia) in Turkey, with a description of a new
+  species.}
+\newblock \emph{Molecular phylogenetics and evolution}, 43\penalty0
+  (3):\penalty0 916--35, jun 2007.
+\newblock ISSN 1055-7903.
+\newblock \doi{10.1016/j.ympev.2007.02.021}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/17500011}.
+
+\bibitem[Hand and Till(2001)]{Hand2001}
+D.~J. Hand and R.~J. Till.
+\newblock {A Simple Generalisation of the Area Under the ROC Curve for Multiple
+  Class Classification Problems}.
+\newblock \emph{Machine Learning}, 45:\penalty0 171--186, 2001.
+
+\bibitem[Hastie et~al.(2009)Hastie, Tibshirani, and Friedman]{Hastie2009}
+T.~Hastie, R.~Tibshirani, and J.~Friedman.
+\newblock \emph{{The elements of statistical learning: data mining, inference,
+  and prediction}}.
+\newblock Springer, New York, 2nd edition, 2009.
+
+\bibitem[Hastie et~al.(2015)Hastie, Tibshirani, Leisch, Hornik, and
+  Ripley.]{mdapack}
+T.~Hastie, R.~Tibshirani, F.~Leisch, K.~Hornik, and B.~D. Ripley.
+\newblock \emph{mda: Mixture and Flexible Discriminant Analysis}, 2015.
+\newblock URL \url{https://CRAN.R-project.org/package=mda}.
+\newblock R package version 0.4-8.
+
+\bibitem[Hausdorf and Hennig(2010)]{Hausdorf2010}
+B.~Hausdorf and C.~Hennig.
+\newblock {Species delimitation using dominant and codominant multilocus
+  markers.}
+\newblock \emph{Systematic biology}, 59\penalty0 (5):\penalty0 491--503, oct
+  2010.
+\newblock ISSN 1076-836X.
+\newblock \doi{10.1093/sysbio/syq039}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/20693311}.
+
+\bibitem[Holland(1992)]{Holland1992}
+D.~C. Holland.
+\newblock \emph{{Level and pattern in morphological variation: a
+  phylogeographic study of the western pond turtle (Clemmys marmorata)}}.
+\newblock PhD thesis, University of Southwestern Louisiana, 1992.
+
+\bibitem[Huelsenbeck et~al.(2011)Huelsenbeck, Andolfatto, and
+  Huelsenbeck]{Huelsenbeck2011b}
+J.~P. Huelsenbeck, P.~Andolfatto, and E.~T. Huelsenbeck.
+\newblock {Structurama: bayesian inference of population structure.}
+\newblock \emph{Evolutionary bioinformatics online}, 7:\penalty0 55--9, jan
+  2011.
+\newblock ISSN 1176-9343.
+\newblock \doi{10.4137/EBO.S6761}.
+\newblock URL
+  \url{http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3118697{\&}tool=pmcentrez{\&}rendertype=abstract}.
+
+\bibitem[Kaufman and Rousseeuw(1990)]{Kaufman1990}
+L.~Kaufman and P.~J. Rousseeuw.
+\newblock \emph{{Finding groups in data : an introduction to cluster
+  analysis}}.
+\newblock Wiley, New York, 1990.
+
+\bibitem[Kendall(1977)]{Kendall1977a}
+D.~G. Kendall.
+\newblock {The diffusion of shape}.
+\newblock \emph{Advances in Applied Probability}, 9\penalty0 (3):\penalty0
+  428--430, 1977.
+
+\bibitem[Kuhn(2013)]{KuhnMAN2013}
+M.~Kuhn.
+\newblock \emph{caret: Classification and Regression Training}, 2013.
+\newblock URL \url{http://CRAN.R-project.org/package=caret}.
+\newblock R package version 5.15-61.
+
+\bibitem[Kuhn and Johnson(2013)]{Kuhn2013}
+M.~Kuhn and K.~Johnson.
+\newblock \emph{{Applied predictive modeling}}.
+\newblock Springer, New York, NY, 2013.
+
+\bibitem[Leach{\'{e}} and Fujita(2010)]{Leache2010}
+A.~D. Leach{\'{e}} and M.~K. Fujita.
+\newblock {Bayesian species delimitation in West African forest geckos
+  (Hemidactylus fasciatus).}
+\newblock \emph{Proceedings. Biological sciences / The Royal Society},
+  277\penalty0 (1697):\penalty0 3071--7, oct 2010.
+\newblock ISSN 1471-2954.
+\newblock \doi{10.1098/rspb.2010.0662}.
+\newblock URL
+  \url{http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2982061{\&}tool=pmcentrez{\&}rendertype=abstract}.
+
+\bibitem[Liaw and Wiener(2002)]{Liaw2002}
+A.~Liaw and M.~Wiener.
+\newblock Classification and regression by randomforest.
+\newblock \emph{R News}, 2\penalty0 (3):\penalty0 18--22, 2002.
+\newblock URL \url{http://CRAN.R-project.org/doc/Rnews/}.
+
+\bibitem[Lubcke and Wilson(2007)]{Lubcke2007}
+G.~M. Lubcke and D.~S. Wilson.
+\newblock {Variation in shell morphology of the Western Pond Turtle (Actinemys
+  marmorata Baird and Giarard) from three aquativ habitats in Northern
+  California}.
+\newblock \emph{Journal of Herpetology}, 41\penalty0 (1):\penalty0 107--114,
+  2007.
+
+\bibitem[MacLeod(2007)]{MacLeod2007}
+N.~MacLeod.
+\newblock \emph{{Automated taxon identification in systematics: theory,
+  approaches and applications}}.
+\newblock CRC Press, Boca Raton, 2007.
+
+\bibitem[Markolf et~al.(2013)Markolf, Rakotonirina, Fichtel, von Grumbkow,
+  Brameier, and Kappeler]{Markolf2013}
+M.~Markolf, H.~Rakotonirina, C.~Fichtel, P.~von Grumbkow, M.~Brameier, and
+  P.~M. Kappeler.
+\newblock {True lemurs{\ldots}true species - species delimitation using
+  multiple data sources in the brown lemur complex}.
+\newblock \emph{BMC Evolutionary Biology}, 13\penalty0 (1):\penalty0 233, 2013.
+\newblock ISSN 1471-2148.
+\newblock \doi{10.1186/1471-2148-13-233}.
+\newblock URL
+  \url{http://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-13-233}.
+
+\bibitem[Mitrovski-Bogdanovic et~al.(2013)Mitrovski-Bogdanovic, Petrovic,
+  Mitrovic, Ivanovic, {\v{Z}}ikic, Star{\'{y}}, Vorburger, and
+  Tomanovic]{MitrovskiBogdanovic2013}
+A.~Mitrovski-Bogdanovic, A.~Petrovic, M.~Mitrovic, A.~Ivanovic, V.~{\v{Z}}ikic,
+  P.~Star{\'{y}}, C.~Vorburger, and {\v{Z}}.~Tomanovic.
+\newblock {Identification of two cryptic species within the Praon abjectum
+  group (Hymenoptera: Braconidae: Aphidiinae) using molecular markers and
+  geometric morphometrics}.
+\newblock \emph{Annals of the entomological society of America}, 106\penalty0
+  (2):\penalty0 170--180, 2013.
+
+\bibitem[{Munoz-Munoz F.} and {Perpinan D.}(2010)]{Munoz-MunozF.2010}
+{Munoz-Munoz F.} and {Perpinan D.}
+\newblock {Measurement error in morphometric studies: comparison between manual
+  and computerized methods}.
+\newblock \emph{Ann. Zool.}, 47\penalty0 (1):\penalty0 46--56, 2010.
+
+\bibitem[Navega et~al.(2015)Navega, Vicente, Vieira, Ross, and
+  Cunha]{Navega2015}
+D.~Navega, R.~Vicente, D.~N. Vieira, A.~H. Ross, and E.~Cunha.
+\newblock {Sex estimation from the tarsal bones in a Portuguese sample: a
+  machine learning approach}.
+\newblock \emph{International Journal of Legal Medicine}, 129\penalty0
+  (3):\penalty0 651--659, 2015.
+\newblock ISSN 14371596.
+\newblock \doi{10.1007/s00414-014-1070-5}.
+
+\bibitem[O'Meara(2010)]{O'Meara2010}
+B.~C. O'Meara.
+\newblock {New heuristic methods for joint species delimitation and species
+  tree inference.}
+\newblock \emph{Systematic biology}, 59\penalty0 (1):\penalty0 59--73, jan
+  2010.
+\newblock ISSN 1076-836X.
+\newblock \doi{10.1093/sysbio/syp077}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/20525620}.
+
+\bibitem[Padial et~al.(2010)Padial, Miralles, {De la Riva}, and
+  Vences]{Padial2010}
+J.~M. Padial, A.~Miralles, I.~{De la Riva}, and M.~Vences.
+\newblock {The integrative future of taxonomy}.
+\newblock \emph{Frontiers in Zoology}, 7\penalty0 (16):\penalty0 1--14, 2010.
+
+\bibitem[Parham et~al.(2013)Parham, Papenfuss, Dijk, Wilson, Marte, Schettino,
+  and {Brian Simison}]{Parham2013}
+J.~F. Parham, T.~J. Papenfuss, P.~P.~V. Dijk, B.~S. Wilson, C.~Marte, L.~R.
+  Schettino, and W.~{Brian Simison}.
+\newblock {Genetic introgression and hybridization in Antillean freshwater
+  turtles (Trachemys) revealed by coalescent analyses of mitochondrial and
+  cloned nuclear markers.}
+\newblock \emph{Molecular phylogenetics and evolution}, 67\penalty0
+  (1):\penalty0 176--87, apr 2013.
+\newblock ISSN 1095-9513.
+\newblock \doi{10.1016/j.ympev.2013.01.004}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/23353072}.
+
+\bibitem[Pfenninger and Schwenk(2007)]{Pfenninger2007}
+M.~Pfenninger and K.~Schwenk.
+\newblock {Cryptic animal species are homogeneously distributed among taxa and
+  biogeographical regions.}
+\newblock \emph{BMC evolutionary biology}, 7:\penalty0 121, jan 2007.
+\newblock ISSN 1471-2148.
+\newblock \doi{10.1186/1471-2148-7-121}.
+\newblock URL
+  \url{http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=1939701{\&}tool=pmcentrez{\&}rendertype=abstract}.
+
+\bibitem[Polly(2003)]{Polly2003}
+P.~D. Polly.
+\newblock {Paleophylogeography of Sorex araneus: molar shape as a morphological
+  marker for fossil shrews}.
+\newblock \emph{Mammalia}, 68\penalty0 (2):\penalty0 233--243, 2003.
+
+\bibitem[Polly(2007)]{Polly2007a}
+P.~D. Polly.
+\newblock {Phylogeographic differentiation in Sorex araneus: morphology in
+  relation to geography and karyotype}.
+\newblock \emph{Russian Journal of Theriology}, 6\penalty0 (1):\penalty0
+  73--84, 2007.
+
+\bibitem[Polly et~al.(2016)Polly, Stayton, Dumont, Pierce, Rayfield, and
+  Angielczyk]{Polly2016}
+P.~D. Polly, C.~T. Stayton, E.~R. Dumont, S.~E. Pierce, E.~J. Rayfield, and
+  K.~D. Angielczyk.
+\newblock {Combining geometric morphometrics and finite element analysis with
+  evolutionary modeling: towards a synthesis}.
+\newblock \emph{Journal of Vertebrate Paleontology}, 4634\penalty0 (March),
+  2016.
+\newblock ISSN 0272-4634.
+\newblock \doi{10.1080/02724634.2016.1111225}.
+
+\bibitem[Pons et~al.(2006)Pons, Barraclough, Gomez-Zurita, Cardoso, Duran,
+  Hazell, Kamoun, Sumlin, and Vogler]{Pons2006}
+J.~Pons, T.~Barraclough, J.~Gomez-Zurita, A.~Cardoso, D.~Duran, S.~Hazell,
+  S.~Kamoun, W.~Sumlin, and A.~Vogler.
+\newblock {Sequence-Based Species Delimitation for the DNA Taxonomy of
+  Undescribed Insects}.
+\newblock \emph{Systematic Biology}, 55\penalty0 (4):\penalty0 595--609, aug
+  2006.
+\newblock ISSN 1063-5157.
+\newblock \doi{10.1080/10635150600852011}.
+\newblock URL
+  \url{http://sysbio.oxfordjournals.org/cgi/doi/10.1080/10635150600852011}.
+
+\bibitem[{R Core Team}(2016)]{R2016}
+{R Core Team}.
+\newblock \emph{R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2016.
+\newblock URL \url{http://www.R-project.org/}.
+
+\bibitem[Rivera(2008)]{Rivera2008}
+G.~Rivera.
+\newblock {Ecomorphological variation in shell shape of the freshwater turtle
+  Pseudemys concinna inhabiting different aquatic flow regimes.}
+\newblock \emph{Integrative and comparative biology}, 48\penalty0 (6):\penalty0
+  769--87, dec 2008.
+\newblock ISSN 1540-7063.
+\newblock \doi{10.1093/icb/icn088}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/21669831}.
+
+\bibitem[Rivera and Stayton(2011)]{Rivera2011}
+G.~Rivera and C.~T. Stayton.
+\newblock {Finite element modeling of shell shape in the freshwater turtle
+  Pseudemys concinna reveals a trade-off between mechanical strength and
+  hydrodynamic efficiency.}
+\newblock \emph{Journal of morphology}, 272\penalty0 (10):\penalty0 1192--203,
+  oct 2011.
+\newblock ISSN 1097-4687.
+\newblock \doi{10.1002/jmor.10974}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/21630321}.
+
+\bibitem[Rivera et~al.(2014)Rivera, Davis, Godwin, and Adams]{Rivera2014}
+G.~Rivera, J.~N. Davis, J.~C. Godwin, and D.~C. Adams.
+\newblock {Repeatability of Habitat-Associated Divergence in Shell Shape of
+  Turtles}.
+\newblock \emph{Evolutionary Biology}, pages 29--37, jul 2014.
+\newblock ISSN 0071-3260.
+\newblock \doi{10.1007/s11692-013-9243-6}.
+\newblock URL \url{http://link.springer.com/10.1007/s11692-013-9243-6}.
+
+\bibitem[Rohlf(2005)]{Rohlf2005}
+F.~J. Rohlf.
+\newblock {TpsDig 2.04}, 2005.
+
+\bibitem[Schilck-Steiner et~al.(2007)Schilck-Steiner, Seifert, Stauffer,
+  Christian, Crozier, and Steiner]{SchlickSteiner2007}
+B.~C. Schilck-Steiner, B.~Seifert, C.~Stauffer, E.~Christian, R.~H. Crozier,
+  and F.~M. Steiner.
+\newblock {Without morphology, cryptic species stay in taxonomic crypsis
+  following discovery}.
+\newblock \emph{Trends in ecology {\&} evolution}, 22\penalty0 (8):\penalty0
+  391--392, aug 2007.
+\newblock ISSN 0169-5347.
+\newblock \doi{10.1016/j.tree.2007.05.003}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/17573147}.
+
+\bibitem[Seeliger(1945)]{Seeliger1945}
+L.~M. Seeliger.
+\newblock {Variation in the Pacific Mud Turtle}.
+\newblock \emph{Copeia}, 1945\penalty0 (3):\penalty0 150--159, 1945.
+
+\bibitem[Spinks and Shaffer(2005)]{Spinks2005}
+P.~Q. Spinks and H.~B. Shaffer.
+\newblock {Range-wide molecular analysis of the western pond turtle (Emys
+  marmorata): cryptic variation, isolation by distance, and their conservation
+  implications.}
+\newblock \emph{Molecular ecology}, 14\penalty0 (7):\penalty0 2047--64, jun
+  2005.
+\newblock ISSN 0962-1083.
+\newblock \doi{10.1111/j.1365-294X.2005.02564.x}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/15910326}.
+
+\bibitem[Spinks and Shaffer(2009)]{Spinks2009}
+P.~Q. Spinks and H.~B. Shaffer.
+\newblock {Conflicting mitochondrial and nuclear phylogenies for the widely
+  disjunct Emys (Testudines: Emydidae) species complex, and what they tell us
+  about biogeography and hybridization.}
+\newblock \emph{Systematic biology}, 58\penalty0 (1):\penalty0 1--20, feb 2009.
+\newblock ISSN 1076-836X.
+\newblock \doi{10.1093/sysbio/syp005}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/20525565}.
+
+\bibitem[Spinks et~al.(2010)Spinks, Thomson, and Shaffer]{Spinks2010}
+P.~Q. Spinks, R.~C. Thomson, and H.~B. Shaffer.
+\newblock {Nuclear gene phylogeography reveals the historical legacy of an
+  ancient inland sea on lineages of the western pond turtle, Emys marmorata in
+  California.}
+\newblock \emph{Molecular ecology}, 19\penalty0 (3):\penalty0 542--56, feb
+  2010.
+\newblock ISSN 1365-294X.
+\newblock \doi{10.1111/j.1365-294X.2009.04451.x}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/20051011}.
+
+\bibitem[Spinks et~al.(2014)Spinks, Thomson, and {Bradley Shaffer}]{Spinks2014}
+P.~Q. Spinks, R.~C. Thomson, and H.~{Bradley Shaffer}.
+\newblock {The advantages of going large: genome wide SNPs clarify the complex
+  population history and systematics of the threatened western pond turtle}.
+\newblock \emph{Molecular Ecology}, pages n/a--n/a, mar 2014.
+\newblock ISSN 09621083.
+\newblock \doi{10.1111/mec.12736}.
+\newblock URL \url{http://doi.wiley.com/10.1111/mec.12736}.
+
+\bibitem[Stayton(2011)]{Stayton2011}
+C.~T. Stayton.
+\newblock {Biomechanics on the half shell: functional performance influences
+  patterns of morphological variation in the emydid turtle carapace.}
+\newblock \emph{Zoology (Jena, Germany)}, 114\penalty0 (4):\penalty0 213--23,
+  sep 2011.
+\newblock ISSN 1873-2720.
+\newblock \doi{10.1016/j.zool.2011.03.002}.
+\newblock URL \url{http://www.ncbi.nlm.nih.gov/pubmed/21820295}.
+
+\bibitem[Stuart et~al.(2006)Stuart, Inger, and Voris]{Stuart2006}
+B.~L. Stuart, R.~F. Inger, and H.~K. Voris.
+\newblock {High level of cryptic species diversity revealed by sympatric
+  lineages of Southeast Asian forest frogs.}
+\newblock \emph{Biology letters}, 2\penalty0 (3):\penalty0 470--4, sep 2006.
+\newblock ISSN 1744-9561.
+\newblock \doi{10.1098/rsbl.2006.0505}.
+\newblock URL
+  \url{http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=1686201{\&}tool=pmcentrez{\&}rendertype=abstract}.
+
+\bibitem[Sztencel-Jab{\l}onka et~al.(2009)Sztencel-Jab{\l}onka, Jones, and
+  BogdanowicZ]{Sztencel-Jabonka2009}
+A.~Sztencel-Jab{\l}onka, G.~Jones, and W.~BogdanowicZ.
+\newblock {Skull Morphology of Two Cryptic Bat Species: Pipistrellus
+  pipistrellus and P. pygmaeus — A 3D Geometric Morphometrics Approach with
+  Landmark Reconstruction}.
+\newblock \emph{Acta Chiropterologica}, 11\penalty0 (1):\penalty0 113--126, jun
+  2009.
+\newblock ISSN 1508-1109.
+\newblock \doi{10.3161/150811009X465730}.
+\newblock URL \url{http://www.bioone.org/doi/abs/10.3161/150811009X465730}.
+
+\bibitem[{Van Bocxlaer} and Hunt(2013)]{VanBocxlaer2013}
+B.~{Van Bocxlaer} and G.~Hunt.
+\newblock {Morphological stasis in an ongoing gastropod radiation from Lake
+  Malawi}.
+\newblock \emph{Proceedings of the National Academy of Sciences}, aug 2013.
+\newblock ISSN 0027-8424.
+\newblock \doi{10.1073/pnas.1308588110}.
+\newblock URL \url{http://www.pnas.org/cgi/doi/10.1073/pnas.1308588110}.
+
+\bibitem[{Van Bocxlaer} and Schulthei{\ss}(2010)]{VanBocxlaer2010}
+B.~{Van Bocxlaer} and R.~Schulthei{\ss}.
+\newblock {Comparison of morphometric techniques for shapes with few homologous
+  landmarks based on machine-learning approaches to biological discrimination}.
+\newblock \emph{Paleobiology}, 36\penalty0 (3):\penalty0 497--515, 2010.
+
+\bibitem[van~den Brink and Bokma(2011)]{VandenBrink2011}
+V.~van~den Brink and F.~Bokma.
+\newblock {Morphometric shape analysis using learning vector quantization
+  neural networks — an example distinguishing two microtine vole species}.
+\newblock \emph{Annales Zoologici Fennici}, 48:\penalty0 359--364, 2011.
+
+\bibitem[Venables and Ripley(2002)]{Venables2002}
+W.~N. Venables and B.~D. Ripley.
+\newblock \emph{Modern Applied Statistics with S}.
+\newblock Springer, New York, fourth edition, 2002.
+\newblock URL \url{http://www.stats.ox.ac.uk/pub/MASS4}.
+
+\bibitem[Vitek et~al.(2017)Vitek, Manz, Gao, Bloch, Strait, and
+  Boyer]{Vitek2017}
+N.~S. Vitek, C.~L. Manz, T.~Gao, J.~I. Bloch, S.~G. Strait, and D.~M. Boyer.
+\newblock {Semi-supervised determination of pseudocryptic morphotypes using
+  observer-free characterizations of anatomical alignment and shape}.
+\newblock \emph{Ecology and Evolution}, 7\penalty0 (14):\penalty0 5041--5055,
+  2017.
+\newblock ISSN 20457758.
+\newblock \doi{10.1002/ece3.3058}.
+\newblock URL \url{http://doi.wiley.com/10.1002/ece3.3058}.
+
+\bibitem[von Cramon-Taubadel et~al.(2007)von Cramon-Taubadel, Frazier, and
+  Lahr]{Cramon2007}
+N.~von Cramon-Taubadel, B.~C. Frazier, and M.~M. Lahr.
+\newblock {The problem of assessing landmark error in geometric morphometrics:
+  theory, methods, and modifications}.
+\newblock \emph{American journal of physical anthropology}, 132\penalty0
+  (4):\penalty0 535--544, 2007.
+\newblock ISSN 00029483.
+\newblock \doi{10.1002/ajpa}.
+
+\bibitem[Yang and Rannala(2010)]{Yang2010b}
+Z.~Yang and B.~Rannala.
+\newblock {Bayesian species delimitation using multilocus sequence data.}
+\newblock \emph{Proceedings of the National Academy of Sciences}, 107\penalty0
+  (20):\penalty0 9264--9, may 2010.
+\newblock ISSN 1091-6490.
+\newblock \doi{10.1073/pnas.0913022107}.
+\newblock URL
+  \url{http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2889046{\&}tool=pmcentrez{\&}rendertype=abstract}.
+
+\bibitem[Zelditch et~al.(2004)Zelditch, Swiderski, and Sheets]{Zelditch2004}
+M.~L. Zelditch, D.~L. Swiderski, and H.~D. Sheets.
+\newblock \emph{{Geometric morphometrics for biologists: a primer}}.
+\newblock Elsevier Academic Press, Amsterdam, 2004.
+
+\end{thebibliography}
