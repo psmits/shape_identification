@@ -1,9 +1,10 @@
 # data files
-.RData
-.rdata
+*.RData
+*.rdata
 data
 doc/old/*
 *.aux
 *.out
 *.log
 *.Rout
+*.zip
