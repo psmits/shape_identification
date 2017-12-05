@@ -6,8 +6,10 @@
 \usepackage{natbib}
 \usepackage{lineno}
 \usepackage[font=small]{caption}
+\usepackage{float}
 \usepackage{subcaption, multirow, morefloats}
-\usepackage{subcaption, wrapfig}
+\usepackage{, wrapfig}
+\usepackage{afterpage}
 \usepackage{rotating}
 \usepackage{titlesec}
 \usepackage[nottoc,numbib]{tocbibind}
@@ -47,19 +49,18 @@
 %\title{How cryptic is cryptic diversity? Machine learning approaches to classifying morphological variation in the Pacific Pond Turtle (\textit{Emys marmorata})}
 \title{Ensemble approaches for estimating congruence between species delimitation and morphological variation: comparing taxonomic hypotheses for the Pacific Pond Turtle (\textit{Emys marmorata})}
 \author[1]{Peter D Smits}%\thanks{peterdavidsmits@gmail.com}}
-\author[2,3]{Kenneth D Angielczyk}%\thanks{kangielczyk@fieldmuseum.org}}
-\author[4]{James F Parham}%\thanks{jparham@fullerton.edu}}
-\author[5]{Bryan L Stuart}%\thanks{bryan.stuart@naturalsciences.org}}
+\author[2]{Kenneth D Angielczyk}%\thanks{kangielczyk@fieldmuseum.org}}
+\author[3]{James F Parham}%\thanks{jparham@fullerton.edu}}
+\author[4]{Bryan L Stuart}%\thanks{bryan.stuart@naturalsciences.org}}
 \affil[1]{Department of Integrative Biology, University of California -- Berkeley}
-\affil[2]{Committee on Evolutionary Biology, University of Chicago}
-\affil[3]{Integrative Research Center, Field Museum of Natural History}
-\affil[4]{John D. Cooper Archaeological and Paleontological Center, Department of Geological Sciences, California State University, Fullerton}
-\affil[5]{Section of Research and Collections, North Carolina Museum of Natural Sciences}
+\affil[2]{Integrative Research Center, Field Museum of Natural History}
+\affil[3]{John D. Cooper Archaeological and Paleontological Center, Department of Geological Sciences, California State University, Fullerton}
+\affil[4]{Section of Research and Collections, North Carolina Museum of Natural Sciences}
 
 
 \begin{document}
 \maketitle
-\noindent{\textbf{Corresponding author:} Peter D Smits, Department of Integrative Biology, University of California -- Berkeley, 3040 Valley Life Sciences Building \#5151, Berkeley, CA, 94720, USA; E-mail: \href{mailto:peterdavidsmits@gmail.com}{peterdavidsmits@gmail.com}}
+\noindent{\textbf{Corresponding author:} Peter D Smits, Department of Integrative Biology, University of California -- Berkeley, 3040 Valley Life Sciences Building \#5151, Berkeley, CA, 94720, USA; E-mail: \href{mailto:psmits@berkeley.edu}{psmits@berkeley.edu}
 
 \linenumbers
 \modulolinenumbers[2]
@@ -76,7 +77,7 @@ Molecular systematics has repeatedly demonstrated the existence of cryptic speci
 
 In contrast to those genetically-diagnosed species, the majority of extant taxa, and almost all extinct taxa, are delimited by morphology alone. This disjunction complicates interpretations of variation and diversity in deep time, as apparent morphological stasis may not reflect the true underlying diversity \citep{Eldredge1972,Gould1977a,VanBocxlaer2013}. It also has serious implications for our records of modern biodiversity: for many museum specimens of extant taxa (e.g. those preserved in formalin), it is difficult to acquire the genetic data needed for non-morphological species delimitation methods.
 
-These considerations have sparked interest in whether geometric morphometric analyses can capture fine-scale variation that can be used for identifying cryptic species. This would make the task of identifying and maintaining endangered or conserved groups much easier and could contribute to improved classifications of extinct taxa and populations. Most such studies focus on using morphometrics to discover differences between taxa that were identified by other means \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Demandt2009,Markolf2013,Fruciano2016}. Additionally, there has been work on automated taxon identification and classification of taxa into groups \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011,Vitek2017}. 
+These considerations have sparked interest in whether geometric morphometric analyses can capture fine-scale variation that can be used for identifying cryptic species. This would make the task of identifying and maintaining endangered or conserved groups much easier and could contribute to improved classifications of extinct taxa and populations. Most such studies focus on using morphometrics to discover differences between taxa that were identified by other means \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Demandt2009,Markolf2013,Fruciano2016}. Additionally, there has been work on automated taxon identification and classification of taxa into groups \citep{Baylac2003,Dobigny2003,MacLeod2007,VandenBrink2011,Vitek2017}, as well as the development of models that combine genetic, phenotypic, and geographic data to infer evolutionary units of interest \citep{Guillot2012}.
 
 Here, we investigate the morphometric identification of cryptic species using machine learning approaches. We use an ensemble learning approach where multiple methods are used in order to look for consensus among their results. We test our approach on three datasets: plastron shape of eight species of closely related turtles, plastron shape of two subspecies of a single turtle species, and plastron shape of the \textit{Emys marmorata} species complex. In particular, we ask whether it is possible to determine which among a set of classification hypotheses best aligns with the observed morphology, and examine the implications of our results for the \textit{E. marmorata} complex. 
 
@@ -87,14 +88,14 @@ Machine learning is an extension of known statistical methodology \citep{Hastie2
 
 There are two major classes of machine learning method: unsupervised and supervised learning. Unsupervised learning methods are used with unlabeled data where the underlying structure is estimated; they are analogous to clustering and density estimation methods \citep{Kaufman1990}. Supervised learning methods are used with labeled data where the final output of data is known and the rules for going from input to output are inferred. These are analogous to classification and regression models \citep{Breiman1984,Hastie2009}. Our application of the supervised learning approaches used in this study illustrates only a sampling of the various methods available for fitting classification models. The specific methods used in this study were chosen because they are suited for cases with more two or more response classes.
 
-Geometric morphometric approaches to identifying differences in morphological variation between classes, including cryptic species, have mostly relied on methods like linear discriminate analysis and canonical variates analysis \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Francoy2009,Sztencel-Jabonka2009,MitrovskiBogdanovic2013,Dillard2017}. Because of their similarity to multivariate approaches like principal components analysis (PCA), these methods are comparatively straightforward ways of understanding the differences in morphology between classes. They also benefit from producing results that can be easily visualized, which aids in the interpretation and presentation of data and results. Most previous morphometric studies did not assess which amongst a set of alternative classification hypotheses was optimal. For example, studies such as those of \citet{Caumul2005a} and \citet{Polly2007a} focused on comparing different aspects of morphology and their fidelity to a classification scheme instead of comparing the fidelity of one aspect of morphology to multiple classification schemes. In this context, the study of \citet{Cardini2009a} is noteworthy because they compared morphological variation in marmots at the population, regional, and species level and determined the fidelity of shape to divisions at each of these levels.
+Geometric morphometric approaches to identifying differences in morphological variation between classes, including cryptic species, have mostly relied on methods like linear discriminate analysis and canonical variates analysis \citep{Polly2003,Zelditch2004,Gaubert2005b,Gunduz2007,Polly2007a,Francoy2009,Sztencel-Jabonka2009,Edwards2011,MitrovskiBogdanovic2013,Dillard2017}. Because of their similarity to multivariate approaches like principal components analysis (PCA), these methods are comparatively straightforward ways of understanding the differences in morphology between classes. They also benefit from producing results that can be easily visualized, which aids in the interpretation and presentation of data and results. Most previous morphometric studies did not assess which amongst a set of alternative classification hypotheses was optimal. For example, studies such as those of \citet{Caumul2005a} and \citet{Polly2007a} focused on comparing different aspects of morphology and their fidelity to a classification scheme instead of comparing the fidelity of one aspect of morphology to multiple classification schemes. In this context, the study of \citet{Cardini2009a} is noteworthy because they compared morphological variation in marmots at the population, regional, and species level and determined the fidelity of shape to divisions at each of these levels.
 
 Here, we used an ensemble of supervised machine learning methods to compare the congruence of morphological data to different classification hypotheses. Each of these methods provide different advantages for understanding how to classify specimens, as well as the accuracy of the resulting classifications. 
 Machine learning methods have been combined with geometric morphometric data to study shape variation in a variety of contexts, including automated taxon identification and classification of groups \citep{Baylac2003,Dobigny2003,MacLeod2007,VanBocxlaer2010,VandenBrink2011,Navega2015}. % MORE
 %Although machine learning methods such as neural networks have been applied to studying shape variation, including in the context of automated taxon identification and classification of groups, the number of cases remains limited. 
 In the current study, we not only consider pure classification accuracy but also use a statistic of classification strength that reflects the rate at which taxa are both accurately and inaccurately classified: the area under the Receiver Operating Characteristic curve \citep{Hastie2009}. 
 
-We analyzed the problem of whether there are distinct subspecies or cryptic species within the western pond turtle, \textit{Emys marmorata} \citep{Baird1852} (formerly \emph{Clemmys marmorata}; see \citealp{Feldman2002}). \textit{Emys marmorata} is distributed from northern Washington State, USA to Baja California, Mexico. Traditionally, \textit{E. marmorata} was classified into two named subspecies: the northern \textit{E. marmorata marmorata} and the southern \textit{Emys marmorata pallida} \citep{Seeliger1945}, with a central Californian intergrade zone in between. \textit{Emys marmorata marmorata} is differentiated from \textit{E. marmorata pallida} by the presence of a pair of triangular inguinal scales and darker neck markings. The triangular inguinal plates can sometimes be present in \textit{E. marmorata pallida} although they are considerably smaller. \citet{Seeliger1945} did not formally include the Baja California populations of \textit{E. marmorata} in either taxon, implying the existence of a third distinct but unnamed subspecies.
+We analyzed the problem of whether there are distinct subspecies or cryptic species within the western pond turtle, \textit{Emys marmorata} \citep{Baird1852} (formerly \emph{Clemmys marmorata}; see \citealp{Feldman2002}). \textit{Emys marmorata} is distributed from northern Washington State, USA to Baja California, Mexico; populations in western Nevada may have been introduced by recent human activity or they could be a genuine part of the species' range \citep{Bury2017}. Traditionally, \textit{E. marmorata} was classified into two named subspecies: the northern \textit{E. marmorata marmorata} and the southern \textit{Emys marmorata pallida} \citep{Seeliger1945}, with a central Californian intergrade zone in between. \textit{Emys marmorata marmorata} is differentiated from \textit{E. marmorata pallida} by the presence of a pair of triangular inguinal scales and darker neck markings. The triangular inguinal plates can sometimes be present in \textit{E. marmorata pallida} although they are considerably smaller. \citet{Seeliger1945} did not formally include the Baja California populations of \textit{E. marmorata} in either taxon, implying the existence of a third distinct but unnamed subspecies.
 
 Previous work on morphological variation in \textit{E. marmorata} has focused primarily on differentiation between populations over a portion of the species' total range \citep{Lubcke2007,Germano2008,Germano2009,Bury2010}; comparatively few studies have included specimens from across the entire range \citep{Holland1992}. Most of these studies considered how local biotic and abiotic factors may contribute to differences in carapace length, and they found that size can vary greatly between different populations \citep{Lubcke2007,Germano2008,Germano2009}. There also has been interest in size-based sexual dimorphism in \textit{E. marmorata} \citep{Holland1992,Lubcke2007,Germano2009}, with males being on average larger than females based on total carapace length and other linear measurements. However, the quality of size as a classifier of sex can vary greatly between populations \citep{Holland1992} because of the magnitude of size differences among populations \citep{Lubcke2007,Germano2009}. The effect of sexual dimorphism on shape, \textit{sensu} \citet{Kendall1977a}, has not been assessed \citep{Holland1992,Lubcke2007,Germano2008}.
 
@@ -111,7 +112,24 @@ In the case of the \textit{E. marmorata} species complex, we hypothesize that if
 
 \section{Materials and Methods}
 \subsection{Specimens, sampling, morphometrics}
-Three different geometric morphometric datasets describing turtle plastron variation were assembled for this analysis: 1) specimens from eight distinct emydine species; 2) \textit{T. scripta} specimens from the two main subspecies (\textit{T. scripta elegans} and \textit{T. scripta scripta}); and 3) \textit{E. marmorata} specimens from across the species' geographic range. The first two datasets are intended to serve as a test of whether machine learning techniques can differentiate species-level groupings of emydine turtles using plastron shape. We expect that the first case represents a low complexity dataset because of the high level of plastron shape disparity that exists among these species \citep{Angielczyk2011}, whereas the second dataset should be relatively higher in complexity and more analogous to the \textit{E. marmorata} example. We predict that the \textit{E. marmorata} dataset should be of the highest complexity and our greatest challenge given the finding that only very subtle differences existed between geographically-distinct populations \citep{Holland1992}.
+
+\afterpage{\clearpage}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height = 0.8\textheight, width = \textwidth, keepaspectratio = true]{figure/Ken_Ang_SpLoc_final_comp}
+  \caption{Geographic distribution of specimens sampled for comparing the hypothesized subdivisions of \textit{Emys marmorata}. Each hypothesized scheme has two or more possible classes. Sample size differs between schemes because of our ability to confidently assign museum specimens to the various schemes. The number of localities shown on each map is less than the number of specimens sampled because some localities produced multiple specimens. The different classification abbreviations are as follows: \textit{E. marmorata} = ``marm'', \textit{E. pallida} = ``pall'', Central Coast Ranges = ``CCR'', San Joaquin Valley = ``SJ,'' Baya Peninsula = ``Baja,'', and Sierra Foothills = ``Foothill.''}
+  \label{fig:map}
+\end{figure}
+
+\afterpage{\clearpage}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/plastra}
+  \caption{Depiction of general plastral shape of \textit{E. marmorata} and position of the 19 landmarks used in this study. Anterior is towards the top of the figure.}
+  \label{fig:plastra}
+\end{figure}
+
+Three different geometric morphometric datasets describing turtle plastron variation were assembled for this analysis: 1) specimens from eight distinct emydine species; 2) \textit{T. scripta} specimens from the two main subspecies (\textit{T. scripta elegans} and \textit{T. scripta scripta}); and 3) \textit{E. marmorata} specimens from across the species' geographic range. The first two datasets are intended to serve as a test of whether machine learning techniques can differentiate species-level groupings of emydine turtles using plastron shape. We expect that the first case represents a low complexity dataset because of the high level of plastron shape disparity that exists among these species \citep{Claude2003a,Claude2006,Angielczyk2011}, whereas the second dataset should be relatively higher in complexity and more analogous to the \textit{E. marmorata} example. We predict that the \textit{E. marmorata} dataset should be of the highest complexity and our greatest challenge given the finding that only very subtle differences existed between geographically-distinct populations \citep{Holland1992}.
 %We expect the first dataset represents a low-complexity dataset given the high level of plastron shape disparty that exists among these species \citep{Angielczyk2011}, whereas the second dataset should be relatively higher in complexity than the first. Ultimately, we expect that the third dataset to be of the highest complexity and our biggest analytical challenge. For all datasets we chose to focus on adults because significant changes in plastron shape occur over the course of ontogeny in \textit{E. marmorata} and other emydines \citep{Angielczyk2013a}.
 % three turtle datasets
 %   eight species
@@ -126,25 +144,6 @@ The second dataset is a compilation of 101 specimens of two subspecies of \texti
 The final dataset is of 532 adult \textit{E. marmorata} museum specimens, though not all specimens were able to be assigned a class for all schemes (Fig. \ref{fig:map}). These specimens represent a subset of those included in \citet{Angielczyk2007}, \citet{Angielczyk2011}, and \citet{Angielczyk2013a}. Because  \citet{Spinks2005}, \citet{Spinks2010}, and \citet{Spinks2014} did not use vouchered specimens we were not able to directly sample the individuals in their studies. Instead, our specimen classifications were based solely on the geographic information and not explicit assignment using molecular data. For each taxonomic hypothesis, specimens were assigned to one of the possible classes based on geographic occurrence data recorded in museum collections. In cases where precise latitude and longitude information were not available we estimated them from other locality information. Because the exact barriers between different biogeographic regions are unknown and unclear, we represented each hypothesis with multiple possible realizations representing the classification uncertainty for specimens present at the geographic boundaries. The taxonomic hypotheses and sub-hypotheses for \textit{E. marmorata} used here are presented in Table \ref{tab:hypotheses} and Figure \ref{fig:map}.
 
 For \citet{Spinks2010} we used three binning schemes. All three schemes include a class for \textit{E. marmorata} specimens from northern populations (marm) as well as a class for those assigned to \textit{E. pallida} (pall) and an intergrade zone in the Central Coast Ranges (CCR). The schemes differ in the assignment of samples from the San Joaquin Valley (Fig. \ref{fig:map}). Scheme SP10.1 and SP10.2 differ in the assignment of specimens from the western San Joaquin Valley to either CCR or marm reflecting uncertainty regarding their genetic affinity as explained above. In scheme SP10.3 these specimens are assigned to a San Joaquin class reflecting the mitochondrial distinctiveness shown by \citet{Spinks2005}. For \citet{Spinks2014} we used two binning schemes with SP14.1 being based on their phylogenetic network analysis and SP14.2 being based on their Bayesian species delimitation analysis. The latter scheme requires the addition of two new classes, ``Baja'' and ``Foothill,'' to accommodate the genetic groupings recovered by the SNP Structure analysis that was used to create the guide tree for the BPP species delimitation analysis in \citet{Spinks2014}. Finally, we proposed a conservative morphological hypothesis (``Morph'') in order to compare the molecular hypotheses with something approximating the original taxonomic hypothesis for the group; this scheme is made up solely of the marm and pall classes from the SP10.3 scheme.
-
-
-Sex was known only for a subset of the total dataset and was not included as a predictor of classification. Instead, we estimated the degree by which specimens cluster morphologically by sex in order to determine how much of a potential biasing factor sexual dimorphism could be for our analysis of the \textit{E. marmorata} species complex (see below).
-%The scheme names are as follows: Mito 1 and 2 correspond to \citet{Spinks2005}, Mito 3 corresponds to \citet{Spinks2010}, Morph 1 and Morph 2 correspond to \citet{Holland1992}, and Nuclear corresponds to \citet{Spinks2014}. % CHANGE
-
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[height = 0.8\textheight, width = \textwidth, keepaspectratio = true]{figure/Ken_Ang_SpLoc_final_comp}
-  \caption{Geographic distribution of specimens sampled for comparing the hypothesized subdivisions of \textit{Emys marmorata}. Each hypothesized scheme has two or more possible classes. Sample size differs between schemes because of our ability to confidently assign museum specimens to the various schemes. The different classification abbreviations are as follows: \textit{E. marmorata} = ``marm'', \textit{E. pallida} = ``pall'', Central Coast Ranges = ``CCR'', San Joaquin Valley = ``SJ,'' Baya Peninsula = ``Baja,'', and Sierra Foothills = ``Foothill.''}
-  \label{fig:map}
-\end{figure}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/plastra}
-  \caption{Depiction of general plastral shape of \textit{E. marmorata} and position of the 19 landmarks used in this study. Anterior is towards the top of the figure.}
-  \label{fig:plastra}
-\end{figure}
 
 \begin{table}
   \centering
@@ -164,6 +163,9 @@ Sex was known only for a subset of the total dataset and was not included as a p
     \label{tab:hypotheses}
 \end{table}
 
+Sex was known only for a subset of the total dataset and was not included as a predictor of classification. Instead, we estimated the degree by which specimens cluster morphologically by sex in order to determine how much of a potential biasing factor sexual dimorphism could be for our analysis of the \textit{E. marmorata} species complex (see below).
+%The scheme names are as follows: Mito 1 and 2 correspond to \citet{Spinks2005}, Mito 3 corresponds to \citet{Spinks2010}, Morph 1 and Morph 2 correspond to \citet{Holland1992}, and Nuclear corresponds to \citet{Spinks2014}. % CHANGE
+
 Following previous work on plastron shape \citep{Angielczyk2007,Angielczyk2011,Angielczyk2013a}, we used TpsDig 2.04 \citep{Rohlf2005} to digitize 19 two-dimensional landmarks (Fig. \ref{fig:plastra}). Seventeen of the landmarks are at the endpoints or intersection of the keratinous plastral scutes that cover the plastron. Twelve of the landmarks were symmetrical across the axis of symmetry. Because damage prevented the digitization of all the symmetric landmarks in some specimens, we reflected landmarks across the axis of symmetry (i.e. midline) prior to analysis and used the average position of each symmetrical pair. In cases where damage or incompleteness prevented symmetric landmarks from being determined, we used only the single member of the pair. We conducted all subsequent analyses on the resulting ``half'' plastra. We superimposed the plastral landmark configurations using generalized Procrustes analysis \citep{Dryden1998a}, after which we calculated the principal components (PC) of shape using the \texttt{shapes} package for R \citep{R2016,Dryden2013}. All specimens were used for superimposition, after which the subset labeled for each of the schemes were used in model training and testing (see below).
 
 
@@ -177,15 +179,6 @@ For each specimen, the difference in shape caused by digitization was calculated
 
 
 \subsection{Supervised learning approaches}
-Instead of relying on a single supervised learning method, we chose to use an ensemble approach where multiple model types are used in concert so that any congruence between them increases our support for that conclusion over another \citep{Hastie2009}. The supervised learning methods used here are named in Table \ref{tab:methods}. Each of these methods makes different assumptions, treats data differently, and can produce different classification results depending on the nature of the data \citep{Hastie2009}. For example, multinomial logistic regression is a type of generalized linear model, whereas random forest is itself an ensemble approach where multiple decision trees are fit to subsets of the full dataset and then averaged.
-% use multiple methods
-%   multinomial logistic regression (nnet)
-%   linear discriminate analysis (MASS)
-%   penalized discriminate analysis (mda)
-%   neural network (nnet)
-%   random forest (randomForest)
-% each method has different assumptions and treat data differently
-%   all assume that predictors have additive effect (e.g. independent)
 
 \begin{table}
   \centering
@@ -204,6 +197,16 @@ Instead of relying on a single supervised learning method, we chose to use an en
   \end{tabular}}
   \label{tab:methods}
 \end{table}
+
+Instead of relying on a single supervised learning method, we chose to use an ensemble approach where multiple model types are used in concert so that any congruence between them increases our support for that conclusion over another \citep{Hastie2009}. The supervised learning methods used here are named in Table \ref{tab:methods}. Each of these methods makes different assumptions, treats data differently, and can produce different classification results depending on the nature of the data \citep{Hastie2009}. For example, multinomial logistic regression is a type of generalized linear model, whereas random forest is itself an ensemble approach where multiple decision trees are fit to subsets of the full dataset and then averaged.
+% use multiple methods
+%   multinomial logistic regression (nnet)
+%   linear discriminate analysis (MASS)
+%   penalized discriminate analysis (mda)
+%   neural network (nnet)
+%   random forest (randomForest)
+% each method has different assumptions and treat data differently
+%   all assume that predictors have additive effect (e.g. independent)
 
 % predictors/features/covariates
 %   1:25 PCs
@@ -240,9 +243,8 @@ For a given supervised learning method, we compared the fit of 27 models as the 
 
 \subsection{Geometric morphometrics}
 
-The results of the PCA of plastron shape in both the eight species and \textit{Trachemys} datasets demonstrate strong association between shape and the recognized classification schemes (Fig. \ref{fig:other_pca}).
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \begin{subfigure}[b]{0.7\textwidth}
     \caption{}
@@ -257,9 +259,7 @@ The results of the PCA of plastron shape in both the eight species and \textit{T
   \label{fig:other_pca}
 \end{figure}
 
-
-The results of the PCA of plastron shape in the \textit{Emys marmorata} dataset show no clear connection between plastron shape and any of the proposed classification schemes (Fig. \ref{fig:emys_pca}). The first PC axis of shape variation appears to be primarily structured by differences in individual centroid size (Fig. \ref{fig:emys_pca}); this was the motivation for including centroid size and its interaction with PC1 as predictors in all of the supervised learning models.
-
+\afterpage{\clearpage}
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/emys_pc_graph}
@@ -267,20 +267,19 @@ The results of the PCA of plastron shape in the \textit{Emys marmorata} dataset 
   \label{fig:emys_pca}
 \end{figure}
 
+The results of the PCA of plastron shape in both the eight species and \textit{Trachemys} datasets demonstrate strong association between shape and the recognized classification schemes (Fig. \ref{fig:other_pca}).
 
-Analysis of the differences between sexes of \textit{E. marmorata} indicates that sex does not appear to strongly structure differences in shape (Fig. \ref{fig:sex_test}). The difference in mean shape between the sexes is very small; the sexes overlap about has much as expected given a null distribution based on permuting the sex-labels.
+The results of the PCA of plastron shape in the \textit{Emys marmorata} dataset show no clear connection between plastron shape and any of the proposed classification schemes (Fig. \ref{fig:emys_pca}). The first PC axis of shape variation appears to be primarily structured by differences in individual centroid size (Fig. \ref{fig:emys_pca}); this was the motivation for including centroid size and its interaction with PC1 as predictors in all of the supervised learning models.
 
-\begin{figure}[ht]
+
+\begin{figure}[h]
   \centering
   \includegraphics[height = 0.3\textheight, width = \textwidth, keepaspectratio = true]{figure/sex_test_hist}
   \caption{Comparison of observed Procrustes distance between the centroids of each sex (vertical line) to a null distribution generated from 1000 permutations of the sex-labels. This result indicates that the difference between the centroids is as small/smaller than expected by random.}
   \label{fig:sex_test}
 \end{figure}
 
-
-Comparison of the within to between Procrustes distances of the digitization replicates gives an approximate estimate of the error between distinct groupings (Table \ref{tab:rep_res}). The ratio of the average within-individual distance to the average distance between individuals for the replicated datasets is 1.11; this indicates that the grouping is slightly counter-intuitive to the data and is consistent with all shapes being very similar regardless of individual identity. This value also provides a baseline by which to understand how distinct the groupings are, where other ratios are compared to the correction ratio \(1.11/1\). 
-
-The results from the eight species and \textit{Trachemys} datasets indicate that both of these classification schemes are more recognizable than not given our estimate of digitization error (Table \ref{tab:rep_res}). In contrast, the different \textit{E. marmorata} classification schemes appear to barely be distinct, with their within:between ratios approximating 1. This indicates that the magnitude of the differences between groupings is approximately the same as the difference between any two random individuals (Table \ref{tab:rep_res}).
+Analysis of the differences between sexes of \textit{E. marmorata} indicates that sex does not appear to strongly structure differences in shape (Fig. \ref{fig:sex_test}). The difference in mean shape between the sexes is very small; the sexes overlap about has much as expected given a null distribution based on permuting the sex-labels.
 
 \begin{table}
   \centering
@@ -304,28 +303,32 @@ The results from the eight species and \textit{Trachemys} datasets indicate that
   \label{tab:rep_res}
 \end{table}
 
+Comparison of the within to between Procrustes distances of the digitization replicates gives an approximate estimate of the error between distinct groupings (Table \ref{tab:rep_res}). The ratio of the average within-individual distance to the average distance between individuals for the replicated datasets is 1.11; this indicates that the grouping is slightly counter-intuitive to the data and is consistent with all shapes being very similar regardless of individual identity. This value also provides a baseline by which to understand how distinct the groupings are, where other ratios are compared to the correction ratio \(1.11/1\). 
+
+The results from the eight species and \textit{Trachemys} datasets indicate that both of these classification schemes are more recognizable than not given our estimate of digitization error (Table \ref{tab:rep_res}). In contrast, the different \textit{E. marmorata} classification schemes appear to barely be distinct, with their within:between ratios approximating 1. This indicates that the magnitude of the differences between groupings is approximately the same as the difference between any two random individuals (Table \ref{tab:rep_res}).
 
 \subsection{Supervised learning}
 
-Analysis of the eight morphologically- and genetically-distinct species and the \textit{T. scripta scripta}--\textit{T. scripta elegans} datasets indicate that these taxa are sufficiently morphologically distinct to be differentiated on the basis of plastron shape. Both in-sample and out-of-sample classification have AUC values of approximately 1 for all methods, implying near-perfect classification rates (Fig. \ref{fig:other_sel}, \ref{fig:other_oos}). For both datasets, the ROC scores from testing datasets are tightly clustered near AUC = 1 (Fig. \ref{fig:other_oos}). These results demonstrate that when there are distinctions between the states of the classification schemes (i.e., differences in plastron shape that correlate with the different taxonomic groups), the methods used here can recover them.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
-  \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/other_model_sel}
+  \includegraphics[height = 0.5\textheight, width = \textwidth, keepaspectratio = true]{figure/other_model_sel}
   \caption{Comparisons of model fit to the training dataset for each of the supervised learning methods applied to the first two datasets; the results from the eight species dataset are presented in the left column, while those from the \textit{Trachemys} dataset are presented in the right column. Models were fit to datasets of varying complexity, with the number of parameters listed along the x-axis. Model fit is measured as the area under the receiver operating characteristic (AUC), which ranges from 0.5 to 1. Error bars correspond to one standard error estimated from 10 rounds of 5-fold cross-validation. The red dot corresponds to the model fit with the highest mean AUC while the blue dot corresponds to the model selected for further analysis. In some cases, there is no difference in complexity between the best and selected models.}
   \label{fig:other_sel}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
-  \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/other_oos_sel}
+  \includegraphics[height = 0.3\textheight, width = \textwidth, keepaspectratio = true]{figure/other_oos_sel}
   \caption{The results of out-of-sample predictive performance of the selected models for both the eight species (left) and \textit{Trachemys} datasets. Predictive performance is measured as the area under the receiver operating characteristic (AUC), which ranges from 0.5 to 1. Points correspond to the individual out-of-sample predictive performance of the specific model, indicated along the x-axis. The horizontal bars correspond the average out-of-sample predictive performance of all the models.}
   \label{fig:other_oos}
 \end{figure}
 
+Analysis of the eight morphologically- and genetically-distinct species and the \textit{T. scripta scripta}--\textit{T. scripta elegans} datasets indicate that these taxa are sufficiently morphologically distinct to be differentiated on the basis of plastron shape. Both in-sample and out-of-sample classification have AUC values of approximately 1 for all methods, implying near-perfect classification rates (Fig. \ref{fig:other_sel}, \ref{fig:other_oos}). For both datasets, the ROC scores from testing datasets are tightly clustered near AUC = 1 (Fig. \ref{fig:other_oos}). These results demonstrate that when there are distinctions between the states of the classification schemes (i.e., differences in plastron shape that correlate with the different taxonomic groups), the methods used here can recover them.
 
-AUC--based model selection revealed some important patterns of variation and congruence between the classification schemes and the actual data. Generally, the best performing models tended to include about half the total number of possible PCs (Fig. \ref{fig:emys_sel}). 
 
+
+\afterpage{\clearpage}
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/emys_model_sel}
@@ -333,14 +336,17 @@ AUC--based model selection revealed some important patterns of variation and con
   \label{fig:emys_sel}
 \end{figure}
 
-Observed AUC values for all of the optimal models are lower for the \textit{E. marmorata} dataset than for the other two datasets (Fig. \ref{fig:other_sel}, \ref{fig:emys_sel}). In most cases the different proposed classification schemes are generally poor descriptors of the observed variation. It appears that the dataset is overwhelmed by noise (likely biological and analytical), making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing dataset (Fig. \ref{fig:emys_oos}).
-
+\afterpage{\clearpage}
 \begin{figure}[ht]
   \centering
   \includegraphics[height = \textheight, width = \textwidth, keepaspectratio = true]{figure/emys_oos_sel}
   \caption{Comparison of out-of-sample AUC estimates from the predictions of selected models (Fig. \ref{fig:emys_sel}), grouped by classification scheme. The horizontal line in each panel corresponds to the average AUC value across all models of that classification scheme.}
   \label{fig:emys_oos}
 \end{figure}
+
+AUC--based model selection revealed some important patterns of variation and congruence between the classification schemes and the actual data. Generally, the best performing models tended to include about half the total number of possible PCs (Fig. \ref{fig:emys_sel}). 
+
+Observed AUC values for all of the optimal models are lower for the \textit{E. marmorata} dataset than for the other two datasets (Fig. \ref{fig:other_sel}, \ref{fig:emys_sel}). In most cases the different proposed classification schemes are generally poor descriptors of the observed variation. It appears that the dataset is overwhelmed by noise (likely biological and analytical), making any accurate classifications difficult at best. This observation is cemented with the generalizations of the models to the testing dataset (Fig. \ref{fig:emys_oos}).
 
 Mean AUC values for the model generalizations, in most cases, are approximately equal to the observed AUC values from the training dataset (Fig. \ref{fig:emys_sel}, \ref{fig:emys_oos}). The  cases in which the AUC from the  generalizations is less than the observed indicate poor model fit and a poor classification scheme. Comparison of AUC values from the model generalizations do not indicate a clear ``best'' classification scheme (Fig. \ref{fig:emys_sel}, \ref{fig:emys_oos}). Only in the case of the conservative morphological hypothesis (``Morph'') is the mean AUC value potentially distinct from that of other schemes; in this case mean AUC is lower than the average of the other five schemes which indicates that the moprhologically-based scheme performs more poorly than the molecularly-based ones. It is important to note, however, that the training and testing dataset for the ``Morph'' scheme is the smallest of the six schemes which may lead to poorer performance in in-sample and out-of-sample comparisons.
 
@@ -373,7 +379,7 @@ Finally, it is important to note that the data and analyses we present do not le
 
 
 \section*{Acknowledgements}
-Data collection for this project was supported in part by NSF DBI-0306158 (to KDA). G. Miller assisted with data collection and her participation in this research was supported by NSF REU DBI-0353797 (to R. Mooi of CAS). For access to emydine specimens, we thank: J. Vindum and R. Drewes (CAS); A. Resetar (FMNH); R. Feeney (LACM); C. Austin (LSUMNS); S. Sweet (MSE); J.McGuire and C. Conroy (MVZ); A. Wynn (NMNH); P. Collins (SBMNH); B. Hollingsworth (SDMNH); P. Holroyd (UCMP). We are grateful for S. Sweet for field assistance and the California Department of Fish and Game for permits. We would also like to thank Marc Lambruschi (FMNH) for help with figure \ref{fig:map}.
+Data collection for this project was supported in part by NSF DBI-0306158 (to KDA). G. Miller assisted with data collection and her participation in this research was supported by NSF REU DBI-0353797 (to R. Mooi of CAS). For access to emydine specimens, we thank: J. Vindum and R. Drewes (CAS); A. Resetar (FMNH); R. Feeney (LACM); C. Austin (LSUMNS); S. Sweet (MSE); J.McGuire and C. Conroy (MVZ); A. Wynn (NMNH); P. Collins (SBMNH); B. Hollingsworth (SDMNH); P. Holroyd (UCMP). We are grateful for S. Sweet for field assistance and the California Department of Fish and Game for permits. We would also like to thank M. Lambruschi (FMNH) for help with figure \ref{fig:map}.
 
 \bibliographystyle{abbrvnat}
 \bibliography{turtle,packages}

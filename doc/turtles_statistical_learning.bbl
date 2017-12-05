@@ -1,4 +1,4 @@
-\begin{thebibliography}{81}
+\begin{thebibliography}{86}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -79,6 +79,12 @@ L.~Breiman, J.~Friedman, C.~J. Stone, and R.~A. Olshen.
 \newblock \emph{{Classification and regression trees}}.
 \newblock Wadsworth International Group, Belmont, 1984.
 
+\bibitem[Bury(2017)]{Bury2017}
+R.~B. Bury.
+\newblock {Biogeography of Western Pond Turtles in the western Great Basin:
+  Dispersal Across a Northwest Passage ?}
+\newblock \emph{Western Wildlife2}, 4:\penalty0 72--80, 2017.
+
 \bibitem[Bury et~al.(2010)Bury, Germano, and Bury]{Bury2010}
 R.~B. Bury, D.~J. Germano, and G.~W. Bury.
 \newblock {Population Structure and Growth of the Turtle Actinemys marmorata
@@ -136,6 +142,22 @@ E.~L. Clare.
 \newblock ISSN 1932-6203.
 \newblock \doi{10.1371/journal.pone.0021460}.
 
+\bibitem[Claude(2006)]{Claude2006}
+J.~Claude.
+\newblock {Convergence induced by plastral kinesis and geometric morphometric
+  assessment: a geometric morphometric assessment}.
+\newblock \emph{Fossil Turtle Research}, 1:\penalty0 34--45, 2006.
+
+\bibitem[Claude et~al.(2003)Claude, Paradis, Tong, and Auffray]{Claude2003a}
+J.~Claude, E.~Paradis, H.~Tong, and J.~C. Auffray.
+\newblock {A geometric morphometric assessment of the effects
+  of$\backslash$nenvironment and cladogenesis on the evolution of
+  the$\backslash$nturtle shell}.
+\newblock \emph{Biological Journal of the Linnean Society}, 79\penalty0
+  (December):\penalty0 485--501, 2003.
+\newblock ISSN 00244066.
+\newblock \doi{10.1046/j.1095-8312.2003.00198.x}.
+
 \bibitem[Dayrat(2005)]{Dayrat2005a}
 B.~Dayrat.
 \newblock {Towards integrative taxonomy}.
@@ -184,6 +206,16 @@ I.~L. Dryden.
 I.~L. Dryden and K.~Y. Mardia.
 \newblock \emph{{Statistical shape analysis}}.
 \newblock Wiley, New York, 1998.
+
+\bibitem[Edwards et~al.(2011)Edwards, Claude, {Van Vuuren}, and
+  Matthee]{Edwards2011}
+S.~Edwards, J.~Claude, B.~J. {Van Vuuren}, and C.~A. Matthee.
+\newblock {Evolutionary history of the Karoo bush rat, Myotomys unisulcatus
+  (Rodentia: Muridae): Disconcordance between morphology and genetics}.
+\newblock \emph{Biological Journal of the Linnean Society}, 102\penalty0
+  (3):\penalty0 510--526, 2011.
+\newblock ISSN 00244066.
+\newblock \doi{10.1111/j.1095-8312.2010.01583.x}.
 
 \bibitem[Eldredge and Gould(1972)]{Eldredge1972}
 N.~Eldredge and S.~J. Gould.
@@ -261,6 +293,15 @@ S.~J. Gould and N.~Eldredge.
 \newblock {Punctuated equilibria: the tempo and mode of evolution
   reconsidered}.
 \newblock \emph{Paleobiology}, 3\penalty0 (2):\penalty0 115--151, 1977.
+
+\bibitem[Guillot et~al.(2012)Guillot, Renaud, Ledevin, Michaux, and
+  Claude]{Guillot2012}
+G.~Guillot, S.~Renaud, R.~Ledevin, J.~Michaux, and J.~Claude.
+\newblock {A unifying model for the analysis of phenotypic, genetic, and
+  geographic data}.
+\newblock \emph{Systematic Biology}, 61\penalty0 (6):\penalty0 897--911, 2012.
+\newblock ISSN 10635157.
+\newblock \doi{10.1093/sysbio/sys038}.
 
 \bibitem[G{\"{u}}nd{\"{u}}z et~al.(2007)G{\"{u}}nd{\"{u}}z, Jaarola, Tez,
   Yeniyurt, Polly, and Searle]{Gunduz2007}
