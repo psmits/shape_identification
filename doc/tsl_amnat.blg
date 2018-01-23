@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: tsl_amnat.aux
+The style file: amnatnat.bst
+Database file #1: turtle.bib
+Database file #2: packages.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 86 entries,
+            3251 wiz_defined-function locations,
+            1225 strings with 22253 characters,
+and the built_in function-call counts, 52146 in all, are:
+= -- 4422
+> -- 2577
+< -- 55
++ -- 864
+- -- 778
+* -- 3681
+:= -- 8549
+add.period$ -- 347
+call.type$ -- 86
+change.case$ -- 687
+chr.to.int$ -- 95
+cite$ -- 86
+duplicate$ -- 3713
+empty$ -- 3622
+format.name$ -- 1058
+if$ -- 10307
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 760
+newline$ -- 434
+num.names$ -- 346
+pop$ -- 1494
+preamble$ -- 1
+purify$ -- 603
+quote$ -- 0
+skip$ -- 1129
+stack$ -- 0
+substring$ -- 2521
+swap$ -- 1672
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 750
+warning$ -- 0
+while$ -- 396
+width$ -- 0
+write$ -- 1108
