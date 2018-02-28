@@ -76,6 +76,7 @@ turt.out[[1]] <- data.frame(sp = rep(turt.name,
                                      times = laply(numbers, nrow)),
                             size = centroids,
                             inter = (centroids * turt.scores[, 1]),
+                            inter2 = (centroids * turt.scores[, 2]),
                             turt.scores, stringsAsFactors = FALSE)
 
 
@@ -96,6 +97,7 @@ turt.scores <- turt.proc$scores
 
 turt.out[[2]] <- data.frame(sp = ids, size = centroids,
                                inter = (centroids * turt.scores[, 1]),
+                               inter2 = (centroids * turt.scores[, 2]),
                                turt.scores, stringsAsFactors = FALSE)
 
 
