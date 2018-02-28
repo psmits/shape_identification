@@ -34,14 +34,14 @@ source('../R/supervised_mung.r')
 
 schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
-npred <- 25
+npred <- 26
 
 results <- list()
 for(ii in seq(length(meth))) {
   results[[ii]] <- use.model(method = meth[ii],
                              adult = adult, 
                              scheme = schemes,
-                             npred = 25)
+                             npred = npred)
 }
 names(results) <- meth
 #save(results, file = '../data/model_cv_results.rdata')

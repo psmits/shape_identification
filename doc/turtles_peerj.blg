@@ -2,11 +2,10 @@ This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: turtles_peerj.aux
 The style file: apalike.bst
-Database file #1: turtle.bib
-Database file #2: packages.bib
+Database file #1: new_bib.bib
 You've used 86 entries,
             1935 wiz_defined-function locations,
-            1042 strings with 21102 characters,
+            1041 strings with 21095 characters,
 and the built_in function-call counts, 35141 in all, are:
 = -- 3471
 > -- 1538

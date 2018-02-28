@@ -75,6 +75,7 @@ fit <- procGPA(land.adult)
 centroid <- scale(centroid)
 adult <- cbind(data.frame(size = centroid, 
                           inter = centroid * fit$stdscores[, 1],
+                          inter2 = centroid * fit$stdscores[, 2],
                           fit$stdscores),
                meta.adult)
 
