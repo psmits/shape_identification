@@ -91,8 +91,10 @@ for(jj in seq(length(gg))) {
   tt[fe, 2] <- 'F'
   tt[ma, 2] <- 'M'
 
+  tt <- tt[tt[, 1] != '', ]
   sexk <- which(tt[, 2] %in% c('F', 'M'))
   tsex <- tt[sexk, 2]
+  print(table(interaction(tsex, tt[sexk, 1])))
   sex.shape <- fit$rotated[, , (sexk)]
 
 

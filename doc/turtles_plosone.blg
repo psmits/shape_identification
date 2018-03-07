@@ -9,45 +9,45 @@ Reallocated glb_str_end (elt_size=4) to 20 items from 10.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 You can't pop an empty literal stack for entry Holland1992
 while executing---line 1875 of file plos2015.bst
-You've used 86 entries,
+You've used 89 entries,
             3058 wiz_defined-function locations,
-            1277 strings with 24868 characters,
-and the built_in function-call counts, 135791 in all, are:
-= -- 17675
-> -- 999
+            1300 strings with 25901 characters,
+and the built_in function-call counts, 143052 in all, are:
+= -- 18588
+> -- 1047
 < -- 6
-+ -- 536
-- -- 249
-* -- 11139
-:= -- 14824
-add.period$ -- 364
-call.type$ -- 86
++ -- 573
+- -- 261
+* -- 11792
+:= -- 15617
+add.period$ -- 379
+call.type$ -- 89
 change.case$ -- 6
 chr.to.int$ -- 9
-cite$ -- 86
-duplicate$ -- 12098
-empty$ -- 12728
-format.name$ -- 316
-if$ -- 31728
+cite$ -- 89
+duplicate$ -- 12591
+empty$ -- 13432
+format.name$ -- 331
+if$ -- 33402
 int.to.chr$ -- 0
-int.to.str$ -- 86
-missing$ -- 732
-newline$ -- 467
-num.names$ -- 88
-pop$ -- 1184
+int.to.str$ -- 89
+missing$ -- 762
+newline$ -- 485
+num.names$ -- 91
+pop$ -- 1223
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 1189
+skip$ -- 1239
 stack$ -- 0
-substring$ -- 25438
-swap$ -- 1871
+substring$ -- 27040
+swap$ -- 1949
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 0
-while$ -- 785
-width$ -- 88
-write$ -- 1010
+while$ -- 818
+width$ -- 91
+write$ -- 1049
 (There was 1 error message)
