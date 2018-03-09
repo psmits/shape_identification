@@ -95,19 +95,33 @@ splits <- split(scores.df, scores.df$who)
 
 # turt.proc$percent[1:2]  # percent of variation on PC
 
+splits[[1]]$g <- 'cc7'
+splits[[2]]$g <- 'tra'
+
+#splits <- dplyr::bind_rows(splits[[1]], splits[[2]], .id = 'g')
+
+
 clear.gg <- ggplot(splits[[1]], aes(x = PC1, y = PC2, 
                                     colour = species, size = centroid))
 clear.gg <- clear.gg + geom_point(alpha = 0.5)
 clear.gg <- clear.gg + scale_size_area(max_size = 3)
 clear.gg <- clear.gg + scale_colour_manual(values = cbp.ord)
+#clear.gg <- clear.gg + facet_wrap(~ g)
 
+cc7g <- clear.gg + labs(x = 'PC 1 (41.6%)', 
+                        y = 'PC 2 (19.1%)', 
+                        title = 'A.')
+cc7g <- cc7g + coord_fixed(ratio = 1)
+trag <- clear.gg %+% splits[[2]] + labs(x = 'PC 1 (37.9%)', 
+                                        y = 'PC 2 (17.3%)', 
+                                        title = 'B.')
+trag <- trag + coord_fixed(ratio = 1)
 
-cc7g <- clear.gg + labs(x = 'PC 1 (41.6%)', y = 'PC 2 (19.1%)')
-cc7g <- cc7g + coord_fixed(ratio = 1) + 
-  theme(plot.margin = unit(c(0, 0, 0, 0), 'mm'))
-trag <- clear.gg %+% splits[[2]] + labs(x = 'PC 1 (37.9%)', y = 'PC 2 (17.3%)')
-trag <- trag + coord_fixed(ratio = 1) +
-  theme(plot.margin = unit(c(0, 0, 0, 0), 'mm'))
+png(filename = '../doc/figure/other_pc_graph.png',
+    width = 850, height = 450)
+grid.arrange(cc7g, trag, ncol = 2)
+dev.off()
+
 
 ggsave(plot = cc7g, filename = '../doc/figure/cc7_pc_graph.png',
        width = 8, height = 6)
