@@ -1,7 +1,6 @@
 # data files
-*.RData
-*.rdata
-data
+.RData
+.rdata
 doc/old/*
 *.aux
 *.out
