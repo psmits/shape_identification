@@ -1,9 +1,9 @@
 # various functions involved with supervised learning via caret
-library(MASS)
-library(nnet)
-library(randomForest)
-library(caret)
-source('../R/multiclass_roc.r')
+library(pacman)
+
+p_load(here, MASS, nnet, randomForest, caret)
+
+source(here::here('R', 'helper05_multiclass_roc.r'))
 
 ctrl <- trainControl(method = 'repeatedcv',
                      classProbs = TRUE,

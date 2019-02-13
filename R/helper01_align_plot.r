@@ -1,6 +1,6 @@
-library(ggplot2)
-library(gtable)
-library(gridExtra)
+library(pacman)
+
+p_load(ggplot2, gtable, gridExtra)
 
 AlignPlots <- function(...) {
   LegendWidth <- function(x) x$grobs[[8]]$grobs[[1]]$widths[[4]]

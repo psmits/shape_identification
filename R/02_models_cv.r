@@ -1,28 +1,11 @@
-library(shapes)
-library(geomorph)
-library(plyr)
-library(stringr)
-library(reshape2)
-library(cluster)
-library(MASS)
-library(nnet)
-library(randomForest)
-library(caret)
-library(parallel)
-library(doParallel)
-library(xtable)
-library(boot)
-library(pROC)
-library(ggplot2)
-library(grid)
-library(scales)
-# source files
-source('../R/array2df.r')
-source('../R/df2array.r')
-source('../R/caret_funcs.r')  # helper functions for train
-source('../R/support_functions.r')
-source('../R/multiclass_roc.r')
-source('../R/train_and_test.r')
+library(pacman)
+
+p_load(plyr, MASS, nnet, randomForest, mda, kernlab, caret, parallel, pROC,
+       boot, reshape2, doParallel)
+
+source(here::here('R', 'helper03_caret_funcs.r'))
+source(here::here('R', 'helper05_multiclass_roc.r'))
+source(here::here('R', 'helper08_train_test.r'))
 
 theme_set(theme_bw())
 cbp <- c('#000000', '#E69F00', '#56B4E9', '#009E73', 
@@ -33,87 +16,29 @@ cbp.long <- c('#000000', '#004949', '#009292', '#FF7DB6', '#FFB6DB',
 
 grab <- laply(seq(5), function(x) seq(from = x, to = length(cbp.long), by = 5))
 cbp.ord <- cbp.long[t(grab)]
-turt.out <- list()
-
-
-# actually start doing analysis...
-newturt <- list.files('../data/new_turtle', 
-                      pattern = 'txt', 
-                      full.names = TRUE)
-turt <- llply(newturt, function(x) read.delim(x, header = FALSE, sep = ' '))
-# for some reason there are 2 dead columns...
-turt <- llply(turt, function(x) { 
-                x = x[1:27]
-                x})
-
-# need to get rid of the JRB specimens
-inturt <- list.files('../data/new_turtle', 
-                      pattern = 'list.csv', 
-                      full.names = TRUE)
-# blan, coa, gut, ins, muh, orb, orn, pic
-#inturt <- inturt[c(1, 3, 4, 5, 6, 7, 8, 2)]
-numbers <- llply(inturt, function(x) read.csv(x, header = TRUE))
-
-# remove JRB before things get awkward
-spec.source <- llply(numbers, function(x) as.character(x[, 2]))
-to.rm <- llply(spec.source, function(x) str_detect(x, 'JRB'))
-
-turt <- Map(function(x, y) {x = x[!y, ]; x}, turt, to.rm)
-numbers <- Map(function(x, y) {x = x[!y, ]; x}, numbers, to.rm)
-
-# ok, onto the analysis
-centroids <- llply(turt, function(x) x[, ncol(x)])
-# number, museum #, lands...., centroid
-turt <- Reduce(rbind, turt)
-turt.align <- df2array(turt, n.land = 26, n.dim = 2)
-turt.proc <- procGPA(turt.align)
-turt.scores <- turt.proc$scores
-
-centroids <- scale(unlist(centroids))
-turt.name <- laply(str_split(newturt, '\\/'), function(x) x[length(x)])
-turt.name <- str_trim(str_extract(turt.name, '\\s(.*?)\\s'))
-turt.out[[1]] <- data.frame(sp = rep(turt.name, 
-                                     times = laply(numbers, nrow)),
-                            size = centroids,
-                            inter = (centroids * turt.scores[, 1]),
-                            inter2 = (centroids * turt.scores[, 2]),
-                            turt.scores, stringsAsFactors = FALSE)
 
 
 
-trac <- list.files('../data/trach', pattern = 'txt', full.names = TRUE)
-turt <- llply(trac, function(x) 
-              read.table(x, header = FALSE, stringsAsFactors = FALSE))
-# lands...., centroid
-centroids <- scale(unlist(llply(turt, function(x) x[, ncol(x)])))
-ids <- Reduce(c, Map(function(x, y) 
-                     rep(y, times = nrow(x)), 
-                     x = turt, y = c('a', 'b')))
-turt <- llply(turt, function(x) x[, -(ncol(x))])
-turt <- Reduce(rbind, turt)
-turt.align <- df2array(turt, n.land = 26, n.dim = 2)
-turt.proc <- procGPA(turt.align)
-turt.scores <- turt.proc$scores
+# start analysis
+registerDoParallel(cores = detectCores())
 
-turt.out[[2]] <- data.frame(sp = ids, size = centroids,
-                               inter = (centroids * turt.scores[, 1]),
-                               inter2 = (centroids * turt.scores[, 2]),
-                               turt.scores, stringsAsFactors = FALSE)
+source(here::here('R', '01_supervised_mung.r'))
+#adult$spinks <- LETTERS[adult$spinks]
 
-
+schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 meth <- c('multinom', 'nnet', 'lda', 'pda', 'rf')
-schemes <- c('cc7', 'trac')
+npred <- 26
+
 results <- list()
 for(ii in seq(length(meth))) {
-  results[[ii]] <- abrv.model(method = meth[ii], 
-                              adult = turt.out, 
-                              scheme = schemes, 
-                              npred = 25)
+  results[[ii]] <- use.model(method = meth[ii],
+                             adult = adult, 
+                             scheme = schemes,
+                             npred = npred)
 }
 names(results) <- meth
-save(results, file = '../data/others_cv_results.rdata')
-load('../data/others_cv_results.rdata')
-
+#save(results, file = '../data/model_cv_results.rdata')
+#load('../data/model_cv_results.rdata')
 
 # in sample roc from cv
 roc.out <- llply(results, function(oo) 
@@ -183,14 +108,27 @@ selc.melt <- cbind(selc.melt,
                             roc.out, select.roc)))
 selc.melt$npred <- as.numeric(as.character(selc.melt$npred))
 
+
 # map values of schemes to useful names
 # map values of models to correct abbreviation
 roc.melt$model <- mapvalues(roc.melt$model, from = unique(roc.melt$model),
                             to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+#roc.melt$scheme <- mapvalues(roc.melt$scheme, from = unique(roc.melt$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
 high.melt$model <- mapvalues(high.melt$model, from = unique(high.melt$model),
                             to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+#high.melt$scheme <- mapvalues(high.melt$scheme, from = unique(high.melt$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
 selc.melt$model <- mapvalues(selc.melt$model, from = unique(selc.melt$model),
                             to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+#selc.melt$scheme <- mapvalues(selc.melt$scheme, from = unique(selc.melt$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
 
 
 roc.plot <- ggplot(roc.melt, aes(x = npred, y = ROC))
@@ -207,8 +145,8 @@ roc.plot <- roc.plot + geom_point(data = selc.melt,
                                                 ymin = NULL, ymax = NULL), 
                                   colour = 'red')
 roc.plot <- roc.plot + labs(x = 'Model complexity (# predictors)', y = 'AUC')
-ggsave(plot = roc.plot, filename = '../doc/figure/other_model_sel.pdf',
-       width = 4, height = 4)
+ggsave(plot = roc.plot, filename = here::here('doc', 'figure', 'emys_model_sel.pdf'),
+       width = 7.5, height = 8)
 
 
 # out of sample roc from test
@@ -217,8 +155,8 @@ test.pred <- Map(function(a, b) Map(function(x, y) y[[x]], a, b$testing),
                  select.roc, results)
  
 oos.roc <- Map(function(a, b) 
-               unlist(Map(function(x, y) allvone(x, y[, 1]), 
-                          a, b$testing.dataset)),
+               unlist(Map(function(x, y, z) allvone(x, y[, z]), 
+                          a, b$testing.dataset, schemes)),
                test.pred, results)
 oos.melt <- Reduce(rbind, Map(function(x, y) 
                               cbind(model = y, scheme = schemes, value = x), 
@@ -231,6 +169,14 @@ oos.mean <- ddply(oos.melt, .(scheme), summarize, mean = mean(value))
 # map values of models to correct abbreviation
 oos.melt$model <- mapvalues(oos.melt$model, from = unique(oos.melt$model),
                             to = c('MLR', 'NN', 'LDA', 'PDA', 'RF'))
+#oos.melt$scheme <- mapvalues(oos.melt$scheme, from = unique(oos.melt$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
+#oos.mean$scheme <- mapvalues(oos.mean$scheme, from = unique(oos.mean$scheme),
+#                            to = c('Morph 1', 'Morph 2', 'Mito 1',
+#                                   'Nuclear', 
+#                                   'Mito 2', 'Mito 3'))
 
 oos.plot <- ggplot(oos.melt, aes(x = model, y = value))
 oos.plot <- oos.plot + geom_point() + facet_grid(. ~ scheme)
@@ -238,5 +184,5 @@ oos.plot <- oos.plot + geom_hline(data = oos.mean,
                                   mapping = aes(yintercept = mean))
 oos.plot <- oos.plot + labs(x = 'Model type', y = 'AUC')
 oos.plot <- oos.plot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
-ggsave(plot = oos.plot, filename = '../doc/figure/other_oos_sel.pdf',
-       width = 4, height = 3)
+ggsave(plot = oos.plot, filename = here::here('doc', 'figure', 'emys_oos_sel.pdf'),
+       width = 7.5, height = 4)

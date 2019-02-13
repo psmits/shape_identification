@@ -3,7 +3,10 @@
 # peter d smits
 # psmits@uchicago.edu
 ###############################################################################
-require(caret)
+
+library(pacman)
+
+p_load(caret)
 
 data.maker <- function(gr, data, p = 0.75) {
   nd <- data[, colnames(data) %in% gr]

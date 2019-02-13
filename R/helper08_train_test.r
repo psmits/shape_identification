@@ -1,6 +1,10 @@
+library(pacman)
+
+p_load(here)
+
 # wrapper for all of my model fitting exercises
 use.model <- function(method, adult, scheme, npred = 28) {
-  source('../R/caret_funcs.r')
+  source(here::here('R', 'helper03_caret_funcs.r'))
   # create data partition for training set and testing set
   trainsets <- testsets <- list()
   train.res <- test.res <- list()

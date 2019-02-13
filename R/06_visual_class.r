@@ -1,20 +1,12 @@
-library(shapes)
-library(geomorph)
+library(pacman)
 
-library(plyr)
-library(stringr)
-library(reshape2)
-
-library(xtable)
-library(grid)
-library(gridExtra)
-library(ggplot2)
-library(scales)
+p_load(here, shapes, geomorph, plyr, stringr, reshape2, xtable, grid, 
+       gridExtra, ggplot2, scales)
 
 # source files
-source('../R/array2df.r')
-source('../R/df2array.r')
-source('../R/align_plot.r')
+source(here::here('R', 'helper01_align_plot.r'))
+source(here::here('R', 'helper02_array2df.r'))
+source(here::here('R', 'helper04_df2array.r'))
 #
 theme_set(theme_bw())
 cbp <- c('#000000', '#E69F00', '#56B4E9', '#009E73', 
@@ -28,7 +20,7 @@ cbp.ord <- cbp.long[t(grab)]
 
 
 # actually start doing analysis...
-newturt <- list.files('../data/new_turtle', 
+newturt <- list.files(here::here('data', 'new_turtle'), 
                       pattern = 'txt', 
                       full.names = TRUE)
 turt <- llply(newturt, function(x) read.delim(x, header = FALSE, sep = ' '))
@@ -38,7 +30,7 @@ turt <- llply(turt, function(x) {
                 x})
 
 # need to get rid of the JRB specimens
-inturt <- list.files('../data/new_turtle', 
+inturt <- list.files(here::here('data', 'new_turtle'), 
                       pattern = 'list.csv', 
                       full.names = TRUE)
 # blan, coa, gut, ins, muh, orb, orn, pic
@@ -67,7 +59,8 @@ turt.name <- str_trim(str_extract(turt.name, '\\s(.*?)\\s'))
 
 
 
-trac <- list.files('../data/trach', pattern = 'txt', full.names = TRUE)
+trac <- list.files(here::here('data', 'trach'), 
+                   pattern = 'txt', full.names = TRUE)
 trac <- llply(trac, function(x) 
               read.table(x, header = FALSE, stringsAsFactors = FALSE))
 # lands...., centroid
@@ -117,21 +110,21 @@ trag <- clear.gg %+% splits[[2]] + labs(x = 'PC 1 (37.9%)',
                                         title = 'B.')
 trag <- trag + coord_fixed(ratio = 1)
 
-png(filename = '../doc/figure/other_pc_graph.png',
+png(filename = here::here('doc', 'figure', 'other_pc_graph.png'),
     width = 850, height = 450)
 grid.arrange(cc7g, trag, ncol = 2)
 dev.off()
 
 
-ggsave(plot = cc7g, filename = '../doc/figure/cc7_pc_graph.png',
+ggsave(plot = cc7g, filename = here::here('doc', 'figure', 'cc7_pc_graph.png'),
        width = 8, height = 6)
-ggsave(plot = trag, filename = '../doc/figure/tra_pc_graph.png',
+ggsave(plot = trag, filename = here::here('doc', 'figure', 'tra_pc_graph.png'),
        width = 8, height = 6)
 
 
 
 # now for marmorata data
-source('../R/supervised_mung.r')
+source(here::here('R', '01_supervised_mung.r'))
 schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 
 ad <- data.frame(adult[, schemes], stringsAsFactors = FALSE)
@@ -178,5 +171,5 @@ emys.gg <- emys.gg + coord_fixed(ratio = 1,
 emys.gg <- emys.gg + scale_colour_manual(values = cbp.ord)
 emys.gg <- emys.gg + labs(x = paste0('PC 1 (', perc[1], '%)'), 
                           y = paste0('PC 2 (', perc[2], '%)'))
-ggsave(plot = emys.gg, filename = '../doc/figure/emys_pc_graph.png',
+ggsave(plot = emys.gg, filename = here::here('doc', 'figure', 'emys_pc_graph.png'),
        width = 8, height = 6)

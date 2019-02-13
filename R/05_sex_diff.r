@@ -1,13 +1,10 @@
-library(shapes)
-library(reshape2)
-library(stringr)
-library(geomorph)
-library(ggplot2)
-library(scales)
-library(grid)
-source('../R/df2array.r')
-source('../R/supervised_mung.r')
-source('../R/multiplot.r')
+library(pacman)
+
+p_load(here, shapes, reshape2, stringr, geomorph, ggplot2, scales, grid)
+
+source(here::here('R', '01_supervised_mung.r'))
+source(here::here('R', 'helper04_df2array.r'))
+source(here::here('R', 'helper06_multiplot.r'))
 
 split.land <- function(shapes, f) {
   ll <- length(unique(f))
@@ -74,7 +71,7 @@ dfgp <- dfgp + geom_histogram(colour = 'darkgrey', fill = 'lightgrey')
 dfgp <- dfgp + geom_vline(xintercept = sex.mean, size = 2)
 dfgp <- dfgp + scale_x_continuous(breaks = pretty_breaks(4))
 dfgp <- dfgp + labs(x = 'Procrustes distance', y = 'Frequency')
-ggsave(plot = dfgp, filename = '../doc/figure/sex_test_hist.png',
+ggsave(plot = dfgp, filename = here::here('doc', 'figure', 'sex_test_hist.png'),
        width = 4, height = 3)
 
 
@@ -122,10 +119,11 @@ for(jj in seq(length(gg))) {
   dfgp <- dfgp + scale_x_continuous(breaks = pretty_breaks(4))
   dfgp <- dfgp + labs(title = gg[jj],
                       x = 'Procrustes distance', y = 'Frequency')
-  name <- paste0('../doc/figure/sex_test_hist_', gg[jj], '.png')
+  name <- paste0(here::here('doc', 'figure'), 'sex_test_hist_', gg[jj], '.png')
   ggsave(plot = dfgp, filename = name, width = 4, height = 3)
   ggl[[jj]] <- dfgp
 }
-png(filename = '../doc/figure/sex_test_hist_grouped.png', width = 880, height = 880)
+png(filename = here::here('doc', 'figure', 'sex_test_hist_grouped.png'), 
+    width = 880, height = 880)
 multiplot(plotlist = ggl, cols = 2)
 dev.off()

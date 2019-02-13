@@ -1,9 +1,9 @@
-library(shapes)
-library(reshape2)
-library(stringr)
-library(geomorph)
-source('../R/df2array.r')
-source('../R/supervised_mung.r')
+library(pacman)
+
+p_load(here, shapes, reshape2, stringr, geomorph)
+
+source(here::here('R', '01_supervised_mung.r'))
+source(here::here('R', 'helper04_df2array.r'))
 
 
 split.land <- function(shapes, f) {
@@ -69,7 +69,7 @@ scheme.ratio <- laply(within.scheme, function(x)
 
 # replicated turtles
 
-rep.turt <- read.table('../data/replicate turtles fixed.txt', 
+rep.turt <- read.table(here::here('data', 'replicate_turtles_fixed.txt'), 
                        header = FALSE, stringsAsFactors = FALSE)
 rep.turt <- df2array(rep.turt, n.land = 26, n.dim = 2)
 unit <- rep(c('r1', 'r2', 'r3', 'r4', 'r5', 'r6', 'r7', 'r8', 'r9', 'r0'), 
@@ -96,12 +96,12 @@ rep.ratio <- mean(within.rep) / mean(rep.dist[lower.tri(rep.dist)])
 
 
 # between species distance
-newturt <- list.files('../data/new_turtle', 
+newturt <- list.files(here::here('data', 'new_turtle'), 
                       pattern = 'fixed', 
                       full.names = TRUE)
 turt <- llply(newturt, function(x) 
               read.delim(x, header = FALSE, sep = ' ')[, 1:27])
-numbers <- list.files('../data/new_turtle', 
+numbers <- list.files(here::here('data', 'new_turtle'), 
                       pattern = 'list.csv', 
                       full.names = TRUE)
 numbers <- llply(numbers, function(x) read.csv(x, header = TRUE))
@@ -140,7 +140,8 @@ species.ratio <- mean(within.species) / mean(turt.dist[lower.tri(turt.dist)])
 
 
 # between species distance (trach)
-trac <- list.files('../data/trach', pattern = 'txt', full.names = TRUE)
+trac <- list.files(here::here('data', 'trach'), 
+                   pattern = 'txt', full.names = TRUE)
 turt <- llply(trac, function(x) 
               read.table(x, header = FALSE, stringsAsFactors = FALSE))
 # lands...., centroid

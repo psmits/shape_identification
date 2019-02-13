@@ -4,10 +4,11 @@
 #
 #
 # also based on caret::twoClassSummary
+library(pacman)
+
+p_load(pROC, Metrics, caret)
+
 multiClassSummary <- function(data, lev = NULL, model = NULL) {
-  require(pROC)
-  require(Metrics)
-  require(caret)
 
   #check data
   if(!all(levels(data[, 'pred']) == levels(data[, 'obs']))) {
