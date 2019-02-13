@@ -2,6 +2,9 @@
 .RData
 .rdata
 doc/old/*
+data/*.rdata
+data/*.rds
+data/*.Rdata
 *.aux
 *.out
 *.log
