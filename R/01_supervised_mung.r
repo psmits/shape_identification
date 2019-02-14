@@ -90,3 +90,7 @@ cliped <- meta.adult[, c('spec', 'lat', 'long',
                          'morph')]
 write.csv(cliped, file = here::here('data', 'clean_meta_marm.csv'), 
           fileEncoding = 'UTF-16LE')
+
+# write landmarks
+writeland.tps(A = land.adult,
+              file = here::here('data', 'mamorota_clean_land.tps'))
