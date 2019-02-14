@@ -119,7 +119,7 @@ for(jj in seq(length(gg))) {
   dfgp <- dfgp + scale_x_continuous(breaks = pretty_breaks(4))
   dfgp <- dfgp + labs(title = gg[jj],
                       x = 'Procrustes distance', y = 'Frequency')
-  name <- paste0(here::here('doc', 'figure'), 'sex_test_hist_', gg[jj], '.png')
+  name <- paste0(here::here('doc', 'figure'), '/sex_test_hist_', gg[jj], '.png')
   ggsave(plot = dfgp, filename = name, width = 4, height = 3)
   ggl[[jj]] <- dfgp
 }
