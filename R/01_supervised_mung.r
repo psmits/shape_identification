@@ -5,7 +5,7 @@
 # packages
 library(pacman)
 
-p_load(here, shapes, geomorph, plyr, caret)
+p_load(here, shapes, geomorph, plyr, caret, tidyverse)
 
 # source files
 source(here::here('R', 'helper02_array2df.r'))
@@ -94,3 +94,8 @@ write.csv(cliped, file = here::here('data', 'clean_meta_marm.csv'),
 # write landmarks
 writeland.tps(A = land.adult,
               file = here::here('data', 'mamorota_clean_land.tps'))
+
+
+write_rds(adult, path = here::here('data', 'turtle_plastron_data_clean.rds'))
+write_rds(fit,
+          path = here::here('data', 'turtle_plastron_gpa.rds'))

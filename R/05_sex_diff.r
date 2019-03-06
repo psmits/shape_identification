@@ -5,33 +5,7 @@ p_load(here, shapes, reshape2, stringr, geomorph, ggplot2, scales, grid)
 source(here::here('R', '01_supervised_mung.r'))
 source(here::here('R', 'helper04_df2array.r'))
 source(here::here('R', 'helper06_multiplot.r'))
-
-split.land <- function(shapes, f) {
-  ll <- length(unique(f))
-  for(jj in seq(ll)) {
-    by.class <- list()
-    sch <- as.character(f)
-    sch.t <- unique(f)
-    for(ii in seq(ll)) {
-      sch.w <- sch == sch.t[ii]
-      by.class[[ii]] <- shapes[, , sch.w]
-    }
-  }
-  by.class
-}
-land.dist <- function(shapes) {
-  ns <- dim(shapes)[3]
-  distmat <- matrix(nrow = ns, ncol = ns)
-  for(ii in seq(ns)) {
-    for(jj in seq(ns)) {
-      distmat[ii, jj] <- sum(rowSums((shapes[, , ii] - shapes[, , jj])^2))
-    }
-  }
-  distmat
-}
-
-
-
+source(here::here('R', 'helper08_compare_groups.r'))
 
 
 tsex <- as.character(adult$p.sex)  # lots of regex to get this sexy
