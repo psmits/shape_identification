@@ -110,15 +110,15 @@ trag <- clear.gg %+% splits[[2]] + labs(x = 'PC 1 (37.9%)',
                                         title = 'B.')
 trag <- trag + coord_fixed(ratio = 1)
 
-png(filename = here::here('doc', 'figure', 'other_pc_graph.png'),
+pdf(file = here::here('doc', 'figure', 'other_pc_graph.pdf'),
     width = 850, height = 450)
 grid.arrange(cc7g, trag, ncol = 2)
 dev.off()
 
 
-ggsave(plot = cc7g, filename = here::here('doc', 'figure', 'cc7_pc_graph.png'),
+ggsave(plot = cc7g, filename = here::here('doc', 'figure', 'cc7_pc_graph.pdf'),
        width = 8, height = 6)
-ggsave(plot = trag, filename = here::here('doc', 'figure', 'tra_pc_graph.png'),
+ggsave(plot = trag, filename = here::here('doc', 'figure', 'tra_pc_graph.pdf'),
        width = 8, height = 6)
 
 
@@ -171,5 +171,5 @@ emys.gg <- emys.gg + coord_fixed(ratio = 1,
 emys.gg <- emys.gg + scale_colour_manual(values = cbp.ord)
 emys.gg <- emys.gg + labs(x = paste0('PC 1 (', perc[1], '%)'), 
                           y = paste0('PC 2 (', perc[2], '%)'))
-ggsave(plot = emys.gg, filename = here::here('doc', 'figure', 'emys_pc_graph.png'),
+ggsave(plot = emys.gg, filename = here::here('doc', 'figure', 'emys_pc_graph.pdf'),
        width = 8, height = 6)

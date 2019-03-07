@@ -45,7 +45,7 @@ dfgp <- dfgp + geom_histogram(colour = 'darkgrey', fill = 'lightgrey')
 dfgp <- dfgp + geom_vline(xintercept = sex.mean, size = 2)
 dfgp <- dfgp + scale_x_continuous(breaks = pretty_breaks(4))
 dfgp <- dfgp + labs(x = 'Procrustes distance', y = 'Frequency')
-ggsave(plot = dfgp, filename = here::here('doc', 'figure', 'sex_test_hist.png'),
+ggsave(plot = dfgp, filename = here::here('doc', 'figure', 'sex_test_hist.pdf'),
        width = 4, height = 3)
 
 
@@ -93,11 +93,11 @@ for(jj in seq(length(gg))) {
   dfgp <- dfgp + scale_x_continuous(breaks = pretty_breaks(4))
   dfgp <- dfgp + labs(title = gg[jj],
                       x = 'Procrustes distance', y = 'Frequency')
-  name <- paste0(here::here('doc', 'figure'), '/sex_test_hist_', gg[jj], '.png')
+  name <- paste0(here::here('doc', 'figure'), '/sex_test_hist_', gg[jj], '.pdf')
   ggsave(plot = dfgp, filename = name, width = 4, height = 3)
   ggl[[jj]] <- dfgp
 }
-png(filename = here::here('doc', 'figure', 'sex_test_hist_grouped.png'), 
+pdf(file = here::here('doc', 'figure', 'sex_test_hist_grouped.pdf'), 
     width = 880, height = 880)
 multiplot(plotlist = ggl, cols = 2)
 dev.off()

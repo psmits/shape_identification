@@ -81,7 +81,7 @@ scute_null_plot <-
   scale_x_continuous(breaks = pretty_breaks(4)) +
   labs(x = 'Procrustes distance', y = 'Frequency',
        subtitle = paste0('Observed greater than ', dist_p, '% of null values'))
-ggsave(filename = here::here('doc', 'figure', 'scales_test_hist.png'),
+ggsave(filename = here::here('doc', 'figure', 'scales_test_hist.pdf'),
        width = 4, height = 3)
 
 
@@ -128,7 +128,7 @@ for(ii in seq(length(gg))) {
   out$graph[[ii]] <- scute_null_plot
 }
 
-png(filename = here::here('doc', 'figure', 'scales_test_hist_grouped.png'),
+pdf(file = here::here('doc', 'figure', 'scales_test_hist_grouped.pdf'),
     width = 880, height = 880)
 multiplot(plotlist = out$graph, cols = 2)
 dev.off()
