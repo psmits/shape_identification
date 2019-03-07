@@ -5,7 +5,7 @@ p_load(here, shapes, reshape2, stringr, geomorph, ggplot2, scales, grid)
 source(here::here('R', '01_supervised_mung.r'))
 source(here::here('R', 'helper04_df2array.r'))
 source(here::here('R', 'helper06_multiplot.r'))
-source(here::here('R', 'helper08_compare_groups.r'))
+source(here::here('R', 'helper09_compare_groups.r'))
 
 
 tsex <- as.character(adult$p.sex)  # lots of regex to get this sexy
@@ -26,14 +26,14 @@ sex.shape <- fit$rotated[, , -(sexrm)]
 # reference
 sex.split <- split.land(sex.shape, tsex)
 sex.mean <- llply(sex.split, mshape)
-sex.mean <- sum(rowSums((sex.mean[[1]] - sex.mean[[2]])^2))
+sex.mean <- procdist(sex.mean[[1]], sex.mean[[2]])
 
 null <- c()
 for(ii in seq(1000)) {
   tt <- sample(tsex)
   ss <- split.land(sex.shape, tt)
   sm <- llply(ss, mshape)
-  null[ii] <- sum(rowSums((sm[[1]] - sm[[2]])^2))
+  null[ii] <- procdist(sm[[1]], sm[[2]])
 }
 
 dfg <- data.frame(null = null)
@@ -72,14 +72,14 @@ for(jj in seq(length(gg))) {
   # reference
   sex.split <- split.land(sex.shape, tsex)
   sex.mean <- llply(sex.split, mshape)
-  sex.mean <- sum(rowSums((sex.mean[[1]] - sex.mean[[2]])^2))
+  sex.mean <- procdist(sex.mean[[1]], sex.mean[[2]])
 
   null <- c()
   for(ii in seq(1000)) {
     tt <- sample(tsex)
     ss <- split.land(sex.shape, tt)
     sm <- llply(ss, mshape)
-    null[ii] <- sum(rowSums((sm[[1]] - sm[[2]])^2))
+    null[ii] <- procdist(sm[[1]], sm[[2]])
   }
 
   dfg <- data.frame(null = null)

@@ -4,16 +4,18 @@ p_load(here, tidyverse, shapes, stringr, geomorph, scales, grid)
 
 source(here::here('R', 'helper04_df2array.r'))
 source(here::here('R', 'helper06_multiplot.r'))
-source(here::here('R', 'helper08_compare_groups.r'))
+source(here::here('R', 'helper09_compare_groups.r'))
 
 theme_set(theme_minimal())
+
+set.seed(420)
 
 # create null distribution
 rand_meandist <- function(shape, f) {
   tt <- sample(f)
-  ss <- split.land(shape, tt)
+  ss <- split.land(shape, factor(tt))
   sm <- map(ss, mshape)
-  null <- sum(rowSums((sm[[1]] - sm[[2]])^2))
+  null <- procdist(sm[[1]], sm[[2]])
   null
 }
 
@@ -52,15 +54,16 @@ scute_shape <- fit$rotated[, , -(trm)]
 # null is from randomizing scute state, then comparing the RNG groups
 
 # split by scute state
-scute_split <- split.land(scute_shape, adult_scales$inguinal_scute)
+scute_split <- split.land(scute_shape, factor(adult_scales$inguinal_scute))
 
 # calculate mean scute state shape
 # then calculate distance between mean scute state shapes
 scute_mean <- map(scute_split, mshape)
-scute_mean_dist <- sum(rowSums((scute_mean[[1]] - scute_mean[[2]])^2))
+
+scute_mean_dist <- procdist(scute_mean[[1]], scute_mean[[2]])
 
 
-null <- rerun(1000, rand_meandist(scute_shape, adult_scales$inguinal_scute)) %>%
+null <- rerun(1000, rand_meandist(scute_shape, factor(adult_scales$inguinal_scute))) %>%
   tibble(null = .) %>%                 # rerun is type safe
   unnest()                             # need to unpack list column
 
@@ -94,12 +97,13 @@ for(ii in seq(length(gg))) {
     drop_na(gg[ii], inguinal_scute)
 
   scute_split <- 
-    split.land(scute_shape, short$inguinal_scute)
+    split.land(scute_shape, factor(short$inguinal_scute))
 
   scute_mean <- map(scute_split, mshape)
-  scute_mean_dist <- sum(rowSums((scute_mean[[1]] - scute_mean[[2]])^2))
+  scute_mean_dist <- procdist(scute_mean[[1]], scute_mean[[2]])
 
-  null <- rerun(1000, rand_meandist(scute_shape, adult_scales$inguinal_scute)) %>%
+  null <- rerun(1000, rand_meandist(scute_shape, 
+                                    factor(adult_scales$inguinal_scute))) %>%
     tibble(null = .) %>%                 # rerun is type safe
     unnest()                             # need to unpack list column
 
