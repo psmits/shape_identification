@@ -1,6 +1,6 @@
 library(pacman)
 
-p_load(here, shapes, reshape2, stringr, geomorph)
+p_load(here, shapes, reshape2, stringr, geomorph, tidyverse)
 
 source(here::here('R', '01_supervised_mung.r'))
 source(here::here('R', 'helper04_df2array.r'))
@@ -29,6 +29,9 @@ land.dist <- function(shapes) {
   }
   distmat
 }
+
+
+results_table <- list()
 
 
 
@@ -65,7 +68,15 @@ for(kk in seq(length(scheme.mean))) {
 
 scheme.ratio <- laply(within.scheme, function(x) 
                       mean(x) / mean(emys.dist[lower.tri(emys.dist)]))
-#scheme.ratio * 1.11
+
+# record
+results_table$emys <- scheme.ratio
+names(results_table$emys) <- scheme
+
+
+
+
+
 
 # replicated turtles
 
@@ -93,6 +104,13 @@ between.rep <- mean(distmat[lower.tri(distmat)])
 
 
 rep.ratio <- mean(within.rep) / mean(rep.dist[lower.tri(rep.dist)])
+
+# record
+results_table$replicate <- rep.ratio
+
+
+
+
 
 
 # between species distance
@@ -136,7 +154,8 @@ between.species <- mean(distmat[lower.tri(distmat)])
 
 species.ratio <- mean(within.species) / mean(turt.dist[lower.tri(turt.dist)])
 
-
+# record
+results_table$seven <- species.ratio
 
 
 # between species distance (trach)
@@ -172,6 +191,21 @@ between.species <- mean(distmat[lower.tri(distmat)])
 
 
 species.ratio2 <- mean(within.species) / mean(turt.dist[lower.tri(turt.dist)])
+
+# record
+results_table$trach <- species.ratio2
+
+
+out <- flatten(results_table) %>%
+melt(results_table)
+names(out) <- c('ratio', 'scheme')
+
+out$corrected <- out$ratio * results_table$replicate
+
+
+write_csv(out,
+          path = here::here('doc', 'digitization_error.csv'))
+
 
 
 # ratio of

@@ -117,6 +117,13 @@ nspec <- as_tibble(adult) %>%
   split(., .$key) %>%
   map(., ~ table(.x$value))
 
+nsp_table <- reshape2::melt(nspec)
+names(nsp_table) <- c('class', 'count', 'scheme')
+write_csv(nsp_table,
+          path = here::here('doc', 'class_counts.csv'))
+
+
+
 
 cliped <- adult[, c('spec', 'lat', 'long', 'scute',
                     'sp10.1', 'sp10.2', 'sp10.3', 

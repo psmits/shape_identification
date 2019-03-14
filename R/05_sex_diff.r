@@ -52,6 +52,8 @@ ggsave(plot = dfgp, filename = here::here('doc', 'figure', 'sex_test_hist.pdf'),
 # by groups
 gg <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
 ggl <- list()
+
+sex <- list()
 for(jj in seq(length(gg))) {
   tt <- adult[, c(gg[jj], 'p.sex')]
   tt <- tt[!is.na(tt[, 1]), ]
@@ -65,7 +67,7 @@ for(jj in seq(length(gg))) {
   tt <- tt[tt[, 1] != '', ]
   sexk <- which(tt[, 2] %in% c('F', 'M'))
   tsex <- tt[sexk, 2]
-  print(table(interaction(tsex, tt[sexk, 1])))
+  sex[[jj]] <- table(interaction(tsex, tt[sexk, 1]))
   sex.shape <- fit$rotated[, , (sexk)]
 
 
@@ -97,3 +99,10 @@ for(jj in seq(length(gg))) {
   ggsave(plot = dfgp, filename = name, width = 4, height = 3)
   ggl[[jj]] <- dfgp
 }
+
+
+names(sex) <- schemes
+sex_table <- reshape2::melt(sex)
+names(sex_table) <- c('class', 'count', 'scheme')
+write_csv(sex_table,
+          path = here::here('doc', 'sex_counts.csv'))
