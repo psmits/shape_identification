@@ -97,7 +97,3 @@ for(jj in seq(length(gg))) {
   ggsave(plot = dfgp, filename = name, width = 4, height = 3)
   ggl[[jj]] <- dfgp
 }
-pdf(file = here::here('doc', 'figure', 'sex_test_hist_grouped.pdf'), 
-    width = 880, height = 880)
-multiplot(plotlist = ggl, cols = 2)
-dev.off()

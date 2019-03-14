@@ -53,20 +53,47 @@ imp <- c('lat', 'long', 'sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2')
 #rawturt <- rawturt[!rms, ]
 
 
-# clean the juveniles
+# clean out the juveniles
 jv <- grepl(pattern = '[jJh]', meta$p.sex)
 land.adult <- land[, , !jv]
 meta.adult <- meta[!jv, ]
 rawturt <- rawturt[!jv, ]
 
+
+# there are three dead columns that give problems with tibble-s
+meta.adult <- 
+  meta.adult[, -((ncol(meta.adult) - 2):ncol(meta.adult))] %>%
+  as_tibble(.) %>%
+  mutate(spec = as.character(spec))
+
+
+# now analyze data
+# ken scute data
+scute_df <- read_csv(here::here('data', 'clean_meta_marm_complete.csv')) %>%
+  dplyr::select(spec, inguinal_scute)
+
+
+# combine adult with new scute information
+meta.adult <- left_join(meta.adult, scute_df, by = 'spec')
+
+# need to drop scute NAs from fit$rotated, which isn't obvious
+trm <- is.na(meta.adult$inguinal_scute)
+
+meta.adult <- meta.adult %>% drop_na(inguinal_scute)
+land.adult <- land.adult[, , !trm]
+rawturt <- rawturt[!trm, ]
+
+
+
+# final clean
 rms <- is.na(meta.adult$sp10.1) | meta.adult$sp10.1 == ''
 land.adult <- land.adult[, , !rms]
 meta.adult <- meta.adult[!rms, ]
 rawturt <- rawturt[!rms, ]
 centroid <- rawturt[, n.land + 1]  # size of each observation
 
-
-geo <- cbind(lat = meta.adult$lat, long = meta.adult$long)
+# don't think this is needed anymore
+#geo <- cbind(lat = meta.adult$lat, long = meta.adult$long)
 
 fit <- procGPA(land.adult)
 #adult.dist <- riem.matrix(land.adult)
@@ -75,19 +102,26 @@ centroid <- scale(centroid)
 adult <- cbind(data.frame(size = centroid, 
                           inter = centroid * fit$stdscores[, 1],
                           inter2 = centroid * fit$stdscores[, 2],
+                          scute = meta.adult$inguinal_scute,
                           fit$stdscores),
                meta.adult)
 
 
-schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
-nspec <- aaply(meta.adult[, schemes], 2, function(x) {
-                 n <- is.na(x) | x == ''
-                 length(x[!n])})
 
-cliped <- meta.adult[, c('spec', 'lat', 'long', 
-                         'sp10.1', 'sp10.2', 'sp10.3', 
-                         'sp14.1', 'sp14.2', 
-                         'morph')]
+schemes <- c('sp10.1', 'sp10.2', 'sp10.3', 'sp14.1', 'sp14.2', 'morph')
+
+nspec <- as_tibble(adult) %>%
+  dplyr::select(!!!schemes) %>%
+  gather(key = key, value = value) %>%
+  filter(value != '') %>%
+  split(., .$key) %>%
+  map(., ~ table(.x$value))
+
+
+cliped <- adult[, c('spec', 'lat', 'long', 'scute',
+                    'sp10.1', 'sp10.2', 'sp10.3', 
+                    'sp14.1', 'sp14.2', 
+                    'morph')]
 write.csv(cliped, file = here::here('data', 'clean_meta_marm.csv'), 
           fileEncoding = 'UTF-16LE')
 
@@ -95,7 +129,7 @@ write.csv(cliped, file = here::here('data', 'clean_meta_marm.csv'),
 writeland.tps(A = land.adult,
               file = here::here('data', 'mamorota_clean_land.tps'))
 
-
+# full data print outs
 write_rds(adult, path = here::here('data', 'turtle_plastron_data_clean.rds'))
 write_rds(fit,
           path = here::here('data', 'turtle_plastron_gpa.rds'))

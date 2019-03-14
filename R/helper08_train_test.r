@@ -26,8 +26,8 @@ use.model <- function(method, adult, scheme, npred = 28) {
 
     # do cross validation of ROC for all random forest models
     traind <- list()
-    for(ii in seq(from = 3, to = ncol(dataset))) {
-      traind[[ii - 2]] <- 
+    for(ii in seq(from = 4, to = npred)) {
+      traind[[ii - 3]] <- 
         train(y = responses, 
               x = dataset[, seq(ii)],
               method = method,
@@ -72,8 +72,8 @@ abrv.model <- function(method, adult, scheme, npred = 28) {
     responses <- trainsets[[kk]][, 1]		
 
     traind <- list()		
-    for(ii in seq(from = 3, to = ncol(dataset))) {		
-      traind[[ii - 2]] <- 		
+    for(ii in seq(from = 4, to = npred)) {		
+      traind[[ii - 3]] <- 		
         train(y = responses, 		
               x = dataset[, seq(ii)],		
               method = method,		

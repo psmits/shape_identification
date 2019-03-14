@@ -72,8 +72,8 @@ select.roc <- llply(select.roc, function(x) ifelse(x != 0, x, x + 1))
 
 roc.melt <- llply(roc.out, function(l) 
                   Reduce(rbind, Map(function(x, y) 
-                                    cbind(npred = seq(from = 3,
-                                                      to = nrow(x) + 2), 
+                                    cbind(npred = seq(from = 4,
+                                                      to = nrow(x) + 3), 
                                           scheme = y, x), 
                                     l, schemes)))
 roc.melt <- Reduce(rbind, Map(function(x, y) 
@@ -90,7 +90,7 @@ roc.melt$ROCmax <- roc.melt$ROC + roc.melt$ROCSD
 
 # add point for "best" and "selected"
 high.melt <- Reduce(rbind, Map(function(x, y, z) 
-                               cbind(model = x, npred = y + 2, scheme = schemes), 
+                               cbind(model = x, npred = y + 3, scheme = schemes), 
                                meth, high.roc))
 high.melt <- cbind(high.melt, 
                    melt(Map(function(a, b) 
@@ -100,7 +100,7 @@ high.melt$npred <- as.numeric(as.character(high.melt$npred))
 
 # select
 selc.melt <- Reduce(rbind, Map(function(x, y) 
-                               cbind(model = x, npred = y + 2, scheme = schemes), 
+                               cbind(model = x, npred = y + 3, scheme = schemes), 
                                meth, select.roc))
 selc.melt <- cbind(selc.melt, 
                    melt(Map(function(a, b) 

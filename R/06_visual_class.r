@@ -110,10 +110,6 @@ trag <- clear.gg %+% splits[[2]] + labs(x = 'PC 1 (37.9%)',
                                         title = 'B.')
 trag <- trag + coord_fixed(ratio = 1)
 
-pdf(file = here::here('doc', 'figure', 'other_pc_graph.pdf'),
-    width = 850, height = 450)
-grid.arrange(cc7g, trag, ncol = 2)
-dev.off()
 
 
 ggsave(plot = cc7g, filename = here::here('doc', 'figure', 'cc7_pc_graph.pdf'),
