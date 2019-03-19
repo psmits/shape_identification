@@ -123,9 +123,19 @@ write_csv(nsp_table,
           path = here::here('doc', 'class_counts.csv'))
 
 
+tsex <- as.character(adult$p.sex)  # lots of regex to get this sexy
+fe <- grep(pattern = '[fF]', tsex, perl = TRUE)
+ma <- grep(pattern = '[mM]', tsex, perl = TRUE)
+na <- grep(pattern = '[nN]', tsex, perl = TRUE)
+tsex[fe] <- 'F'
+tsex[ma] <- 'M'
+tsex[na] <- NA
+tsex[tsex == ''] <- NA
+adult$new_sex <- tsex
 
 
-cliped <- adult[, c('spec', 'lat', 'long', 'scute',
+cliped <- adult[, c('spec', 'lat', 'long', 'scute', 
+                    'p.sex', 'new_sex',
                     'sp10.1', 'sp10.2', 'sp10.3', 
                     'sp14.1', 'sp14.2', 
                     'morph')]
