@@ -12,3 +12,7 @@ Rscript R/06_visual_class.r
 wait
 Rscript R/07_scales_diff.r
 wait
+Rscript R/08_supervised_noscute.r
+wait
+Rscript R/09_models_noscute.r
+wait
